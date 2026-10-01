@@ -283,25 +283,32 @@ export const Home: React.FC = () => {
 
   const testimonials = [
     {
-      quote: "Équipe ponctuelle, polie et d'une efficacité impressionnante. Mon déménagement de Champel à Cologny s'est fait sans une seule égratignure. Le nettoyage de remise des clés a été validé du premier coup par la régie !",
-      name: "Jean-Pierre Blanc",
-      role: "Particulier • Déménagement Résidentiel",
-      location: "Genève (Cologny)",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles. La communication a également été irréprochable tout au long du transfert.",
+      name: "Andressa Segat",
+      role: "Déménagement International",
+      location: "Londres vers Suisse",
+      avatar: "/reviews/andressa.png"
     },
     {
-      quote: "Le transfert de nos 45 postes de travail à Lausanne s'est déroulé sur un week-end sans aucun impact sur notre activité du lundi matin. Une rigueur suisse irréprochable et un devis 100% respecté à la lettre.",
-      name: "Nathalie Favrod",
-      role: "Directrice Financière • Cabinet Fiduciaire",
-      location: "Lausanne (Ouchy)",
-      avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200"
+      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
+      name: "Julien B.",
+      role: "Partenaire Certifié MOVU",
+      location: "Lausanne & Canton de Vaud",
+      avatar: "/reviews/julien.png"
     },
     {
-      quote: "Le système de devis et le monte-meubles ont sauvé notre canapé d'angle au 5ème étage ! Je recommande vivement Batimove pour leur sérieux, leur soin et la gentillesse de toute l'équipe.",
-      name: "Marc & Valérie Schneider",
-      role: "Famille • Déménagement & Garde-meubles",
-      location: "Nyon (Vaud)",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200"
+      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
+      name: "Wagner Custódio",
+      role: "Déménagement Résidentiel Clés en Main",
+      location: "Genève",
+      avatar: "/reviews/wagner.png"
+    },
+    {
+      quote: "Une entreprise sérieuse avec d'excellents professionnels ! Félicitations pour le travail accompli ! Je recommande vivement !",
+      name: "Pedro Silva",
+      role: "Transport & Déménagement Privé",
+      location: "Genève & Environs",
+      avatar: "/reviews/pedro.png"
     }
   ];
 
@@ -1020,58 +1027,121 @@ export const Home: React.FC = () => {
           
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-2 block">
-              TÉMOIGNAGES CLIENTS
-            </span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 text-xs font-semibold text-slate-700 mb-4 shadow-2xs">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
+              </svg>
+              <span>4.9 / 5.0 • Avis Clients Vérifiés Google</span>
+            </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
               Ce Que Disent Nos Clients
             </h2>
           </div>
 
-          {/* 3 Testimonial Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-            {testimonials.map((t, idx) => (
-              <div 
-                key={idx}
-                className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
-              >
-                <div>
-                  {/* Stars */}
-                  <div className="flex items-center gap-1 text-amber-400 mb-5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
-                    ))}
-                  </div>
-                  {/* Quote */}
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
-                    "{t.quote}"
-                  </p>
-                </div>
-
-                {/* Author Info */}
-                <div className="flex items-center gap-3.5 pt-4 border-t border-slate-200/60">
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
-                    className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
-                  />
+          {/* Desktop: 3 Testimonial Cards Carousel Window */}
+          <div className="hidden md:grid md:grid-cols-3 gap-8 mb-10">
+            {[0, 1, 2].map((offset) => {
+              const t = testimonials[(activeTestimonial + offset) % testimonials.length];
+              return (
+                <div 
+                  key={`${t.name}-${offset}`}
+                  className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+                >
                   <div>
-                    <h4 className="font-display font-bold text-sm text-[#0B1E33]">{t.name}</h4>
-                    <div className="text-[11px] text-slate-500 font-medium">{t.location}</div>
+                    {/* Stars + Google badge */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="flex items-center gap-1 text-amber-400">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-amber-400" />
+                        ))}
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-[10px] font-semibold text-slate-600 shadow-2xs">
+                        <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
+                          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
+                          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
+                          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
+                        </svg>
+                        <span>Avis Google</span>
+                      </div>
+                    </div>
+                    {/* Quote */}
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                      "{t.quote}"
+                    </p>
+                  </div>
+
+                  {/* Author Info */}
+                  <div className="flex items-center gap-3.5 pt-4 border-t border-slate-200/60">
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
+                    />
+                    <div>
+                      <h4 className="font-display font-bold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <div className="text-[11px] text-slate-500 font-medium">{t.location}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+
+          {/* Mobile: 1 Testimonial Card */}
+          <div className="block md:hidden mb-10">
+            {(() => {
+              const t = testimonials[activeTestimonial % testimonials.length];
+              return (
+                <div className="bg-slate-50/80 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="flex items-center gap-1 text-amber-400">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-amber-400" />
+                        ))}
+                      </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-[10px] font-semibold text-slate-600 shadow-2xs">
+                        <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
+                          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
+                          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
+                          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
+                        </svg>
+                        <span>Avis Google</span>
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                      "{t.quote}"
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3.5 pt-4 border-t border-slate-200/60">
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
+                    />
+                    <div>
+                      <h4 className="font-display font-bold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <div className="text-[11px] text-slate-500 font-medium">{t.location}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Carousel Pagination Dots */}
           <div className="flex justify-center items-center gap-2">
-            {[0, 1, 2].map((i) => (
+            {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
-                className={`h-2.5 rounded-full transition-all ${
-                  activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300'
+                className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                  activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`Slide ${i + 1}`}
               />

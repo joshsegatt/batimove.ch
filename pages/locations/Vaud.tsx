@@ -65,25 +65,28 @@ const vaudConfig: LocationConfig = {
   ],
   testimonials: [
     {
-      name: "Jean-Pierre & Martine G.",
-      role: "Retraités",
-      quote: "Déménagement de notre maison de Morges vers un appartement à Vevey. Une équipe polie, serviable, qui a pris grand soin de nos tableaux et bibelots fragiles. Service 5 étoiles.",
+      name: "Julien B.",
+      role: "Partenaire Certifié MOVU • Avis Google",
+      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
       rating: 5,
-      location: "Morges & Vevey"
+      location: "Canton de Vaud",
+      avatar: "/reviews/julien.png"
     },
     {
-      name: "Alexandre K.",
-      role: "Cadre International",
-      quote: "Installation à Nyon depuis Zurich. Communication parfaite, respect scrupuleux des horaires et camion d'une propreté exemplaire. Une expérience sans le moindre souci.",
+      name: "Wagner Custódio",
+      role: "Déménagement Résidentiel • Avis Google",
+      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
       rating: 5,
-      location: "Nyon (La Côte)"
+      location: "Suisse Romande",
+      avatar: "/reviews/wagner.png"
     },
     {
-      name: "Dominique B.",
-      role: "Artisan",
-      quote: "Transfert d'atelier et de logement à Yverdon-les-Bains. Le matériel lourd a été transporté sans aucune difficulté grâce à leur monte-meubles. Très satisfait des tarifs.",
+      name: "Andressa Segat",
+      role: "Déménagement International • Avis Google",
+      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
       rating: 5,
-      location: "Yverdon-les-Bains"
+      location: "Arc Lémanique & Vaud",
+      avatar: "/reviews/andressa.png"
     }
   ]
 };

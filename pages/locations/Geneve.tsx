@@ -65,25 +65,28 @@ const genevaConfig: LocationConfig = {
   ],
   testimonials: [
     {
-      name: "Marc & Valérie D.",
-      role: "Particuliers",
-      quote: "Déménagement d'un 4 pièces de Champel vers Cologny. Équipe ponctuelle, très respectueuse des meubles anciens et des parties communes. Les panneaux de stationnement étaient déjà posés à notre arrivée.",
+      name: "Wagner Custódio",
+      role: "Déménagement Clés en Main • Avis Google",
+      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
       rating: 5,
-      location: "Genève (Champel)"
+      location: "Genève",
+      avatar: "/reviews/wagner.png"
     },
     {
-      name: "Sébastien L.",
-      role: "Directeur de Cabinet",
-      quote: "Transfert de nos bureaux près des Nations Unies. Tout s'est fait sur un week-end sans la moindre interruption pour nos collaborateurs le lundi matin. Un professionnalisme exemplaire.",
+      name: "Pedro Silva",
+      role: "Transport & Déménagement • Avis Google",
+      quote: "Une entreprise sérieuse avec d'excellents professionnels ! Félicitations pour le travail remarquable ! Je recommande vivement !",
       rating: 5,
-      location: "Genève (Nations)"
+      location: "Genève & Environs",
+      avatar: "/reviews/pedro.png"
     },
     {
-      name: "Isabelle M.",
-      role: "Propriétaire",
-      quote: "Le monte-meubles a sauvé notre déménagement dans la vieille ville avec une cage d'escalier minuscule. Le devis a été respecté au centime près. Bravo Batimove !",
+      name: "Andressa Segat",
+      role: "Déménagement International • Avis Google",
+      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
       rating: 5,
-      location: "Genève (Vieille-Ville)"
+      location: "Genève & Suisse",
+      avatar: "/reviews/andressa.png"
     }
   ]
 };

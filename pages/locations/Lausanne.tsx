@@ -65,25 +65,28 @@ const lausanneConfig: LocationConfig = {
   ],
   testimonials: [
     {
-      name: "Claire & Thomas V.",
-      role: "Architectes",
-      quote: "Déménagement d'un appartement vers Ouchy avec une allée très raide. L'équipe a géré l'accès avec un calme et une efficacité impressionnants. Aucun accroc sur nos meubles en chêne massif.",
-      rating: 5,
-      location: "Lausanne (Ouchy)"
-    },
-    {
       name: "Julien B.",
-      role: "Enseignant EPFL",
-      quote: "Service impeccable du début à la fin. Devis clair dès le départ, matériel d'emballage fourni rapidement et remise des clés validée du premier coup par la régie.",
+      role: "Partenaire Certifié MOVU • Avis Google",
+      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
       rating: 5,
-      location: "Lausanne (Sous-Gare)"
+      location: "Lausanne & Vaud",
+      avatar: "/reviews/julien.png"
     },
     {
-      name: "Anne-Laure P.",
-      role: "Médecin",
-      quote: "Le service combiné déménagement + nettoyage avec garantie d'état des lieux nous a libéré d'un stress immense. Je recommande vivement Batimove à tous les Lausannois.",
+      name: "Andressa Segat",
+      role: "Déménagement International • Avis Google",
+      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
       rating: 5,
-      location: "Pully (Lausanne Est)"
+      location: "Lausanne & Suisse Romande",
+      avatar: "/reviews/andressa.png"
+    },
+    {
+      name: "Wagner Custódio",
+      role: "Déménagement Résidentiel • Avis Google",
+      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème.",
+      rating: 5,
+      location: "Arc Lémanique",
+      avatar: "/reviews/wagner.png"
     }
   ]
 };
