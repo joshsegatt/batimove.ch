@@ -356,9 +356,10 @@ export default function Calculator() {
             {/* Primary Action Button */}
             <div className="pt-2">
               <Button
+                variant="secondary"
                 onClick={handleProceedToCheckout}
                 disabled={summary.totalVolume === 0}
-                className="w-full bg-batimove-red hover:bg-[#b50400] disabled:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-red-900/40 hover:shadow-red-500/40 transition-all flex items-center justify-center gap-2 font-display border-none cursor-pointer active:scale-[0.99]"
+                className="w-full bg-[#0284c7] hover:bg-sky-500 disabled:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-sky-600/30 hover:shadow-sky-500/40 transition-all flex items-center justify-center gap-2 font-display border-none cursor-pointer active:scale-[0.99]"
               >
                 <span>Recevoir Mon Devis Gratuit</span>
                 <ArrowRight className="w-4 h-4" />

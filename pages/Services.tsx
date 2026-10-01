@@ -448,7 +448,7 @@ export const Services: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-batimove-red hover:bg-[#c00500] active:scale-[0.99] text-white py-3.5 px-6 rounded-xl font-bold text-sm shadow-md shadow-red-600/20 hover:shadow-lg transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                        className="w-full bg-[#0284c7] hover:bg-sky-500 active:scale-[0.99] text-white py-3.5 px-6 rounded-xl font-bold text-sm shadow-md shadow-sky-600/25 hover:shadow-lg transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>

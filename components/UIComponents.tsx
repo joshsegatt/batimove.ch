@@ -19,10 +19,10 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-batimove-red text-white hover:bg-red-700 focus:ring-batimove-red shadow-lg shadow-red-500/30",
-    secondary: "bg-batimove-blue text-white hover:bg-blue-800 focus:ring-batimove-blue shadow-lg shadow-blue-500/30",
-    outline: "border-2 border-slate-200 text-slate-700 hover:border-batimove-blue hover:text-batimove-blue bg-transparent",
-    ghost: "text-slate-600 hover:text-batimove-blue hover:bg-slate-100",
+    primary: "bg-[#0B1E33] text-white hover:bg-[#132c48] focus:ring-sky-500 shadow-lg shadow-[#0B1E33]/25",
+    secondary: "bg-[#0284c7] text-white hover:bg-sky-500 focus:ring-sky-500 shadow-lg shadow-sky-500/25",
+    outline: "border-2 border-slate-200 text-slate-700 hover:border-[#0284c7] hover:text-[#0284c7] bg-transparent",
+    ghost: "text-slate-600 hover:text-[#0284c7] hover:bg-slate-100",
   };
 
   const sizes = {

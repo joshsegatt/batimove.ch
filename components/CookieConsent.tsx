@@ -54,7 +54,7 @@ export const CookieConsent: React.FC = () => {
             <div className="flex items-center gap-1.5 shrink-0">
               <button
                 onClick={handleAccept}
-                className="bg-batimove-red hover:bg-[#c00500] text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
+                className="bg-[#0284c7] hover:bg-sky-500 text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition-all shadow-md shadow-sky-600/25 active:scale-95 cursor-pointer whitespace-nowrap"
               >
                 Accepter
               </button>

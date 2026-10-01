@@ -311,8 +311,9 @@ export const Contact: React.FC = () => {
                   <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <Button
                       type="submit"
+                      variant="secondary"
                       isLoading={formLoading}
-                      className="w-full sm:w-auto bg-batimove-red hover:bg-[#c00500] text-white px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-xl shadow-red-900/25 hover:shadow-red-500/35 transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
+                      className="w-full sm:w-auto bg-[#0284c7] hover:bg-sky-500 text-white px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-xl shadow-sky-600/25 hover:shadow-sky-500/35 transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
                     >
                       <span>Envoyer Ma Demande</span>
                       <Send className="w-3.5 h-3.5 text-white" />

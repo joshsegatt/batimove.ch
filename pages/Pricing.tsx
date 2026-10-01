@@ -143,7 +143,7 @@ export const Pricing: React.FC = () => {
                     {plan.name}
                   </h2>
                   {plan.highlight ? (
-                    <span className="text-[11px] font-bold text-red-400 uppercase tracking-wider flex items-center gap-1">
+                    <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1">
                       <Star className="w-3.5 h-3.5 fill-current" />
                       Recommandé
                     </span>
@@ -200,7 +200,7 @@ export const Pricing: React.FC = () => {
                     <Button
                       className={`w-full rounded-xl py-2.5 text-xs font-bold uppercase tracking-wider transition-all font-display flex items-center justify-center gap-1.5 cursor-pointer border-none ${
                         plan.highlight
-                          ? 'bg-batimove-red hover:bg-[#c00500] text-white shadow-xl shadow-red-900/35 hover:shadow-red-500/40 hover:scale-[1.01] active:scale-[0.99]'
+                          ? 'bg-[#0284c7] hover:bg-sky-500 text-white shadow-xl shadow-sky-500/30 hover:shadow-sky-400/40 hover:scale-[1.01] active:scale-[0.99]'
                           : 'bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:border-sky-400/40'
                       }`}
                     >
@@ -311,7 +311,7 @@ export const Pricing: React.FC = () => {
                   <Button 
                     type="submit"
                     disabled={isSubmitting} 
-                    className="w-full bg-batimove-red hover:bg-[#c00500] text-white rounded-xl py-3 font-bold text-xs sm:text-sm shadow-xl shadow-red-900/30 flex items-center justify-center gap-2 font-display border-none cursor-pointer"
+                    className="w-full bg-[#0284c7] hover:bg-sky-500 text-white rounded-xl py-3 font-bold text-xs sm:text-sm shadow-xl shadow-sky-500/30 flex items-center justify-center gap-2 font-display border-none cursor-pointer"
                   >
                     {isSubmitting ? 'Envoi...' : <><Send className="w-3.5 h-3.5" /> Envoyer la demande</>}
                   </Button>

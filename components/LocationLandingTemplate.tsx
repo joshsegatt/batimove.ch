@@ -176,12 +176,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             
             {/* Left Column: Hero Text */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center py-6 sm:py-8 lg:py-12 relative z-10">
-              
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 border border-sky-200/80 text-sky-700 text-xs font-bold tracking-wide uppercase mb-6 w-fit shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
-                {config.regionBadge}
-              </div>
-
               <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[58px] 2xl:text-[66px] font-extrabold tracking-tight leading-[1.08] text-[#0B1E33] mb-6">
                 {config.heroHeadlineMain} <br />
                 <span className="text-[#0284c7] whitespace-nowrap">{config.heroHeadlineHighlight}</span>
@@ -194,35 +188,32 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <Link to="/calculator">
-                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-7 sm:px-9 py-3.5 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group">
-                    <span>Calculer Mon Volume</span>
-                    <ChevronRight className="w-4 h-4 text-sky-400 group-hover:translate-x-1 transition-transform" />
+                <Link to="/quote">
+                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-[#0B1E33]/25 flex items-center gap-2.5 sm:gap-3 transition-all hover:scale-105 group border-none cursor-pointer">
+                    <span>Demander un Devis Gratuit</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-sky-400" />
                   </Button>
                 </Link>
-
-                <a 
-                  href="tel:0800825925" 
-                  className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full border-2 border-slate-200 hover:border-sky-500 bg-white hover:bg-slate-50 text-[#0B1E33] font-bold text-sm sm:text-base transition-all shadow-xs"
-                >
-                  <Phone className="w-4 h-4 text-sky-600" />
-                  <span>0800 825 925</span>
-                </a>
+                <Link to="/calculator">
+                  <Button variant="outline" className="border-slate-300 hover:bg-slate-100 text-slate-700 px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all cursor-pointer">
+                    <span>Calculer mon volume</span>
+                  </Button>
+                </Link>
               </div>
 
-              {/* Trust Micro-Badges */}
-              <div className="mt-8 pt-6 border-t border-slate-200/80 flex flex-wrap items-center gap-5 sm:gap-8 text-xs font-semibold text-slate-500">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-sky-600" />
-                  <span>Assurance RC 5M CHF</span>
+              {/* Micro Trust Indicators (Matching Home.tsx) */}
+              <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-slate-200/80 max-w-lg">
+                <div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">100%</div>
+                  <div className="text-xs text-slate-500 font-medium">Prix Fixe Garanti</div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-sky-600" />
-                  <span>Devis Gratuit sous 2h</span>
+                <div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
+                  <div className="text-xs text-slate-500 font-medium">Assurance RC Incluse</div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>100% Conforme Régies</span>
+                <div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">4.9 / 5</div>
+                  <div className="text-xs text-slate-500 font-medium">Avis Clients Vérifiés</div>
                 </div>
               </div>
             </div>
@@ -235,17 +226,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                   alt={`Déménageur professionnel Batimove Sàrl à ${config.cityName}`}
                   className="w-full max-w-[480px] lg:max-w-[540px] xl:max-w-[580px] h-auto object-contain object-bottom drop-shadow-2xl relative z-10"
                 />
-
-                {/* Floating Metric Card matching Home */}
-                <div className="absolute top-12 left-0 sm:left-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-slate-200/80 z-20 hidden sm:flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-lg">
-                    ★
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-[#0B1E33]">4.9 / 5.0 Étoiles</div>
-                    <div className="text-[11px] text-slate-500">+1'200 déménagements réussis</div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -559,13 +539,16 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link to="/calculator">
-              <Button className="bg-sky-500 hover:bg-sky-400 text-white px-8 sm:px-10 py-4 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all">
+              <Button 
+                variant="secondary"
+                className="bg-[#0284c7] hover:bg-sky-500 text-white px-8 sm:px-10 py-4 rounded-xl font-bold text-base shadow-xl shadow-sky-500/30 hover:shadow-2xl transition-all border-none cursor-pointer"
+              >
                 Estimer Mon Volume en Ligne
               </Button>
             </Link>
             <a 
               href="tel:0800825925" 
-              className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-base transition-all border border-white/20"
+              className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-base transition-all border border-white/20"
             >
               <Phone className="w-5 h-5 text-sky-400" />
               <span>0800 825 925 (Appel Gratuit)</span>

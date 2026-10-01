@@ -1100,7 +1100,7 @@ export const Home: React.FC = () => {
                 Offre promotionnelle valable ce mois-ci. Conditions générales applicables.
               </p>
               <Link to="/quote">
-                <Button className="bg-batimove-red hover:bg-[#c00500] text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-xl shadow-red-900/40 hover:shadow-red-500/50 transition-all hover:scale-105 border-none">
+                <Button variant="secondary" className="bg-[#0284c7] hover:bg-sky-500 text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-xl shadow-sky-500/30 hover:shadow-sky-400/40 transition-all hover:scale-105 border-none">
                   Réserver Mon Déménagement
                 </Button>
               </Link>

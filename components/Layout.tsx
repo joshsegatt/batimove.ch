@@ -168,8 +168,8 @@ export const Footer: React.FC = () => {
             <p className="text-slate-400 text-xs leading-tight font-medium">
               Rue de Monthoux 64, 1201 Genève, Suisse
             </p>
-            <a href="tel:+41800825925" className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-batimove-blue transition-colors">
-              <Phone className="w-3.5 h-3.5 text-batimove-red" />
+            <a href="tel:+41800825925" className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-sky-400 transition-colors">
+              <Phone className="w-3.5 h-3.5 text-sky-400" />
               <span>0800 825 925</span>
             </a>
           </div>
@@ -240,7 +240,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer" 
               className="hover:text-white transition-colors flex items-center gap-1.5 group"
             >
-              <Instagram className="w-3.5 h-3.5 group-hover:text-batimove-red transition-colors" />
+              <Instagram className="w-3.5 h-3.5 group-hover:text-sky-400 transition-colors" />
               <span>@batimove.sarl</span>
             </a>
 
