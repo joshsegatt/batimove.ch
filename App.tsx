@@ -11,6 +11,9 @@ import { Legal } from './pages/Legal';
 import Calculator from './pages/Calculator';
 import CalculatorCheckout from './pages/CalculatorCheckout';
 import { Portal } from './pages/admin/Portal';
+import { Geneve } from './pages/locations/Geneve';
+import { Lausanne } from './pages/locations/Lausanne';
+import { Vaud } from './pages/locations/Vaud';
 import { CookieConsent } from './components/CookieConsent';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
@@ -93,6 +96,11 @@ const AppContent: React.FC = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/calculator/checkout" element={<CalculatorCheckout />} />
+
+          {/* Strategic Regional SEO Pages */}
+          <Route path="/demenagement-geneve" element={<Geneve />} />
+          <Route path="/demenagement-lausanne" element={<Lausanne />} />
+          <Route path="/demenagement-vaud" element={<Vaud />} />
 
           {/* Legal Routes */}
           <Route path="/privacy" element={<Legal type="privacy" />} />

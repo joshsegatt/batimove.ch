@@ -207,6 +207,19 @@ export const Footer: React.FC = () => {
 
         </div>
 
+        {/* Regional Links Strip (Discreet Luxury Internal Linking) */}
+        <div className="py-3 border-b border-white/5 flex flex-wrap items-center justify-between text-[11px] sm:text-xs text-slate-400 gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-semibold text-slate-300 font-display">Déménagement Suisse Romande :</span>
+            <Link to="/demenagement-geneve" className="hover:text-white transition-colors">Genève</Link>
+            <span className="text-slate-600">•</span>
+            <Link to="/demenagement-lausanne" className="hover:text-white transition-colors">Lausanne</Link>
+            <span className="text-slate-600">•</span>
+            <Link to="/demenagement-vaud" className="hover:text-white transition-colors">Canton de Vaud</Link>
+          </div>
+          <span className="text-[11px] text-slate-500 hidden sm:inline">Genève, Vaud, Valais, Fribourg & Neuchâtel</span>
+        </div>
+
         {/* Micro Bottom Bar: Clean Single Line */}
         <div className="pt-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] font-medium text-slate-500">
           <div className="flex items-center gap-2">
