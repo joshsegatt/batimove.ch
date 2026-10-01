@@ -1,11 +1,16 @@
 # Batimove.ch - Robots.txt
-# https://batimove.ch/robots.txt
+# https://www.batimove.ch/robots.txt
 
 User-agent: *
 Allow: /
+Disallow: /portal
+Disallow: /portal/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /calculator/checkout
+
+# Content Signals for AI search citation and model training posture
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 # Sitemap
-Sitemap: https://batimove.ch/sitemap.xml
-
-# Crawl-delay (optional - prevents aggressive crawling)
-Crawl-delay: 1
+Sitemap: https://www.batimove.ch/sitemap.xml

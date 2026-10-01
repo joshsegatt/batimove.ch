@@ -38,4 +38,6 @@ yarn-error.log*
 
 # OS
 Thumbs.db
-scratch/  
+scratch/
+brag-output/
+brag-output-instagram/

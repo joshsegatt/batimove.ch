@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Navbar, Footer } from './components/Layout';
 import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
@@ -16,25 +16,31 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 
 import { trackPageView } from './utils/analytics';
 
-// Auto-redirect if accessed via /portal or /admin without hash or non-standard hash
+// Seamless backwards compatibility: rewrite any legacy #/ URL into clean canonical paths
 if (typeof window !== 'undefined') {
-  const p = window.location.pathname.toLowerCase();
-  const h = window.location.hash.toLowerCase();
-
-  if (p === '/portal' || p === '/portal/' || p === '/admin' || p === '/admin/') {
-    window.location.replace('/#/portal');
-  } else if (h === '#portal' || h === '#portal/' || h === '#admin' || h === '#admin/') {
-    window.location.replace('/#/portal');
+  const h = window.location.hash;
+  if (h && h.startsWith('#/')) {
+    const cleanPath = h.slice(1);
+    window.history.replaceState(null, '', cleanPath);
   }
 }
 
-// ScrollToTop and Google Tag (gtag.js) SPA Route Tracker helper
+// ScrollToTop, hash anchor support, and Google Tag (gtag.js) SPA Route Tracker helper
 const RouteTracker = () => {
-  const { pathname, search } = useLocation();
+  const { pathname, search, hash } = useLocation();
   React.useEffect(() => {
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        trackPageView(pathname + search + hash);
+        return;
+      }
+    }
     window.scrollTo(0, 0);
     trackPageView(pathname + search);
-  }, [pathname, search]);
+  }, [pathname, search, hash]);
   return null;
 };
 
@@ -193,12 +199,12 @@ class RootErrorBoundary extends React.Component<RootErrorBoundaryProps, RootErro
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <RootErrorBoundary>
         <RouteTracker />
         <AppContent />
       </RootErrorBoundary>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

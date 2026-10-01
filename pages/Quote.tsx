@@ -21,6 +21,7 @@ import {
 import { Button } from '../components/UIComponents';
 import { submitServiceQuote } from '../services/api';
 import { trackGoogleAdsLeadConversion } from '../utils/analytics';
+import { SEO } from '../components/SEO';
 
 const WhatsappIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -197,6 +198,11 @@ export const Quote: React.FC = () => {
 
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-[#FAFBFD] text-slate-900 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+      <SEO
+        title="Devis Déménagement Gratuit & Sans Engagement | Batimove Suisse"
+        description="Demandez votre devis de déménagement en ligne gratuit sous 24h. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
+        canonical="https://www.batimove.ch/quote"
+      />
       
       {/* Subtle Ambient Studio Lights */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-sky-100/35 rounded-full blur-[150px] pointer-events-none" />
@@ -216,6 +222,7 @@ export const Quote: React.FC = () => {
               <h1 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#0B1E33] tracking-tight leading-[1.15]">
                 Demandez votre devis gratuit <br className="hidden sm:inline" />
                 <span className="text-[#0284c7]">sans engagement</span>
+                <span className="sr-only"> : Devis de déménagement à Genève, Vaud et en Suisse Romande</span>
               </h1>
               <p className="text-slate-600 text-sm sm:text-base mt-2 font-normal leading-relaxed max-w-lg">
                 Complétez votre demande en moins de 2 minutes. Notre équipe analyse votre projet et vous transmet une estimation ferme sous 2 heures ouvrées.

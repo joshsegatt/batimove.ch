@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { trackPhoneConversionNumber } from '../utils/analytics';
+import { SEO } from '../components/SEO';
 
 export const Contact: React.FC = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -51,6 +52,11 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+      <SEO
+        title="Contactez Batimove Sàrl | Déménageur à Genève & Vaud - 0800 825 925"
+        description="Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 2h."
+        canonical="https://www.batimove.ch/contact"
+      />
       
       {/* Background Decorative Ambient Glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -68,6 +74,7 @@ export const Contact: React.FC = () => {
         >
           <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
             Parlons de Votre Projet de Déménagement
+            <span className="sr-only"> : Agences et service client à Genève, Lausanne et dans le canton de Vaud</span>
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mt-2 font-normal leading-relaxed">
             Nos conseillers spécialisés sont à votre disposition pour vous orienter et vous délivrer un devis clair et sans engagement sous 2h ouvrées.

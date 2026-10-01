@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useVolumeCalculator, HOUSING_PRESETS } from '../hooks/useVolumeCalculator';
 import { Button } from '../components/UIComponents';
+import { SEO } from '../components/SEO';
 import { 
   Studio3DIcon, 
   Home2P3DIcon, 
@@ -98,6 +99,11 @@ export default function Calculator() {
 
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+      <SEO
+        title="Calculateur de Volume Déménagement Gratuit en Ligne | Batimove"
+        description="Calculez précisément le volume en m³ de vos meubles et obtenez un devis immédiat pour votre déménagement à Genève, Lausanne et en Suisse Romande."
+        canonical="https://www.batimove.ch/calculator"
+      />
       
       {/* Ambient Lighting Orbs */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[130px] pointer-events-none" />
@@ -110,6 +116,7 @@ export default function Calculator() {
         <div className="text-center mb-3 sm:mb-4 flex-shrink-0">
           <h1 className="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Configurez Votre Déménagement
+            <span className="sr-only"> : Calculateur en m³ de volume et estimation de prix immédiate</span>
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto mt-1 font-normal leading-relaxed">
             Sélectionnez votre type de logement ou ajustez votre inventaire pièce par pièce.

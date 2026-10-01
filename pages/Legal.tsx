@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield, FileText, Scale } from 'lucide-react';
 import { Button } from '../components/UIComponents';
+import { SEO } from '../components/SEO';
 
 interface LegalProps {
   type: 'privacy' | 'terms' | 'impressum';
@@ -29,8 +30,31 @@ export const Legal: React.FC<LegalProps> = ({ type }) => {
   const current = content[type];
   const Icon = current.icon;
 
+  const titles: Record<string, string> = {
+    privacy: "Protection des Données (nLPD) | Batimove Sàrl",
+    terms: "Conditions Générales de Vente (CGV) | Batimove Sàrl",
+    impressum: "Mentions Légales & Impressum | Batimove Sàrl"
+  };
+
+  const descriptions: Record<string, string> = {
+    privacy: "Politique de protection des données et respect de la nLPD suisse par Batimove Sàrl.",
+    terms: "Conditions Générales de Vente, garanties et assurances de Batimove Sàrl.",
+    impressum: "Mentions légales, immatriculation au registre du commerce suisse de Batimove Sàrl à Genève."
+  };
+
+  const paths: Record<string, string> = {
+    privacy: "https://www.batimove.ch/privacy",
+    terms: "https://www.batimove.ch/terms",
+    impressum: "https://www.batimove.ch/legal"
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 pt-32 pb-20">
+      <SEO
+        title={titles[type]}
+        description={descriptions[type]}
+        canonical={paths[type]}
+      />
       <div className="max-w-3xl mx-auto px-6">
         <Link to="/">
           <Button variant="ghost" className="mb-8 pl-0 hover:bg-transparent text-slate-500 hover:text-batimove-blue">

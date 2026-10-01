@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 
 // --- Custom Duotone Vector Icons Matching Reference ---
 const ParachuteCargoIcon: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => (
@@ -306,6 +307,11 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">
+      <SEO
+        title="Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud"
+        description="Entreprise suisse de déménagement et transport pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 24h et garantie 5M CHF."
+        canonical="https://www.batimove.ch/"
+      />
 
       {/* =========================================================================
           SECTION 1: HERO SECTION ("L'Art du Déménagement !" / "The Way to Move!")
@@ -324,6 +330,7 @@ export const Home: React.FC = () => {
               <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[62px] 2xl:text-[70px] font-extrabold tracking-tight leading-[1.05] text-[#0B1E33] mb-6">
                 L'Art du <br />
                 <span className="text-[#0284c7] whitespace-nowrap">Déménagement&nbsp;!</span>
+                <span className="sr-only"> : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud</span>
               </h1>
 
               {/* Subtitle */}
@@ -484,7 +491,7 @@ export const Home: React.FC = () => {
                     <Truck className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-slate-900 text-sm">Équipes Qualifiées</h4>
+                    <h3 className="font-display font-bold text-slate-900 text-sm">Équipes Qualifiées</h3>
                     <p className="text-xs text-slate-500">Personnel formé en continu</p>
                   </div>
                 </div>
@@ -494,7 +501,7 @@ export const Home: React.FC = () => {
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-slate-900 text-sm">Prix Fixes & Clairs</h4>
+                    <h3 className="font-display font-bold text-slate-900 text-sm">Prix Fixes & Clairs</h3>
                     <p className="text-xs text-slate-500">Devis sans surcoût caché</p>
                   </div>
                 </div>
@@ -557,9 +564,9 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <FileText className="w-6 h-6" />
                   </div>
-                  <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                     Conseil Gratuit
-                  </h4>
+                  </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
                     Visite technique sur place ou estimation par vidéo gratuite sous 24h.
                   </p>
@@ -570,9 +577,9 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <ShieldCheck className="w-6 h-6" />
                   </div>
-                  <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                     Garantie Totale
-                  </h4>
+                  </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
                     Garantie 100% remise de clés conforme aux exigences des régies suisses.
                   </p>
@@ -583,9 +590,9 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <Headphones className="w-6 h-6" />
                   </div>
-                  <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                     Support 24/7
-                  </h4>
+                  </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
                     Assistance personnalisée et chef de projet joignable en direct le jour J.
                   </p>
@@ -946,9 +953,9 @@ export const Home: React.FC = () => {
                     <PackingUnpackingIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                       Emballage & Déballage
-                    </h4>
+                    </h3>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Caisses alvéolées et papier bulle anti-choc pour verres, vaisselle et objets fragiles.
                     </p>
@@ -961,9 +968,9 @@ export const Home: React.FC = () => {
                     <StorageClipboardIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                       Garde-Meubles & Stockage
-                    </h4>
+                    </h3>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Inventaire complet avec contrôle d'état et stockage sécurisé sous scellés à Genève.
                     </p>
@@ -976,9 +983,9 @@ export const Home: React.FC = () => {
                     <AssuranceUmbrellaIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
                       Assurance Tous Risques
-                    </h4>
+                    </h3>
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Couverture intégrale All-Risk jusqu'à 5M CHF incluse pour une tranquillité totale.
                     </p>

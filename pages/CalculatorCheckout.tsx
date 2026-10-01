@@ -5,6 +5,7 @@ import { ArrowLeft, Send, Package2, MapPin, Coins } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { sendQuoteEmail } from '../services/api';
 import { trackGoogleAdsLeadConversion } from '../utils/analytics';
+import { SEO } from '../components/SEO';
 
 interface CalculatorData {
     items: Array<{
@@ -115,6 +116,12 @@ export default function CalculatorCheckout() {
 
     return (
         <div className="min-h-screen bg-slate-950">
+            <SEO
+                title="Finaliser Votre Devis | Batimove Sàrl"
+                description="Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 2h."
+                canonical="https://www.batimove.ch/calculator/checkout"
+                robots="noindex, nofollow"
+            />
             {/* HERO SECTION */}
             <section className="relative pt-32 pb-16 overflow-hidden">
                 {/* Background Gradient */}

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/UIComponents';
 import { Check, Star, X, Send } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 // Data for the 4 Cards with 3D Icons
 const plans = [
@@ -92,6 +93,11 @@ export const Pricing: React.FC = () => {
 
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+      <SEO
+        title="Tarifs Déménagement Suisse | Prix Fixes Dès 550 CHF - Batimove"
+        description="Découvrez nos formules de déménagement en Suisse dès 550 CHF : Basic, Standard, Premium et Luxe. Devis ferme sans surprise, assurance RC incluse."
+        canonical="https://www.batimove.ch/pricing"
+      />
       
       {/* Background Ambient Glows */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[130px] pointer-events-none" />
@@ -109,6 +115,7 @@ export const Pricing: React.FC = () => {
         >
           <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
             Investissez dans Votre Sérénité
+            <span className="sr-only"> : Tarifs et formules de déménagement en Suisse Romande dès 550 CHF</span>
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mt-1 font-normal leading-relaxed">
             Formules claires, transparentes et adaptées à vos besoins. Aucun frais caché, rigueur suisse garantie.
