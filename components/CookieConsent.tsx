@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from './UIComponents';
+import { Cookie, X } from 'lucide-react';
 import { updateGoogleConsent } from '../utils/analytics';
 
 export const CookieConsent: React.FC = () => {
@@ -9,8 +9,8 @@ export const CookieConsent: React.FC = () => {
   useEffect(() => {
     const consent = localStorage.getItem('batimove_cookie_consent');
     if (!consent) {
-      // Delay slightly for better UX so it doesn't pop up immediately on load
-      const timer = setTimeout(() => setIsVisible(true), 1500);
+      // Delay slightly for smooth entrance after page loads
+      const timer = setTimeout(() => setIsVisible(true), 1200);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -21,47 +21,50 @@ export const CookieConsent: React.FC = () => {
     setIsVisible(false);
   };
 
+  const handleDecline = () => {
+    localStorage.setItem('batimove_cookie_consent', 'declined');
+    updateGoogleConsent(false);
+    setIsVisible(false);
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-0 left-0 w-full z-[60] p-4 md:p-6 pointer-events-none"
+          initial={{ y: 20, opacity: 0, scale: 0.96 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 20, opacity: 0, scale: 0.96 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-[60] pointer-events-auto"
         >
-          <div className="max-w-4xl mx-auto bg-[#0B1E33]/95 backdrop-blur-xl text-white rounded-3xl p-6 shadow-2xl shadow-black/50 border border-white/10 pointer-events-auto flex flex-col md:flex-row items-center gap-6 justify-between relative overflow-hidden">
-            
-            {/* Subtle Glow Effect behind the cookie */}
-            <div className="absolute -left-10 -top-10 w-40 h-40 bg-blue-500/20 rounded-full blur-[50px] pointer-events-none"></div>
-
-            <div className="flex items-center gap-6 relative z-10">
-              {/* 3D Icon - No Background, Floating */}
-              <div className="w-20 h-20 flex-shrink-0 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
-                 <img 
-                    src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Cookie.png" 
-                    alt="Privacy Cookie" 
-                    className="w-full h-full object-contain animate-[float_6s_ease-in-out_infinite]"
-                 />
-              </div>
-
-              <div className="text-center md:text-left">
-                <h4 className="font-display font-bold text-lg mb-1 tracking-tight">Confidentialité & Sauvegarde</h4>
-                <p className="text-slate-300 text-sm leading-relaxed max-w-lg font-medium">
-                  Nous utilisons le stockage local pour sauvegarder automatiquement votre devis en temps réel. 
-                  <span className="text-slate-400"> Vos données restent sur votre appareil.</span>
-                </p>
-              </div>
+          <div className="bg-[#0B1E33]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-3 sm:p-3.5 shadow-2xl shadow-black/40 text-white flex items-center gap-3">
+            {/* Elegant Compact Cookie Icon */}
+            <div className="w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shrink-0">
+              <Cookie className="w-4 h-4" />
             </div>
 
-            <div className="flex gap-3 w-full md:w-auto relative z-10">
-              <Button 
+            {/* Compact Informative Text */}
+            <div className="flex-1 min-w-0 pr-1">
+              <p className="text-xs text-slate-200 leading-snug">
+                <span className="font-semibold text-white">Confidentialité</span> : stockage local utilisé pour sauvegarder votre devis en temps réel.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
                 onClick={handleAccept}
-                className="w-full md:w-auto bg-batimove-red hover:bg-[#c00500] text-white shadow-lg shadow-red-900/40 border-none font-bold py-4 px-8 rounded-xl font-display tracking-wide transition-transform hover:-translate-y-0.5"
+                className="bg-batimove-red hover:bg-[#c00500] text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
               >
-                Accepter & Continuer
-              </Button>
+                Accepter
+              </button>
+              <button
+                onClick={handleDecline}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                aria-label="Fermer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         </motion.div>

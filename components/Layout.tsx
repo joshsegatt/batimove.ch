@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-4 text-slate-300">
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-sky-400" />
-              Lun - Sam: 08h00 - 19h00
+              Lun. au Sam. : 08h00 à 19h00
             </span>
             <span className="flex items-center gap-1.5 text-slate-300">
               <span className="text-sky-400">🇨🇭</span> Garantie Régies Suisses

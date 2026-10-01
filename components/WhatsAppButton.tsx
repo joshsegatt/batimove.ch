@@ -12,7 +12,7 @@ export const WhatsAppButton: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
-    const whatsappUrl = "https://wa.me/41800825925?text=" + encodeURIComponent("Bonjour Batimove, je souhaite obtenir un devis rapide pour mon déménagement.");
+    const whatsappUrl = "https://wa.me/41798896406?text=" + encodeURIComponent("Bonjour Batimove, je souhaite obtenir un devis rapide pour mon déménagement.");
 
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">

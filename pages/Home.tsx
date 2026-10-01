@@ -316,31 +316,31 @@ export const Home: React.FC = () => {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-200/25 rounded-full blur-[140px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 xl:gap-8 items-end">
             
             {/* Left Column: Hero Text */}
-            <div className="lg:col-span-6 flex flex-col justify-center py-6 sm:py-8 lg:py-12">
+            <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center py-6 sm:py-8 lg:py-12 relative z-10">
               {/* Main Headline with exact two-tone styling */}
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-[64px] xl:text-[70px] font-extrabold tracking-tight leading-[1.05] text-[#0B1E33] mb-6">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[62px] 2xl:text-[70px] font-extrabold tracking-tight leading-[1.05] text-[#0B1E33] mb-6">
                 L'Art du <br />
                 <span className="text-[#0284c7] whitespace-nowrap">Déménagement&nbsp;!</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-slate-600 text-lg sm:text-xl font-normal leading-relaxed max-w-xl mb-8">
+              <p className="text-slate-600 text-base sm:text-lg lg:text-[17px] xl:text-xl font-normal leading-relaxed max-w-xl lg:max-w-[460px] xl:max-w-xl mb-8">
                 Services professionnels de déménagement, emballage de haute précision et garde-meubles sécurisé à Genève, Lausanne et dans toute la Suisse. Assurance incluse jusqu'à 5M CHF.
               </p>
 
               {/* CTA Button */}
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                 <Link to="/quote">
-                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-8 py-4 rounded-xl font-bold text-base shadow-xl shadow-[#0B1E33]/25 flex items-center gap-3 transition-all hover:scale-105 group">
+                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-[#0B1E33]/25 flex items-center gap-2.5 sm:gap-3 transition-all hover:scale-105 group">
                     <span>Demander un Devis Gratuit</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-sky-400" />
                   </Button>
                 </Link>
                 <Link to="/calculator">
-                  <Button variant="outline" className="border-slate-300 hover:bg-slate-100 text-slate-700 px-6 py-4 rounded-xl font-semibold text-base transition-all">
+                  <Button variant="outline" className="border-slate-300 hover:bg-slate-100 text-slate-700 px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all">
                     <span>Calculer mon volume</span>
                   </Button>
                 </Link>
@@ -349,15 +349,15 @@ export const Home: React.FC = () => {
               {/* Micro Trust Indicators */}
               <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-slate-200/80 max-w-lg">
                 <div>
-                  <div className="text-2xl font-bold text-[#0B1E33] font-display">100%</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">100%</div>
                   <div className="text-xs text-slate-500 font-medium">Prix Fixe Garanti</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#0B1E33] font-display">CHF 5M</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
                   <div className="text-xs text-slate-500 font-medium">Assurance RC Incluse</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-[#0284c7] font-display">4.9 / 5</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">4.9 / 5</div>
                   <div className="text-xs text-slate-500 font-medium">Avis Clients Vérifiés</div>
                 </div>
               </div>
@@ -365,7 +365,7 @@ export const Home: React.FC = () => {
             </div>
 
             {/* Right Column: Hero Graphic Mover with Official Batimove Box */}
-            <div className="lg:col-span-6 relative flex justify-center lg:justify-end items-end self-end w-full">
+            <div className="lg:col-span-5 xl:col-span-6 relative flex justify-center lg:justify-end items-end self-end w-full">
               <div className="relative w-full flex items-end justify-center lg:justify-end">
                 <div className="absolute top-1/4 right-0 w-72 h-72 bg-sky-200/25 rounded-full blur-3xl -z-10 pointer-events-none" />
 
@@ -373,7 +373,7 @@ export const Home: React.FC = () => {
                 <img
                   src="/hero-mover-tight.png"
                   alt="Déménageur professionnel Batimove Sarl avec carton officiel"
-                  className="w-auto h-[480px] sm:h-[540px] md:h-[600px] lg:h-[660px] xl:h-[710px] 2xl:h-[750px] max-w-full lg:max-w-none object-contain object-bottom block align-bottom -mb-[1px] select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)]"
+                  className="w-auto h-[380px] sm:h-[450px] md:h-[500px] lg:h-[500px] xl:h-[640px] 2xl:h-[720px] max-w-full lg:max-w-none object-contain object-bottom block align-bottom -mb-[1px] select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)] lg:translate-x-10 xl:translate-x-12 2xl:translate-x-24 transition-transform duration-200"
                 />
               </div>
             </div>

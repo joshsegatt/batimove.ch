@@ -15,7 +15,8 @@ import {
   Archive,
   Truck,
   Loader2,
-  ShieldCheck
+  ShieldCheck,
+  Clock
 } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { submitServiceQuote } from '../services/api';
@@ -167,143 +168,117 @@ export const Services: React.FC = () => {
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-slate-100/60 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Main Centered Content Container */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-5 flex-1 flex flex-col justify-center relative z-10 my-auto">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1 flex flex-col justify-center relative z-10 my-auto">
 
         {/* 2-COLUMN LUXURY GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-center w-full flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full flex-1 min-h-0">
 
-          {/* LEFT COLUMN: EDITORIAL LUXURY HEADER + NUMBERED SERVICE CARDS (7 COLS) */}
+          {/* LEFT COLUMN: EDITORIAL HEADER + SERVICE CARDS (7 COLS) */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             
-            {/* Editorial Header */}
-            <div className="mb-4 sm:mb-5 flex-shrink-0">
-              <div className="text-[10px] tracking-[0.18em] font-bold text-sky-700 uppercase mb-1.5 flex items-center gap-2">
-                <span>GENÈVE</span>
-                <span className="text-slate-300">•</span>
-                <span>VAUD</span>
-                <span className="text-slate-300">•</span>
-                <span>LAUSANNE</span>
-                <span className="text-slate-300">•</span>
-                <span>SUISSE ROMANDE</span>
-              </div>
-              <h1 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#0B1E33] tracking-tight leading-[1.1]">
-                Services de Déménagement<br />
-                & Logistique
+            {/* Header */}
+            <div className="mb-5 flex-shrink-0">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#0B1E33] tracking-tight leading-[1.15]">
+                Services de Déménagement <br className="hidden sm:inline" />
+                <span className="text-[#0284c7]">& Logistique</span>
               </h1>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1.5 font-normal leading-relaxed max-w-lg">
-                Prestations sur-mesure pour particuliers et entreprises en Suisse romande.
+              <p className="text-slate-600 text-sm sm:text-base mt-2 font-normal leading-relaxed max-w-lg">
+                Prestations sur-mesure pour particuliers et entreprises. Choisissez un service pour obtenir votre estimation personnalisée sous 2 heures ouvrées.
               </p>
             </div>
 
-            {/* 4 Numbered Service Cards */}
-            <div className="space-y-3">
+            {/* 4 Clean Service Cards */}
+            <div className="space-y-2.5">
               {SERVICES_DATA.map((service) => {
                 const isSelected = selectedServiceId === service.id;
+                const ServiceIcon = service.icon;
 
                 return (
                   <button
                     key={service.id}
+                    type="button"
                     onClick={() => {
                       setSelectedServiceId(service.id);
                       setIsSuccess(false);
                     }}
-                    className={`w-full text-left p-3.5 sm:p-4 rounded-2xl transition-all duration-300 flex items-center justify-between gap-3 cursor-pointer group relative ${
+                    className={`w-full text-left p-3.5 sm:p-4 rounded-xl transition-all duration-150 flex items-center justify-between gap-4 cursor-pointer relative ${
                       isSelected
-                        ? 'bg-white border-[1.5px] border-[#0B1E33] shadow-[0_14px_36px_-8px_rgba(11,30,51,0.09),0_1px_3px_rgba(0,0,0,0.03)] ring-4 ring-[#0B1E33]/5'
-                        : 'bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-slate-300 shadow-[0_2px_8px_rgba(0,0,0,0.02)]'
+                        ? 'bg-white border-2 border-[#0284c7] shadow-sm ring-4 ring-sky-500/10'
+                        : 'bg-white hover:bg-slate-50/80 border border-slate-200/90 hover:border-slate-300'
                     }`}
                   >
-                    {/* Left: Checkmark Circle + Number + Content */}
-                    <div className="flex items-start gap-3.5 min-w-0 flex-1">
-                      {/* Checkmark Circle + Number */}
-                      <div className="flex items-center gap-2 shrink-0 mt-0.5">
-                        <div className="w-5 h-5 rounded-full bg-[#0B1E33] text-white flex items-center justify-center shadow-sm">
-                          <Check className="w-3 h-3 stroke-[3]" />
-                        </div>
-                        <span className="text-sm sm:text-base font-bold text-[#0B1E33] font-mono leading-none">
-                          {service.number}
-                        </span>
+                    {/* Icon + Content */}
+                    <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                        isSelected ? 'bg-sky-50 text-[#0284c7]' : 'bg-slate-100 text-slate-600'
+                      }`}>
+                        <ServiceIcon className="w-5 h-5" />
                       </div>
 
-                      {/* Content */}
                       <div className="min-w-0 flex-1">
-                        <h2 className="text-xs sm:text-sm font-bold text-[#0B1E33] truncate">
-                          {service.name}
-                        </h2>
-                        <p className="text-[11px] text-slate-500 truncate mt-0.5 font-normal">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-sm sm:text-[15px] font-bold text-[#0B1E33] truncate">
+                            {service.name}
+                          </h3>
+                          {isSelected && (
+                            <span className="text-[10px] font-semibold bg-sky-50 text-[#0284c7] border border-sky-200/60 px-2 py-0.5 rounded-md">
+                              Actif
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-500 truncate mt-0.5 font-normal">
                           {service.subtitle}
                         </p>
-
-                        {/* Pill Tags */}
-                        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-                          {service.tags.map((tag, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[10px] px-2.5 py-0.5 rounded-full font-medium bg-white text-slate-600 border border-slate-200/90 shadow-2xs"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
                       </div>
                     </div>
 
-                    {/* Right: Transparent 3D Render Image when selected (or Chevron) */}
-                    <div className="flex items-center gap-2 shrink-0">
-                      {isSelected ? (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.92 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.25 }}
-                          className="hidden sm:flex items-center justify-center w-28 sm:w-36 h-14 sm:h-16"
-                        >
-                          <img
-                            src={service.image}
-                            alt={service.name}
-                            className="max-h-full max-w-full object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.12)]"
-                          />
-                        </motion.div>
-                      ) : null}
-                      
-                      <div className="w-6 h-6 flex items-center justify-center">
-                        <ChevronRight className={`w-4 h-4 transition-transform duration-200 ${
-                          isSelected ? 'text-[#0B1E33] translate-x-0.5' : 'text-slate-300 group-hover:text-slate-500'
-                        }`} />
+                    {/* Radio Indicator */}
+                    <div className="shrink-0 flex items-center">
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                        isSelected ? 'border-[#0284c7] bg-[#0284c7]' : 'border-slate-300 bg-white'
+                      }`}>
+                        {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                       </div>
                     </div>
                   </button>
                 );
               })}
             </div>
+
+            {/* Swiss Trust Pillars */}
+            <div className="mt-5 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+              <span className="flex items-center gap-1.5 font-medium">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Assurance RC Pro 5M CHF</span>
+              </span>
+              <span className="flex items-center gap-1.5 font-medium">
+                <Clock className="w-4 h-4 text-[#0284c7]" />
+                <span>Devis fixe sans frais cachés</span>
+              </span>
+              <span className="hidden sm:flex items-center gap-1.5 font-medium">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#0284c7]" />
+                <span>Entreprise certifiée suisse</span>
+              </span>
+            </div>
           </div>
 
-          {/* RIGHT COLUMN: THE $50K LUXURY MODAL (5 COLS) */}
-          <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(11,30,51,0.08),0_1px_2px_rgba(0,0,0,0.02)] flex flex-col justify-between text-slate-900 relative backdrop-blur-xl">
+          {/* RIGHT COLUMN: ENTERPRISE QUOTE CARD (5 COLS) */}
+          <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-[0_12px_32px_-8px_rgba(11,30,51,0.06),0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between text-slate-900 relative">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200/70 flex items-center justify-center text-emerald-700 shrink-0 shadow-xs">
-                    <MessageSquare className="w-4 h-4 fill-current" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#0B1E33] text-sm sm:text-[15px] leading-tight">
-                      Demande de devis confidentiel
-                    </h3>
-                  </div>
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                <div>
+                  <h2 className="font-display font-bold text-[#0B1E33] text-base leading-tight">
+                    Votre Estimation Express
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Prestation : <span className="font-semibold text-slate-800">{currentService.shortName}</span>
+                  </p>
                 </div>
-                <span className="text-[10px] font-semibold text-slate-600 bg-slate-100/90 border border-slate-200/70 px-2.5 py-0.5 rounded-md flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Réponse sous 2h
                 </span>
-              </div>
-
-              {/* Selected Service Pill */}
-              <div className="my-3.5">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 text-xs font-semibold shadow-2xs">
-                  <CurrentIcon className="w-4 h-4 text-emerald-700" />
-                  <span>{currentService.shortName}</span>
-                </div>
               </div>
 
               {/* Form or Success State */}
@@ -352,44 +327,44 @@ export const Services: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Row 1: NOM & TÉLÉPHONE */}
+                    {/* Row 1: Nom & Téléphone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          NOM
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Nom & Prénom <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="text"
                           name="name"
                           required
-                          placeholder="Votre nom"
+                          placeholder="Ex. Marc Dupont"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          TÉLÉPHONE
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Téléphone <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="tel"
                           name="phone"
                           required
-                          placeholder="+41"
+                          placeholder="+41 79 123 45 67"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
 
-                    {/* Row 2: EMAIL & DATE SOUHAITÉE */}
+                    {/* Row 2: Email & Date souhaitée */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          EMAIL
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Email
                         </label>
                         <input
                           type="email"
@@ -397,30 +372,30 @@ export const Services: React.FC = () => {
                           placeholder="votre@email.ch"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          DATE SOUHAITÉE
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Date souhaitée
                         </label>
                         <input
                           type="text"
                           name="date"
-                          placeholder="jj.mm.aaaa"
+                          placeholder="Ex. 15 novembre"
                           value={formData.date}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
 
-                    {/* Row 3: VILLE DÉPART & VILLE ARRIVÉE */}
+                    {/* Row 3: Ville départ & Ville arrivée */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          VILLE DÉPART
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Ville de départ
                         </label>
                         <input
                           type="text"
@@ -428,13 +403,13 @@ export const Services: React.FC = () => {
                           placeholder="Ex. Genève"
                           value={formData.fromCity}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                          VILLE ARRIVÉE
+                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                          Ville d'arrivée
                         </label>
                         <input
                           type="text"
@@ -442,15 +417,15 @@ export const Services: React.FC = () => {
                           placeholder="Ex. Lausanne"
                           value={formData.toCity}
                           onChange={handleInputChange}
-                          className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
 
-                    {/* Row 4: PRÉCISIONS (OPTIONNEL) */}
+                    {/* Row 4: Précisions */}
                     <div>
-                      <label className="text-[10px] uppercase tracking-widest font-bold text-slate-700 block mb-1">
-                        PRÉCISIONS (OPTIONNEL)
+                      <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        Précisions complémentaires <span className="text-slate-400 font-normal">(optionnel)</span>
                       </label>
                       <input
                         type="text"
@@ -458,16 +433,16 @@ export const Services: React.FC = () => {
                         placeholder="Vos besoins spécifiques, objets sensibles, étages, parking..."
                         value={formData.details}
                         onChange={handleInputChange}
-                        className="h-10 sm:h-11 w-full bg-[#F8FAFC]/90 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0B1E33] focus:ring-4 focus:ring-[#0B1E33]/5 rounded-xl px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
+                        className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                       />
                     </div>
 
-                    {/* CTA Button ($50k Apple/Stripe Tactile Polish) */}
+                    {/* CTA Button */}
                     <div className="pt-2">
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-[#D90429] hover:bg-[#c00322] active:scale-[0.99] text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_10px_25px_-5px_rgba(217,4,41,0.35),inset_0_1px_0_0_rgba(255,255,255,0.2)] transition-all cursor-pointer"
+                        className="w-full bg-batimove-red hover:bg-[#c00500] active:scale-[0.99] text-white py-3.5 px-6 rounded-xl font-bold text-sm shadow-md shadow-red-600/20 hover:shadow-lg transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>
@@ -477,13 +452,13 @@ export const Services: React.FC = () => {
                         ) : (
                           <>
                             <span>Demander mon devis</span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            <ArrowRight className="w-4 h-4" />
                           </>
                         )}
                       </button>
-                      <div className="text-center text-[11px] text-slate-500 mt-2.5 flex items-center justify-center gap-1.5">
+                      <div className="text-center text-xs text-slate-400 mt-2.5 flex items-center justify-center gap-1.5">
                         <Lock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Transmis à info@batimove.ch • Réponse sous 2h</span>
+                        <span>Données confidentielles • Devis 100% gratuit et sans engagement</span>
                       </div>
                     </div>
                   </motion.form>
