@@ -105,10 +105,16 @@ export const Badge: React.FC<{ children: React.ReactNode; variant?: 'blue' | 're
 };
 
 // --- Official Logo ---
+// Utilise la version réduite : le logo s'affiche à 48px dans l'en-tête et à
+// 28px dans le pied de page. Le fichier batimove-logo.png d'origine (1024px)
+// reste en place car il sert d'og:image pour les aperçus de liens.
 export const Logo: React.FC<React.ImgHTMLAttributes<HTMLImageElement>> = (props) => (
   <img
-    src="/batimove-logo.png"
+    src="/batimove-logo-sm.png"
     alt="Batimove Logo"
+    width={192}
+    height={129}
+    decoding="async"
     {...props}
   />
 );
