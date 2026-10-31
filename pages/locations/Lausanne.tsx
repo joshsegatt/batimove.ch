@@ -9,7 +9,7 @@ const lausanneConfig: LocationConfig = {
   heroHeadlineHighlight: "Lausanne & Environs !",
   heroSubtitle: "Équipes spécialisées dans les accès lausannois et les fortes déclivités. Matériel adapté, respect des régies vaudoises et assurance complète 5M CHF.",
   metaTitle: "Déménagement Lausanne | Prix Fixe & Garantie Régies - Batimove",
-  metaDescription: "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement Vaud. Devis gratuit sous 2h dès CHF 550.",
+  metaDescription: "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement. Devis gratuit sous 30 min dès CHF 550.",
   canonicalUrl: "https://www.batimove.ch/demenagement-lausanne",
   geoPosition: {
     lat: 46.5197,
@@ -53,7 +53,7 @@ const lausanneConfig: LocationConfig = {
     },
     {
       question: "Quel est le délai pour obtenir un devis de déménagement à Lausanne ?",
-      answer: "Vous pouvez calculer immédiatement votre cubage avec notre calculateur 3D en ligne ou recevoir un devis détaillé et fixe sous 2 heures ouvrées par email ou téléphone au 0800 825 925."
+      answer: "Vous pouvez calculer immédiatement votre cubage avec notre calculateur 3D en ligne ou recevoir un devis détaillé et fixe sous 30 min (8h-19h) par email ou téléphone au 0800 825 925."
     },
     {
       question: "Proposez-vous le nettoyage de fin de bail avec garantie pour la régie ?",

@@ -200,7 +200,7 @@ export const Quote: React.FC = () => {
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-[#FAFBFD] text-slate-900 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
       <SEO
         title="Devis Déménagement Gratuit & Sans Engagement | Batimove Suisse"
-        description="Demandez votre devis de déménagement en ligne gratuit sous 24h. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
+        description="Demandez votre devis de déménagement en ligne gratuit sous 30 min. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
         canonical="https://www.batimove.ch/quote"
       />
       
@@ -225,7 +225,7 @@ export const Quote: React.FC = () => {
                 <span className="sr-only"> : Devis de déménagement à Genève, Vaud et en Suisse Romande</span>
               </h1>
               <p className="text-slate-600 text-sm sm:text-base mt-2 font-normal leading-relaxed max-w-lg">
-                Complétez votre demande en moins de 2 minutes. Notre équipe analyse votre projet et vous transmet une estimation ferme sous 2 heures ouvrées.
+                Complétez votre demande en moins de 2 minutes. Notre équipe analyse votre projet et vous transmet une estimation ferme sous 30 min (8h-19h).
               </p>
             </div>
 
@@ -314,8 +314,8 @@ export const Quote: React.FC = () => {
           <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-[0_12px_32px_-8px_rgba(11,30,51,0.06),0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between text-slate-900 relative">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
-                <div>
+              <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-slate-100 mb-4">
+                <div className="min-w-0">
                   <h2 className="font-display font-bold text-[#0B1E33] text-base leading-tight">
                     Votre Devis Express
                   </h2>
@@ -323,9 +323,9 @@ export const Quote: React.FC = () => {
                     Prestation : <span className="font-semibold text-slate-800">{currentService.shortName}</span>
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <span className="shrink-0 whitespace-nowrap text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Réponse sous 2h
+                  Réponse sous 30 min
                 </span>
               </div>
 

@@ -189,7 +189,7 @@ export const Services: React.FC = () => {
                 <span className="text-[#0284c7]">& Logistique</span>
               </h1>
               <p className="text-slate-600 text-sm sm:text-base mt-2 font-normal leading-relaxed max-w-lg">
-                Prestations sur-mesure pour particuliers et entreprises. Choisissez un service pour obtenir votre estimation personnalisée sous 2 heures ouvrées.
+                Prestations sur-mesure pour particuliers et entreprises. Choisissez un service pour obtenir votre estimation personnalisée sous 30 min (8h-19h).
               </p>
             </div>
 
@@ -272,8 +272,8 @@ export const Services: React.FC = () => {
           <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-[0_12px_32px_-8px_rgba(11,30,51,0.06),0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between text-slate-900 relative">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
-                <div>
+              <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-slate-100 mb-4">
+                <div className="min-w-0">
                   <h2 className="font-display font-bold text-[#0B1E33] text-base leading-tight">
                     Votre Estimation Express
                   </h2>
@@ -281,9 +281,9 @@ export const Services: React.FC = () => {
                     Prestation : <span className="font-semibold text-slate-800">{currentService.shortName}</span>
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <span className="shrink-0 whitespace-nowrap text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2.5 py-1 rounded-full flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Réponse sous 2h
+                  Réponse sous 30 min
                 </span>
               </div>
 
@@ -308,7 +308,7 @@ export const Services: React.FC = () => {
                         Votre dossier pour <strong>{currentService.name}</strong> a bien été envoyé à <strong>info@batimove.ch</strong>.
                       </p>
                       <p className="text-xs text-sky-700 font-semibold mt-2">
-                        Un conseiller Batimove vous recontacte sous 2h ouvrées.
+                        Un conseiller Batimove vous recontacte sous 30 min (8h-19h).
                       </p>
                     </div>
                     <Button

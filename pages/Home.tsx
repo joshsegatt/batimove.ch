@@ -288,7 +288,7 @@ export const Home: React.FC = () => {
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">
       <SEO
         title="Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud"
-        description="Entreprise suisse de déménagement et transport pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 24h et garantie 5M CHF."
+        description="Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF."
         canonical="https://www.batimove.ch/"
       />
 

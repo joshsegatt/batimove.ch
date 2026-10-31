@@ -8,7 +8,7 @@ const genevaConfig: LocationConfig = {
   heroHeadlineMain: "Déménagement Professionnel à",
   heroHeadlineHighlight: "Genève & Environs !",
   heroSubtitle: "Entreprise suisse certifiée basée à Genève. Équipes qualifiées, réservation des panneaux de stationnement auprès de la Ville de Genève et assurance RC jusqu'à 5M CHF.",
-  metaTitle: "Déménagement Genève | Devis Gratuit 24h & Service Pro - Batimove",
+  metaTitle: "Déménagement Genève | Devis Gratuit en 30 min - Batimove",
   metaDescription: "Entreprise de déménagement à Genève pour particuliers et entreprises. Réservation de stationnement, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF.",
   canonicalUrl: "https://www.batimove.ch/demenagement-geneve",
   geoPosition: {
@@ -53,7 +53,7 @@ const genevaConfig: LocationConfig = {
     },
     {
       question: "Combien coûte un déménagement à Genève avec Batimove ?",
-      answer: "Nos tarifs démarrent dès CHF 550 pour la formule Basic (camion et déménageurs). Le coût exact dépend du volume en m³, de l'étage et des options choisies (emballage, monte-meubles). Vous recevez un devis ferme et sans surprise sous 2 heures ouvrées."
+      answer: "Nos tarifs démarrent dès CHF 550 pour la formule Basic (camion et déménageurs). Le coût exact dépend du volume en m³, de l'étage et des options choisies (emballage, monte-meubles). Vous recevez un devis ferme et sans surprise sous 30 min (8h-19h)."
     },
     {
       question: "Intervenez-vous dans les communes autour de Genève ?",

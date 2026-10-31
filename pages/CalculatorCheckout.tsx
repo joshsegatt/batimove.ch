@@ -142,7 +142,7 @@ export default function CalculatorCheckout() {
                         Devis envoyé avec succès
                     </h1>
                     <p className="text-sm text-slate-300 leading-relaxed">
-                        Votre estimation de <strong className="text-white tabular-nums">CHF {calculatorData.estimatedPrice.toLocaleString('fr-CH')}</strong> pour <strong className="text-white tabular-nums">{calculatorData.totalVolume} m³</strong> a été transmise à notre équipe. Nous revenons vers vous sous 2 heures ouvrées.
+                        Votre estimation de <strong className="text-white tabular-nums">CHF {calculatorData.estimatedPrice.toLocaleString('fr-CH')}</strong> pour <strong className="text-white tabular-nums">{calculatorData.totalVolume} m³</strong> a été transmise à notre équipe. Nous revenons vers vous sous 30 min (8h-19h).
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 pt-2">
                         <button
@@ -171,7 +171,7 @@ export default function CalculatorCheckout() {
         <div className="min-h-screen bg-slate-950">
             <SEO
                 title="Finaliser Votre Devis | Batimove Sàrl"
-                description="Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 2h."
+                description="Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 30 min."
                 canonical="https://www.batimove.ch/calculator/checkout"
                 robots="noindex, nofollow"
             />

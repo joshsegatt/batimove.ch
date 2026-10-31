@@ -7,19 +7,19 @@
   "routes": {
     "/": {
       "title": "Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud",
-      "description": "Entreprise suisse de déménagement et transport pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 24h et garantie 5M CHF."
+      "description": "Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF."
     },
     "/demenagement-geneve": {
-      "title": "Déménagement Genève | Devis Gratuit 24h & Service Pro - Batimove",
+      "title": "Déménagement Genève | Devis Gratuit en 30 min - Batimove",
       "description": "Entreprise de déménagement à Genève pour particuliers et entreprises. Réservation de stationnement, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF."
     },
     "/demenagement-lausanne": {
       "title": "Déménagement Lausanne | Prix Fixe & Garantie Régies - Batimove",
-      "description": "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement Vaud. Devis gratuit sous 2h dès CHF 550."
+      "description": "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement. Devis gratuit sous 30 min dès CHF 550."
     },
     "/demenagement-vaud": {
       "title": "Entreprise de Déménagement Vaud | La Côte & Riviera - Batimove",
-      "description": "Déménagement dans tout le canton de Vaud : Nyon, Morges, Vevey, Montreux, Yverdon. Déménageurs qualifiés, garde-meubles et devis gratuit 24h dès CHF 550."
+      "description": "Déménagement dans le canton de Vaud : Nyon, Morges, Vevey, Montreux, Yverdon. Déménageurs qualifiés, garde-meubles et devis gratuit sous 30 min dès CHF 550."
     },
     "/services": {
       "title": "Services de Déménagement, Débarras & Nettoyage | Batimove Suisse",
@@ -35,11 +35,11 @@
     },
     "/contact": {
       "title": "Contactez Batimove Sàrl | Déménageur à Genève & Vaud - 0800 825 925",
-      "description": "Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 2h."
+      "description": "Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 30 min."
     },
     "/quote": {
       "title": "Devis Déménagement Gratuit & Sans Engagement | Batimove Suisse",
-      "description": "Demandez votre devis de déménagement en ligne gratuit sous 24h. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
+      "description": "Demandez votre devis de déménagement en ligne gratuit sous 30 min. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
     },
     "/privacy": {
       "title": "Protection des Données (nLPD) | Batimove Sàrl",
@@ -55,7 +55,7 @@
     },
     "/calculator/checkout": {
       "title": "Finaliser Votre Devis | Batimove Sàrl",
-      "description": "Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 2h.",
+      "description": "Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 30 min.",
       "robots": "noindex, nofollow"
     }
   }
