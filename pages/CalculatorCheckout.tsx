@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Send, Package2, MapPin, Coins, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { sendQuoteEmail } from '../services/api';
@@ -441,6 +441,13 @@ export default function CalculatorCheckout() {
                                             {isSubmitting ? 'Envoi...' : 'Envoyer le Devis'}
                                         </Button>
                                     </div>
+
+                                    <p className="text-xs text-slate-400 text-center">
+                                        Devis gratuit et sans engagement • Données traitées selon notre{' '}
+                                        <Link to="/privacy" className="underline underline-offset-2 hover:text-slate-200">
+                                            politique de confidentialité
+                                        </Link>
+                                    </p>
                                 </form>
                             </div>
                         </motion.div>

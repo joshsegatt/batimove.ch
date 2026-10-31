@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { CUSTOMER_REVIEWS } from '../data/reviews';
 import { 
   ArrowRight, 
   Check, 
@@ -281,36 +282,7 @@ export const Home: React.FC = () => {
   // Testimonial Carousel Active State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  const testimonials = [
-    {
-      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles. La communication a également été irréprochable tout au long du transfert.",
-      name: "Andressa Segat",
-      role: "Déménagement International",
-      location: "Londres vers Suisse",
-      avatar: "/reviews/andressa.png"
-    },
-    {
-      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
-      name: "Julien B.",
-      role: "Partenaire Certifié MOVU",
-      location: "Lausanne & Canton de Vaud",
-      avatar: "/reviews/julien.png"
-    },
-    {
-      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
-      name: "Wagner Custódio",
-      role: "Déménagement Résidentiel Clés en Main",
-      location: "Genève",
-      avatar: "/reviews/wagner.png"
-    },
-    {
-      quote: "Une entreprise sérieuse avec d'excellents professionnels ! Félicitations pour le travail accompli ! Je recommande vivement !",
-      name: "Pedro Silva",
-      role: "Transport & Déménagement Privé",
-      location: "Genève & Environs",
-      avatar: "/reviews/pedro.png"
-    }
-  ];
+  const testimonials = CUSTOMER_REVIEWS;
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">

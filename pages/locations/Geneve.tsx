@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
+import { getReviews } from '../../data/reviews';
 
 const genevaConfig: LocationConfig = {
   cityName: 'Genève',
@@ -63,32 +64,8 @@ const genevaConfig: LocationConfig = {
       answer: "Tous nos transports et manipulations sont couverts par notre assurance Responsabilité Civile professionnelle (RC) conclue auprès d'une compagnie suisse de premier ordre, avec une couverture intégrale jusqu'à CHF 5'000'000."
     }
   ],
-  testimonials: [
-    {
-      name: "Wagner Custódio",
-      role: "Déménagement Clés en Main • Avis Google",
-      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
-      rating: 5,
-      location: "Genève",
-      avatar: "/reviews/wagner.png"
-    },
-    {
-      name: "Pedro Silva",
-      role: "Transport & Déménagement • Avis Google",
-      quote: "Une entreprise sérieuse avec d'excellents professionnels ! Félicitations pour le travail remarquable ! Je recommande vivement !",
-      rating: 5,
-      location: "Genève & Environs",
-      avatar: "/reviews/pedro.png"
-    },
-    {
-      name: "Andressa Segat",
-      role: "Déménagement International • Avis Google",
-      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
-      rating: 5,
-      location: "Genève & Suisse",
-      avatar: "/reviews/andressa.png"
-    }
-  ]
+  // Avis réels, texte et localisation depuis data/reviews.ts (source unique)
+  testimonials: getReviews(['wagner', 'pedro', 'andressa'])
 };
 
 export const Geneve: React.FC = () => {

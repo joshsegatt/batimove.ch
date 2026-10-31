@@ -540,8 +540,13 @@ export const Quote: React.FC = () => {
                         )}
                       </button>
                       <div className="text-center text-xs text-slate-400 mt-2.5 flex items-center justify-center gap-1.5">
-                        <Lock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>Données confidentielles • Devis 100% gratuit et sans engagement</span>
+                        <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span>
+                          Devis gratuit et sans engagement • Données traitées selon notre{' '}
+                          <Link to="/privacy" className="underline underline-offset-2 hover:text-slate-600">
+                            politique de confidentialité
+                          </Link>
+                        </span>
                       </div>
                     </div>
                   </motion.form>

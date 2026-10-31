@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
+import { getReviews } from '../../data/reviews';
 
 const vaudConfig: LocationConfig = {
   cityName: 'Canton de Vaud',
@@ -63,32 +64,8 @@ const vaudConfig: LocationConfig = {
       answer: "Nous recommandons de réserver 2 à 4 semaines à l'avance, particulièrement pour les fins de mois officielles vaudoises (trimestres de baux fin mars, fin juin, fin septembre, fin décembre). Des créneaux urgents restent néanmoins disponibles sous 48h."
     }
   ],
-  testimonials: [
-    {
-      name: "Julien B.",
-      role: "Partenaire Certifié MOVU • Avis Google",
-      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
-      rating: 5,
-      location: "Canton de Vaud",
-      avatar: "/reviews/julien.png"
-    },
-    {
-      name: "Wagner Custódio",
-      role: "Déménagement Résidentiel • Avis Google",
-      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
-      rating: 5,
-      location: "Suisse Romande",
-      avatar: "/reviews/wagner.png"
-    },
-    {
-      name: "Andressa Segat",
-      role: "Déménagement International • Avis Google",
-      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
-      rating: 5,
-      location: "Arc Lémanique & Vaud",
-      avatar: "/reviews/andressa.png"
-    }
-  ]
+  // Avis réels, texte et localisation depuis data/reviews.ts (source unique)
+  testimonials: getReviews(['julien', 'wagner', 'andressa'])
 };
 
 export const Vaud: React.FC = () => {

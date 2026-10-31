@@ -8,9 +8,17 @@ export const WhatsappIcon = ({ className = "w-5 h-5" }: { className?: string }) 
     </svg>
 );
 
+/** Horaires d'ouverture annoncés sur le site : lundi à samedi, 08h00–19h00. */
+const isWithinBusinessHours = (now: Date = new Date()): boolean => {
+    const day = now.getDay(); // 0 = dimanche
+    const hour = now.getHours();
+    return day >= 1 && day <= 6 && hour >= 8 && hour < 19;
+};
+
 export const WhatsAppButton: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const isOnline = isWithinBusinessHours();
 
     const whatsappUrl = "https://wa.me/41798896406?text=" + encodeURIComponent("Bonjour Batimove, je souhaite obtenir un devis rapide pour mon déménagement.");
 
@@ -35,15 +43,19 @@ export const WhatsAppButton: React.FC = () => {
                                         alt="WhatsApp 3D" 
                                         className="w-full h-full object-contain filter drop-shadow-xs"
                                     />
-                                    <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white" />
+                                    <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full ring-2 ring-white ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                                 </div>
                                 <div>
                                     <h4 className="text-xs sm:text-sm font-bold text-[#0B1E33] leading-tight">
                                         Conseiller Batimove Sàrl
                                     </h4>
                                     <p className="text-[10px] text-slate-500 flex items-center gap-1.5 mt-0.5">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                                        <span>En ligne • Réponse &lt; 5 min</span>
+                                        <span className={`w-1.5 h-1.5 rounded-full inline-block ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
+                                        <span>
+                                            {isOnline
+                                                ? 'En ligne • Réponse < 5 min'
+                                                : 'Hors horaires • Réponse dès 08h00'}
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -108,8 +120,8 @@ export const WhatsAppButton: React.FC = () => {
                             transition={{ duration: 0.18 }}
                             className="hidden sm:flex items-center gap-1.5 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3 py-1.5 rounded-full shadow-[0_4px_16px_rgba(11,30,51,0.08)] text-xs font-semibold text-slate-800"
                         >
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                            <span>WhatsApp disponible</span>
+                            <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
+                            <span>{isOnline ? 'WhatsApp disponible' : 'Écrivez-nous sur WhatsApp'}</span>
                         </motion.div>
                     )}
                 </AnimatePresence>

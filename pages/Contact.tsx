@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   MapPin, 
   Phone, 
@@ -122,7 +123,7 @@ export const Contact: React.FC = () => {
                     </div>
                     <div>
                       <div className="font-bold text-white text-xs">Adresse du Siège</div>
-                      <div className="text-slate-300 text-[11px]">Rue de Monthoux 64, 1201 Genève</div>
+                      <div className="text-slate-300 text-xs">Rue de Monthoux 64, 1201 Genève</div>
                     </div>
                   </div>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
@@ -140,9 +141,9 @@ export const Contact: React.FC = () => {
                     <div>
                       <div className="font-bold text-white text-xs flex items-center gap-2">
                         <span>0800 825 925</span>
-                        <span className="text-emerald-400 font-semibold text-[11px]">(Gratuit en Suisse)</span>
+                        <span className="text-emerald-400 font-semibold text-xs">(Gratuit en Suisse)</span>
                       </div>
-                      <div className="text-slate-300 text-[11px]">+41 22 800 82 92 (International)</div>
+                      <div className="text-slate-300 text-xs">+41 22 800 82 92 (International)</div>
                     </div>
                   </div>
                   <span className="text-emerald-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">Appeler →</span>
@@ -159,7 +160,7 @@ export const Contact: React.FC = () => {
                     </div>
                     <div>
                       <div className="font-bold text-white text-xs">Email Officiel</div>
-                      <div className="text-slate-300 text-[11px]">info@batimove.ch</div>
+                      <div className="text-slate-300 text-xs">info@batimove.ch</div>
                     </div>
                   </div>
                   <span className="text-sky-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">Écrire →</span>
@@ -173,7 +174,7 @@ export const Contact: React.FC = () => {
                     </div>
                     <div>
                       <div className="font-bold text-white text-xs">Horaires d'Ouverture</div>
-                      <div className="text-slate-300 text-[11px]">Lun. - Sam. : 08h00 - 19h00</div>
+                      <div className="text-slate-300 text-xs">Lun. - Sam. : 08h00 - 19h00</div>
                     </div>
                   </div>
                   <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
@@ -188,7 +189,7 @@ export const Contact: React.FC = () => {
             {/* Swiss Guarantee Footer inside left card */}
             <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2.5 bg-white/[0.02] p-2.5 rounded-xl">
               <span className="text-lg">🇨🇭</span>
-              <p className="text-[11px] text-slate-300 leading-tight">
+              <p className="text-xs text-slate-300 leading-tight">
                 <span className="font-bold text-white">Batimove Sàrl :</span> Entreprise enregistrée au RC de Genève. Assurance RC Pro 5M CHF.
               </p>
             </div>
@@ -352,9 +353,14 @@ export const Contact: React.FC = () => {
                       <Send className="w-3.5 h-3.5 text-white" />
                     </Button>
                     
-                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
-                      <Lock className="w-3.5 h-3.5 text-slate-400" />
-                      <span>Données protégées selon la nLPD suisse</span>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                      <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span>
+                        Vos données sont traitées selon notre{' '}
+                        <Link to="/privacy" className="underline underline-offset-2 hover:text-slate-800">
+                          politique de confidentialité
+                        </Link>
+                      </span>
                     </div>
                   </div>
                 </form>

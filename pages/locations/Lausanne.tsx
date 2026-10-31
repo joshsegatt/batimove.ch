@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
+import { getReviews } from '../../data/reviews';
 
 const lausanneConfig: LocationConfig = {
   cityName: 'Lausanne',
@@ -63,32 +64,8 @@ const lausanneConfig: LocationConfig = {
       answer: "Absolument. Nous effectuons des liaisons quotidiennes sur l'arc lémanique (Lausanne-Genève) ainsi que vers le Valais, Fribourg, Neuchâtel et toute la Suisse."
     }
   ],
-  testimonials: [
-    {
-      name: "Julien B.",
-      role: "Partenaire Certifié MOVU • Avis Google",
-      quote: "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
-      rating: 5,
-      location: "Lausanne & Vaud",
-      avatar: "/reviews/julien.png"
-    },
-    {
-      name: "Andressa Segat",
-      role: "Déménagement International • Avis Google",
-      quote: "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles.",
-      rating: 5,
-      location: "Lausanne & Suisse Romande",
-      avatar: "/reviews/andressa.png"
-    },
-    {
-      name: "Wagner Custódio",
-      role: "Déménagement Résidentiel • Avis Google",
-      quote: "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème.",
-      rating: 5,
-      location: "Arc Lémanique",
-      avatar: "/reviews/wagner.png"
-    }
-  ]
+  // Avis réels, texte et localisation depuis data/reviews.ts (source unique)
+  testimonials: getReviews(['julien', 'andressa', 'wagner'])
 };
 
 export const Lausanne: React.FC = () => {
