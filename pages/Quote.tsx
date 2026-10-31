@@ -518,7 +518,7 @@ export const Quote: React.FC = () => {
                           type="checkbox"
                           checked={sendWhatsAppCopy}
                           onChange={(e) => setSendWhatsAppCopy(e.target.checked)}
-                          className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                          className="w-4 h-4 accent-emerald-600 cursor-pointer"
                         />
                         <span className="flex items-center gap-1.5">
                           <WhatsappIcon className="w-3.5 h-3.5 text-emerald-600" />
