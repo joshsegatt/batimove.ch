@@ -64,8 +64,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Batimove OS" />
 
-  <!-- Preload LCP Hero Image -->
-  <link rel="preload" href="/hero-mover-tight.png" as="image" fetchpriority="high" />
+  <!-- Aucun preload pour l'image LCP : le service worker intercepte la requête
+       de l'image et Chrome ne peut pas rattacher le preload
+       ("cross-world service worker resource mismatch"), ce qui provoquait un
+       double téléchargement. La priorité est donnée via fetchPriority="high"
+       sur l'image du héros (pages/Home.tsx). -->
 
   <!-- SEO Meta Tags -->
   <title>Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud</title>
