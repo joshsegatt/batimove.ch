@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { GOOGLE_RATING } from '../data/reviews';
 import { 
   Check, 
   ArrowRight, 
@@ -238,6 +239,9 @@ export const Quote: React.FC = () => {
                   <button
                     key={service.id}
                     type="button"
+                    // Sans cela, un lecteur d'écran annonce quatre boutons
+                    // identiques sans dire lequel est sélectionné.
+                    aria-pressed={isSelected}
                     onClick={() => {
                       setSelectedServiceId(service.id);
                       setIsSuccess(false);
@@ -258,14 +262,11 @@ export const Quote: React.FC = () => {
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
+                          {/* Pas de badge « Actif » : la bordure bleue, l'anneau et
+                              le bouton radio rempli disent déjà qu'elle est choisie. */}
                           <h3 className="text-sm sm:text-[15px] font-bold text-[#0B1E33] truncate">
                             {service.name}
                           </h3>
-                          {isSelected && (
-                            <span className="text-[10px] font-semibold bg-sky-50 text-[#0284c7] border border-sky-200/60 px-2 py-0.5 rounded-md">
-                              Actif
-                            </span>
-                          )}
                         </div>
                         <p className="text-xs text-slate-500 truncate mt-0.5 font-normal">
                           {service.subtitle}
@@ -287,18 +288,24 @@ export const Quote: React.FC = () => {
             </div>
 
             {/* Swiss Trust Pillars */}
-            <div className="mt-5 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600">
+            {/* En dessous de sm, ces trois repères se chevauchaient : le
+                justify-between sur une seule ligne ne laissait pas la place aux
+                libellés, qui passaient à la ligne les uns par-dessus les autres.
+                Ils s'empilent maintenant proprement sur mobile. */}
+            <div className="mt-5 pt-4 border-t border-slate-200/80 flex flex-col gap-2.5 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
               <span className="flex items-center gap-1.5 font-medium">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Assurance RC Pro 5M CHF</span>
               </span>
               <span className="flex items-center gap-1.5 font-medium">
-                <Clock className="w-4 h-4 text-[#0284c7]" />
+                <Clock className="w-4 h-4 text-[#0284c7] shrink-0" />
                 <span>Devis fixe sans frais cachés</span>
               </span>
-              <span className="hidden sm:flex items-center gap-1.5 font-medium">
-                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                <span>4.9 / 5 satisfaction clients</span>
+              <span className="flex items-center gap-1.5 font-medium">
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
+                <span className="tabular-nums">
+                  {GOOGLE_RATING.value} / 5 sur {GOOGLE_RATING.count} avis Google
+                </span>
               </span>
             </div>
           </div>
@@ -385,7 +392,7 @@ export const Quote: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
                         <label htmlFor="quote-name" className="text-xs font-semibold text-slate-700 block mb-1">
-                          Nom & Prénom <span className="text-red-500">*</span>
+                          Nom & Prénom <span className="text-[#E10600]" aria-hidden="true">*</span>
                         </label>
                         <input
                           id="quote-name"
@@ -396,13 +403,13 @@ export const Quote: React.FC = () => {
                           placeholder="Ex. Marc Dupont"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
                       <div>
                         <label htmlFor="quote-phone" className="text-xs font-semibold text-slate-700 block mb-1">
-                          Téléphone <span className="text-red-500">*</span>
+                          Téléphone <span className="text-[#E10600]" aria-hidden="true">*</span>
                         </label>
                         <input
                           id="quote-phone"
@@ -414,7 +421,7 @@ export const Quote: React.FC = () => {
                           placeholder="+41 79 123 45 67"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -434,7 +441,7 @@ export const Quote: React.FC = () => {
                           placeholder="votre@email.ch"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
@@ -449,7 +456,7 @@ export const Quote: React.FC = () => {
                           placeholder="Ex. 15 novembre"
                           value={formData.date}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -468,7 +475,7 @@ export const Quote: React.FC = () => {
                           placeholder="Ex. Genève"
                           value={formData.fromCity}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
@@ -483,7 +490,7 @@ export const Quote: React.FC = () => {
                           placeholder="Ex. Lausanne"
                           value={formData.toCity}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -500,7 +507,7 @@ export const Quote: React.FC = () => {
                         placeholder="Volume estimé, étages, ascenseur, objets fragiles..."
                         value={formData.details}
                         onChange={handleInputChange}
-                        className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                        className="h-11 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                       />
                     </div>
 

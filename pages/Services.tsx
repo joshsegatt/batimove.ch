@@ -346,7 +346,7 @@ export const Services: React.FC = () => {
                           placeholder="Ex. Marc Dupont"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
@@ -361,7 +361,7 @@ export const Services: React.FC = () => {
                           placeholder="+41 79 123 45 67"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -378,7 +378,7 @@ export const Services: React.FC = () => {
                           placeholder="votre@email.ch"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
@@ -392,7 +392,7 @@ export const Services: React.FC = () => {
                           placeholder="Ex. 15 novembre"
                           value={formData.date}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -409,7 +409,7 @@ export const Services: React.FC = () => {
                           placeholder="Ex. Genève"
                           value={formData.fromCity}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
 
@@ -423,7 +423,7 @@ export const Services: React.FC = () => {
                           placeholder="Ex. Lausanne"
                           value={formData.toCity}
                           onChange={handleInputChange}
-                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                          className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                         />
                       </div>
                     </div>
@@ -439,7 +439,7 @@ export const Services: React.FC = () => {
                         placeholder="Vos besoins spécifiques, objets sensibles, étages, parking..."
                         value={formData.details}
                         onChange={handleInputChange}
-                        className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-3 focus:ring-[#0284c7]/10 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
+                        className="h-10 w-full bg-slate-50/70 hover:bg-white focus:bg-white border border-slate-200 focus:border-[#0284c7] focus:ring-4 focus:ring-[#0284c7]/20 rounded-lg px-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-150"
                       />
                     </div>
 

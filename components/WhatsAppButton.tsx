@@ -42,7 +42,7 @@ export const WhatsAppButton: React.FC = () => {
                                     <img 
                                         src="/whatsapp-3d-luxury-168.png" 
                                         alt="WhatsApp 3D" 
-                                        className="w-full h-full object-contain filter drop-shadow-xs"
+                                        className="w-full h-full object-contain filter drop-shadow-sm"
                                     />
                                     <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full ring-2 ring-white ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                                 </div>
@@ -70,7 +70,7 @@ export const WhatsAppButton: React.FC = () => {
                         </div>
 
                         {/* Conversational Bubble */}
-                        <div className="bg-[#F8FAFC] border border-slate-200/70 p-3 rounded-xl rounded-tl-xs mb-4 text-xs text-slate-700 leading-relaxed shadow-2xs">
+                        <div className="bg-[#F8FAFC] border border-slate-200/70 p-3 rounded-xl rounded-tl-xs mb-4 text-xs text-slate-700 leading-relaxed shadow-sm">
                             <p>
                                 Bonjour ! Une question sur votre déménagement ou besoin d'un devis immédiat à Genève et Suisse Romande ?
                             </p>
@@ -136,7 +136,7 @@ export const WhatsAppButton: React.FC = () => {
                     {/* Discrete Online Indicator Badge */}
                     {!isOpen && (
                         <span className="absolute top-0 right-0 z-20 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white shadow-xs" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white shadow-sm" />
                         </span>
                     )}
 

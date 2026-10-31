@@ -318,7 +318,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {config.districts.map((district, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-sky-300 transition-all">
+              <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-sky-300 transition-all">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
                     <MapPin className="w-5 h-5 text-sky-600" />
@@ -355,7 +355,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Service 1 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-xs hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
               <div>
                 <ParachuteCargoIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
@@ -372,7 +372,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </div>
 
             {/* Service 2 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-xs hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
               <div>
                 <ScooterDeliveryIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
@@ -389,7 +389,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </div>
 
             {/* Service 3 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-xs hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
               <div>
                 <WarehouseShelfIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
@@ -406,7 +406,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </div>
 
             {/* Service 4 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-xs hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
               <div>
                 <LocationParcelIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
