@@ -5,6 +5,54 @@
     "installCommand": "npm install",
     "rewrites": [
         {
+            "source": "/demenagement-geneve",
+            "destination": "/demenagement-geneve/index.html"
+        },
+        {
+            "source": "/demenagement-lausanne",
+            "destination": "/demenagement-lausanne/index.html"
+        },
+        {
+            "source": "/demenagement-vaud",
+            "destination": "/demenagement-vaud/index.html"
+        },
+        {
+            "source": "/services",
+            "destination": "/services/index.html"
+        },
+        {
+            "source": "/pricing",
+            "destination": "/pricing/index.html"
+        },
+        {
+            "source": "/calculator",
+            "destination": "/calculator/index.html"
+        },
+        {
+            "source": "/contact",
+            "destination": "/contact/index.html"
+        },
+        {
+            "source": "/quote",
+            "destination": "/quote/index.html"
+        },
+        {
+            "source": "/privacy",
+            "destination": "/privacy/index.html"
+        },
+        {
+            "source": "/terms",
+            "destination": "/terms/index.html"
+        },
+        {
+            "source": "/legal",
+            "destination": "/legal/index.html"
+        },
+        {
+            "source": "/calculator/checkout",
+            "destination": "/calculator/checkout/index.html"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

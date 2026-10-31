@@ -1,0 +1,62 @@
+{
+  "_comment": "Source unique des métadonnées SEO par route. Lue à la fois par le composant SEO (au runtime) et par scripts/prerender.mjs (au build), pour que le HTML servi et le DOM rendu ne puissent plus diverger. Toute nouvelle route publique doit être ajoutée ici ET dans public/sitemap.xml.",
+  "_defaults": {
+    "ogImage": "https://www.batimove.ch/batimove-logo.png",
+    "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  },
+  "routes": {
+    "/": {
+      "title": "Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud",
+      "description": "Entreprise suisse de déménagement et transport pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 24h et garantie 5M CHF."
+    },
+    "/demenagement-geneve": {
+      "title": "Déménagement Genève | Devis Gratuit 24h & Service Pro - Batimove",
+      "description": "Entreprise de déménagement à Genève pour particuliers et entreprises. Réservation de stationnement, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF."
+    },
+    "/demenagement-lausanne": {
+      "title": "Déménagement Lausanne | Prix Fixe & Garantie Régies - Batimove",
+      "description": "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement Vaud. Devis gratuit sous 2h dès CHF 550."
+    },
+    "/demenagement-vaud": {
+      "title": "Entreprise de Déménagement Vaud | La Côte & Riviera - Batimove",
+      "description": "Déménagement dans tout le canton de Vaud : Nyon, Morges, Vevey, Montreux, Yverdon. Déménageurs qualifiés, garde-meubles et devis gratuit 24h dès CHF 550."
+    },
+    "/services": {
+      "title": "Services de Déménagement, Débarras & Nettoyage | Batimove Suisse",
+      "description": "Services de déménagement complets en Suisse Romande : résidentiel, transfert d'entreprise, débarras certifié et nettoyage état des lieux avec garantie régies."
+    },
+    "/pricing": {
+      "title": "Tarifs Déménagement Suisse | Prix Fixes Dès 550 CHF - Batimove",
+      "description": "Découvrez nos formules de déménagement en Suisse dès 550 CHF : Basic, Standard, Premium et Luxe. Devis ferme sans surprise, assurance RC incluse."
+    },
+    "/calculator": {
+      "title": "Calculateur de Volume Déménagement Gratuit en Ligne | Batimove",
+      "description": "Calculez précisément le volume en m³ de vos meubles et obtenez un devis immédiat pour votre déménagement à Genève, Lausanne et en Suisse Romande."
+    },
+    "/contact": {
+      "title": "Contactez Batimove Sàrl | Déménageur à Genève & Vaud - 0800 825 925",
+      "description": "Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 2h."
+    },
+    "/quote": {
+      "title": "Devis Déménagement Gratuit & Sans Engagement | Batimove Suisse",
+      "description": "Demandez votre devis de déménagement en ligne gratuit sous 24h. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
+    },
+    "/privacy": {
+      "title": "Protection des Données (nLPD) | Batimove Sàrl",
+      "description": "Quelles données Batimove Sàrl traite, avec quels prestataires, combien de temps et comment exercer vos droits selon la nLPD."
+    },
+    "/terms": {
+      "title": "Conditions Générales de Vente (CGV) | Batimove Sàrl",
+      "description": "Conditions générales de Batimove Sàrl : devis, prix, obligations, assurance RC 5M CHF, annulation et for juridique."
+    },
+    "/legal": {
+      "title": "Mentions Légales & Impressum | Batimove Sàrl",
+      "description": "Mentions légales de Batimove Sàrl : éditeur, siège à Genève, IDE CHE-492.836.215 et hébergement du site."
+    },
+    "/calculator/checkout": {
+      "title": "Finaliser Votre Devis | Batimove Sàrl",
+      "description": "Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 2h.",
+      "robots": "noindex, nofollow"
+    }
+  }
+}
