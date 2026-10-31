@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send, Package2, MapPin, Coins } from 'lucide-react';
+import { ArrowLeft, Send, Package2, MapPin, Coins, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { sendQuoteEmail } from '../services/api';
 import { trackGoogleAdsLeadConversion } from '../utils/analytics';
@@ -26,6 +26,8 @@ export default function CalculatorCheckout() {
     const navigate = useNavigate();
     const [calculatorData, setCalculatorData] = useState<CalculatorData | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
     const [formData, setFormData] = useState({
         name: '',
@@ -53,18 +55,30 @@ export default function CalculatorCheckout() {
         }
     }, [navigate]);
 
+    // Le formulaire est long : sans cela, la confirmation ou l'erreur s'affiche
+    // hors de l'écran et le client ne la voit pas.
+    useEffect(() => {
+        if (isSuccess) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (submitError) {
+            document.querySelector('[role="alert"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [submitError]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (isSubmitting) return;
 
         if (!calculatorData) {
-            alert('Données de calculateur manquantes');
             navigate('/calculator');
             return;
         }
 
         setIsSubmitting(true);
+        setSubmitError('');
 
         try {
             // Prepare email data with ALL required fields
@@ -92,11 +106,10 @@ export default function CalculatorCheckout() {
             // Clear localStorage after successful submission
             localStorage.removeItem('calculatorData');
 
-            alert('Devis envoyé avec succès! Nous vous contacterons sous peu.');
-            navigate('/calculator');
+            setIsSuccess(true);
         } catch (error) {
             console.error('Error sending quote:', error);
-            alert('Erreur lors de l\'envoi du devis. Veuillez réessayer.');
+            setSubmitError("Votre devis n'a pas pu être envoyé. Merci de réessayer ou de nous appeler au 0800 825 925.");
         } finally {
             setIsSubmitting(false);
         }
@@ -107,6 +120,46 @@ export default function CalculatorCheckout() {
         return (
             <div className="min-h-screen bg-slate-950 flex items-center justify-center">
                 <div className="text-white text-xl">Chargement...</div>
+            </div>
+        );
+    }
+
+    // Confirmation après envoi réussi
+    if (isSuccess) {
+        return (
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+                <SEO
+                    title="Devis envoyé | Batimove Sàrl"
+                    description="Votre demande de devis a bien été transmise à Batimove Sàrl."
+                    canonical="https://www.batimove.ch/calculator/checkout"
+                    robots="noindex, nofollow"
+                />
+                <div className="max-w-md w-full bg-slate-900/70 border border-slate-700/60 rounded-2xl p-8 text-center space-y-4">
+                    <div className="w-14 h-14 mx-auto rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                        <CheckCircle2 className="w-7 h-7" />
+                    </div>
+                    <h1 className="font-display text-xl font-bold text-white">
+                        Devis envoyé avec succès
+                    </h1>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                        Votre estimation de <strong className="text-white tabular-nums">CHF {calculatorData.estimatedPrice.toLocaleString('fr-CH')}</strong> pour <strong className="text-white tabular-nums">{calculatorData.totalVolume} m³</strong> a été transmise à notre équipe. Nous revenons vers vous sous 2 heures ouvrées.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                        <button
+                            type="button"
+                            onClick={() => navigate('/')}
+                            className="flex-1 px-6 py-3 rounded-lg bg-batimove-blue hover:bg-sky-600 text-white font-semibold transition-colors cursor-pointer"
+                        >
+                            Retour à l'accueil
+                        </button>
+                        <a
+                            href="tel:0800825925"
+                            className="flex-1 px-6 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white hover:bg-slate-700 font-semibold transition-colors flex items-center justify-center"
+                        >
+                            0800 825 925
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -246,14 +299,32 @@ export default function CalculatorCheckout() {
                                 </h2>
 
                                 <form onSubmit={handleSubmit} className="space-y-5">
+                                    {submitError && (
+                                        <div
+                                            role="alert"
+                                            className="flex items-start gap-2.5 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-200"
+                                        >
+                                            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                                            <p className="text-sm leading-relaxed">
+                                                {submitError}{' '}
+                                                <a href="tel:0800825925" className="font-bold underline underline-offset-2">
+                                                    Appeler maintenant
+                                                </a>
+                                            </p>
+                                        </div>
+                                    )}
+
                                     {/* Name */}
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                                        <label htmlFor="checkout-name" className="block text-sm font-medium text-slate-300 mb-2">
                                             Nom complet *
                                         </label>
                                         <input
+                                            id="checkout-name"
+                                            name="name"
                                             type="text"
                                             required
+                                            autoComplete="name"
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-batimove-blue"
@@ -263,12 +334,16 @@ export default function CalculatorCheckout() {
 
                                     {/* Email */}
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                                        <label htmlFor="checkout-email" className="block text-sm font-medium text-slate-300 mb-2">
                                             Email *
                                         </label>
                                         <input
+                                            id="checkout-email"
+                                            name="email"
                                             type="email"
                                             required
+                                            autoComplete="email"
+                                            inputMode="email"
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                             className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-batimove-blue"
@@ -278,12 +353,16 @@ export default function CalculatorCheckout() {
 
                                     {/* Phone */}
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                                        <label htmlFor="checkout-phone" className="block text-sm font-medium text-slate-300 mb-2">
                                             Téléphone *
                                         </label>
                                         <input
+                                            id="checkout-phone"
+                                            name="phone"
                                             type="tel"
                                             required
+                                            autoComplete="tel"
+                                            inputMode="tel"
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                             className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-batimove-blue"
@@ -294,12 +373,15 @@ export default function CalculatorCheckout() {
                                     {/* NPA Grid */}
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                                            <label htmlFor="checkout-from-zip" className="block text-sm font-medium text-slate-300 mb-2">
                                                 NPA Départ *
                                             </label>
                                             <input
+                                                id="checkout-from-zip"
+                                                name="fromZip"
                                                 type="text"
                                                 required
+                                                inputMode="numeric"
                                                 value={formData.fromZip}
                                                 onChange={(e) => setFormData({ ...formData, fromZip: e.target.value })}
                                                 className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-batimove-blue"
@@ -307,12 +389,15 @@ export default function CalculatorCheckout() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                                            <label htmlFor="checkout-to-zip" className="block text-sm font-medium text-slate-300 mb-2">
                                                 NPA Arrivée *
                                             </label>
                                             <input
+                                                id="checkout-to-zip"
+                                                name="toZip"
                                                 type="text"
                                                 required
+                                                inputMode="numeric"
                                                 value={formData.toZip}
                                                 onChange={(e) => setFormData({ ...formData, toZip: e.target.value })}
                                                 className="w-full bg-slate-800/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-batimove-blue"
@@ -323,10 +408,12 @@ export default function CalculatorCheckout() {
 
                                     {/* Message */}
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-300 mb-2">
+                                        <label htmlFor="checkout-message" className="block text-sm font-medium text-slate-300 mb-2">
                                             Message (optionnel)
                                         </label>
                                         <textarea
+                                            id="checkout-message"
+                                            name="message"
                                             rows={4}
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}

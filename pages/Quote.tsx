@@ -173,10 +173,9 @@ export const Quote: React.FC = () => {
       // Track conversion
       trackGoogleAdsLeadConversion();
 
-      // 2. If WhatsApp copy requested, open in new tab
-      if (sendWhatsAppCopy) {
-        window.open(waUrl, '_blank');
-      }
+      // 2. La copie WhatsApp est proposée en un clic sur l'écran de confirmation.
+      //    Un window.open() après un await est bloqué par le navigateur (hors du
+      //    geste utilisateur), donc le lien doit rester à la main du client.
 
       setIsSuccess(true);
       setFormData({
@@ -347,16 +346,18 @@ export const Quote: React.FC = () => {
 
                     {/* Dual Action on Success: Direct WhatsApp Button */}
                     <div className="pt-2 space-y-2 max-w-xs mx-auto">
-                      <a
-                        href={lastSubmittedWhatsAppUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full bg-[#128C7E] hover:bg-[#0e7467] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-[0_4px_14px_rgba(18,140,126,0.25)] flex items-center justify-center gap-2"
-                      >
-                        <img src="/whatsapp-3d-luxury.png" alt="" className="w-4 h-4 object-contain" />
-                        <span>Ouvrir sur WhatsApp (Réponse &lt; 5 min)</span>
-                      </a>
-                      
+                      {sendWhatsAppCopy && lastSubmittedWhatsAppUrl && (
+                        <a
+                          href={lastSubmittedWhatsAppUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-[#128C7E] hover:bg-[#0e7467] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-[0_4px_14px_rgba(18,140,126,0.25)] flex items-center justify-center gap-2"
+                        >
+                          <img src="/whatsapp-3d-luxury.png" alt="" className="w-4 h-4 object-contain" />
+                          <span>Ouvrir sur WhatsApp (Réponse &lt; 5 min)</span>
+                        </a>
+                      )}
+
                       <Button
                         onClick={() => setIsSuccess(false)}
                         className="w-full bg-slate-100 hover:bg-slate-200 text-[#0B1E33] text-xs py-2.5 rounded-xl border border-slate-300 cursor-pointer font-semibold transition-all"
@@ -383,13 +384,15 @@ export const Quote: React.FC = () => {
                     {/* Row 1: Nom & Téléphone */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-name" className="text-xs font-semibold text-slate-700 block mb-1">
                           Nom & Prénom <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="quote-name"
                           type="text"
                           name="name"
                           required
+                          autoComplete="name"
                           placeholder="Ex. Marc Dupont"
                           value={formData.name}
                           onChange={handleInputChange}
@@ -398,13 +401,16 @@ export const Quote: React.FC = () => {
                       </div>
 
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-phone" className="text-xs font-semibold text-slate-700 block mb-1">
                           Téléphone <span className="text-red-500">*</span>
                         </label>
                         <input
+                          id="quote-phone"
                           type="tel"
                           name="phone"
                           required
+                          autoComplete="tel"
+                          inputMode="tel"
                           placeholder="+41 79 123 45 67"
                           value={formData.phone}
                           onChange={handleInputChange}
@@ -416,12 +422,15 @@ export const Quote: React.FC = () => {
                     {/* Row 2: Email & Date souhaitée */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-email" className="text-xs font-semibold text-slate-700 block mb-1">
                           Email
                         </label>
                         <input
+                          id="quote-email"
                           type="email"
                           name="email"
+                          autoComplete="email"
+                          inputMode="email"
                           placeholder="votre@email.ch"
                           value={formData.email}
                           onChange={handleInputChange}
@@ -430,10 +439,11 @@ export const Quote: React.FC = () => {
                       </div>
 
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-date" className="text-xs font-semibold text-slate-700 block mb-1">
                           Date souhaitée
                         </label>
                         <input
+                          id="quote-date"
                           type="text"
                           name="date"
                           placeholder="Ex. 15 novembre"
@@ -447,12 +457,14 @@ export const Quote: React.FC = () => {
                     {/* Row 3: Ville départ & Ville arrivée */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-from-city" className="text-xs font-semibold text-slate-700 block mb-1">
                           Ville de départ
                         </label>
                         <input
+                          id="quote-from-city"
                           type="text"
                           name="fromCity"
+                          autoComplete="address-level2"
                           placeholder="Ex. Genève"
                           value={formData.fromCity}
                           onChange={handleInputChange}
@@ -461,10 +473,11 @@ export const Quote: React.FC = () => {
                       </div>
 
                       <div>
-                        <label className="text-xs font-semibold text-slate-700 block mb-1">
+                        <label htmlFor="quote-to-city" className="text-xs font-semibold text-slate-700 block mb-1">
                           Ville d'arrivée
                         </label>
                         <input
+                          id="quote-to-city"
                           type="text"
                           name="toCity"
                           placeholder="Ex. Lausanne"
@@ -477,10 +490,11 @@ export const Quote: React.FC = () => {
 
                     {/* Row 4: Précisions */}
                     <div>
-                      <label className="text-xs font-semibold text-slate-700 block mb-1">
+                      <label htmlFor="quote-details" className="text-xs font-semibold text-slate-700 block mb-1">
                         Précisions complémentaires <span className="text-slate-400 font-normal">(optionnel)</span>
                       </label>
                       <input
+                        id="quote-details"
                         type="text"
                         name="details"
                         placeholder="Volume estimé, étages, ascenseur, objets fragiles..."
@@ -501,7 +515,7 @@ export const Quote: React.FC = () => {
                         />
                         <span className="flex items-center gap-1.5">
                           <WhatsappIcon className="w-3.5 h-3.5 text-emerald-600" />
-                          <span>Recevoir également une copie sur WhatsApp (réponse &lt; 5 min)</span>
+                          <span>Préparer une copie WhatsApp (ouverture en un clic après l'envoi)</span>
                         </span>
                       </label>
                     </div>

@@ -40,16 +40,21 @@ export function useDashboardData() {
 
   useEffect(() => {
     loadData();
-    
+
+    // Debounce des rafraîchissements déclenchés par le realtime
+    let reloadTimer: ReturnType<typeof setTimeout> | undefined;
+
     // Subscribe to realtime updates for leads
     const leadsSubscription = supabase
       .channel('public:leads')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'leads' }, () => {
-        setTimeout(loadData, 1000);
+        if (reloadTimer) clearTimeout(reloadTimer);
+        reloadTimer = setTimeout(loadData, 1000);
       })
       .subscribe();
 
     return () => {
+      if (reloadTimer) clearTimeout(reloadTimer);
       supabase.removeChannel(leadsSubscription);
     };
   }, []);

@@ -6,10 +6,11 @@ import {
   Mail, 
   Clock, 
   Send, 
-  CheckCircle2, 
-  ShieldCheck, 
+  CheckCircle2,
+  ShieldCheck,
   ExternalLink,
-  Lock
+  Lock,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from '../components/UIComponents';
 import { trackPhoneConversionNumber } from '../utils/analytics';
@@ -18,6 +19,7 @@ import { SEO } from '../components/SEO';
 export const Contact: React.FC = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -33,6 +35,7 @@ export const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormLoading(true);
+    setFormError('');
     try {
       const { submitContact } = await import('../services/api');
       await submitContact({
@@ -44,7 +47,7 @@ export const Contact: React.FC = () => {
       setFormSubmitted(true);
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      setFormSubmitted(true);
+      setFormError("Votre message n'a pas pu être envoyé. Merci de réessayer ou de nous appeler au 0800 825 925.");
     } finally {
       setFormLoading(false);
     }
@@ -229,15 +232,33 @@ export const Contact: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
+                  {formError && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800"
+                    >
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <p className="text-xs leading-relaxed">
+                        {formError}{' '}
+                        <a href="tel:0800825925" className="font-bold underline underline-offset-2">
+                          Appeler maintenant
+                        </a>
+                      </p>
+                    </div>
+                  )}
+
                   {/* Row 1: Name & Phone */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                      <label htmlFor="contact-name" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                         Nom & Prénom *
                       </label>
                       <input
+                        id="contact-name"
+                        name="name"
                         type="text"
                         required
+                        autoComplete="name"
                         placeholder="Ex: Jean Dupont"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -245,12 +266,16 @@ export const Contact: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                      <label htmlFor="contact-phone" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                         Téléphone *
                       </label>
                       <input
+                        id="contact-phone"
+                        name="phone"
                         type="tel"
                         required
+                        autoComplete="tel"
+                        inputMode="tel"
                         placeholder="Ex: +41 79 123 45 67"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -262,12 +287,16 @@ export const Contact: React.FC = () => {
                   {/* Row 2: Email & Service */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                      <label htmlFor="contact-email" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                         Email *
                       </label>
                       <input
+                        id="contact-email"
+                        name="email"
                         type="email"
                         required
+                        autoComplete="email"
+                        inputMode="email"
                         placeholder="Ex: jean.dupont@bluewin.ch"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -275,10 +304,12 @@ export const Contact: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                      <label htmlFor="contact-service" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                         Prestation Souhaitée *
                       </label>
                       <select
+                        id="contact-service"
+                        name="service"
                         value={formData.service}
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                         className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all"
@@ -295,10 +326,12 @@ export const Contact: React.FC = () => {
 
                   {/* Row 3: Message */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                    <label htmlFor="contact-message" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                       Détails de Votre Projet
                     </label>
                     <textarea
+                      id="contact-message"
+                      name="message"
                       rows={2}
                       placeholder="Trajet (ex: Genève vers Lausanne), dates estimées, volume approximatif ou particularités..."
                       value={formData.message}
