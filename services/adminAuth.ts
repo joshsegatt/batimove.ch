@@ -239,7 +239,7 @@ export const verifyAdminPin = async (
     }
   } catch {}
 
-  return { valid: false, message: "Code PIN incorrect (Code officiel : 142210)." };
+  return { valid: false, message: "Code PIN incorrect." };
 };
 
 export const isAdminAuthenticated = (): boolean => {

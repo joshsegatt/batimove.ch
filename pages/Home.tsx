@@ -387,6 +387,10 @@ export const Home: React.FC = () => {
                 <img
                   src="/hero-mover-tight.png"
                   alt="Déménageur professionnel Batimove Sarl avec carton officiel"
+                  width={675}
+                  height={763}
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-auto h-[380px] sm:h-[450px] md:h-[500px] lg:h-[500px] xl:h-[640px] 2xl:h-[720px] max-w-full lg:max-w-none object-contain object-bottom block align-bottom -mb-[1px] select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)] lg:translate-x-10 xl:translate-x-12 2xl:translate-x-24 transition-transform duration-200"
                 />
               </div>
@@ -470,8 +474,11 @@ export const Home: React.FC = () => {
                   <img
                     src="/votre-partenaire-mover.jpg"
                     alt="Déménageur professionnel Batimove Sarl avec cartons officiels"
+                    width={871}
+                    height={1024}
                     className="w-full h-auto object-contain block select-none"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -726,8 +733,11 @@ export const Home: React.FC = () => {
                 <img
                   src="/toujours-prets-mover.png"
                   alt="Déménageur Batimove officiel avec cartons de déménagement"
+                  width={530}
+                  height={925}
                   className="w-full h-auto object-contain block select-none mx-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -931,8 +941,11 @@ export const Home: React.FC = () => {
                 <img
                   src="/emballage-mover.png"
                   alt="Déménageur Batimove avec liste d'inventaire et cartons de déménagement officiels"
+                  width={995}
+                  height={945}
                   className="w-full h-auto object-contain block select-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -1140,11 +1153,16 @@ export const Home: React.FC = () => {
               <button
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
-                className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                  activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                }`}
-                aria-label={`Slide ${i + 1}`}
-              />
+                className="p-2 -m-1 cursor-pointer"
+                aria-label={`Avis ${i + 1} sur ${testimonials.length}`}
+                aria-current={activeTestimonial === i}
+              >
+                <span
+                  className={`block h-2.5 rounded-full transition-[width,background-color] duration-200 ${
+                    activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
@@ -1184,6 +1202,10 @@ export const Home: React.FC = () => {
               <img
                 src="/plan-to-move-boxes-mover.png"
                 alt="Déménageur professionnel Batimove avec cartons et devis"
+                width={995}
+                height={945}
+                loading="lazy"
+                decoding="async"
                 className="h-[250px] sm:h-[280px] w-auto object-contain object-bottom select-none drop-shadow-xl"
               />
             </div>
@@ -1195,6 +1217,10 @@ export const Home: React.FC = () => {
             <img
               src="/plan-to-move-boxes-mover.png"
               alt="Déménageur professionnel Batimove avec cartons et devis"
+              width={995}
+              height={945}
+              loading="lazy"
+              decoding="async"
               className="h-[330px] md:h-[360px] lg:h-[400px] xl:h-[430px] w-auto object-contain object-bottom select-none drop-shadow-2xl"
             />
           </div>
@@ -1228,6 +1254,8 @@ export const Home: React.FC = () => {
                   <img
                     src="/article-checklist-demenagement.jpg"
                     alt="Checklist déménagement suisse - Équipe Batimove"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                   <span className="absolute top-4 left-4 bg-[#0B1E33]/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
@@ -1259,6 +1287,8 @@ export const Home: React.FC = () => {
                   <img
                     src="/article-etat-des-lieux.jpg"
                     alt="Transport et état des lieux régie suisse - Batimove"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                   <span className="absolute top-4 left-4 bg-[#0B1E33]/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
@@ -1290,6 +1320,8 @@ export const Home: React.FC = () => {
                   <img
                     src="/article-emballage-fragile.jpg"
                     alt="Emballage objets fragiles et mobilier avec adhésif - Batimove"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
                   <span className="absolute top-4 left-4 bg-[#0B1E33]/90 backdrop-blur-sm text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">

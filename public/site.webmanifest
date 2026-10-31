@@ -32,7 +32,7 @@
       "name": "Batimove OS (Portal)",
       "short_name": "Portal OS",
       "description": "Accès sécurisé Direction & Comptabilité",
-      "url": "/#/portal",
+      "url": "/portal",
       "icons": [
         {
           "src": "/favicon-192x192.png",
@@ -44,7 +44,7 @@
       "name": "Demander un Devis",
       "short_name": "Devis",
       "description": "Calculateur & Devis Gratuit",
-      "url": "/#/quote",
+      "url": "/quote",
       "icons": [
         {
           "src": "/favicon-192x192.png",
