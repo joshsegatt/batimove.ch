@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, Phone, ShieldCheck } from 'lucide-react';
 
 export const WhatsappIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
@@ -25,12 +25,13 @@ export const WhatsAppButton: React.FC = () => {
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
             {/* Popover Card - High-End Swiss Luxury White / Porcelain */}
-            <AnimatePresence>
-                {isOpen && (
+            {/* Sans AnimatePresence : avec exit, le nœud restait monté après la
+                fermeture — invisible (opacity: 0) mais toujours cliquable — et
+                bloquait la zone de 330px au-dessus du bouton WhatsApp. */}
+            {isOpen && (
                     <motion.div
                         initial={{ opacity: 0, y: 12, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 12, scale: 0.96 }}
                         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                         className="pointer-events-auto mb-3.5 w-[330px] bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-[0_20px_45px_-10px_rgba(11,30,51,0.18),0_2px_6px_rgba(0,0,0,0.04)] p-4 sm:p-5 text-slate-900 overflow-hidden font-sans"
                     >
@@ -105,26 +106,22 @@ export const WhatsAppButton: React.FC = () => {
                             <span>Service officiel Batimove • Confidentialité assurée</span>
                         </div>
                     </motion.div>
-                )}
-            </AnimatePresence>
+            )}
 
             {/* Trigger Button with Discrete Hover Tooltip */}
             <div className="pointer-events-auto flex items-center gap-2.5">
                 {/* Desktop Hover Pill Badge */}
-                <AnimatePresence>
-                    {!isOpen && isHovered && (
+                {!isOpen && isHovered && (
                         <motion.div
                             initial={{ opacity: 0, x: 8 }}
                             animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 8 }}
                             transition={{ duration: 0.18 }}
                             className="hidden sm:flex items-center gap-1.5 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3 py-1.5 rounded-full shadow-[0_4px_16px_rgba(11,30,51,0.08)] text-xs font-semibold text-slate-800"
                         >
                             <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                             <span>{isOnline ? 'WhatsApp disponible' : 'Écrivez-nous sur WhatsApp'}</span>
                         </motion.div>
-                    )}
-                </AnimatePresence>
+                )}
 
                 {/* 3D Luxury WhatsApp Floating Trigger */}
                 <motion.button
