@@ -62,8 +62,7 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
           "Nous ne vendons ni ne louons vos données. Elles sont transmises uniquement aux prestataires techniques nécessaires au fonctionnement du site :"
         ],
         bullets: [
-          "EmailJS : acheminement des formulaires vers notre boîte info@batimove.ch. Serveurs situés aux États-Unis.",
-          "Supabase : hébergement de la base de données dans laquelle vos demandes de devis sont enregistrées pour être traitées par notre équipe.",
+          "EmailJS : acheminement des formulaires vers notre boîte info@batimove.ch. Serveurs situés aux États-Unis. C'est par ce seul canal que votre demande nous parvient.",
           "Vercel : hébergement du site internet.",
           "Google Ireland Ltd. / Google LLC : mesure d'audience et suivi publicitaire via Google Ads, uniquement si vous avez accepté les cookies.",
           "Nos partenaires d'exécution (sous-traitants de transport, de nettoyage ou de stockage), lorsque la réalisation de votre déménagement l'exige, et limités aux informations nécessaires à cette exécution."
@@ -100,7 +99,7 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
       {
         heading: '9. Sécurité',
         paragraphs: [
-          "Le site est servi exclusivement en HTTPS. L'accès aux demandes de devis enregistrées est réservé aux personnes autorisées de Batimove Sàrl."
+          "Le site est servi exclusivement en HTTPS. Vos demandes nous parviennent par courrier électronique et leur accès est réservé aux personnes autorisées de Batimove Sàrl."
         ]
       }
     ]
