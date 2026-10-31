@@ -353,7 +353,7 @@ export const Quote: React.FC = () => {
                           rel="noopener noreferrer"
                           className="w-full bg-[#128C7E] hover:bg-[#0e7467] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-[0_4px_14px_rgba(18,140,126,0.25)] flex items-center justify-center gap-2"
                         >
-                          <img src="/whatsapp-3d-luxury.png" alt="" className="w-4 h-4 object-contain" />
+                          <img src="/whatsapp-3d-luxury-168.png" alt="" className="w-4 h-4 object-contain" />
                           <span>Ouvrir sur WhatsApp (Réponse &lt; 5 min)</span>
                         </a>
                       )}

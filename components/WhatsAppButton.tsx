@@ -40,7 +40,7 @@ export const WhatsAppButton: React.FC = () => {
                             <div className="flex items-center gap-2.5">
                                 <div className="relative w-10 h-10 shrink-0">
                                     <img 
-                                        src="/whatsapp-3d-luxury.png" 
+                                        src="/whatsapp-3d-luxury-168.png" 
                                         alt="WhatsApp 3D" 
                                         className="w-full h-full object-contain filter drop-shadow-xs"
                                     />
@@ -87,7 +87,7 @@ export const WhatsAppButton: React.FC = () => {
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#128C7E] to-[#0E7A6E] hover:from-[#0f776a] hover:to-[#0a6359] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-[0_6px_18px_-4px_rgba(18,140,126,0.35)] cursor-pointer"
                             >
-                                <img src="/whatsapp-3d-luxury.png" alt="" className="w-4 h-4 object-contain" />
+                                <img src="/whatsapp-3d-luxury-168.png" alt="" className="w-4 h-4 object-contain" />
                                 <span>Discuter sur WhatsApp</span>
                             </a>
 
@@ -147,7 +147,7 @@ export const WhatsAppButton: React.FC = () => {
                     ) : (
                         <div className="w-full h-full relative flex items-center justify-center filter drop-shadow-[0_10px_20px_rgba(11,30,51,0.18)] hover:drop-shadow-[0_14px_28px_rgba(14,122,110,0.35)] transition-all duration-300">
                             <img
-                                src="/whatsapp-3d-luxury.png"
+                                src="/whatsapp-3d-luxury-168.png"
                                 alt="WhatsApp 3D"
                                 className="w-full h-full object-contain pointer-events-none select-none"
                             />
