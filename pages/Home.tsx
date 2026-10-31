@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CUSTOMER_REVIEWS } from '../data/reviews';
+import { CUSTOMER_REVIEWS, GOOGLE_RATING } from '../data/reviews';
 import { 
   ArrowRight, 
   Check, 
@@ -343,7 +343,7 @@ export const Home: React.FC = () => {
                   <div className="text-xs text-slate-500 font-medium">Assurance RC Incluse</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">4.9 / 5</div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">{GOOGLE_RATING.value} / 5</div>
                   <div className="text-xs text-slate-500 font-medium">Avis Clients Vérifiés</div>
                 </div>
               </div>
@@ -1019,7 +1019,7 @@ export const Home: React.FC = () => {
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
               </svg>
-              <span>4.9 / 5.0 • Avis Clients Vérifiés Google</span>
+              <span>{GOOGLE_RATING.value} / 5 • {GOOGLE_RATING.count} avis Google vérifiés</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
               Ce Que Disent Nos Clients

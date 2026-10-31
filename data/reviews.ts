@@ -16,6 +16,19 @@
  * avec les identifiants voulus — pas une copie modifiée des textes.
  */
 
+/**
+ * Note et nombre d'avis du profil Google Business, à tenir à jour.
+ *
+ * Ces valeurs sont affichées sur le site ET déclarées en données structurées
+ * (aggregateRating). Annoncer un chiffre supérieur à celui du profil public
+ * expose à une action manuelle « spam de données structurées » qui retire les
+ * résultats enrichis de tout le site. Vérifié le 31.10.2026 : 4,7 / 12 avis.
+ */
+export const GOOGLE_RATING = {
+  value: 4.7,
+  count: 12
+} as const;
+
 export interface CustomerReview {
   id: string;
   name: string;
