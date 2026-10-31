@@ -413,7 +413,7 @@ export function FiduciaryView({ leads, financialRecords, onSelectLead, onReload 
                 <input
                   type="text"
                   required
-                  placeholder="ex: Plein Carburant Iveco GE-4921"
+                  placeholder="ex: Plein carburant véhicule"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-gray-900 focus:outline-none"

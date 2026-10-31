@@ -124,12 +124,18 @@ const STATUS_OPTIONS: StatusOption[] = [
   { key: 'annule', label: 'Dossier Annulé', bg: 'bg-rose-500', text: 'text-white', dot: 'bg-white', border: 'border-rose-600' }
 ];
 
-const DEFAULT_FLEET = [
-  { id: '1', name: 'Iveco Daily 30m³ (GE-4921)', driver: 'Yannick M.', capacity: '30 m³', status: 'En mission', city: 'Cologny', next: '14:30', team: 'Équipe Alpha' },
-  { id: '2', name: 'Iveco Eurocargo 45m³ (GE-8102)', driver: 'Marc V.', capacity: '45 m³', status: 'En mission', city: 'Genève Centre', next: '16:00', team: 'Équipe Bêta' },
-  { id: '3', name: 'Renault Master 20m³ (VD-2910)', driver: 'David L.', capacity: '20 m³', status: 'Disponible', city: 'Dépôt Vernier', next: 'Demain', team: 'Équipe Gamma' },
-  { id: '4', name: 'Monte-Meubles Klaas 25m (GE-119)', driver: 'Spécialiste Levage', capacity: 'Élévateur 400kg', status: 'Réservé', city: 'Champel', next: '10:00', team: 'Équipe Levage' }
-];
+// Vide : les noms des chauffeurs et les plaques viennent de Supabase, pas d'une
+// liste écrite en dur dans le code livré au navigateur.
+const DEFAULT_FLEET: Array<{
+  id: string;
+  name: string;
+  driver: string;
+  capacity: string;
+  status: string;
+  city: string;
+  next: string;
+  team: string;
+}> = [];
 
 const DEFAULT_KPI_ORDER = ['revenue', 'tax', 'pipeline', 'fleet'];
 
@@ -2974,7 +2980,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     required
                     value={newClientName}
                     onChange={e => setNewClientName(e.target.value)}
-                    placeholder="Ex: Alexandre de Senarclens"
+                    placeholder="Ex: Jean Dupont"
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0073ea]"
                   />
                 </div>
@@ -3133,7 +3139,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                   <input
                     type="text"
                     required
-                    placeholder="Ex: Yannick M."
+                    placeholder="Ex: Prénom N."
                     value={newTruckDriver}
                     onChange={e => setNewTruckDriver(e.target.value)}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none"

@@ -41,140 +41,20 @@ export interface FinancialRecord {
   status: 'paye' | 'en_attente';
 }
 
-export const INITIAL_LEADS: LeadItem[] = [
-  {
-    id: 'BM-2026-084',
-    created_at: '2026-03-08T10:15:00Z',
-    client_name: 'Alexandre de Senarclens',
-    client_phone: '+41 79 342 18 90',
-    client_email: 'alexandre.senarclens@bluewin.ch',
-    service_type: 'Déménagement Résidentiel Premium',
-    from_city: 'Cologny (GE)',
-    to_city: 'Vandoeuvres (GE)',
-    move_date: '18.03.2026',
-    details: 'Villa de maître 9 pièces, emballage objets d art et lustres Baccarat.',
-    amount_chf: 3450,
-    estimated_amount_chf: 3450,
-    status: 'confirme',
-    notes: 'Visite technique effectuée, équipe de 4 déménageurs assignée'
-  },
-  {
-    id: 'BM-2026-083',
-    created_at: '2026-03-09T14:30:00Z',
-    client_name: 'Clinique La Colline S.A.',
-    client_phone: '+41 22 702 60 00',
-    client_email: 'direction.logistique@lacolline.ch',
-    service_type: 'Transfert Entreprise / B2B',
-    from_city: 'Genève Centre',
-    to_city: 'Champel (GE)',
-    move_date: '24.03.2026',
-    details: 'Transfert département administratif et matériel informatique sensible.',
-    amount_chf: 12800,
-    estimated_amount_chf: 12800,
-    status: 'facture',
-    notes: 'Contrat signé, facturation 50% acompte reçu'
-  },
-  {
-    id: 'BM-2026-082',
-    created_at: '2026-03-09T16:45:00Z',
-    client_name: 'Famille Favre & Cie',
-    client_phone: '+41 78 812 44 20',
-    client_email: 'm.favre@gmail.com',
-    service_type: 'Déménagement Résidentiel',
-    from_city: 'Lausanne Ouchy',
-    to_city: 'Pully (VD)',
-    move_date: '28.03.2026',
-    details: 'Appartement 4.5 pièces au 3ème étage avec monte-meubles.',
-    amount_chf: 2150,
-    estimated_amount_chf: 2150,
-    status: 'en_cours',
-    notes: 'Devis envoyé, rappel client prévu demain'
-  },
-  {
-    id: 'BM-2026-081',
-    created_at: '2026-03-07T11:00:00Z',
-    client_name: 'Cabinet Notarial Pic-Pic',
-    client_phone: '+41 22 819 12 00',
-    client_email: 'secretariat@notaires-ge.ch',
-    service_type: 'Débarras & Destruction Écologique',
-    from_city: 'Genève Rive',
-    to_city: 'Genève Vernier',
-    move_date: '15.03.2026',
-    details: 'Débarras archives certifié conforme nLPD avec certificat de destruction.',
-    amount_chf: 1650,
-    estimated_amount_chf: 1650,
-    status: 'facture',
-    notes: 'Prestation terminée et validée'
-  }
-];
-
-export const INITIAL_FINANCIAL: FinancialRecord[] = [
-  {
-    id: 'fin-001',
-    created_at: '2026-03-01T08:00:00Z',
-    record_date: '01.03.2026',
-    type: 'revenu',
-    category: 'demenagement',
-    description: 'Facture BM-2026-083 (Clinique La Colline)',
-    amount_chf: 12800,
-    tva_rate: 8.1,
-    client_or_supplier: 'Clinique La Colline',
-    invoice_ref: 'FAC-2026-042',
-    status: 'paye'
-  },
-  {
-    id: 'fin-002',
-    created_at: '2026-03-03T09:15:00Z',
-    record_date: '03.03.2026',
-    type: 'revenu',
-    category: 'demenagement',
-    description: 'Facture BM-2026-084 (M. de Senarclens)',
-    amount_chf: 3450,
-    tva_rate: 8.1,
-    client_or_supplier: 'A. de Senarclens',
-    invoice_ref: 'FAC-2026-043',
-    status: 'paye'
-  },
-  {
-    id: 'fin-003',
-    created_at: '2026-03-04T14:20:00Z',
-    record_date: '04.03.2026',
-    type: 'depense',
-    category: 'carburant',
-    description: 'Carburant Flotte Iveco - Station Eni Vernier',
-    amount_chf: 840,
-    tva_rate: 8.1,
-    client_or_supplier: 'Eni Suisse SA',
-    invoice_ref: 'TICK-44910',
-    status: 'paye'
-  },
-  {
-    id: 'fin-004',
-    created_at: '2026-03-05T11:00:00Z',
-    record_date: '05.03.2026',
-    type: 'depense',
-    category: 'assurance',
-    description: 'Prime Mensuelle RC Professionnelle & Flotte',
-    amount_chf: 1450,
-    tva_rate: 0,
-    client_or_supplier: 'Helvetia Assurances',
-    invoice_ref: 'POL-99201',
-    status: 'paye'
-  },
-  {
-    id: 'fin-005',
-    created_at: '2026-03-06T15:30:00Z',
-    record_date: '06.03.2026',
-    type: 'revenu',
-    category: 'debarras',
-    description: 'Prestation Cabinet Notarial Pic-Pic',
-    amount_chf: 1650,
-    tva_rate: 8.1,
-    client_or_supplier: 'Cabinet Pic-Pic',
-    invoice_ref: 'FAC-2026-044',
-    status: 'paye'
-  }
-];
+/**
+ * Pas de jeu de données de démonstration ici.
+ *
+ * Ce module est téléchargé par le navigateur du visiteur. Les anciennes
+ * constantes INITIAL_LEADS / INITIAL_FINANCIAL contenaient des noms, des
+ * téléphones, des e-mails et des montants ressemblant à de vrais dossiers
+ * clients : publiés dans le bundle, ils étaient lisibles par n'importe qui.
+ *
+ * Les écrans du portail affichent un état vide tant que Supabase ne renvoie
+ * rien : un tableau vide est une information honnête, de fausses fiches ne le
+ * sont pas.
+ */
+export const INITIAL_LEADS: LeadItem[] = [];
+export const INITIAL_FINANCIAL: FinancialRecord[] = [];
 
 const LOCAL_STORAGE_LEADS = 'batimove_os_leads_v2';
 const LOCAL_STORAGE_FINANCIAL = 'batimove_os_financial_v2';
@@ -665,7 +545,10 @@ export const fetchFinancialRecords = async (): Promise<FinancialRecord[]> => {
       if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     } catch {}
   }
+  // La fonction est typée Promise<FinancialRecord[]> mais ne renvoyait rien sur
+  // ce chemin : les appelants recevaient undefined au lieu d'une liste vide.
   localStorage.setItem(LOCAL_STORAGE_FINANCIAL, JSON.stringify(INITIAL_FINANCIAL));
+  return INITIAL_FINANCIAL;
 };
 
 export const saveFinancialRecord = async (record: Omit<FinancialRecord, 'id' | 'created_at'>): Promise<FinancialRecord> => {
@@ -711,12 +594,9 @@ export interface FleetVehicle {
 
 const LOCAL_STORAGE_FLEET = 'batimove_os_fleet_v1';
 
-export const INITIAL_FLEET: FleetVehicle[] = [
-  { id: '1', name: 'Iveco Daily 30m³ (GE-4921)', driver: 'Yannick M.', capacity: '30 m³', status: 'En mission', city: 'Cologny', next: '14:30', next_mission: '14:30', team: 'Équipe Alpha' },
-  { id: '2', name: 'Iveco Eurocargo 45m³ (GE-8102)', driver: 'Marc V.', capacity: '45 m³', status: 'En mission', city: 'Genève Centre', next: '16:00', next_mission: '16:00', team: 'Équipe Bêta' },
-  { id: '3', name: 'Renault Master 20m³ (VD-2910)', driver: 'David L.', capacity: '20 m³', status: 'Disponible', city: 'Dépôt Vernier', next: 'Demain', next_mission: 'Demain', team: 'Équipe Gamma' },
-  { id: '4', name: 'Monte-Meubles Klaas 25m (GE-119)', driver: 'Spécialiste Levage', capacity: 'Élévateur 400kg', status: 'Réservé', city: 'Champel', next: '10:00', next_mission: '10:00', team: 'Équipe Levage' }
-];
+// Vide pour la même raison que les dossiers clients : les noms des chauffeurs et
+// les plaques d'immatriculation n'ont rien à faire dans un bundle public.
+export const INITIAL_FLEET: FleetVehicle[] = [];
 
 export const fetchFleetVehicles = async (): Promise<FleetVehicle[]> => {
   try {

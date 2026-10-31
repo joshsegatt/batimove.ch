@@ -18,23 +18,24 @@ video {
 
 /* Image Sharpness & Rendering Optimization */
 img {
-  /* Prevent blurring on high-density screens */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: high-quality;
-  
-  /* Hardware Acceleration to prevent flickering/jitter */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-
   /* Scaling & Proportion Preservation */
   max-width: 100%;
   height: auto;
-  
-  /* Disable aggressive smoothing */
-  shape-rendering: geometricPrecision;
 }
+
+/*
+ * Retiré de la règle img ci-dessus :
+ *
+ *   transform: translateZ(0);  +  backface-visibility: hidden;
+ *     promouvait CHAQUE image du site en couche de composition GPU. Avec des
+ *     visuels de 500 Ko à 1 Mo, cela consomme beaucoup de mémoire vidéo et
+ *     dégrade le défilement sur mobile — l'inverse de l'effet recherché.
+ *     À réappliquer ponctuellement, sur un élément réellement animé, si un
+ *     scintillement précis réapparaît.
+ *
+ *   image-rendering: -webkit-optimize-contrast;
+ *     durcit le rendu des photographies au lieu de l'améliorer.
+ */
 
 /* Smooth scroll container */
 .smooth-scroll {

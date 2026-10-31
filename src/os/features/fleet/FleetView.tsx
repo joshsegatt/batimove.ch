@@ -329,7 +329,7 @@ export function FleetView({ vehicles, onReload }: FleetViewProps) {
                 <input
                   type="text"
                   required
-                  placeholder="ex: Iveco Daily 30m³ (GE-4921)"
+                  placeholder="ex: Iveco Daily 30m³"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm focus:border-gray-900 focus:outline-none"

@@ -1,21 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Navbar, Footer } from './components/Layout';
 import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
 import { Quote } from './pages/Quote';
-import { Services } from './pages/Services';
-import { Pricing } from './pages/Pricing';
-import { Contact } from './pages/Contact';
-import { Legal } from './pages/Legal';
-import Calculator from './pages/Calculator';
-import CalculatorCheckout from './pages/CalculatorCheckout';
-import { Portal } from './pages/admin/Portal';
-import { Geneve } from './pages/locations/Geneve';
-import { Lausanne } from './pages/locations/Lausanne';
-import { Vaud } from './pages/locations/Vaud';
 import { CookieConsent } from './components/CookieConsent';
 import { WhatsAppButton } from './components/WhatsAppButton';
+
+// Chargées à la demande : inutile de faire télécharger le portail d'administration
+// (CRM, cockpit financier, jspdf, html2canvas) à un visiteur venu demander un devis.
+// La page d'accueil et le formulaire de devis restent dans le bundle initial, car
+// ce sont les deux points d'entrée du trafic publicitaire.
+const Services = lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
+const Pricing = lazy(() => import('./pages/Pricing').then((m) => ({ default: m.Pricing })));
+const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
+const Legal = lazy(() => import('./pages/Legal').then((m) => ({ default: m.Legal })));
+const Calculator = lazy(() => import('./pages/Calculator'));
+const CalculatorCheckout = lazy(() => import('./pages/CalculatorCheckout'));
+const Portal = lazy(() => import('./pages/admin/Portal').then((m) => ({ default: m.Portal })));
+const Geneve = lazy(() => import('./pages/locations/Geneve').then((m) => ({ default: m.Geneve })));
+const Lausanne = lazy(() => import('./pages/locations/Lausanne').then((m) => ({ default: m.Lausanne })));
+const Vaud = lazy(() => import('./pages/locations/Vaud').then((m) => ({ default: m.Vaud })));
+
+/** Écran d'attente discret pendant le chargement d'une route. */
+const RouteFallback: React.FC = () => (
+  <div className="min-h-[60vh] flex items-center justify-center" role="status" aria-live="polite">
+    <span className="sr-only">Chargement de la page…</span>
+    <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-[#0284c7] animate-spin" aria-hidden="true" />
+  </div>
+);
 
 import { trackPageView } from './utils/analytics';
 
@@ -69,6 +82,7 @@ const AppContent: React.FC = () => {
   if (isPortal) {
     return (
       <main className="flex-grow min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-sky-500/30 selection:text-sky-200">
+        <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/portal" element={<Portal />} />
           <Route path="/portal/*" element={<Portal />} />
@@ -80,6 +94,7 @@ const AppContent: React.FC = () => {
           <Route path="admin/*" element={<Portal />} />
           <Route path="*" element={<Portal />} />
         </Routes>
+        </Suspense>
       </main>
     );
   }
@@ -88,6 +103,7 @@ const AppContent: React.FC = () => {
     <div className="flex flex-col min-h-screen font-sans text-slate-900 bg-slate-50 antialiased selection:bg-batimove-blue/20 selection:text-batimove-blue">
       <Navbar />
       <main className="flex-grow">
+        <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
@@ -124,6 +140,7 @@ const AppContent: React.FC = () => {
           {/* Fallback 404 */}
           <Route path="*" element={<div className="h-screen flex items-center justify-center">404 - Page not found</div>} />
         </Routes>
+        </Suspense>
       </main>
       <Footer />
       <CookieConsent />
