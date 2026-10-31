@@ -98,25 +98,6 @@ export const submitQuote = async (data: QuoteData): Promise<QuoteResponse> => {
 
         console.log('EmailJS Quote Response:', response);
 
-        // Also record in Batimove OS Supabase / LocalStorage
-        try {
-            const { saveLead } = await import('./supabaseClient');
-            await saveLead({
-                client_name: data.contact.name,
-                client_phone: data.contact.phone,
-                client_email: data.contact.email,
-                service_type: getServiceName(data.serviceId),
-                from_city: data.fromZip || 'Genève',
-                to_city: data.toZip || 'Genève',
-                move_date: data.date,
-                details: `Logement: ${data.housingType || 'N/A'}, Pièces: ${data.rooms || 'N/A'}, Surface: ${data.surface || 'N/A'}, Étage: ${data.floor ?? 'N/A'}`,
-                amount_chf: 0,
-                estimated_amount_chf: 0,
-                status: 'nouveau'
-            });
-        } catch (dbErr) {
-            console.warn('Batimove OS save lead non-blocking notice:', dbErr);
-        }
 
         // Generate unique ID for the quote
         const quoteId = crypto.randomUUID();
@@ -159,26 +140,6 @@ export const submitContact = async (data: ContactData): Promise<ContactResponse>
 
         console.log('EmailJS Contact Response:', response);
 
-        // Also record in Batimove OS Supabase / LocalStorage
-        try {
-            const { saveLead } = await import('./supabaseClient');
-            const phoneMatch = data.message.match(/Téléphone:\s*([^\n\r]+)/i);
-            const phone = phoneMatch ? phoneMatch[1].trim() : '+41 22 000 00 00';
-            await saveLead({
-                client_name: data.name,
-                client_email: data.email,
-                client_phone: phone,
-                service_type: data.subject || 'Demande de Contact Web',
-                from_city: 'Genève',
-                to_city: 'Genève',
-                details: data.message,
-                amount_chf: 0,
-                estimated_amount_chf: 0,
-                status: 'nouveau'
-            });
-        } catch (dbErr) {
-            console.warn('Batimove OS save lead from contact notice:', dbErr);
-        }
 
         // Generate unique ID for the message
         const messageId = crypto.randomUUID();
@@ -303,25 +264,6 @@ export const sendQuoteEmail = async (data: {
             templateParams
         );
 
-        // Also record in Batimove OS Supabase / LocalStorage
-        try {
-            const { saveLead } = await import('./supabaseClient');
-            const numericPrice = parseFloat(data.estimatedPrice.replace(/[^0-9.]/g, '')) || 0;
-            await saveLead({
-                client_name: data.name,
-                client_phone: data.phone,
-                client_email: data.email,
-                service_type: `Déménagement Volume (${data.volume} m³)`,
-                from_city: data.fromZip || 'Genève',
-                to_city: data.toZip || 'Lausanne',
-                details: `Calculateur: ${data.volume} m³, ${data.itemCount} meubles, ${data.disassembleCount} démontages. Message: ${data.message || 'Aucun'}`,
-                amount_chf: numericPrice,
-                estimated_amount_chf: numericPrice,
-                status: 'nouveau'
-            });
-        } catch (dbErr) {
-            console.warn('Batimove OS save lead from calculator notice:', dbErr);
-        }
 
         return {
             success: true,
@@ -378,24 +320,6 @@ Précisions: ${data.details || 'Aucune'}`.trim(),
             templateParams
         );
 
-        // Also record in Batimove OS Supabase / LocalStorage
-        try {
-            const { saveLead } = await import('./supabaseClient');
-            await saveLead({
-                client_name: data.clientName,
-                client_phone: data.clientPhone,
-                client_email: data.clientEmail,
-                service_type: data.serviceName,
-                from_city: data.fromCity,
-                to_city: data.toCity,
-                move_date: data.date,
-                details: data.details,
-                estimated_amount_chf: 0,
-                status: 'nouveau'
-            });
-        } catch (dbErr) {
-            console.warn('Batimove OS save lead non-blocking notice:', dbErr);
-        }
 
         return {
             success: true,

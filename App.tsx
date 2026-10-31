@@ -7,17 +7,14 @@ import { Quote } from './pages/Quote';
 import { CookieConsent } from './components/CookieConsent';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
-// Chargées à la demande : inutile de faire télécharger le portail d'administration
-// (CRM, cockpit financier, jspdf, html2canvas) à un visiteur venu demander un devis.
-// La page d'accueil et le formulaire de devis restent dans le bundle initial, car
-// ce sont les deux points d'entrée du trafic publicitaire.
+// Chargées à la demande. La page d'accueil et le formulaire de devis restent dans
+// le bundle initial, car ce sont les deux points d'entrée du trafic publicitaire.
 const Services = lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
 const Pricing = lazy(() => import('./pages/Pricing').then((m) => ({ default: m.Pricing })));
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 const Legal = lazy(() => import('./pages/Legal').then((m) => ({ default: m.Legal })));
 const Calculator = lazy(() => import('./pages/Calculator'));
 const CalculatorCheckout = lazy(() => import('./pages/CalculatorCheckout'));
-const Portal = lazy(() => import('./pages/admin/Portal').then((m) => ({ default: m.Portal })));
 const Geneve = lazy(() => import('./pages/locations/Geneve').then((m) => ({ default: m.Geneve })));
 const Lausanne = lazy(() => import('./pages/locations/Lausanne').then((m) => ({ default: m.Lausanne })));
 const Vaud = lazy(() => import('./pages/locations/Vaud').then((m) => ({ default: m.Vaud })));
@@ -61,44 +58,6 @@ const RouteTracker = () => {
 };
 
 const AppContent: React.FC = () => {
-  const location = useLocation();
-
-  // Robust multi-variant portal detection
-  const currentPath = (location.pathname || '').toLowerCase();
-  const currentHash = (typeof window !== 'undefined' ? window.location.hash : '').toLowerCase();
-  const rawPath = (typeof window !== 'undefined' ? window.location.pathname : '').toLowerCase();
-
-  const isPortal = (
-    currentPath.startsWith('/portal') ||
-    currentPath.startsWith('/admin') ||
-    currentPath === 'portal' ||
-    currentPath === 'admin' ||
-    currentHash.includes('portal') ||
-    currentHash.includes('admin') ||
-    rawPath.includes('/portal') ||
-    rawPath.includes('/admin')
-  );
-
-  if (isPortal) {
-    return (
-      <main className="flex-grow min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-sky-500/30 selection:text-sky-200">
-        <Suspense fallback={<RouteFallback />}>
-        <Routes>
-          <Route path="/portal" element={<Portal />} />
-          <Route path="/portal/*" element={<Portal />} />
-          <Route path="portal" element={<Portal />} />
-          <Route path="portal/*" element={<Portal />} />
-          <Route path="/admin" element={<Portal />} />
-          <Route path="/admin/*" element={<Portal />} />
-          <Route path="admin" element={<Portal />} />
-          <Route path="admin/*" element={<Portal />} />
-          <Route path="*" element={<Portal />} />
-        </Routes>
-        </Suspense>
-      </main>
-    );
-  }
-
   return (
     <div className="flex flex-col min-h-screen font-sans text-slate-900 bg-slate-50 antialiased selection:bg-batimove-blue/20 selection:text-batimove-blue">
       <Navbar />
@@ -127,15 +86,13 @@ const AppContent: React.FC = () => {
           <Route path="/quote" element={<Quote />} />
           <Route path="/quote/:serviceId" element={<Quote />} />
 
-          {/* Fallbacks for portal under regular shell if ever routed here */}
-          <Route path="/portal" element={<Portal />} />
-          <Route path="/portal/*" element={<Portal />} />
-          <Route path="portal" element={<Portal />} />
-          <Route path="portal/*" element={<Portal />} />
-          <Route path="/admin" element={<Portal />} />
-          <Route path="/admin/*" element={<Portal />} />
-          <Route path="admin" element={<Portal />} />
-          <Route path="admin/*" element={<Portal />} />
+          {/* Le portail d'administration était un prototype inachevé, sans backend.
+              Ses anciennes adresses renvoient vers l'accueil au lieu de 404, pour
+              les liens et favoris qui pourraient encore exister. */}
+          <Route path="/portal" element={<Navigate to="/" replace />} />
+          <Route path="/portal/*" element={<Navigate to="/" replace />} />
+          <Route path="/admin" element={<Navigate to="/" replace />} />
+          <Route path="/admin/*" element={<Navigate to="/" replace />} />
 
           {/* Fallback 404 */}
           <Route path="*" element={<div className="h-screen flex items-center justify-center">404 - Page not found</div>} />

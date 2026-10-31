@@ -3,10 +3,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /portal
-Disallow: /portal/
-Disallow: /admin
-Disallow: /admin/
 Disallow: /calculator/checkout
 
 # Content Signals for AI search citation and model training posture

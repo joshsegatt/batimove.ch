@@ -62,7 +62,7 @@
   <!-- Apple iOS PWA Capabilities -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Batimove OS" />
+  <meta name="apple-mobile-web-app-title" content="Batimove" />
 
   <!-- Aucun preload pour l'image LCP : le service worker intercepte la requête
        de l'image et Chrome ne peut pas rattacher le preload
@@ -309,21 +309,21 @@
       } else {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('/sw.js').then(function(reg) {
-            console.log('Batimove OS ServiceWorker registered:', reg.scope);
+            console.log('Batimove ServiceWorker registered:', reg.scope);
             try { reg.update(); } catch(e) {}
             reg.onupdatefound = function() {
               var worker = reg.installing;
               if (worker) {
                 worker.onstatechange = function() {
                   if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-                    console.log('Nouvelle version Batimove OS disponible. Actualisation automatique...');
+                    console.log('Nouvelle version Batimove disponible. Actualisation automatique...');
                     window.location.reload();
                   }
                 };
               }
             };
           }).catch(function(err) {
-            console.log('Batimove OS ServiceWorker registration failed:', err);
+            console.log('Batimove ServiceWorker registration failed:', err);
           });
         });
       }

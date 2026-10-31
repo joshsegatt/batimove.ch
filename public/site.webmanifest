@@ -1,7 +1,7 @@
 {
-  "name": "Batimove Sàrl | OS & Déménagement",
+  "name": "Batimove Sàrl | Déménagement Genève, Lausanne & Vaud",
   "short_name": "Batimove",
-  "description": "Système de Gestion Fiducière et Opérationnelle Batimove Sàrl",
+  "description": "Entreprise suisse de déménagement, garde-meubles, débarras et nettoyage à Genève, Lausanne et dans le canton de Vaud.",
   "icons": [
     {
       "src": "/favicon-48x48.png",
@@ -28,18 +28,6 @@
   "background_color": "#0B1E33",
   "theme_color": "#0B1E33",
   "shortcuts": [
-    {
-      "name": "Batimove OS (Portal)",
-      "short_name": "Portal OS",
-      "description": "Accès sécurisé Direction & Comptabilité",
-      "url": "/portal",
-      "icons": [
-        {
-          "src": "/favicon-192x192.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
     {
       "name": "Demander un Devis",
       "short_name": "Devis",
