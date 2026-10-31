@@ -100,7 +100,7 @@ export default function Calculator() {
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
       <SEO
-        title="Calculateur de Volume Déménagement Gratuit en Ligne | Batimove"
+        title="Calculateur de Volume Déménagement Gratuit - Batimove"
         description="Calculez précisément le volume en m³ de vos meubles et obtenez un devis immédiat pour votre déménagement à Genève, Lausanne et en Suisse Romande."
         canonical="https://www.batimove.ch/calculator"
       />

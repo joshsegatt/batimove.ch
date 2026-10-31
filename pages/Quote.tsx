@@ -199,7 +199,7 @@ export const Quote: React.FC = () => {
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-[#FAFBFD] text-slate-900 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
       <SEO
-        title="Devis Déménagement Gratuit & Sans Engagement | Batimove Suisse"
+        title="Devis Déménagement Gratuit & Sans Engagement - Batimove"
         description="Demandez votre devis de déménagement en ligne gratuit sous 30 min. Remplissez le formulaire en 2 minutes ou contactez-nous au 0800 825 925."
         canonical="https://www.batimove.ch/quote"
       />

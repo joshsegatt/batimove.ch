@@ -8,7 +8,7 @@ const vaudConfig: LocationConfig = {
   heroHeadlineMain: "Déménagement de Prestige dans le",
   heroHeadlineHighlight: "Canton de Vaud !",
   heroSubtitle: "De Nyon à Montreux, en passant par Morges et Yverdon. Service complet pour appartements, villas et entreprises vaudoises avec rigueur helvétique et assurance 5M CHF.",
-  metaTitle: "Entreprise de Déménagement Vaud | La Côte & Riviera - Batimove",
+  metaTitle: "Déménagement Vaud | La Côte & Riviera - Batimove",
   metaDescription: "Déménagement dans le canton de Vaud : Nyon, Morges, Vevey, Montreux, Yverdon. Déménageurs qualifiés, garde-meubles et devis gratuit sous 30 min dès CHF 550.",
   canonicalUrl: "https://www.batimove.ch/demenagement-vaud",
   geoPosition: {

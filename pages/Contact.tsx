@@ -57,7 +57,7 @@ export const Contact: React.FC = () => {
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
       <SEO
-        title="Contactez Batimove Sàrl | Déménageur à Genève & Vaud - 0800 825 925"
+        title="Contact Batimove | Déménageur Genève & Vaud - 0800 825 925"
         description="Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 30 min."
         canonical="https://www.batimove.ch/contact"
       />

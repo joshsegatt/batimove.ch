@@ -8,7 +8,7 @@ const lausanneConfig: LocationConfig = {
   heroHeadlineMain: "Déménagement de Confiance à",
   heroHeadlineHighlight: "Lausanne & Environs !",
   heroSubtitle: "Équipes spécialisées dans les accès lausannois et les fortes déclivités. Matériel adapté, respect des régies vaudoises et assurance complète 5M CHF.",
-  metaTitle: "Déménagement Lausanne | Prix Fixe & Garantie Régies - Batimove",
+  metaTitle: "Déménagement Lausanne | Prix Fixe & Garantie Régies",
   metaDescription: "Déménageur professionnel à Lausanne et agglomération. Spécialiste des accès en pente, monte-meubles et eDéménagement. Devis gratuit sous 30 min dès CHF 550.",
   canonicalUrl: "https://www.batimove.ch/demenagement-lausanne",
   geoPosition: {

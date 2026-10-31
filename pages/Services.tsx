@@ -164,7 +164,7 @@ export const Services: React.FC = () => {
   return (
     <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-[#FAFBFD] text-slate-900 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
       <SEO
-        title="Services de Déménagement, Débarras & Nettoyage | Batimove Suisse"
+        title="Services Déménagement, Débarras & Nettoyage - Batimove"
         description="Services de déménagement complets en Suisse Romande : résidentiel, transfert d'entreprise, débarras certifié et nettoyage état des lieux avec garantie régies."
         canonical="https://www.batimove.ch/services"
       />
