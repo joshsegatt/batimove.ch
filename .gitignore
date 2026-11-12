@@ -41,3 +41,8 @@ Thumbs.db
 scratch/
 brag-output/
 brag-output-instagram/
+
+# Impeccable: estado local por máquina (config.json e design.json são versionados)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
