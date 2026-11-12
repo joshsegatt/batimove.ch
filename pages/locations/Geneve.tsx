@@ -7,7 +7,7 @@ const genevaConfig: LocationConfig = {
   regionBadge: 'Canton de Genève • Ville & Communes',
   heroHeadlineMain: "Déménagement Professionnel à",
   heroHeadlineHighlight: "Genève & Environs !",
-  heroSubtitle: "Entreprise suisse certifiée basée à Genève. Équipes qualifiées, réservation des panneaux de stationnement auprès de la Ville de Genève et assurance RC jusqu'à 5M CHF.",
+  heroSubtitle: "Entreprise suisse basée à Genève. Équipes qualifiées, réservation des panneaux de stationnement auprès de la Ville de Genève et assurance RC jusqu'à 5M CHF.",
   metaTitle: "Déménagement Genève | Devis Gratuit en 30 min - Batimove",
   metaDescription: "Entreprise de déménagement à Genève pour particuliers et entreprises. Réservation de stationnement, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF.",
   canonicalUrl: "https://www.batimove.ch/demenagement-geneve",

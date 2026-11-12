@@ -571,7 +571,7 @@ export const Quote: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>🇨🇭 Batimove Sàrl • Entreprise agréée RC Pro 5M CHF • Genève, Vaud, Fribourg, Valais</span>
+            <span>🇨🇭 Batimove Sàrl • Assurée RC Pro 5M CHF • Genève, Vaud, Fribourg, Valais</span>
           </div>
           <div className="flex items-center gap-4 text-slate-600 font-medium">
             <a href="tel:0800825925" className="hover:text-slate-900 transition-colors flex items-center gap-1">
