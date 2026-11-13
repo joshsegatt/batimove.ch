@@ -287,6 +287,8 @@ export interface ServiceQuoteData {
     fromCity?: string;
     toCity?: string;
     details?: string;
+    /** De onde veio o pedido, aparece na primeira linha do e-mail */
+    source?: string;
 }
 
 export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiResponse> => {
@@ -303,13 +305,13 @@ export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiRes
             date: data.date || 'Non spécifiée',
             from_zip: data.fromCity || 'Non spécifié',
             to_zip: data.toCity || 'Non spécifié',
-            message: `Demande de devis direct depuis la page Services:
+            message: `Demande de devis direct depuis ${data.source || 'la page Services'}:
 Prestation: ${data.serviceName}
 Client: ${data.clientName}
 Téléphone: ${data.clientPhone}
 Email: ${data.clientEmail}
 Date souhaitée: ${data.date || 'Non spécifiée'}
-Trajet: ${data.fromCity || 'N/A'} -> ${data.toCity || 'N/A'}
+${data.toCity ? `Trajet: ${data.fromCity || 'N/A'} -> ${data.toCity}` : `Adresse: ${data.fromCity || 'N/A'}`}
 Précisions: ${data.details || 'Aucune'}`.trim(),
             to_email: 'info@batimove.ch'
         };
