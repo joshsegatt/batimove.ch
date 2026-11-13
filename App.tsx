@@ -13,7 +13,6 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Chargées à la demande. La page d'accueil et le formulaire de devis restent dans
 // le bundle initial, car ce sont les deux points d'entrée du trafic publicitaire.
-const Services = lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
 const Debarras = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.Debarras })));
 const Nettoyage = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.Nettoyage })));
 const GardeMeubles = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.GardeMeubles })));
@@ -70,7 +69,6 @@ const RouteTracker = () => {
 /** Páginas públicas pelo caminho francês; a versão /en é registrada junto. */
 const PAGES: [string, React.ReactElement][] = [
   ['/', <Home />],
-  ['/services', <Services />],
   ['/debarras', <Debarras />],
   ['/nettoyage-fin-de-bail', <Nettoyage />],
   ['/garde-meubles', <GardeMeubles />],
@@ -89,6 +87,12 @@ const PAGES: [string, React.ReactElement][] = [
   ['/quote', <Quote />],
   ['/quote/:serviceId', <Quote />],
 ];
+
+/** /services?type=x -> /quote?type=x (no idioma da página). */
+const ToQuote: React.FC = () => {
+  const { pathname, search } = useLocation();
+  return <Navigate to={`${pathname.startsWith('/en') ? '/en' : ''}/quote${search}`} replace />;
+};
 
 const NotFound: React.FC = () => {
   const { pathname } = useLocation();
@@ -135,7 +139,10 @@ const AppContent: React.FC = () => {
             })
           )}
 
-          <Route path="/business" element={<Navigate to="/services?type=entreprise" replace />} />
+          {/* Antiga página de serviços (formulário de leads aposentado): vai ao orçamento. */}
+          <Route path="/services" element={<ToQuote />} />
+          <Route path="/en/services" element={<ToQuote />} />
+          <Route path="/business" element={<Navigate to="/quote?type=entreprise" replace />} />
           {/* Página de tarifas retirada: preço só no devis. Links antigos vão ao orçamento. */}
           <Route path="/pricing" element={<Navigate to="/quote" replace />} />
 

@@ -2,7 +2,6 @@
   "_comment": "Pares de rotas FR <-> EN. Fonte única para o roteador (App.tsx), o botão FR/EN, o hreflang do prerender, o sitemap e os rewrites do vercel.json. As páginas locais (déménagement, débarras e nettoyage por cidade) vêm de serviceLocalities.json (campo enSlug) com os prefixos [fr, en] de \"local\"; uma página local cujo caminho francês já está em \"static\" (ex. /demenagement-geneve) é a página própria e não é gerada. Depois de editar: node scripts/sync-localities.mjs",
   "static": [
     ["/", "/en"],
-    ["/services", "/en/services"],
     ["/debarras", "/en/house-clearance"],
     ["/nettoyage-fin-de-bail", "/en/end-of-tenancy-cleaning"],
     ["/garde-meubles", "/en/storage"],

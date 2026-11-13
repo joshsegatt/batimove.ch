@@ -47,7 +47,7 @@ export const QUOTE_SERVICES: QuoteService[] = [
     hint: 'Appartement, maison, villa',
     emailName: 'Déménagement Résidentiel',
     icon: House,
-    page: '/services?type=prive',
+    page: '/quote?type=prive',
     hasRoute: true,
     size: { label: 'Quelle est la taille du logement ?', short: 'Logement', options: LOGEMENT_SIZES },
     access: ACCESS,
@@ -58,7 +58,7 @@ export const QUOTE_SERVICES: QuoteService[] = [
     hint: 'Bureaux et commerces',
     emailName: "Transfert d'Entreprise & Bureaux",
     icon: Building2,
-    page: '/services?type=entreprise',
+    page: '/quote?type=entreprise',
     hasRoute: true,
     size: {
       label: 'Combien de postes de travail ?',

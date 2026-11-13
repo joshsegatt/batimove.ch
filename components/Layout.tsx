@@ -234,11 +234,11 @@ export const Navbar: React.FC = () => {
   const isActive = (to: string) => {
     const [path, query] = to.split('?');
     if (frPathname !== path) return false;
-    return query ? location.search.includes(query) : !location.search.includes('type=') || path !== '/services';
+    return query ? location.search.includes(query) : !location.search.includes('type=') || path !== '/quote';
   };
   const isDemenagementActive =
     frPathname.startsWith('/demenagement-') ||
-    (frPathname === '/services' && !/type=(debarras|nettoyage)/.test(location.search));
+    (frPathname === '/quote' && /type=(prive|entreprise)/.test(location.search));
 
   const navLinkClass = (active: boolean) =>
     `group relative inline-flex h-[68px] items-center whitespace-nowrap text-base font-semibold xl:text-lg transition-colors duration-150 focus-visible:outline-none ${
@@ -538,8 +538,8 @@ const FOOTER_COPY = defineCopy(
       {
         title: 'Prestations',
         links: [
-          { label: 'Déménagement privé', to: '/services?type=prive' },
-          { label: "Déménagement d'entreprise", to: '/services?type=entreprise' },
+          { label: 'Déménagement privé', to: '/quote?type=prive' },
+          { label: "Déménagement d'entreprise", to: '/quote?type=entreprise' },
           { label: 'Déménagement international', to: '/demenagement-international' },
           { label: 'Débarras', to: '/debarras' },
           { label: 'Nettoyage de fin de bail', to: '/nettoyage-fin-de-bail' },
@@ -593,8 +593,8 @@ const FOOTER_COPY = defineCopy(
       {
         title: 'Services',
         links: [
-          { label: 'Home removals', to: '/services?type=prive' },
-          { label: 'Business removals', to: '/services?type=entreprise' },
+          { label: 'Home removals', to: '/quote?type=prive' },
+          { label: 'Business removals', to: '/quote?type=entreprise' },
           { label: 'International removals', to: '/demenagement-international' },
           { label: 'House clearance', to: '/debarras' },
           { label: 'End of tenancy cleaning', to: '/nettoyage-fin-de-bail' },
