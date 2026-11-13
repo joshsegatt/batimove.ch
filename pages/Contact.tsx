@@ -1,388 +1,416 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Send, 
-  CheckCircle2,
-  ShieldCheck,
-  ExternalLink,
-  Lock,
-  AlertCircle
-} from 'lucide-react';
-import { Button } from '../components/UIComponents';
+import { Check, ChevronRight, Clock, ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
+import { Button, buttonClass } from '../components/UIComponents';
+import { WhatsappIcon } from '../components/WhatsAppButton';
 import { trackPhoneConversionNumber } from '../utils/analytics';
 import { SEO } from '../components/SEO';
 
+// Página de contato: três canais diretos (telefone, WhatsApp, e-mail), o bureau,
+// o atalho para o devis em 4 etapas e o formulário de mensagem (EmailJS via
+// submitContact). Só afirmações confirmadas: 0800 gratuito, joignable 7j/7,
+// bureau lun.–sam. 8h–19h, inscrição no RC de Genève (IDE CHE-143.091.230).
+
+const WHATSAPP_URL =
+  'https://wa.me/41798896406?text=' + encodeURIComponent('Bonjour Batimove, je souhaite vous poser une question.');
+
+const SUBJECTS = [
+  'Déménagement résidentiel',
+  "Transfert d'entreprise",
+  'Garde-meubles',
+  'Nettoyage de fin de bail',
+  'Location monte-meubles',
+  'Débarras',
+  'Autre question',
+];
+
+interface FormState {
+  name: string;
+  phone: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+type Errors = Partial<Record<keyof FormState, string>>;
+
+const EMPTY: FormState = { name: '', phone: '', email: '', subject: SUBJECTS[0], message: '' };
+
+const validate = (f: FormState): Errors => {
+  const e: Errors = {};
+  if (!f.name.trim()) e.name = 'Indiquez votre nom.';
+  if (f.phone.replace(/\D/g, '').length < 9) e.phone = 'Indiquez un numéro de téléphone complet, par ex. 079 123 45 67.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) e.email = 'Indiquez une adresse e-mail valide, pour pouvoir vous répondre.';
+  if (!f.message.trim()) e.message = 'Écrivez-nous quelques mots sur votre demande.';
+  return e;
+};
+
+const inputClass = (hasError: boolean) =>
+  `w-full rounded-lg border bg-white px-4 text-lg text-[#0B1E33] placeholder:text-slate-500 outline-none transition-[border-color,box-shadow] duration-150 focus:border-[#0284c7] focus:ring-2 focus:ring-[#0284c7]/25 ${
+    hasError ? 'border-red-600' : 'border-slate-300 hover:border-slate-400'
+  }`;
+
+const CHANNELS = [
+  {
+    href: 'tel:0800825925',
+    icon: Phone,
+    title: '0800 825 925',
+    hint: 'Appel gratuit depuis la Suisse',
+    external: false,
+  },
+  {
+    href: WHATSAPP_URL,
+    icon: WhatsappIcon,
+    title: 'WhatsApp',
+    hint: '+41 79 889 64 06, réponse par message',
+    external: true,
+  },
+  {
+    href: 'mailto:info@batimove.ch',
+    icon: Mail,
+    title: 'info@batimove.ch',
+    hint: 'Pour vos documents, photos et inventaires',
+    external: false,
+  },
+] as const;
+
 export const Contact: React.FC = () => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formLoading, setFormLoading] = useState(false);
-  const [formError, setFormError] = useState('');
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    service: 'Déménagement Résidentiel',
-    message: ''
-  });
+  const [form, setForm] = useState<FormState>(EMPTY);
+  const [errors, setErrors] = useState<Errors>({});
+  const [loading, setLoading] = useState(false);
+  const [sendError, setSendError] = useState(false);
+  const [sentName, setSentName] = useState<string | null>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     trackPhoneConversionNumber('0800 825 925');
   }, []);
 
+  useEffect(() => {
+    if (sentName !== null) successRef.current?.focus();
+  }, [sentName]);
+
+  const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((f) => ({ ...f, [key]: value }));
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+    if (sendError) setSendError(false);
+  };
+
+  const errorProps = (key: keyof FormState) =>
+    errors[key] ? { 'aria-invalid': true, 'aria-describedby': `contact-${key}-error` } : {};
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormLoading(true);
-    setFormError('');
+    if (loading) return;
+    const found = validate(form);
+    if (Object.keys(found).length > 0) {
+      setErrors(found);
+      const first = Object.keys(found)[0];
+      setTimeout(() => document.getElementById(`contact-${first}`)?.focus(), 0);
+      return;
+    }
+    setLoading(true);
+    setSendError(false);
     try {
       const { submitContact } = await import('../services/api');
       await submitContact({
-        name: formData.name,
-        email: formData.email,
-        subject: formData.service,
-        message: `Téléphone: ${formData.phone}\nPrestation: ${formData.service}\n\nMessage:\n${formData.message}`
+        name: form.name.trim(),
+        email: form.email.trim(),
+        subject: form.subject,
+        message: `Téléphone: ${form.phone.trim()}\nPrestation: ${form.subject}\n\nMessage:\n${form.message.trim()}`,
       });
-      setFormSubmitted(true);
+      setSentName(form.name.trim().split(/\s+/)[0]);
+      setForm(EMPTY);
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      setFormError("Votre message n'a pas pu être envoyé. Merci de réessayer ou de nous appeler au 0800 825 925.");
+      setSendError(true);
     } finally {
-      setFormLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+    <div className="bg-[#F8FAFC] font-sans text-slate-900">
       <SEO
         title="Contact Batimove | Déménageur Genève & Vaud - 0800 825 925"
         description="Contactez nos spécialistes du déménagement à Genève et Lausanne. Appel gratuit au 0800 825 925 ou écrivez-nous pour un devis personnalisé sous 30 min."
         canonical="https://www.batimove.ch/contact"
       />
-      
-      {/* Background Decorative Ambient Glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Centered Wrapper */}
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1 flex flex-col justify-center relative z-10 my-auto">
-        
-        {/* Compact Fixed Hero Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-5 sm:mb-7 flex-shrink-0"
-        >
-          <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            Parlons de Votre Projet de Déménagement
-            <span className="sr-only"> : Agences et service client à Genève, Lausanne et dans le canton de Vaud</span>
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <header className="max-w-2xl">
+          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-[#0B1E33] sm:text-5xl">
+            Parlons de votre projet
+            <span className="sr-only"> : contacter Batimove à Genève, Lausanne et dans le canton de Vaud</span>
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto mt-2 font-normal leading-relaxed">
-            Nos conseillers spécialisés sont à votre disposition pour vous orienter et vous délivrer un devis clair et sans engagement sous 30 min (8h-19h).
+          <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-slate-600 sm:text-xl">
+            Une question, un conseil ou une demande particulière : appelez-nous, écrivez-nous sur WhatsApp ou laissez-nous un
+            message.
           </p>
-        </motion.div>
+        </header>
 
-        {/* 2-Column Perfectly Proportioned Cards (Aligned to center of screen) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-stretch w-full">
-          
-          {/* Left Column: Dark Navy Interactive Contact Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="lg:col-span-5 bg-[#081a2e]/90 backdrop-blur-xl border border-white/10 p-5 sm:p-6 rounded-2xl shadow-2xl flex flex-col justify-between relative overflow-hidden"
-          >
-            <div className="absolute -top-12 -right-12 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
-
-            <div>
-              <div className="mb-2">
-                <h2 className="font-display text-lg sm:text-xl font-bold text-white">
-                  Nos Coordonnées
-                </h2>
-              </div>
-              <p className="text-slate-300 text-xs leading-relaxed mb-5">
-                Besoin d'un renseignement immédiat ? Contactez notre équipe par téléphone ou rendez-nous visite.
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-12 lg:grid-cols-12 lg:gap-12">
+          {/* Canais diretos + bureau + atalho do devis */}
+          <div className="space-y-6 lg:col-span-5">
+            <section aria-labelledby="canaux-title">
+              <h2 id="canaux-title" className="text-sm font-semibold text-slate-500">
+                Nous joindre directement
+              </h2>
+              <ul className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]">
+                {CHANNELS.map(({ href, icon: Icon, title, hint, external }, i) => (
+                  <li key={href} className="relative">
+                    {i > 0 && (
+                      <span aria-hidden="true" className="pointer-events-none absolute left-[76px] right-0 top-0 h-px bg-slate-200 sm:left-[80px]" />
+                    )}
+                    <a
+                      href={href}
+                      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="group flex min-h-[72px] items-center gap-4 px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-slate-50 active:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] sm:px-5"
+                    >
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white">
+                        <Icon className="h-[22px] w-[22px]" aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-lg font-semibold leading-snug tracking-tight text-[#0B1E33] tabular-nums">{title}</span>
+                        <span className="mt-0.5 block text-sm leading-snug text-slate-500">{hint}</span>
+                      </span>
+                      <ChevronRight
+                        className="h-[18px] w-[18px] shrink-0 text-slate-300 transition-[transform,color] duration-150 group-hover:translate-x-0.5 group-hover:text-[#0B1E33] motion-reduce:transition-none"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-sm text-slate-500">
+                Depuis l'étranger :{' '}
+                <a href="tel:+41228008292" className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 tabular-nums hover:decoration-[#0B1E33]">
+                  +41 22 800 82 92
+                </a>
               </p>
+            </section>
 
-              {/* Interactive Contact List */}
-              <div className="space-y-3.5 text-xs">
-                
-                {/* Address with Google Maps link */}
-                <a 
-                  href="https://maps.google.com/?q=Rue+de+Monthoux+64,+1201+Genève" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <MapPin className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-white text-xs">Adresse du Siège</div>
-                      <div className="text-slate-300 text-xs">Rue de Monthoux 64, 1201 Genève</div>
-                    </div>
-                  </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-400 transition-colors" />
-                </a>
-
-                {/* Free Phone */}
-                <a 
-                  href="tel:0800825925" 
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <Phone className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-white text-xs flex items-center gap-2">
-                        <span>0800 825 925</span>
-                        <span className="text-emerald-400 font-semibold text-xs">(Gratuit en Suisse)</span>
-                      </div>
-                      <div className="text-slate-300 text-xs">+41 22 800 82 92 (International)</div>
-                    </div>
-                  </div>
-                  <span className="text-emerald-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">Appeler →</span>
-                </a>
-
-                {/* Email */}
-                <a 
-                  href="mailto:info@batimove.ch" 
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <Mail className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-white text-xs">Email Officiel</div>
-                      <div className="text-slate-300 text-xs">info@batimove.ch</div>
-                    </div>
-                  </div>
-                  <span className="text-sky-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">Écrire →</span>
-                </a>
-
-                {/* Business Hours */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.03] border border-white/5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-                      <Clock className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-white text-xs">Horaires d'Ouverture</div>
-                      <div className="text-slate-300 text-xs">Lun. - Sam. : 08h00 - 19h00</div>
-                    </div>
-                  </div>
-                  <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    Ouvert
-                  </span>
+            <section aria-labelledby="bureau-title" className="rounded-xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]">
+              <h2 id="bureau-title" className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">
+                Notre bureau
+              </h2>
+              <dl className="mt-4 space-y-4">
+                <div className="flex gap-3">
+                  <dt className="mt-0.5 shrink-0">
+                    <MapPin className="h-5 w-5 text-slate-500" aria-hidden="true" />
+                    <span className="sr-only">Adresse</span>
+                  </dt>
+                  <dd className="text-lg leading-snug text-[#0B1E33]">
+                    Rue de Monthoux 64, 1201 Genève
+                    <a
+                      href="https://maps.google.com/?q=Rue+de+Monthoux+64,+1201+Genève"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 flex w-fit items-center gap-1.5 py-1 text-base font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 hover:decoration-[#0B1E33]"
+                    >
+                      Itinéraire
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                      <span className="sr-only"> (s'ouvre dans un nouvel onglet)</span>
+                    </a>
+                  </dd>
                 </div>
-
-              </div>
-            </div>
-
-            {/* Swiss Guarantee Footer inside left card */}
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2.5 bg-white/[0.02] p-2.5 rounded-xl">
-              <span className="text-lg">🇨🇭</span>
-              <p className="text-xs text-slate-300 leading-tight">
-                <span className="font-bold text-white">Batimove Sàrl :</span> Entreprise enregistrée au RC de Genève. Assurance RC Pro 5M CHF.
+                <div className="flex gap-3">
+                  <dt className="mt-0.5 shrink-0">
+                    <Clock className="h-5 w-5 text-slate-500" aria-hidden="true" />
+                    <span className="sr-only">Horaires</span>
+                  </dt>
+                  <dd className="text-lg leading-snug text-[#0B1E33]">
+                    Bureau : lun. au sam., 8h00 à 19h00
+                    <span className="mt-0.5 block text-base text-slate-600">Joignable 7j/7</span>
+                  </dd>
+                </div>
+              </dl>
+              <p className="mt-5 border-t border-slate-200 pt-4 text-sm leading-relaxed text-slate-500">
+                Batimove Sàrl, inscrite au registre du commerce de Genève. IDE <span className="tabular-nums">CHE-143.091.230</span>.
               </p>
-            </div>
-          </motion.div>
+            </section>
 
-          {/* Right Column: High-Converting Refined White Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-7 bg-white text-slate-900 p-5 sm:p-6 lg:p-7 rounded-2xl shadow-2xl border border-slate-100 flex flex-col justify-between relative"
-          >
-            <div>
-              <div className="mb-1">
-                <h2 className="font-display text-lg sm:text-xl font-bold text-[#0B1E33]">
-                  Contactez-Nous
-                </h2>
-              </div>
-              <p className="text-slate-500 text-xs mb-4">
-                Transmettez-nous vos besoins, nous vous recontactons sous 30 min avec un chiffrage précis.
+            <section aria-labelledby="devis-title" className="rounded-xl bg-[#0B1E33] p-6">
+              <h2 id="devis-title" className="font-display text-xl font-bold tracking-tight text-white">
+                Besoin d'un devis ?
+              </h2>
+              <p className="mt-2 text-lg leading-relaxed text-slate-300">
+                Le plus rapide : notre devis en 4 étapes, gratuit et sans engagement. Réponse sous 30&nbsp;min (8h-19h).
               </p>
+              <Link to="/quote" className={buttonClass('primary', 'lg', 'mt-5 w-full sm:w-auto')}>
+                Demander un devis gratuit
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
+              </Link>
+            </section>
+          </div>
 
-              {formSubmitted ? (
-                <div className="py-8 px-6 bg-emerald-50/80 border border-emerald-200 rounded-2xl text-center space-y-3">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-display font-bold text-lg text-emerald-950">Demande Envoyée avec Succès !</h3>
-                  <p className="text-xs text-emerald-800 max-w-sm mx-auto leading-relaxed">
-                    Merci. Un spécialiste Batimove a bien reçu votre demande et analyse actuellement votre besoin.
-                  </p>
-                  <Button 
-                    onClick={() => {
-                      setFormSubmitted(false);
-                      setFormData({ name: '', phone: '', email: '', service: 'Déménagement Résidentiel', message: '' });
-                    }}
-                    className="bg-[#0B1E33] text-white px-5 py-2 rounded-xl font-bold text-xs hover:bg-slate-800 transition-colors"
+          {/* Formulário de mensagem */}
+          <div className="lg:col-span-7">
+            <section
+              aria-labelledby="form-title"
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)] sm:p-8"
+            >
+              {sentName !== null ? (
+                <div className="wizard-in-up py-6 text-center">
+                  <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#0B1E33] text-white">
+                    <Check className="h-7 w-7" strokeWidth={2.5} aria-hidden="true" />
+                  </span>
+                  <h2
+                    ref={successRef}
+                    tabIndex={-1}
+                    id="form-title"
+                    className="mt-5 font-display text-3xl font-extrabold tracking-tight text-[#0B1E33] outline-none"
                   >
-                    Envoyer une autre demande
-                  </Button>
+                    Message envoyé
+                  </h2>
+                  <p className="mx-auto mt-2 max-w-md text-lg leading-relaxed text-slate-600">
+                    Merci {sentName}. Notre équipe vous recontacte sous 30&nbsp;min (8h-19h), par téléphone ou par e-mail.
+                  </p>
+                  <div className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={buttonClass('outline', 'lg')}
+                    >
+                      <WhatsappIcon className="h-5 w-5 text-[#075E54]" />
+                      Écrire sur WhatsApp
+                    </a>
+                    <Button variant="ghost" size="lg" onClick={() => setSentName(null)}>
+                      Envoyer un autre message
+                    </Button>
+                  </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  {formError && (
-                    <div
-                      role="alert"
-                      className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800"
-                    >
-                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                      <p className="text-xs leading-relaxed">
-                        {formError}{' '}
-                        <a href="tel:0800825925" className="font-bold underline underline-offset-2">
-                          Appeler maintenant
-                        </a>
-                      </p>
+                <>
+                  <h2 id="form-title" className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">
+                    Écrivez-nous
+                  </h2>
+                  <p className="mt-1.5 text-base text-slate-600">
+                    Nous vous recontactons sous 30&nbsp;min (8h-19h), par téléphone ou par e-mail.
+                  </p>
+
+                  {sendError && (
+                    <div role="alert" className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-base text-red-800">
+                      Votre message n'a pas pu être envoyé. Vérifiez votre connexion et réessayez, ou{' '}
+                      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2">
+                        écrivez-nous sur WhatsApp
+                      </a>{' '}
+                      ou appelez le{' '}
+                      <a href="tel:0800825925" className="whitespace-nowrap font-semibold underline underline-offset-2">
+                        0800 825 925
+                      </a>
+                      .
                     </div>
                   )}
 
-                  {/* Row 1: Name & Phone */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="contact-name" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Nom & Prénom *
+                  <form onSubmit={handleSubmit} noValidate className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="sm:col-span-2">
+                      <label htmlFor="contact-name" className="mb-1.5 block text-base font-semibold text-[#0B1E33]">
+                        Nom et prénom
                       </label>
                       <input
                         id="contact-name"
-                        name="name"
                         type="text"
-                        required
                         autoComplete="name"
-                        placeholder="Ex: Jean Dupont"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all placeholder:text-slate-400"
+                        placeholder="Ex. Marc Dupont"
+                        value={form.name}
+                        onChange={(e) => update('name', e.target.value)}
+                        className={`${inputClass(!!errors.name)} h-12`}
+                        {...errorProps('name')}
                       />
+                      {errors.name && <p id="contact-name-error" className="mt-1.5 text-sm text-red-700">{errors.name}</p>}
                     </div>
+
                     <div>
-                      <label htmlFor="contact-phone" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Téléphone *
+                      <label htmlFor="contact-phone" className="mb-1.5 block text-base font-semibold text-[#0B1E33]">
+                        Téléphone
                       </label>
                       <input
                         id="contact-phone"
-                        name="phone"
                         type="tel"
-                        required
                         autoComplete="tel"
                         inputMode="tel"
-                        placeholder="Ex: +41 79 123 45 67"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all placeholder:text-slate-400"
+                        placeholder="079 123 45 67"
+                        value={form.phone}
+                        onChange={(e) => update('phone', e.target.value)}
+                        className={`${inputClass(!!errors.phone)} h-12 tabular-nums`}
+                        {...errorProps('phone')}
                       />
+                      {errors.phone && <p id="contact-phone-error" className="mt-1.5 text-sm text-red-700">{errors.phone}</p>}
                     </div>
-                  </div>
 
-                  {/* Row 2: Email & Service */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="contact-email" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Email *
+                      <label htmlFor="contact-email" className="mb-1.5 block text-base font-semibold text-[#0B1E33]">
+                        E-mail
                       </label>
                       <input
                         id="contact-email"
-                        name="email"
                         type="email"
-                        required
                         autoComplete="email"
                         inputMode="email"
-                        placeholder="Ex: jean.dupont@bluewin.ch"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all placeholder:text-slate-400"
+                        placeholder="vous@exemple.ch"
+                        value={form.email}
+                        onChange={(e) => update('email', e.target.value)}
+                        className={`${inputClass(!!errors.email)} h-12`}
+                        {...errorProps('email')}
                       />
+                      {errors.email && <p id="contact-email-error" className="mt-1.5 text-sm text-red-700">{errors.email}</p>}
                     </div>
-                    <div>
-                      <label htmlFor="contact-service" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Prestation Souhaitée *
+
+                    <div className="sm:col-span-2">
+                      <label htmlFor="contact-subject" className="mb-1.5 block text-base font-semibold text-[#0B1E33]">
+                        Votre demande concerne
                       </label>
                       <select
-                        id="contact-service"
-                        name="service"
-                        value={formData.service}
-                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all"
+                        id="contact-subject"
+                        value={form.subject}
+                        onChange={(e) => update('subject', e.target.value)}
+                        className={`${inputClass(false)} h-12 cursor-pointer`}
                       >
-                        <option value="Déménagement Résidentiel">Déménagement Résidentiel</option>
-                        <option value="Transfert d'Entreprise">Transfert d'Entreprise</option>
-                        <option value="Garde-Meubles">Garde-Meubles Sécurisé</option>
-                        <option value="Nettoyage Fin de Bail">Nettoyage État des Lieux</option>
-                        <option value="Location Monte-Meubles">Location Monte-Meubles</option>
-                        <option value="Débarras & Évacuation">Débarras & Évacuation</option>
+                        {SUBJECTS.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
                       </select>
                     </div>
-                  </div>
 
-                  {/* Row 3: Message */}
-                  <div>
-                    <label htmlFor="contact-message" className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                      Détails de Votre Projet
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      rows={2}
-                      placeholder="Trajet (ex: Genève vers Lausanne), dates estimées, volume approximatif ou particularités..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50/60 text-slate-900 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all resize-none placeholder:text-slate-400"
-                    />
-                  </div>
-
-                  {/* Action Row */}
-                  <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <Button
-                      type="submit"
-                      variant="secondary"
-                      isLoading={formLoading}
-                      className="w-full sm:w-auto bg-[#0284c7] hover:bg-sky-500 text-white px-7 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-xl shadow-sky-600/25 hover:shadow-sky-500/35 transition-all flex items-center justify-center gap-2 border-none cursor-pointer"
-                    >
-                      <span>Envoyer Ma Demande</span>
-                      <Send className="w-3.5 h-3.5 text-white" />
-                    </Button>
-                    
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-                      <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span>
-                        Vos données sont traitées selon notre{' '}
-                        <Link to="/privacy" className="underline underline-offset-2 hover:text-slate-800">
-                          politique de confidentialité
-                        </Link>
-                      </span>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="contact-message" className="mb-1.5 block text-base font-semibold text-[#0B1E33]">
+                        Message
+                      </label>
+                      <textarea
+                        id="contact-message"
+                        rows={5}
+                        placeholder="Trajet, dates, volume approximatif, questions particulières…"
+                        value={form.message}
+                        onChange={(e) => update('message', e.target.value)}
+                        className={`${inputClass(!!errors.message)} min-h-[132px] resize-y py-3 leading-relaxed`}
+                        {...errorProps('message')}
+                      />
+                      {errors.message && <p id="contact-message-error" className="mt-1.5 text-sm text-red-700">{errors.message}</p>}
                     </div>
-                  </div>
-                </form>
+
+                    <div className="flex flex-col gap-4 pt-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+                      <Button type="submit" variant="primary" size="lg" isLoading={loading} className="w-full sm:w-auto">
+                        Envoyer le message
+                        <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                      </Button>
+                      <p className="text-sm text-slate-500">
+                        Vos données servent uniquement à vous répondre.{' '}
+                        <Link to="/privacy" className="underline underline-offset-2 hover:text-[#0B1E33]">
+                          Protection des données
+                        </Link>
+                      </p>
+                    </div>
+                  </form>
+                </>
               )}
-            </div>
-          </motion.div>
-
-        </div>
-      </div>
-
-      {/* Sleek Minimal Bottom Bar (Anchors page without generating page scroll) */}
-      <div className="w-full border-t border-white/5 bg-[#05101c]/80 backdrop-blur-md py-2.5 px-4 flex-shrink-0 text-[11px] text-slate-400 z-10">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5">
-          <span>© {new Date().getFullYear()} Batimove Sàrl • Rue de Monthoux 64, 1201 Genève</span>
-          <div className="flex items-center gap-4 text-slate-300">
-            <a href="tel:0800825925" className="hover:text-white transition-colors">Hotline: 0800 825 925</a>
-            <span className="text-slate-600">•</span>
-            <a href="mailto:info@batimove.ch" className="hover:text-white transition-colors">info@batimove.ch</a>
+            </section>
           </div>
         </div>
       </div>
-
     </div>
   );
 };

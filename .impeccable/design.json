@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-13T00:29:42.178Z",
+  "title": "Design System: Batimove Sàrl",
+  "extensions": {
+    "colorMeta": {
+      "navy-institutionnel": {
+        "role": "primary",
+        "displayName": "Navy Institutionnel",
+        "canonical": "#0B1E33",
+        "tonalRamp": [
+          "#050E18",
+          "#0B1E33",
+          "#132C48",
+          "#1E3A5C",
+          "#3B5675",
+          "#6A8099",
+          "#A7B5C4",
+          "#E3E8EE"
+        ]
+      },
+      "navy-hover": {
+        "role": "primary",
+        "displayName": "Navy Hover",
+        "canonical": "#132C48",
+        "tonalRamp": [
+          "#050E18",
+          "#0B1E33",
+          "#132C48",
+          "#1E3A5C",
+          "#3B5675",
+          "#6A8099",
+          "#A7B5C4",
+          "#E3E8EE"
+        ]
+      },
+      "bleu-suisse": {
+        "role": "secondary",
+        "displayName": "Bleu Suisse",
+        "canonical": "#0284C7",
+        "tonalRamp": [
+          "#082F49",
+          "#0C4A6E",
+          "#075985",
+          "#0369A1",
+          "#0284C7",
+          "#0EA5E9",
+          "#7DD3FC",
+          "#E0F2FE"
+        ]
+      },
+      "bleu-suisse-hover": {
+        "role": "secondary",
+        "displayName": "Bleu Suisse Hover",
+        "canonical": "#0EA5E9",
+        "tonalRamp": [
+          "#082F49",
+          "#0C4A6E",
+          "#075985",
+          "#0369A1",
+          "#0284C7",
+          "#0EA5E9",
+          "#7DD3FC",
+          "#E0F2FE"
+        ]
+      },
+      "rouge-suisse": {
+        "role": "tertiary",
+        "displayName": "Rouge Suisse",
+        "canonical": "#E10600",
+        "tonalRamp": [
+          "#450A0A",
+          "#7F1D1D",
+          "#A30400",
+          "#E10600",
+          "#F04438",
+          "#F87171",
+          "#FCA5A5",
+          "#FEE2E2"
+        ]
+      },
+      "fond-ardoise": {
+        "role": "neutral",
+        "displayName": "Fond Ardoise",
+        "canonical": "#F8FAFC",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#E2E8F0",
+          "#F8FAFC"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#F1F5F9",
+          "#FFFFFF"
+        ]
+      },
+      "surface-hover": {
+        "role": "neutral",
+        "displayName": "Surface Hover",
+        "canonical": "#F1F5F9",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#E2E8F0",
+          "#F1F5F9"
+        ]
+      },
+      "bordure": {
+        "role": "neutral",
+        "displayName": "Bordure",
+        "canonical": "#E2E8F0",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#E2E8F0",
+          "#F8FAFC"
+        ]
+      },
+      "texte-secondaire": {
+        "role": "neutral",
+        "displayName": "Texte Secondaire",
+        "canonical": "#475569",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#475569",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#F1F5F9"
+        ]
+      },
+      "texte-discret": {
+        "role": "neutral",
+        "displayName": "Texte Discret",
+        "canonical": "#64748B",
+        "tonalRamp": [
+          "#0F172A",
+          "#1E293B",
+          "#334155",
+          "#475569",
+          "#64748B",
+          "#94A3B8",
+          "#CBD5E1",
+          "#F1F5F9"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Headline do topo de página e títulos de seção principais."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de seção (h2)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Títulos de card e de pergunta (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Parágrafos, medida máxima de 65–75ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Rótulos de métricas e metadados."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Telefone, preços em CHF e volumes em m³, sempre tabulares."
+      }
+    },
+    "shadows": [
+      {
+        "name": "subtle",
+        "value": "0 1px 2px 0 rgba(0,0,0,0.03)",
+        "purpose": "Cartões em repouso."
+      },
+      {
+        "name": "premium",
+        "value": "0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04), 0 16px 32px rgba(0,0,0,0.04)",
+        "purpose": "Painéis destacados e formulários."
+      },
+      {
+        "name": "glass",
+        "value": "0 4px 30px rgba(0,0,0,0.05)",
+        "purpose": "Cabeçalho e sobreposições."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-precision",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Microinterações causais sob clique ou hover, 150–200ms."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação de conversão (devis, envoyer, continuer). Bleu Action em degradê sutil, texto branco AA, sombra neutra com offset, scale 0.98 no clique.",
+      "html": "<button class=\"ds-btn-primary\">Demander un devis gratuit</button>",
+      "css": ".ds-btn-primary { background-image: linear-gradient(180deg,#0377B8 0%,#0369A1 100%); color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; letter-spacing:-0.01em; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(11,30,51,.16), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-image 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background-image: linear-gradient(180deg,#0369A1 0%,#075985 100%); } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Navy institucional, ação forte que não é conversão.",
+      "html": "<button class=\"ds-btn-secondary\">Découvrir nos prestations</button>",
+      "css": ".ds-btn-secondary { background:#0B1E33; color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 1px 2px rgba(11,30,51,.18), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background:#132C48; } .ds-btn-secondary:active { transform: scale(0.98); } .ds-btn-secondary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ação alternativa ao lado da principal.",
+      "html": "<button class=\"ds-btn-outline\">Calculer mon volume</button>",
+      "css": ".ds-btn-outline { background:#fff; color:#0B1E33; height:48px; padding:0 24px; border:1px solid #CBD5E1; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: 0 1px 2px rgba(11,30,51,.06); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-outline:hover { background:#F8FAFC; border-color:#94A3B8; } .ds-btn-outline:active { transform: scale(0.98); } .ds-btn-outline:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de formulário de orçamento e contato.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Nom & Prénom *</span><input class=\"ds-input\" placeholder=\"Ex. Marc Dupont\" /></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Inter', sans-serif; } .ds-field-label { font-size: 13px; font-weight: 500; color: #334155; } .ds-input { padding: 8px 16px; border: 1px solid #CBD5E1; border-radius: 8px; background: #fff; color: #0B1E33; font-size: 14px; outline: none; transition: box-shadow 180ms cubic-bezier(0.16,1,0.3,1), border-color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-input:focus { border-color: #0284C7; box-shadow: 0 0 0 2px rgba(2,132,199,0.35); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Contêiner branco sobre o fundo ardósia.",
+      "html": "<div class=\"ds-card\"><h3 class=\"ds-card-title\">Garde-Meubles & Stockage</h3><p class=\"ds-card-body\">Entreposage propre, tempéré et sous alarme.</p></div>",
+      "css": ".ds-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03); } .ds-card-title { margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; letter-spacing: -0.025em; } .ds-card-body { margin: 0; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #475569; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Cabeçalho fixo com links e ação principal.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-logo\">Batimove Sàrl</span><a class=\"ds-nav-link\" href=\"#\">Services</a><a class=\"ds-nav-link\" href=\"#\">Tarifs</a><a class=\"ds-nav-link\" href=\"#\">Contact</a><a class=\"ds-nav-cta\" href=\"#\">Devis Gratuit</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 24px; padding: 16px 24px; background: rgba(255,255,255,0.95); border-bottom: 1px solid #F1F5F9; font-family: 'Inter', sans-serif; } .ds-nav-logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; color: #0B1E33; margin-right: auto; } .ds-nav-link { color: #0B1E33; font-size: 14px; font-weight: 500; text-decoration: none; transition: color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: #0284C7; } .ds-nav-link:focus-visible, .ds-nav-cta:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 6px; } .ds-nav-cta { background: #0B1E33; color: #fff; padding: 10px 18px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; } .ds-nav-cta:hover { background: #132C48; }"
+    },
+    {
+      "name": "Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Rótulo pequeno de status ou categoria.",
+      "html": "<span class=\"ds-badge\">Avis Google</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; }"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Pergunta frequente em accordion nativo.",
+      "html": "<details class=\"ds-faq\" open><summary class=\"ds-faq-q\">Vos services de déménagement sont-ils assurés ?<svg class=\"ds-faq-chev\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><p class=\"ds-faq-a\">Chaque transport est couvert par une assurance RC professionnelle jusqu'à CHF 5'000'000.</p></details>",
+      "css": ".ds-faq { border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; font-family: 'Inter', sans-serif; } .ds-faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; min-height: 44px; cursor: pointer; list-style: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; } .ds-faq-q::-webkit-details-marker { display: none; } .ds-faq-q:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 12px; } .ds-faq-chev { color: #64748B; flex-shrink: 0; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-faq[open] .ds-faq-chev { transform: rotate(180deg); } .ds-faq-a { margin: 0; padding: 0 36px 20px 0; font-size: 14px; line-height: 1.625; color: #475569; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La Précision Helvétique",
+    "overview": "Déménagement haut de gamme suisse: confiance institutionnelle, clarté absolue, précision chirurgicale. A referência visual é Apple HIG + Stripe + Swiss Design: grid rigoroso, números tabulares e nenhum \"slop\" visual. Cada elemento precisa provar o seu lugar; a confiança vem de fatos verificáveis (seguro, prazo de resposta, avaliações reais), não de decoração.\n\nO site público é Light Mode. O portal BatimoveOS é Dark Mode.",
+    "keyCharacteristics": [
+      "Navy institucional como voz principal, azul suíço só para destaque e foco.",
+      "Hierarquia por peso e tamanho, nunca por efeito.",
+      "Métricas e preços em números tabulares.",
+      "Superfícies claras, bordas de 1px, elevação contida."
+    ],
+    "rules": [
+      {
+        "name": "The One Accent Rule",
+        "body": "O Bleu Suisse é o único destaque. Se dois elementos vizinhos competem em azul, um deles volta ao navy.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Flag Rule",
+        "body": "O Rouge Suisse aparece só em ação crítica ou na bandeira. Nunca como fundo de seção, nunca em texto corrido.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Truth Rule",
+        "body": "Métricas e preços usam font-display com tabular-nums. Números alinhados são parte da promessa de precisão.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tight Title Rule",
+        "body": "Todo título usa tracking-tight.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Neon Rule",
+        "body": "Nada de sombra colorida (shadow-sky-500/30) nem glow radial em fundo escuro. Sombra é neutra e tem offset.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Twelve Rule",
+        "body": "Cartões e botões ficam em 12px. Raios de 16–24px (rounded-2xl, rounded-3xl) não fazem parte do sistema.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do usar números tabulares em todas as métricas e preços.",
+      "Do manter bordas de 1px #E2E8F0 e raio de 12px em cartões e botões.",
+      "Do animar só em resposta a clique ou hover, em 150–200ms com cubic-bezier(0.16, 1, 0.3, 1).",
+      "Do basear toda afirmação de confiança em fato verificável (RC Pro 5M CHF, resposta sob 30 min, avaliações Google reais)."
+    ],
+    "donts": [
+      "Don't usar glows coloridos, sombras neon ou halos radiais.",
+      "Don't usar o Rouge Suisse como decoração."
+    ]
+  }
+}

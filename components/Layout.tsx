@@ -1,143 +1,374 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Shield, ExternalLink, Linkedin, Instagram, Facebook, MapPin, Mail, Clock, Search, ChevronRight, Lock } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X, Phone, Shield, ExternalLink, Linkedin, Instagram, Facebook, MapPin, Mail, Clock, Search, ChevronRight, ChevronDown, Lock } from 'lucide-react';
 import { Button, Logo } from './UIComponents';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { BrandLogo } from './BrandMark';
+import { WhatsappIcon } from './WhatsAppButton';
+import { QUOTE_SERVICES } from '../data/quoteServices';
+
+// Navegação principal. Estrutura inspirada na Helvetia (menu por serviço, com um
+// painel dedicado "Déménagement"), no estilo Batimove e só com páginas que existem.
+const MENU_REGIONS = [
+  { label: 'Genève', hint: 'Ville et communes du canton', to: '/demenagement-geneve' },
+  { label: 'Lausanne', hint: 'Ville et région lausannoise', to: '/demenagement-lausanne' },
+  { label: 'Canton de Vaud', hint: 'Nyon, Morges, Vevey, Montreux…', to: '/demenagement-vaud' },
+];
+
+const MENU_LINKS: { label: string; to: string; xlOnly?: boolean }[] = [
+  { label: 'Débarras', to: '/debarras' },
+  { label: 'Nettoyage', to: '/nettoyage-fin-de-bail' },
+  { label: 'Garde-meubles', to: '/garde-meubles' },
+  // Some entre 1024 e 1279 px para a barra caber; continua no footer e no menu mobile.
+  { label: 'Calculateur', to: '/calculator', xlOnly: true },
+  { label: 'Contact', to: '/contact' },
+];
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMegaOpen, setIsMegaOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
+  const hoverTimer = useRef<number | undefined>(undefined);
+  const megaTriggerRef = useRef<HTMLButtonElement>(null);
+  const megaWrapRef = useRef<HTMLDivElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const mobileCloseRef = useRef<HTMLButtonElement>(null);
+  const megaId = 'menu-demenagement';
+
+  // Rolagem travada com o menu mobile aberto; foco vai para o botão de fechar.
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
+    if (isMobileMenuOpen) mobileCloseRef.current?.focus();
   }, [isMobileMenuOpen]);
-  const navLinks = [
-    { name: 'Accueil', path: '/' },
-    { name: 'À Propos', path: '/#about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Calculateur', path: '/calculator' },
-    { name: 'Tarifs', path: '/pricing' },
-    { name: 'Contact', path: '/contact' },
-  ];
+
+  // Trocar de página fecha tudo.
+  useEffect(() => {
+    setIsMegaOpen(false);
+    setIsMobileMenuOpen(false);
+  }, [location.pathname, location.search]);
+
+  // Esc fecha e devolve o foco a quem abriu; clique fora fecha o painel.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      if (isMegaOpen) {
+        setIsMegaOpen(false);
+        megaTriggerRef.current?.focus();
+      }
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+        mobileToggleRef.current?.focus();
+      }
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (isMegaOpen && megaWrapRef.current && !megaWrapRef.current.contains(e.target as Node)) setIsMegaOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointer);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointer);
+    };
+  }, [isMegaOpen, isMobileMenuOpen]);
+
+  useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
+
+  // Abre com um pequeno atraso no hover (evita abrir ao só passar o mouse) e fecha
+  // com folga ao sair, para dar tempo de descer do botão ao painel.
+  const openSoon = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(() => setIsMegaOpen(true), 90);
+  };
+  const closeSoon = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(() => setIsMegaOpen(false), 160);
+  };
+
+  const isActive = (to: string) => {
+    const [path, query] = to.split('?');
+    if (location.pathname !== path) return false;
+    return query ? location.search.includes(query) : !location.search.includes('type=') || path !== '/services';
+  };
+  const isDemenagementActive =
+    location.pathname.startsWith('/demenagement-') ||
+    (location.pathname === '/services' && !/type=(debarras|nettoyage)/.test(location.search));
+
+  const navLinkClass = (active: boolean) =>
+    `group relative inline-flex h-[68px] items-center whitespace-nowrap text-base font-semibold xl:text-lg transition-colors duration-150 focus-visible:outline-none ${
+      active ? 'text-[#0B1E33]' : 'text-slate-600 hover:text-[#0B1E33]'
+    }`;
+  const activeBar = <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-[#0B1E33]" />;
 
   return (
-    <header className="w-full z-50 sticky top-0 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 font-sans">
-      {/* 1. TOP BAR (DARK NAVY - MATCHING REFERENCE DESIGN) */}
-      <div className="bg-[#07182b] text-slate-300 text-xs py-2 border-b border-white/10 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+    <header className="sticky top-0 z-[70] w-full border-b border-slate-200 bg-white/95 font-sans backdrop-blur-md">
+      {/* Faixa de informações */}
+      <div className="hidden border-b border-white/10 bg-[#07182b] py-2 text-xs text-slate-300 md:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-sky-400" />
+              <MapPin className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               Rue de Monthoux 64, 1201 Genève
             </span>
-            <a href="tel:0800825925" className="flex items-center gap-2 hover:text-white transition-colors">
-              <Phone className="w-3.5 h-3.5 text-sky-400" />
-              <span className="font-semibold text-white">0800 825 925</span> (Gratuit en Suisse)
+            <a href="tel:0800825925" className="flex items-center gap-2 transition-colors hover:text-white">
+              <Phone className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
+              <span className="font-semibold text-white tabular-nums">0800 825 925</span> (gratuit en Suisse)
             </a>
-            <a href="mailto:info@batimove.ch" className="flex items-center gap-2 hover:text-white transition-colors">
-              <Mail className="w-3.5 h-3.5 text-sky-400" />
+            <a href="mailto:info@batimove.ch" className="flex items-center gap-2 transition-colors hover:text-white">
+              <Mail className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               info@batimove.ch
             </a>
           </div>
-          <div className="flex items-center gap-4 text-slate-300">
+          <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-sky-400" />
-              Lun. au Sam. : 08h00 à 19h00
+              <Clock className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
+              Bureau : lun. au sam., 8h00 à 19h00
             </span>
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <span className="text-sky-400">🇨🇭</span> Garantie Régies Suisses
-            </span>
+            <span>Joignable 7j/7</span>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN NAVIGATION */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <Logo className="w-12 h-12 transition-transform duration-300 group-hover:scale-105" />
-            <span className="text-2xl font-extrabold tracking-tight text-[#0B1E33] font-display">
-              Batimove Sarl
-            </span>
-          </Link>
-
-          {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="text-[15px] font-semibold text-slate-700 hover:text-sky-600 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* Action CTA & Phone */}
-          <div className="hidden sm:flex items-center gap-4">
-            <a 
-              href="tel:0800825925" 
-              className="hidden xl:flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0B1E33] text-sm font-bold transition-all"
+      {/* Barra principal + painel Déménagement */}
+      <div ref={megaWrapRef} onPointerLeave={closeSoon} className="relative">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-[68px] items-center justify-between gap-6">
+            <Link
+              to="/"
+              aria-label="Batimove, retour à l'accueil"
+              className="shrink-0 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0284c7]"
             >
-              <Phone className="w-4 h-4 text-sky-600" />
-              <span>0800 825 925</span>
-            </a>
-            <Link to="/quote">
-              <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                <span>Devis Gratuit</span>
-                <ChevronRight className="w-4 h-4 text-sky-400" />
-              </Button>
+              <BrandLogo markClassName="h-8 w-auto sm:h-9" textClassName="text-lg text-[#0B1E33] sm:text-xl" />
             </Link>
-          </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            className="lg:hidden p-2 rounded-lg bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            <nav aria-label="Navigation principale" className="hidden lg:block">
+              <ul className="flex items-center gap-5 xl:gap-8">
+                <li onPointerEnter={openSoon}>
+                  <button
+                    ref={megaTriggerRef}
+                    type="button"
+                    aria-expanded={isMegaOpen}
+                    aria-controls={megaId}
+                    onClick={() => setIsMegaOpen((o) => !o)}
+                    className={`${navLinkClass(isDemenagementActive || isMegaOpen)} gap-1.5`}
+                  >
+                    <span className="rounded-md group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-[#0284c7]">Déménagement</span>
+                    <ChevronDown
+                      aria-hidden="true"
+                      className={`h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${isMegaOpen ? 'rotate-180' : ''}`}
+                    />
+                    {isDemenagementActive && activeBar}
+                  </button>
+                </li>
+                {MENU_LINKS.map((l) => {
+                  const active = isActive(l.to);
+                  return (
+                    <li key={l.to} onPointerEnter={closeSoon} className={l.xlOnly ? 'hidden xl:block' : undefined}>
+                      <Link to={l.to} aria-current={active ? 'page' : undefined} className={navLinkClass(active)}>
+                        <span className="rounded-md group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-[#0284c7]">{l.label}</span>
+                        {active && activeBar}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="hidden shrink-0 items-center gap-3 sm:flex">
+              <Link
+                to="/quote"
+                className="btn btn-md btn-primary h-10 px-4 text-base"
+              >
+                Devis gratuit
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-1 lg:hidden">
+            <a
+              href="tel:0800825925"
+              aria-label="Appeler le 0800 825 925 (gratuit)"
+              className="grid h-11 w-11 place-items-center rounded-xl text-[#0B1E33] transition-colors hover:bg-slate-100 md:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+            >
+              <Phone className="h-5 w-5" aria-hidden="true" />
+            </a>
+            <button
+              ref={mobileToggleRef}
+              type="button"
+              className="grid h-11 w-11 place-items-center rounded-xl text-[#0B1E33] transition-colors hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Ouvrir le menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="menu-mobile"
+            >
+              <Menu className="h-6 w-6" aria-hidden="true" />
+            </button>
+            </div>
+          </div>
         </div>
+
+        {/* Painel dedicado "Déménagement" (desktop) */}
+        {isMegaOpen && (
+        <div
+          id={megaId}
+          className="nav-panel-in absolute inset-x-0 top-full hidden border-t border-slate-200 bg-white shadow-[0_24px_40px_-24px_rgba(11,30,51,0.25)] lg:block"
+        >
+          <div className="mx-auto grid max-w-7xl grid-cols-12 gap-8 px-8 py-8">
+            <div className="col-span-6">
+              <p className="text-sm font-semibold text-slate-500">Nos prestations</p>
+              <ul className="mt-3 grid grid-cols-2 gap-1">
+                {QUOTE_SERVICES.map(({ id, label, hint, icon: Icon, page }) => (
+                  <li key={id}>
+                    <Link
+                      to={page}
+                      className="group flex items-center gap-3.5 rounded-xl p-3 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+                    >
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white">
+                        <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-display text-lg font-semibold leading-snug tracking-tight text-[#0B1E33]">{label}</span>
+                        <span className="block text-sm text-slate-500">{hint}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-3 border-l border-slate-200 pl-8">
+              <p className="text-sm font-semibold text-slate-500">Par région</p>
+              <ul className="mt-3 space-y-1">
+                {MENU_REGIONS.map((r) => (
+                  <li key={r.to}>
+                    <Link
+                      to={r.to}
+                      className="group -mx-3 flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+                    >
+                      <span>
+                        <span className="block text-lg font-semibold text-[#0B1E33]">{r.label}</span>
+                        <span className="block text-sm text-slate-500">{r.hint}</span>
+                      </span>
+                      <ChevronRight
+                        aria-hidden="true"
+                        className="h-4 w-4 shrink-0 text-slate-300 transition-[transform,color] duration-150 group-hover:translate-x-0.5 group-hover:text-[#0B1E33]"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-3">
+              <div className="flex h-full flex-col rounded-xl bg-slate-50 p-6">
+                <p className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">Devis gratuit sous 30&nbsp;min</p>
+                <p className="mt-2 text-base leading-relaxed text-slate-600">
+                  Prix ferme&nbsp;: aucun surcoût une fois le devis accepté. Réponse de 8h à 19h.
+                </p>
+                <div className="mt-auto space-y-3 pt-6">
+                  <Link
+                    to="/quote"
+                    className="btn btn-md btn-primary w-full"
+                  >
+                    Demander un devis
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                  <Link
+                    to="/calculator"
+                    className="block text-center text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
+                  >
+                    Estimer mon volume
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
       </div>
 
-      {/* MOBILE MENU - PURE TAILWIND STYLES (ZERO INLINES) */}
+      {/* Menu mobile */}
       {isMobileMenuOpen && (
         <>
+          <div onClick={() => setIsMobileMenuOpen(false)} className="fixed inset-0 z-[70] bg-[#0B1E33]/50" aria-hidden="true" />
           <div
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[70] transition-opacity"
-          />
-
-          <div className="fixed top-0 right-0 w-[85%] max-w-[400px] h-screen bg-white z-[80] flex flex-col p-6 overflow-y-auto shadow-2xl">
-            <div className="flex justify-end mb-8">
+            id="menu-mobile"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="nav-drawer-in fixed right-0 top-0 z-[80] flex h-[100dvh] w-[min(400px,88vw)] flex-col bg-white shadow-[-24px_0_48px_-24px_rgba(11,30,51,0.35)]"
+          >
+            <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-slate-200 px-5">
+              <BrandLogo markClassName="h-8 w-auto" textClassName="text-lg text-[#0B1E33]" />
               <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-100 text-slate-900 transition-colors cursor-pointer"
+                ref={mobileCloseRef}
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  mobileToggleRef.current?.focus();
+                }}
+                className="grid h-11 w-11 place-items-center rounded-xl text-[#0B1E33] transition-colors hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
                 aria-label="Fermer le menu"
               >
-                <X className="w-8 h-8 text-slate-900" />
+                <X className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center items-center gap-6">
-              <Link to="/services" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl sm:text-3xl font-bold text-slate-900 hover:text-sky-600 transition-colors text-center w-full py-2">Services</Link>
-              <Link to="/calculator" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl sm:text-3xl font-bold text-slate-900 hover:text-sky-600 transition-colors text-center w-full py-2">Calculateur</Link>
-              <Link to="/services?type=entreprise" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl sm:text-3xl font-bold text-slate-900 hover:text-sky-600 transition-colors text-center w-full py-2">Entreprises</Link>
-              <Link to="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl sm:text-3xl font-bold text-slate-900 hover:text-sky-600 transition-colors text-center w-full py-2">Tarifs</Link>
-              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl sm:text-3xl font-bold text-slate-900 hover:text-sky-600 transition-colors text-center w-full py-2">Contact</Link>
-              <div className="h-0.5 w-20 bg-slate-300 my-3" />
-              <Link to="/quote" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold text-white bg-[#e10600] hover:bg-red-700 transition-colors text-center w-full py-3.5 px-6 rounded-xl block shadow-lg">Devis Express</Link>
-            </div>
+            <nav aria-label="Navigation mobile" className="flex-1 overflow-y-auto px-5 py-6">
+              <p className="text-sm font-semibold text-slate-500">Nos prestations</p>
+              <ul className="mt-2 overflow-hidden rounded-xl border border-slate-200">
+                {QUOTE_SERVICES.map(({ id, label, hint, icon: Icon, page }, i) => (
+                  <li key={id} className="relative">
+                    {i > 0 && <span aria-hidden="true" className="absolute left-[72px] right-0 top-0 h-px bg-slate-200" />}
+                    <Link to={page} className="flex min-h-[64px] items-center gap-3.5 px-4 py-3 active:bg-slate-100">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33]">
+                        <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-lg font-semibold leading-snug text-[#0B1E33]">{label}</span>
+                        <span className="block text-sm text-slate-500">{hint}</span>
+                      </span>
+                      <ChevronRight className="h-[18px] w-[18px] shrink-0 text-slate-300" aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
 
-            <div className="mt-auto text-center text-slate-400 text-xs py-6 border-t border-slate-100">
-              <p className="font-semibold text-slate-600">Batimove Sàrl • Genève</p>
-              <p className="mt-0.5">Excellence in Motion • Qualité Suisse</p>
+              <p className="mt-7 text-sm font-semibold text-slate-500">Par région</p>
+              <ul className="mt-2 overflow-hidden rounded-xl border border-slate-200">
+                {MENU_REGIONS.map((r, i) => (
+                  <li key={r.to} className={i > 0 ? 'border-t border-slate-200' : ''}>
+                    <Link to={r.to} className="flex min-h-[52px] items-center justify-between px-4 text-lg font-semibold text-[#0B1E33] active:bg-slate-100">
+                      {r.label}
+                      <ChevronRight className="h-[18px] w-[18px] text-slate-300" aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <ul className="mt-7 space-y-1">
+                {[{ label: 'Calculateur de volume', to: '/calculator' }, { label: 'Contact', to: '/contact' }].map((l) => (
+                  <li key={l.to}>
+                    <Link to={l.to} className="-mx-2 flex min-h-[48px] items-center rounded-lg px-2 text-lg font-semibold text-[#0B1E33] active:bg-slate-100">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="shrink-0 space-y-3 border-t border-slate-200 p-5">
+              <Link
+                to="/quote"
+                className="btn btn-lg btn-primary w-full"
+              >
+                Demander un devis gratuit
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
+              </Link>
+              <a href="tel:0800825925" className="btn btn-lg btn-outline w-full">
+                <Phone className="h-5 w-5" aria-hidden="true" />
+                <span className="tabular-nums">0800 825 925</span>
+              </a>
             </div>
           </div>
         </>
@@ -146,121 +377,150 @@ export const Navbar: React.FC = () => {
   );
 };
 
+// Rodapé dedicado: todas as páginas reais do site, contato direto e dados legais.
+// Oculto só nos funis de conversão (orçamento e checkout da calculadora).
+const FOOTER_COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
+  {
+    title: 'Prestations',
+    links: [
+      { label: 'Déménagement privé', to: '/services?type=prive' },
+      { label: "Déménagement d'entreprise", to: '/services?type=entreprise' },
+      { label: 'Débarras', to: '/debarras' },
+      { label: 'Nettoyage de fin de bail', to: '/nettoyage-fin-de-bail' },
+      { label: 'Garde-meubles', to: '/garde-meubles' },
+    ],
+  },
+  {
+    title: 'Régions',
+    links: [
+      { label: 'Déménagement Genève', to: '/demenagement-geneve' },
+      { label: 'Déménagement Lausanne', to: '/demenagement-lausanne' },
+      { label: 'Déménagement Vaud', to: '/demenagement-vaud' },
+      { label: 'Débarras Genève', to: '/debarras-geneve' },
+      { label: 'Débarras Lausanne', to: '/debarras-lausanne' },
+      { label: 'Nettoyage Genève', to: '/nettoyage-fin-de-bail-geneve' },
+      { label: 'Nettoyage Lausanne', to: '/nettoyage-fin-de-bail-lausanne' },
+    ],
+  },
+  {
+    title: 'Outils',
+    links: [
+      { label: 'Devis gratuit en 4 étapes', to: '/quote' },
+      { label: 'Calculateur de volume', to: '/calculator' },
+      { label: 'Contact', to: '/contact' },
+    ],
+  },
+  {
+    title: 'Légal',
+    links: [
+      { label: 'Mentions légales', to: '/legal' },
+      { label: 'Conditions générales (CGV)', to: '/terms' },
+      { label: 'Protection des données', to: '/privacy' },
+    ],
+  },
+];
+
 export const Footer: React.FC = () => {
   const location = useLocation();
-  const isHidden = ['/quote', '/business', '/pricing', '/contact', '/calculator', '/services'].some(path => location.pathname === path || location.pathname.startsWith('/quote/'));
-
+  const isHidden =
+    location.pathname === '/quote' || location.pathname.startsWith('/quote/') || location.pathname === '/calculator/checkout';
   if (isHidden) return null;
 
+  const linkClass =
+    'rounded text-base text-slate-300 transition-colors duration-150 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300';
+
   return (
-    <footer className="bg-[#0B1E33] text-slate-400 py-6 border-t border-white/5 font-sans">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        {/* Main Grid: Compact 5-Column Architecture */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 items-start pb-6 border-b border-white/5 text-xs">
-          
-          {/* Brand Info (2 cols wide on desktop) */}
-          <div className="md:col-span-2 space-y-2.5">
-            <Link to="/" className="flex items-center gap-2 text-white text-base font-bold font-display hover:opacity-80 transition-opacity">
-              <Logo className="w-7 h-7" />
-              <span>Batimove Sarl</span>
+    <footer className="bg-[#0B1E33] font-sans text-slate-300">
+      <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 lg:px-8 lg:pt-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          {/* Marca e contato direto */}
+          <div className="lg:col-span-4">
+            <Link
+              to="/"
+              aria-label="Batimove, retour à l'accueil"
+              className="inline-flex rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300"
+            >
+              <BrandLogo markClassName="h-8 w-auto" textClassName="text-xl text-white" />
             </Link>
-            <p className="text-slate-400 text-xs leading-tight font-medium">
-              Rue de Monthoux 64, 1201 Genève, Suisse
+            <p className="mt-4 max-w-sm text-base leading-relaxed text-slate-300">
+              Déménagement, débarras, nettoyage de fin de bail et garde-meubles à Genève et dans le canton de Vaud.
             </p>
-            <a href="tel:+41800825925" className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-sky-400 transition-colors">
-              <Phone className="w-3.5 h-3.5 text-sky-400" />
-              <span>0800 825 925</span>
-            </a>
-          </div>
-
-          {/* Column 1: Expertise */}
-          <div className="space-y-1.5">
-            <h4 className="text-white font-semibold font-display text-xs tracking-wider uppercase mb-2">Expertise</h4>
-            <ul className="space-y-1 text-slate-400 font-medium">
-              <li><Link to="/services?type=prive" className="hover:text-white transition-colors">Déménagement</Link></li>
-              <li><Link to="/services?type=entreprise" className="hover:text-white transition-colors">Transfert Pro</Link></li>
-              <li><Link to="/services?type=prive" className="hover:text-white transition-colors">Garde-Meubles</Link></li>
-              <li><Link to="/services?type=nettoyage" className="hover:text-white transition-colors">Nettoyage</Link></li>
+            <ul className="mt-6 space-y-3 text-base">
+              <li>
+                <a href="tel:0800825925" className={`${linkClass} inline-flex items-center gap-2.5 font-semibold text-white`}>
+                  <Phone className="h-4 w-4 text-sky-300" aria-hidden="true" />
+                  <span className="tabular-nums">0800 825 925</span>
+                  <span className="font-normal text-slate-400">appel gratuit</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/41798896406" target="_blank" rel="noopener noreferrer" className={`${linkClass} inline-flex items-center gap-2.5`}>
+                  <WhatsappIcon className="h-4 w-4 text-sky-300" />
+                  WhatsApp
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@batimove.ch" className={`${linkClass} inline-flex items-center gap-2.5`}>
+                  <Mail className="h-4 w-4 text-sky-300" aria-hidden="true" />
+                  info@batimove.ch
+                </a>
+              </li>
+              <li className="inline-flex items-start gap-2.5 text-slate-300">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sky-300" aria-hidden="true" />
+                Rue de Monthoux 64, 1201 Genève
+              </li>
             </ul>
-          </div>
-
-          {/* Column 2: Société */}
-          <div className="space-y-1.5">
-            <h4 className="text-white font-semibold font-display text-xs tracking-wider uppercase mb-2">Société</h4>
-            <ul className="space-y-1 text-slate-400 font-medium">
-              <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-              <li><Link to="/pricing" className="hover:text-white transition-colors">Nos Tarifs</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Carrières</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Légal */}
-          <div className="space-y-1.5">
-            <h4 className="text-white font-semibold font-display text-xs tracking-wider uppercase mb-2">Légal</h4>
-            <ul className="space-y-1 text-slate-400 font-medium">
-              <li><Link to="/privacy" className="hover:text-white transition-colors">Protection des données</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors">CGV</Link></li>
-              <li><Link to="/legal" className="hover:text-white transition-colors">Mentions Légales</Link></li>
-            </ul>
-          </div>
-
-        </div>
-
-        {/* Regional Links Strip (Discreet Luxury Internal Linking) */}
-        <div className="py-3 border-b border-white/5 flex flex-wrap items-center justify-between text-[11px] sm:text-xs text-slate-400 gap-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold text-slate-300 font-display">Déménagement Suisse Romande :</span>
-            <Link to="/demenagement-geneve" className="hover:text-white transition-colors">Genève</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/demenagement-lausanne" className="hover:text-white transition-colors">Lausanne</Link>
-            <span className="text-slate-600">•</span>
-            <Link to="/demenagement-vaud" className="hover:text-white transition-colors">Canton de Vaud</Link>
-          </div>
-          <span className="text-[11px] text-slate-500 hidden sm:inline">Genève, Vaud, Valais, Fribourg & Neuchâtel</span>
-        </div>
-
-        {/* Micro Bottom Bar: Clean Single Line */}
-        <div className="pt-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-[11px] font-medium text-slate-500">
-          <div className="flex items-center gap-2">
-            <span>© {new Date().getFullYear()} Batimove Sarl. Tous droits réservés.</span>
-            <Link 
-              to="/portal" 
-              title="Portail de Gestion Interne Batimove" 
-              className="text-slate-600 hover:text-sky-400 transition-colors opacity-30 hover:opacity-100 cursor-pointer p-0.5"
-            >
-              <Lock className="w-3 h-3" />
-            </Link>
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <a 
-              href="https://www.instagram.com/batimove.sarl/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-white transition-colors flex items-center gap-1.5 group"
-            >
-              <Instagram className="w-3.5 h-3.5 group-hover:text-sky-400 transition-colors" />
-              <span>@batimove.sarl</span>
-            </a>
-
-            <div className="flex items-center gap-1 text-slate-400">
-              <span>Made with</span>
-              <span className="text-red-500 text-xs">❤️</span>
-              <span>by</span>
-              <a 
-                href="https://joshsegatt.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="font-bold text-slate-200 hover:text-white transition-colors flex items-center gap-0.5 group"
-              >
-                joshsegatt
-                <ExternalLink className="w-3 h-3 text-batimove-blue opacity-80 group-hover:opacity-100 transition-opacity" />
-              </a>
+            <div className="mt-7">
+              <Link to="/quote" className="btn btn-md btn-inverse">
+                Demander un devis gratuit
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
           </div>
+
+          {/* Colunas de páginas */}
+          <nav aria-label="Pied de page" className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-8">
+            {FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <h2 className="font-display text-base font-semibold text-white">{col.title}</h2>
+                <ul className="mt-4 space-y-3">
+                  {col.links.map((l) => (
+                    <li key={l.to}>
+                      <Link to={l.to} className={linkClass}>
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
 
+        {/* Base: dados legais */}
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Batimove Sàrl · IDE CHE-143.091.230 · Genève, Vaud, Fribourg, Valais</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a
+              href="https://www.instagram.com/batimove.sarl/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+            >
+              <Instagram className="h-4 w-4" aria-hidden="true" />
+              @batimove.sarl
+            </a>
+            <a
+              href="https://joshsegatt.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+            >
+              Site par joshsegatt
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );

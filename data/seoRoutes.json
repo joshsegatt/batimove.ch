@@ -25,13 +25,9 @@
       "title": "Services Déménagement, Débarras & Nettoyage - Batimove",
       "description": "Services de déménagement complets en Suisse Romande : résidentiel, transfert d'entreprise, débarras certifié et nettoyage état des lieux avec garantie régies."
     },
-    "/pricing": {
-      "title": "Tarifs Déménagement | Prix Fixes Dès 550 CHF - Batimove",
-      "description": "Découvrez nos formules de déménagement en Suisse dès 550 CHF : Basic, Standard, Premium et Luxe. Devis ferme sans surprise, assurance RC incluse."
-    },
     "/calculator": {
       "title": "Calculateur de Volume Déménagement Gratuit - Batimove",
-      "description": "Calculez précisément le volume en m³ de vos meubles et obtenez un devis immédiat pour votre déménagement à Genève, Lausanne et en Suisse Romande."
+      "description": "Calculez le volume en m³ de vos meubles et recevez votre prix ferme sous 30 min pour votre déménagement à Genève, Lausanne et en Suisse romande."
     },
     "/contact": {
       "title": "Contact Batimove | Déménageur Genève & Vaud - 0800 825 925",
@@ -51,12 +47,104 @@
     },
     "/legal": {
       "title": "Mentions Légales & Impressum | Batimove Sàrl",
-      "description": "Mentions légales de Batimove Sàrl : éditeur, siège à Genève, IDE CHE-492.836.215 et hébergement du site."
+      "description": "Mentions légales de Batimove Sàrl : éditeur, siège à Genève, IDE CHE-143.091.230 et hébergement du site."
     },
     "/calculator/checkout": {
       "title": "Finaliser Votre Devis | Batimove Sàrl",
       "description": "Finalisez les détails de votre déménagement et recevez votre devis personnalisé sous 30 min.",
       "robots": "noindex, nofollow"
+    },
+    "/debarras": {
+      "title": "Débarras Genève & Vaud | Devis Gratuit en 30 min - Batimove",
+      "description": "Débarras d'appartement, maison, cave ou grenier à Genève et dans le canton de Vaud. Tri, évacuation et recyclage. Prix ferme, devis gratuit sous 30 min."
+    },
+    "/nettoyage-fin-de-bail": {
+      "title": "Nettoyage de Fin de Bail Genève & Vaud - Batimove",
+      "description": "Nettoyage de fin de bail conforme aux exigences des régies, à Genève et dans le canton de Vaud. Retouche gratuite en cas de remarque. Devis sous 30 min."
+    },
+    "/garde-meubles": {
+      "title": "Garde-Meubles Genève - Stockage Sécurisé | Batimove",
+      "description": "Garde-meubles à Genève : dépôt ventilé sous vidéosurveillance, stockage court ou long terme, enlèvement à Genève et dans le canton de Vaud."
+    },
+    "/debarras-geneve": {
+      "title": "Débarras Genève - Devis en 30 min | Batimove",
+      "description": "Débarras à Genève : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Eaux-Vives, Champel, Plainpalais."
+    },
+    "/nettoyage-fin-de-bail-geneve": {
+      "title": "Nettoyage Fin de Bail Genève | Batimove",
+      "description": "Nettoyage de fin de bail à Genève, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Eaux-Vives, Champel, Plainpalais."
+    },
+    "/debarras-carouge": {
+      "title": "Débarras Carouge - Devis en 30 min | Batimove",
+      "description": "Débarras à Carouge : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Vieux-Carouge, Lancy, Plan-les-Ouates."
+    },
+    "/nettoyage-fin-de-bail-carouge": {
+      "title": "Nettoyage Fin de Bail Carouge | Batimove",
+      "description": "Nettoyage de fin de bail à Carouge, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Vieux-Carouge, Lancy."
+    },
+    "/debarras-vaud": {
+      "title": "Débarras Vaud - Devis en 30 min | Batimove",
+      "description": "Débarras dans le canton de Vaud : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Lausanne, Renens, Nyon."
+    },
+    "/nettoyage-fin-de-bail-vaud": {
+      "title": "Nettoyage Fin de Bail Vaud | Batimove",
+      "description": "Nettoyage de fin de bail dans le canton de Vaud, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Lausanne, Renens."
+    },
+    "/debarras-lausanne": {
+      "title": "Débarras Lausanne - Devis en 30 min | Batimove",
+      "description": "Débarras à Lausanne : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Ouchy, Sous-Gare, Chailly."
+    },
+    "/nettoyage-fin-de-bail-lausanne": {
+      "title": "Nettoyage Fin de Bail Lausanne | Batimove",
+      "description": "Nettoyage de fin de bail à Lausanne, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Ouchy, Sous-Gare, Chailly."
+    },
+    "/debarras-renens": {
+      "title": "Débarras Renens - Devis en 30 min | Batimove",
+      "description": "Débarras à Renens : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Crissier, Ecublens, Chavannes-près-Renens."
+    },
+    "/nettoyage-fin-de-bail-renens": {
+      "title": "Nettoyage Fin de Bail Renens | Batimove",
+      "description": "Nettoyage de fin de bail à Renens, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Crissier, Ecublens."
+    },
+    "/debarras-nyon": {
+      "title": "Débarras Nyon - Devis en 30 min | Batimove",
+      "description": "Débarras à Nyon : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Prangins, Gland, Rolle."
+    },
+    "/nettoyage-fin-de-bail-nyon": {
+      "title": "Nettoyage Fin de Bail Nyon | Batimove",
+      "description": "Nettoyage de fin de bail à Nyon, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Prangins, Gland, Rolle."
+    },
+    "/debarras-morges": {
+      "title": "Débarras Morges - Devis en 30 min | Batimove",
+      "description": "Débarras à Morges : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Tolochenaz, Préverenges, Saint-Prex."
+    },
+    "/nettoyage-fin-de-bail-morges": {
+      "title": "Nettoyage Fin de Bail Morges | Batimove",
+      "description": "Nettoyage de fin de bail à Morges, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Tolochenaz, Préverenges."
+    },
+    "/debarras-vevey": {
+      "title": "Débarras Vevey - Devis en 30 min | Batimove",
+      "description": "Débarras à Vevey : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : La Tour-de-Peilz, Corseaux."
+    },
+    "/nettoyage-fin-de-bail-vevey": {
+      "title": "Nettoyage Fin de Bail Vevey | Batimove",
+      "description": "Nettoyage de fin de bail à Vevey, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : La Tour-de-Peilz, Corseaux."
+    },
+    "/debarras-montreux": {
+      "title": "Débarras Montreux - Devis en 30 min | Batimove",
+      "description": "Débarras à Montreux : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Clarens, Territet, Glion."
+    },
+    "/nettoyage-fin-de-bail-montreux": {
+      "title": "Nettoyage Fin de Bail Montreux | Batimove",
+      "description": "Nettoyage de fin de bail à Montreux, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Clarens, Territet, Glion."
+    },
+    "/debarras-yverdon-les-bains": {
+      "title": "Débarras Yverdon-les-Bains - Devis en 30 min | Batimove",
+      "description": "Débarras à Yverdon-les-Bains : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Grandson, Yvonand."
+    },
+    "/nettoyage-fin-de-bail-yverdon-les-bains": {
+      "title": "Nettoyage Fin de Bail Yverdon-les-Bains | Batimove",
+      "description": "Nettoyage de fin de bail à Yverdon-les-Bains, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Grandson, Yvonand."
     }
   }
 }
