@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield, FileText, Scale } from 'lucide-react';
-import { Button } from '../components/UIComponents';
+import { Button, buttonClass } from '../components/UIComponents';
 import { SEO } from '../components/SEO';
 
 interface LegalProps {
@@ -33,7 +33,7 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
       {
         heading: '1. Responsable du traitement',
         paragraphs: [
-          "Batimove Sàrl, Rue de Monthoux 64, 1201 Genève, Suisse. IDE/UID : CHE-492.836.215 TVA.",
+          "BATIMOVE Sàrl, c/o Fiduciaire Fidulex Sàrl, Rue De-Monthoux 64, 1201 Genève, Suisse. IDE : CHE-143.091.230.",
           "Pour toute question relative à vos données : info@batimove.ch ou 0800 825 925."
         ]
       },
@@ -182,9 +182,9 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
       {
         heading: 'Éditeur du site',
         bullets: [
-          'Raison sociale : Batimove Sàrl',
-          'Siège : Rue de Monthoux 64, 1201 Genève, Suisse',
-          'IDE/UID : CHE-492.836.215 TVA',
+          'Raison sociale : BATIMOVE Sàrl (société à responsabilité limitée)',
+          'Siège : c/o Fiduciaire Fidulex Sàrl, Rue De-Monthoux 64, 1201 Genève, Suisse',
+          'IDE : CHE-143.091.230',
           'Inscrite au registre du commerce du canton de Genève',
           'Téléphone : 0800 825 925 (gratuit depuis la Suisse)',
           'E-mail : info@batimove.ch'
@@ -228,7 +228,7 @@ const DESCRIPTIONS: Record<LegalProps['type'], string> = {
   terms:
     "Conditions générales de Batimove Sàrl : devis, prix, obligations, assurance RC 5M CHF, annulation et for juridique.",
   impressum:
-    "Mentions légales de Batimove Sàrl : éditeur, siège à Genève, IDE CHE-492.836.215 et hébergement du site."
+    "Mentions légales de Batimove Sàrl : éditeur, siège à Genève, IDE CHE-143.091.230 et hébergement du site."
 };
 
 const PATHS: Record<LegalProps['type'], string> = {
@@ -245,11 +245,9 @@ export const Legal: React.FC<LegalProps> = ({ type }) => {
     <div className="min-h-screen bg-slate-50 pt-32 pb-20">
       <SEO title={TITLES[type]} description={DESCRIPTIONS[type]} canonical={PATHS[type]} />
       <div className="max-w-3xl mx-auto px-6">
-        <Link to="/">
-          <Button variant="ghost" className="mb-8 pl-0 hover:bg-transparent text-slate-500 hover:text-batimove-blue">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour
-          </Button>
+        <Link to="/" className={buttonClass('ghost', 'sm', '-ml-3.5 mb-8 text-slate-600')}>
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          Retour
         </Link>
 
         <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 md:p-12">
