@@ -68,10 +68,10 @@ const INTERNATIONAL = defineCopy<AbroadCopy>(
     checks: ['Devis gratuit sous 30 min', 'Prix ferme, aucun surcoût', 'Joignable 7j/7'],
     callLabel: 'appel gratuit',
     hero: {
-      src: '/hero-international.jpg',
-      srcSmall: '/hero-international-sm.jpg',
-      alt: 'Camion de déménagement sur une autoroute des Alpes suisses',
-      position: '70% 50%',
+      src: '/photos/batimove-international-conteneur-1500.webp',
+      srcSmall: '/photos/batimove-international-conteneur-960.webp',
+      alt: 'Monte-meubles Batimove et conteneur maritime pendant un déménagement international',
+      position: '40% 55%',
     },
     main: {
       title: 'Où nous allons',
@@ -154,10 +154,10 @@ const INTERNATIONAL = defineCopy<AbroadCopy>(
     checks: ['Free quote within 30 min', 'Fixed price, no extra charges', 'Reachable 7 days a week'],
     callLabel: 'freephone',
     hero: {
-      src: '/hero-international.jpg',
-      srcSmall: '/hero-international-sm.jpg',
-      alt: 'Removal lorry on a motorway in the Swiss Alps',
-      position: '70% 50%',
+      src: '/photos/batimove-international-conteneur-1500.webp',
+      srcSmall: '/photos/batimove-international-conteneur-960.webp',
+      alt: 'Batimove furniture lift and a shipping container during an international move',
+      position: '40% 55%',
     },
     main: {
       title: 'Where we go',

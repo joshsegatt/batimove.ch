@@ -374,11 +374,11 @@ const COPY = defineCopy(
     statFixedPrice: 'Prix fixe garanti',
     statInsurance: 'Assurance RC incluse',
     statReviews: 'Avis clients vérifiés',
-    heroImgAlt: 'Déménageur professionnel Batimove Sarl avec carton officiel',
+    heroImgAlt: 'Monte-meubles et camions Batimove garés devant des immeubles',
 
     engagementsTitle: 'Ce que nous réglons pour vous',
 
-    aboutImgAlt: "Déménageur Batimove avec des cartons à l'effigie de l'entreprise",
+    aboutImgAlt: 'La flotte Batimove : le monte-meubles et trois camions de déménagement',
     aboutTitle: 'Batimove, en toute transparence',
     aboutLead:
       'Une entreprise genevoise au service des particuliers et des entreprises de Suisse romande. Pas de promesse floue : voici qui nous sommes, où nous intervenons et ce qui vous protège.',
@@ -405,7 +405,7 @@ const COPY = defineCopy(
       'Intercantonal et international (Genève, Vaud, Zurich, France, UE) avec formalités de douane suisses intégrales.',
     readyLocalTitle: 'Déménagement résidentiel local',
     readyLocalText: 'Genève, Lausanne, Nyon, Montreux. Formules sur mesure du studio à la villa avec protection complète.',
-    readyImgAlt: 'Déménageur Batimove officiel avec cartons de déménagement',
+    readyImgAlt: "Monte-meubles Batimove déployé jusqu'au balcon d'une résidence",
     readyBusinessTitle: "Transfert d'entreprise et de bureaux",
     readyBusinessText:
       "Déménagement de parcs informatiques, archives et open-spaces le week-end sans aucune coupure d'activité.",
@@ -417,7 +417,8 @@ const COPY = defineCopy(
     complementairesLead:
       "Au-delà du déménagement en Suisse romande : l'étranger, vos véhicules, l'urgence et le stockage.",
 
-    packImgAlt: "Déménageur Batimove avec liste d'inventaire et cartons de déménagement officiels",
+    packImgAlt: 'Camion Batimove chargé : cartons, couvertures de protection et meubles emballés',
+    packImg2Alt: 'Meuble entièrement emballé dans du papier bulle',
     packTitle: 'Nous emballons tout avec le plus grand soin',
     packLead:
       "L'emballage constitue la clé d'un déménagement sans accroc. Nos techniciens utilisent des techniques éprouvées et des fournitures professionnelles renforcées pour chaque type d'objet.",
@@ -439,7 +440,7 @@ const COPY = defineCopy(
     bannerPromise: 'Devis gratuit et ferme sous 30 min (8h-19h).',
     bannerNoCommitment: 'Sans engagement • Appel gratuit au',
     bannerCta: 'Demander un devis gratuit',
-    bannerImgAlt: 'Déménageur professionnel Batimove avec cartons et devis',
+    bannerImgAlt: 'Deux camions Batimove devant une maison pendant un déménagement',
 
     faqTitle: 'Questions fréquentes',
     faqMore: 'Une autre question ? Appelez-nous gratuitement au',
@@ -461,11 +462,11 @@ const COPY = defineCopy(
     statFixedPrice: 'Guaranteed fixed price',
     statInsurance: 'Liability insurance included',
     statReviews: 'Verified customer reviews',
-    heroImgAlt: 'Professional Batimove Sàrl mover holding an official box',
+    heroImgAlt: 'Batimove furniture lift and vans parked in front of apartment buildings',
 
     engagementsTitle: 'What we take care of for you',
 
-    aboutImgAlt: 'Batimove mover with company-branded boxes',
+    aboutImgAlt: 'The Batimove fleet: the furniture lift and three removal vans',
     aboutTitle: 'Batimove, in full transparency',
     aboutLead:
       'A Geneva company serving private clients and businesses across French-speaking Switzerland. No vague promises: here is who we are, where we work and what protects you.',
@@ -492,7 +493,7 @@ const COPY = defineCopy(
       'Between cantons and abroad (Geneva, Vaud, Zurich, France, EU), with all Swiss customs formalities handled in full.',
     readyLocalTitle: 'Local home removals',
     readyLocalText: 'Geneva, Lausanne, Nyon, Montreux. Tailored packages from studio flat to villa, with full protection.',
-    readyImgAlt: 'Official Batimove mover with moving boxes',
+    readyImgAlt: 'Batimove furniture lift extended up to the balcony of a residence',
     readyBusinessTitle: 'Business and office relocation',
     readyBusinessText:
       'IT equipment, archives and open-plan offices moved at the weekend, with no interruption to your business.',
@@ -504,7 +505,8 @@ const COPY = defineCopy(
     complementairesLead:
       'Beyond moving within French-speaking Switzerland: abroad, your vehicles, emergencies and storage.',
 
-    packImgAlt: 'Batimove mover with an inventory list and official moving boxes',
+    packImgAlt: 'Loaded Batimove van: boxes, protective blankets and wrapped furniture',
+    packImg2Alt: 'A piece of furniture fully wrapped in bubble wrap',
     packTitle: 'We pack everything with the utmost care',
     packLead:
       'Packing is the key to a smooth move. Our technicians use proven techniques and reinforced professional supplies for every type of item.',
@@ -526,7 +528,7 @@ const COPY = defineCopy(
     bannerPromise: 'Free, fixed quote within 30 min (8am-7pm).',
     bannerNoCommitment: 'No obligation • Free call on',
     bannerCta: 'Request a free quote',
-    bannerImgAlt: 'Professional Batimove mover with boxes and a quote',
+    bannerImgAlt: 'Two Batimove vans outside a house during a move',
 
     faqTitle: 'Frequently asked questions',
     faqMore: 'Any other questions? Call us free of charge on',
@@ -662,17 +664,19 @@ export const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Imagem: limitada pela largura da coluna e pela altura útil da janela,
-                alinhada embaixo para encostar na faixa navy. Nunca invade o texto. */}
-            <div className="flex min-w-0 items-end justify-center self-end lg:col-span-5 lg:justify-end xl:col-span-6">
+            {/* Foto real: o monte-meubles próprio e a frota. Emoldurada, com folga
+                embaixo para não encostar na faixa navy. */}
+            <div className="flex min-w-0 items-center pb-8 lg:col-span-5 lg:self-center lg:pb-0 xl:col-span-6">
               <img
-                src="/hero-mover-tight.png"
+                src="/photos/batimove-flotte-monte-meubles-1280.webp"
+                srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
+                sizes="(min-width: 1280px) 600px, (min-width: 1024px) 42vw, 100vw"
                 alt={c.heroImgAlt}
-                width={675}
-                height={763}
+                width={1280}
+                height={960}
                 fetchPriority="high"
                 decoding="async"
-                className="pointer-events-none block h-auto max-h-[min(380px,52vh)] w-auto max-w-full select-none object-contain object-bottom -mb-px drop-shadow-[0_20px_35px_rgba(11,30,51,0.16)] sm:max-h-[min(460px,55vh)] lg:max-h-[min(720px,calc(100dvh-140px))]"
+                className="block aspect-[4/3] h-auto w-full rounded-xl object-cover shadow-overlay"
               />
             </div>
 
@@ -732,19 +736,19 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
 
-            {/* Imagem provisória: trocar pela foto real da equipe quando chegar */}
+            {/* Foto real da frota */}
             <div className="lg:col-span-5">
-              <div className="mx-auto max-w-[460px] overflow-hidden rounded-xl border border-slate-200 bg-white">
-                <img
-                  src="/votre-partenaire-mover-v2.jpg"
-                  alt={c.aboutImgAlt}
-                  width={871}
-                  height={1024}
-                  className="block h-auto w-full select-none object-contain"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+              <img
+                src="/photos/batimove-flotte-1200.webp"
+                srcSet="/photos/batimove-flotte-640.webp 640w, /photos/batimove-flotte-1200.webp 1200w"
+                sizes="(min-width: 1024px) 480px, 100vw"
+                alt={c.aboutImgAlt}
+                width={1200}
+                height={804}
+                loading="lazy"
+                decoding="async"
+                className="block h-auto w-full rounded-xl object-cover shadow-raised"
+              />
             </div>
 
             <div className="lg:col-span-7">
@@ -967,17 +971,19 @@ export const Home: React.FC = () => {
 
             </div>
 
-            {/* Center Column: Freestanding High-Res Batimove Mover with Official Cartons */}
+            {/* Centro: foto real do monte-meubles em serviço */}
             <div className="md:col-span-2 lg:col-span-6 flex justify-center items-center order-1 lg:order-2 my-6 lg:my-0">
-              <div className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px]">
+              <div className="w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px]">
                 <img
-                  src="/toujours-prets-mover.png"
+                  src="/photos/batimove-monte-meubles-residence-1000.webp"
+                  srcSet="/photos/batimove-monte-meubles-residence-600.webp 600w, /photos/batimove-monte-meubles-residence-1000.webp 1000w"
+                  sizes="(min-width: 1024px) 440px, 90vw"
                   alt={c.readyImgAlt}
-                  width={530}
-                  height={925}
-                  className="w-full h-auto object-contain block select-none mx-auto drop-shadow-[0_15px_30px_rgba(11,30,51,0.10)]"
+                  width={1000}
+                  height={1238}
                   loading="lazy"
                   decoding="async"
+                  className="block h-auto w-full rounded-xl object-cover shadow-raised"
                 />
               </div>
             </div>
@@ -1086,19 +1092,31 @@ export const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Left: Freestanding High-Res Mover with Clipboard & Batimove Boxes (Image 2) */}
-            <div className="lg:col-span-6 relative flex justify-center items-center">
-              <div className="relative w-full max-w-[480px] sm:max-w-[520px] lg:max-w-[560px]">
-                <img
-                  src="/emballage-mover.png"
-                  alt={c.packImgAlt}
-                  width={995}
-                  height={945}
-                  className="w-full h-auto object-contain block select-none drop-shadow-[0_15px_30px_rgba(11,30,51,0.10)]"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+            {/* Esquerda: duas fotos reais. O caminhão carregado na frente, o móvel
+                em plástico-bolha mais baixo, como numa página de revista. */}
+            <div className="grid grid-cols-5 items-end gap-4 lg:col-span-6">
+              <img
+                src="/photos/batimove-camion-materiel-900.webp"
+                srcSet="/photos/batimove-camion-materiel-560.webp 560w, /photos/batimove-camion-materiel-900.webp 900w"
+                sizes="(min-width: 1024px) 360px, 60vw"
+                alt={c.packImgAlt}
+                width={900}
+                height={1196}
+                loading="lazy"
+                decoding="async"
+                className="col-span-3 block h-auto w-full rounded-xl object-cover shadow-raised"
+              />
+              <img
+                src="/photos/batimove-papier-bulle-800.webp"
+                srcSet="/photos/batimove-papier-bulle-480.webp 480w, /photos/batimove-papier-bulle-800.webp 800w"
+                sizes="(min-width: 1024px) 240px, 40vw"
+                alt={c.packImg2Alt}
+                width={800}
+                height={1063}
+                loading="lazy"
+                decoding="async"
+                className="col-span-2 mb-10 block h-auto w-full rounded-xl object-cover shadow-raised"
+              />
             </div>
 
             {/* Right: Content & 2x2 Services Grid Matching Reference Image 2 */}
@@ -1318,58 +1336,39 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 9: BANDEAU DEVIS
           ========================================================================= */}
-      <section className="relative z-20 overflow-visible bg-[#0B1E33] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-7 sm:py-8 lg:py-9">
-            
-            {/* Left: Text & CTA with site's red button */}
-            <div className="md:col-span-7 lg:col-span-7 z-10">
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium text-white tracking-tight leading-tight mb-2.5">
-                {c.bannerTitle}
-              </h2>
-              <p className="text-sky-300 text-base sm:text-lg lg:text-xl font-medium mb-1.5">
-                {c.bannerPromise}
-              </p>
-              <p className="text-slate-300 text-base font-normal mb-6">
-                {c.bannerNoCommitment} <a href="tel:0800825925" className="font-semibold text-white underline decoration-white/40 underline-offset-2 tabular-nums transition-colors duration-150 hover:decoration-white">0800 825 925</a>
-              </p>
-              <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
-                {c.bannerCta}
-                <ChevronRight className="h-5 w-5" aria-hidden="true" />
-              </Link>
-            </div>
-
-            {/* Spacer for MD/LG desktop grid */}
-            <div className="hidden md:block md:col-span-5 lg:col-span-5" />
-
-            {/* Mobile Mover */}
-            <div className="md:hidden flex justify-center items-end mt-6 -mb-7">
-              <img
-                src="/plan-to-move-boxes-mover.png"
-                alt={c.bannerImgAlt}
-                width={995}
-                height={945}
-                loading="lazy"
-                decoding="async"
-                className="h-[250px] sm:h-[280px] w-auto object-contain object-bottom select-none drop-shadow-xl"
-              />
-            </div>
-
+      <section className="relative isolate overflow-hidden bg-[#0B1E33] text-white">
+        <img
+          src="/photos/batimove-camions-maison-1440.webp"
+          srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
+          sizes="100vw"
+          alt={c.bannerImgAlt}
+          width={1440}
+          height={699}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_60%]"
+        />
+        {/* Véu navy: uniforme no celular; no desktop forte do lado do texto */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[#0B1E33]/85 md:bg-transparent md:bg-gradient-to-r md:from-[#0B1E33] md:via-[#0B1E33]/85 md:to-[#0B1E33]/25"
+        />
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="max-w-xl">
+            <h2 className="mb-2.5 font-display text-3xl font-medium leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+              {c.bannerTitle}
+            </h2>
+            <p className="mb-1.5 text-lg font-medium text-sky-300 lg:text-xl">
+              {c.bannerPromise}
+            </p>
+            <p className="mb-6 text-base font-normal text-slate-200">
+              {c.bannerNoCommitment} <a href="tel:0800825925" className="font-semibold text-white underline decoration-white/40 underline-offset-2 tabular-nums transition-colors duration-150 hover:decoration-white">0800 825 925</a>
+            </p>
+            <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
+              {c.bannerCta}
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </Link>
           </div>
-
-          {/* Desktop/Tablet Mover with Head Pop-out into White Section */}
-          <div className="hidden md:flex absolute bottom-0 right-2 sm:right-6 lg:right-10 xl:right-16 items-end pointer-events-none z-30">
-            <img
-              src="/plan-to-move-boxes-mover.png"
-              alt={c.bannerImgAlt}
-              width={995}
-              height={945}
-              loading="lazy"
-              decoding="async"
-              className="h-[330px] md:h-[360px] lg:h-[400px] xl:h-[430px] w-auto object-contain object-bottom select-none drop-shadow-2xl"
-            />
-          </div>
-
         </div>
       </section>
 
