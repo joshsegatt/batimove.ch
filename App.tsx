@@ -5,12 +5,16 @@ import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
 import { Quote } from './pages/Quote';
 import { CookieConsent } from './components/CookieConsent';
+import { LOCALITIES, localPath } from './data/localities';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Chargées à la demande. La page d'accueil et le formulaire de devis restent dans
 // le bundle initial, car ce sont les deux points d'entrée du trafic publicitaire.
 const Services = lazy(() => import('./pages/Services').then((m) => ({ default: m.Services })));
-const Pricing = lazy(() => import('./pages/Pricing').then((m) => ({ default: m.Pricing })));
+const Debarras = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.Debarras })));
+const Nettoyage = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.Nettoyage })));
+const GardeMeubles = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.GardeMeubles })));
+const LocalServiceLanding = lazy(() => import('./pages/ServiceLandings').then((m) => ({ default: m.LocalServiceLanding })));
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 const Legal = lazy(() => import('./pages/Legal').then((m) => ({ default: m.Legal })));
 const Calculator = lazy(() => import('./pages/Calculator'));
@@ -67,7 +71,21 @@ const AppContent: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/business" element={<Navigate to="/services?type=entreprise" replace />} />
-          <Route path="/pricing" element={<Pricing />} />
+          {/* Página de tarifas retirada: preço só no devis. Links antigos vão ao orçamento. */}
+          <Route path="/pricing" element={<Navigate to="/quote" replace />} />
+          <Route path="/debarras" element={<Debarras />} />
+          <Route path="/nettoyage-fin-de-bail" element={<Nettoyage />} />
+          <Route path="/garde-meubles" element={<GardeMeubles />} />
+          {/* Páginas locais (SEO): /debarras-<cidade> e /nettoyage-fin-de-bail-<cidade> */}
+          {LOCALITIES.flatMap((l) =>
+            (['debarras', 'nettoyage'] as const).map((service) => (
+              <Route
+                key={localPath(service, l.slug)}
+                path={localPath(service, l.slug)}
+                element={<LocalServiceLanding service={service} slug={l.slug} />}
+              />
+            ))
+          )}
           <Route path="/contact" element={<Contact />} />
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/calculator/checkout" element={<CalculatorCheckout />} />
