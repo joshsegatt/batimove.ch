@@ -68,86 +68,6 @@
             "destination": "/garde-meubles/index.html"
         },
         {
-            "source": "/debarras-geneve",
-            "destination": "/debarras-geneve/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-geneve",
-            "destination": "/nettoyage-fin-de-bail-geneve/index.html"
-        },
-        {
-            "source": "/debarras-carouge",
-            "destination": "/debarras-carouge/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-carouge",
-            "destination": "/nettoyage-fin-de-bail-carouge/index.html"
-        },
-        {
-            "source": "/debarras-vaud",
-            "destination": "/debarras-vaud/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-vaud",
-            "destination": "/nettoyage-fin-de-bail-vaud/index.html"
-        },
-        {
-            "source": "/debarras-lausanne",
-            "destination": "/debarras-lausanne/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-lausanne",
-            "destination": "/nettoyage-fin-de-bail-lausanne/index.html"
-        },
-        {
-            "source": "/debarras-renens",
-            "destination": "/debarras-renens/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-renens",
-            "destination": "/nettoyage-fin-de-bail-renens/index.html"
-        },
-        {
-            "source": "/debarras-nyon",
-            "destination": "/debarras-nyon/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-nyon",
-            "destination": "/nettoyage-fin-de-bail-nyon/index.html"
-        },
-        {
-            "source": "/debarras-morges",
-            "destination": "/debarras-morges/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-morges",
-            "destination": "/nettoyage-fin-de-bail-morges/index.html"
-        },
-        {
-            "source": "/debarras-vevey",
-            "destination": "/debarras-vevey/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-vevey",
-            "destination": "/nettoyage-fin-de-bail-vevey/index.html"
-        },
-        {
-            "source": "/debarras-montreux",
-            "destination": "/debarras-montreux/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-montreux",
-            "destination": "/nettoyage-fin-de-bail-montreux/index.html"
-        },
-        {
-            "source": "/debarras-yverdon-les-bains",
-            "destination": "/debarras-yverdon-les-bains/index.html"
-        },
-        {
-            "source": "/nettoyage-fin-de-bail-yverdon-les-bains",
-            "destination": "/nettoyage-fin-de-bail-yverdon-les-bains/index.html"
-        },
-        {
             "source": "/demenagement-international",
             "destination": "/demenagement-international/index.html"
         },
@@ -302,6 +222,86 @@
         {
             "source": "/en/end-of-tenancy-cleaning-yverdon-les-bains",
             "destination": "/en/end-of-tenancy-cleaning-yverdon-les-bains/index.html"
+        },
+        {
+            "source": "/debarras-geneve",
+            "destination": "/debarras-geneve/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-geneve",
+            "destination": "/nettoyage-fin-de-bail-geneve/index.html"
+        },
+        {
+            "source": "/debarras-carouge",
+            "destination": "/debarras-carouge/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-carouge",
+            "destination": "/nettoyage-fin-de-bail-carouge/index.html"
+        },
+        {
+            "source": "/debarras-vaud",
+            "destination": "/debarras-vaud/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-vaud",
+            "destination": "/nettoyage-fin-de-bail-vaud/index.html"
+        },
+        {
+            "source": "/debarras-lausanne",
+            "destination": "/debarras-lausanne/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-lausanne",
+            "destination": "/nettoyage-fin-de-bail-lausanne/index.html"
+        },
+        {
+            "source": "/debarras-renens",
+            "destination": "/debarras-renens/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-renens",
+            "destination": "/nettoyage-fin-de-bail-renens/index.html"
+        },
+        {
+            "source": "/debarras-nyon",
+            "destination": "/debarras-nyon/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-nyon",
+            "destination": "/nettoyage-fin-de-bail-nyon/index.html"
+        },
+        {
+            "source": "/debarras-morges",
+            "destination": "/debarras-morges/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-morges",
+            "destination": "/nettoyage-fin-de-bail-morges/index.html"
+        },
+        {
+            "source": "/debarras-vevey",
+            "destination": "/debarras-vevey/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-vevey",
+            "destination": "/nettoyage-fin-de-bail-vevey/index.html"
+        },
+        {
+            "source": "/debarras-montreux",
+            "destination": "/debarras-montreux/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-montreux",
+            "destination": "/nettoyage-fin-de-bail-montreux/index.html"
+        },
+        {
+            "source": "/debarras-yverdon-les-bains",
+            "destination": "/debarras-yverdon-les-bains/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-yverdon-les-bains",
+            "destination": "/nettoyage-fin-de-bail-yverdon-les-bains/index.html"
         },
         {
             "source": "/(.*)",

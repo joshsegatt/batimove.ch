@@ -3,9 +3,27 @@ import { motion } from 'framer-motion';
 import { Cookie } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { updateGoogleConsent } from '../utils/analytics';
+import { defineCopy, useLang } from '../i18n';
+
+const COPY = defineCopy(
+  {
+    text: " : nous utilisons des cookies de mesure d'audience et de publicité (Google Ads) pour comprendre l'origine de nos demandes de devis. Refuser n'a aucune conséquence sur votre navigation.",
+    privacy: 'Protection des données',
+    accept: 'Accepter',
+    decline: 'Refuser',
+  },
+  {
+    text: ': we use audience measurement and advertising cookies (Google Ads) to understand where our quote requests come from. Declining has no effect on your browsing.',
+    privacy: 'Privacy policy',
+    accept: 'Accept',
+    decline: 'Decline',
+  }
+);
 
 export const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { lang, lp } = useLang();
+  const c = COPY[lang];
 
   useEffect(() => {
 const consent = localStorage.getItem('batimove_cookie_consent');
@@ -56,11 +74,9 @@ setIsVisible(false);
 
           <div className="flex-1 min-w-0">
             <p id="cookie-consent-title" className="text-base text-slate-200 leading-relaxed">
-              <span className="font-semibold text-white">Cookies</span> : nous utilisons des cookies
-              de mesure d'audience et de publicité (Google Ads) pour comprendre l'origine de nos
-              demandes de devis. Refuser n'a aucune conséquence sur votre navigation.{' '}
-              <Link to="/privacy" className="underline underline-offset-2 hover:text-white">
-                Protection des données
+              <span className="font-semibold text-white">Cookies</span>{c.text}{' '}
+              <Link to={lp('/privacy')} className="underline underline-offset-2 hover:text-white">
+                {c.privacy}
               </Link>
             </p>
           </div>
@@ -72,13 +88,13 @@ setIsVisible(false);
             onClick={handleAccept}
             className="flex-1 bg-[#0284c7] hover:bg-sky-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors active:scale-95 cursor-pointer"
           >
-            Accepter
+            {c.accept}
           </button>
           <button
             onClick={handleDecline}
             className="flex-1 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors active:scale-95 cursor-pointer"
           >
-            Refuser
+            {c.decline}
           </button>
         </div>
       </div>

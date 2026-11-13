@@ -1,6 +1,7 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
 import { getReviews } from '../../data/reviews';
+import { defineCopy, useLang } from '../../i18n';
 
 const genevaConfig: LocationConfig = {
   cityName: 'Genève',
@@ -68,7 +69,69 @@ const genevaConfig: LocationConfig = {
   testimonials: getReviews(['wagner', 'pedro', 'andressa'])
 };
 
+// Inglês: mesmas régies, coordenadas e avis (a citação fica em francês).
+const genevaConfigEn: LocationConfig = {
+  ...genevaConfig,
+  cityName: 'Geneva',
+  regionBadge: 'Canton of Geneva • City & municipalities',
+  heroHeadlineMain: 'Professional removals in',
+  heroHeadlineHighlight: 'Geneva & surroundings',
+  heroSubtitle:
+    'A Swiss company based in Geneva. Qualified teams, parking signs booked with the City of Geneva and liability insurance up to CHF 5M.',
+  metaTitle: 'Removals Geneva | Free Quote in 30 min - Batimove',
+  metaDescription:
+    'Removal company in Geneva for private clients and businesses. Parking reservations, furniture lift, free quote, from CHF 550. CHF 5M liability cover.',
+  canonicalUrl: 'https://www.batimove.ch/en/removals-geneva',
+  districts: [
+    { name: 'Geneva centre & Old Town', desc: 'Expert handling of pedestrian access, cobbled lanes and strict delivery time restrictions.' },
+    { name: 'Champel & Florissant', desc: 'Upmarket residential buildings, with full protection for parquet floors, entrance halls and lifts.' },
+    { name: 'Eaux-Vives & Cologny', desc: 'Flat and grand villa moves by the lake, including fine art packing.' },
+    { name: 'Plainpalais & Jonction', desc: 'Fast service for student flats, young professionals and local shops.' },
+    { name: 'Servette, Petit-Saconnex & Nations', desc: 'Specialists in international clients: expatriates, diplomats and NGOs.' },
+    { name: 'Carouge, Lancy & Meyrin', desc: 'Office relocations, industrial logistics and modern family homes.' }
+  ],
+  localFeatures: [
+    {
+      title: 'City of Geneva parking permit',
+      desc: 'We handle the paperwork and put up the official no-parking signs 48 h before the move.'
+    },
+    {
+      title: 'Electric external furniture lift',
+      desc: 'Ideal for older buildings without a lift in Plainpalais, Servette or Carouge, to avoid damaging the stairwells.'
+    },
+    {
+      title: 'Cover for Geneva letting agencies',
+      desc: 'Services tailored to the very strict standards of local letting agencies, for a dispute-free check-out inspection.'
+    },
+    {
+      title: 'Secure furniture storage in Geneva',
+      desc: 'Ventilated short or long-term storage, under permanent video surveillance and easy to access.'
+    }
+  ],
+  faqList: [
+    {
+      question: 'How do I reserve a parking space for my move in Geneva?',
+      answer: 'In Geneva, you must obtain a permit from the parking police and put up official signs. Batimove handles the entire procedure with the City of Geneva and installs the signs 48 h in advance to secure the space for our lorry.'
+    },
+    {
+      question: 'How much does a move in Geneva with Batimove cost?',
+      answer: 'Our removals start from CHF 550. The exact cost depends on the volume in m³, the floor and the options you choose (packing, furniture lift). You receive a fixed quote with no surprises within 30 min (8 am to 7 pm).'
+    },
+    {
+      question: 'Do you work in the municipalities around Geneva?',
+      answer: 'Yes, we cover 100% of the canton of Geneva: Carouge, Meyrin, Vernier, Lancy, Cologny, Versoix, Thônex, Chêne-Bougeries, Veyrier and more, with no excessive mileage surcharges.'
+    },
+    {
+      question: 'What happens if an item is damaged during the move?',
+      answer: 'All our transport and handling is covered by our professional public liability insurance, taken out with a leading Swiss insurer, with full cover up to CHF 5,000,000.'
+    }
+  ]
+};
+
+const CONFIG = defineCopy<LocationConfig>(genevaConfig, genevaConfigEn);
+
 export const Geneve: React.FC = () => {
-  return <LocationLandingTemplate config={genevaConfig} />;
+  const { lang } = useLang();
+  return <LocationLandingTemplate config={CONFIG[lang]} />;
 };
 export default Geneve;

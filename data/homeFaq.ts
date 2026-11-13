@@ -5,6 +5,8 @@
  * index.html : Google exige que les questions balisées soient visibles sur la
  * page. Modifier l'un sans l'autre fait diverger les deux.
  */
+import type { Lang } from '../i18n';
+
 export interface HomeFaqItem {
   question: string;
   answer: string;
@@ -37,3 +39,38 @@ export const HOME_FAQ: HomeFaqItem[] = [
       "Vous pouvez utiliser gratuitement notre calculateur de volume 3D en ligne pour estimer vos mètres cubes en 2 minutes, ou demander un devis par téléphone gratuit au 0800 825 925."
   }
 ];
+
+/**
+ * Version anglaise (pages /en). Le JSON-LD de index.html reste en français :
+ * il décrit la page d'accueil française.
+ */
+export const HOME_FAQ_EN: HomeFaqItem[] = [
+  {
+    question: "How much does a removal cost in Geneva or the canton of Vaud?",
+    answer:
+      "The cost of a removal depends on the volume in m³, access (floors, lift) and the services you choose (packing, furniture lift). Our removals start from CHF 550; you receive the exact price in a free, fixed quote within 30 min, with no hidden costs whatsoever."
+  },
+  {
+    question: "How is the parking permit arranged in Geneva?",
+    answer:
+      "Batimove handles all the formalities with the City of Geneva and the police to reserve and put up the temporary no-parking signs outside your home."
+  },
+  {
+    question: "Does end of tenancy cleaning include a guarantee for the check-out inspection?",
+    answer:
+      "Yes, our end of tenancy cleaning service includes a key handover guarantee, 100% compliant with the requirements of Swiss letting agencies. If anything is raised at the check-out inspection, we come back free of charge."
+  },
+  {
+    question: "Are your removal services insured?",
+    answer:
+      "Absolutely. Every transport and removal carried out by Batimove Sàrl is covered by professional liability insurance (RC) up to CHF 5,000,000. Your belongings also benefit from additional All Risk cover."
+  },
+  {
+    question: "How can I get a quick volume estimate?",
+    answer:
+      "You can use our free online 3D volume calculator to estimate your cubic metres in 2 minutes, or ask for a quote by calling our freephone number, 0800 825 925."
+  }
+];
+
+/** FAQ de l'accueil par langue. */
+export const HOME_FAQ_BY_LANG: Record<Lang, HomeFaqItem[]> = { fr: HOME_FAQ, en: HOME_FAQ_EN };

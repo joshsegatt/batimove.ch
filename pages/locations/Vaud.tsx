@@ -1,6 +1,7 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
 import { getReviews } from '../../data/reviews';
+import { defineCopy, useLang } from '../../i18n';
 
 const vaudConfig: LocationConfig = {
   cityName: 'Canton de Vaud',
@@ -68,7 +69,70 @@ const vaudConfig: LocationConfig = {
   testimonials: getReviews(['julien', 'wagner', 'andressa'])
 };
 
+// Inglês: mesmas régies, coordenadas e avis (a citação fica em francês).
+// cityName "Vaud" entra em frases como "Ready for a stress-free move in Vaud?".
+const vaudConfigEn: LocationConfig = {
+  ...vaudConfig,
+  cityName: 'Vaud',
+  regionBadge: 'Canton of Vaud • La Côte, Riviera & Northern Vaud',
+  heroHeadlineMain: 'Prestige removals across the',
+  heroHeadlineHighlight: 'canton of Vaud',
+  heroSubtitle:
+    'From Nyon to Montreux, by way of Morges and Yverdon. A complete service for flats, villas and businesses across Vaud, with Swiss precision and CHF 5M insurance.',
+  metaTitle: 'Removals Vaud | La Côte & Riviera - Batimove',
+  metaDescription:
+    'Removals in the canton of Vaud: Nyon, Morges, Vevey, Montreux, Yverdon. Qualified movers, furniture storage and a free quote within 30 min, from CHF 550.',
+  canonicalUrl: 'https://www.batimove.ch/en/removals-vaud',
+  districts: [
+    { name: 'La Côte (Nyon, Gland, Rolle)', desc: 'Home moves along the lake, contemporary villas and expatriates.' },
+    { name: 'Morges & Aubonne area', desc: 'Wine estates, private properties and historic town centres.' },
+    { name: 'Vaud Riviera (Vevey & Montreux)', desc: 'Access along the corniche roads, high-end furniture and hotel residences.' },
+    { name: 'Northern Vaud (Yverdon & Grandson)', desc: 'Moves for families, craftspeople and industry, and renovated farmhouses in the Vaud Jura.' },
+    { name: 'La Broye & Gros-de-Vaud (Payerne, Echallens)', desc: 'Large-volume moves, rural properties and workshop relocations.' },
+    { name: 'Aigle, Bex & the Vaud Chablais', desc: 'Regular trips to the Alpine foothills and Valais with a fleet of padded lorries.' }
+  ],
+  localFeatures: [
+    {
+      title: 'A modern fleet for the whole canton',
+      desc: 'Nimble vans for narrow historic centres and high-volume lorries for Vaud villas.'
+    },
+    {
+      title: 'Cantonal paperwork',
+      desc: 'Full support with municipal road-space bookings and eDéménagement Vaud formalities.'
+    },
+    {
+      title: 'Secure furniture storage',
+      desc: 'Secure, sealed warehouses to store your furniture between two leases.'
+    },
+    {
+      title: 'Letting agency standards and CHF 5M public liability',
+      desc: 'Every move is guaranteed to meet the standards of the canton’s letting agencies.'
+    }
+  ],
+  faqList: [
+    {
+      question: 'Do you work in every municipality in the canton of Vaud?',
+      answer: 'Yes, Batimove covers the entire canton of Vaud: the districts of Nyon, Morges, Lausanne, Riviera-Pays-d’Enhaut, Jura-Nord vaudois, Broye-Vully, Lavaux-Oron and Aigle, with clear pricing and no unjustified mileage surcharges.'
+    },
+    {
+      question: 'Can you store my furniture if the move-in date for my new home is pushed back?',
+      answer: 'Absolutely. We provide sealed furniture storage units that are secure, ventilated and under 24/7 video surveillance, for a few days, a few months or longer.'
+    },
+    {
+      question: 'Do you supply moving boxes in the canton of Vaud?',
+      answer: 'Yes, we deliver reinforced professional boxes straight to your home (standard boxes, book boxes, wardrobe boxes for clothes on hangers, and dish packs with dividers and bubble wrap).'
+    },
+    {
+      question: 'How far in advance should I book my move in the canton of Vaud?',
+      answer: 'We recommend booking 2 to 4 weeks ahead, especially for Vaud’s official end-of-month moving dates (quarterly lease terms ending in March, June, September and December). Urgent slots are still available within 48 h.'
+    }
+  ]
+};
+
+const CONFIG = defineCopy<LocationConfig>(vaudConfig, vaudConfigEn);
+
 export const Vaud: React.FC = () => {
-  return <LocationLandingTemplate config={vaudConfig} />;
+  const { lang } = useLang();
+  return <LocationLandingTemplate config={CONFIG[lang]} />;
 };
 export default Vaud;

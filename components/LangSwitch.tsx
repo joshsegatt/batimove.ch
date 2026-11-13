@@ -11,10 +11,34 @@ const OPTIONS: { lang: Lang; label: string; name: string }[] = [
  * Botão FR | EN. Leva à mesma página no outro idioma (não à home), mantendo
  * ?query e #hash, então quem está no wizard de Lausanne continua lá.
  */
-export const LangSwitch: React.FC<{ className?: string; tone?: 'light' | 'dark' }> = ({ className = '', tone = 'light' }) => {
+export const LangSwitch: React.FC<{ className?: string; tone?: 'light' | 'dark'; compactOnMobile?: boolean }> = ({
+  className = '',
+  tone = 'light',
+  compactOnMobile = false,
+}) => {
   const { pathname, search, hash } = useLocation();
   const current = langOf(pathname);
   const here = pathname + search + hash;
+
+  // No celular a barra não comporta o par FR | EN ao lado do logo, do telefone
+  // e do menu: mostra só o idioma para o qual se pode ir.
+  if (compactOnMobile) {
+    const other = OPTIONS.find((o) => o.lang !== current)!;
+    return (
+      <>
+        <Link
+          to={alternatePath(here, other.lang)}
+          hrefLang={other.lang}
+          lang={other.lang}
+          aria-label={other.name}
+          className={`grid h-11 w-11 place-items-center rounded-xl text-sm font-semibold text-[#0B1E33] transition-colors hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7] sm:hidden ${className}`}
+        >
+          {other.label}
+        </Link>
+        <LangSwitch className={`hidden sm:block ${className}`} tone={tone} />
+      </>
+    );
+  }
 
   const track = tone === 'dark' ? 'bg-white/10' : 'bg-slate-100';
   const idle =
