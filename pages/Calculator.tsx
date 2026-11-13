@@ -1,82 +1,132 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
-import { 
-  RotateCcw, 
-  Check, 
-  Minus, 
-  Plus, 
-  ArrowRight,
-  Info
-} from 'lucide-react';
-import { useVolumeCalculator, HOUSING_PRESETS } from '../hooks/useVolumeCalculator';
-import { Button } from '../components/UIComponents';
+import React, { useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Check, ChevronRight, Minus, Phone, Plus, RotateCcw, Search, X } from 'lucide-react';
+import { useVolumeCalculator, HOUSING_PRESETS, formatVolume, presetVolume } from '../hooks/useVolumeCalculator';
+import { CALCULATOR_CATEGORIES } from '../data/calculatorItems';
+import type { CalculatorItemState } from '../types/calculator';
+import { buttonClass } from '../components/UIComponents';
 import { SEO } from '../components/SEO';
-import { 
-  Studio3DIcon, 
-  Home2P3DIcon, 
-  Apartment3P3DIcon, 
-  Apartment4P3DIcon, 
-  Villa5P3DIcon,
-  Salon3DIcon,
-  Chambre3DIcon,
-  Cuisine3DIcon,
-  Divers3DIcon,
-  Truck3DIcon,
-  Shield3DIcon
-} from '../components/Calculator3DIcons';
 
-const CATEGORIES = [
-  { id: 'salon', label: 'Salon & Séjour', icon: Salon3DIcon },
-  { id: 'chambre', label: 'Chambres & Bureau', icon: Chambre3DIcon },
-  { id: 'cuisine', label: 'Cuisine & Électro', icon: Cuisine3DIcon },
-  { id: 'divers', label: 'Cave & Annexes', icon: Divers3DIcon },
-];
+// Calculateur de volume : inventaire pièce par pièce, volume en m³.
+// Aucun prix affiché : le prix ferme arrive avec le devis (sous 30 min, 8h-19h).
+// L'estimation interne voyage seulement dans l'e-mail adressé à Batimove.
 
-const PRESET_ICONS: Record<string, React.FC<{ className?: string }>> = {
-  studio: Studio3DIcon,
-  '2pieces': Home2P3DIcon,
-  '3pieces': Apartment3P3DIcon,
-  '4pieces': Apartment4P3DIcon,
-  maison: Villa5P3DIcon,
+export const CALCULATOR_CHECKOUT_KEY = 'calculatorData';
+
+type CategoryId = (typeof CALCULATOR_CATEGORIES)[number]['id'];
+
+/** Ligne d'inventaire : nom, volume unitaire, démontage et stepper − / +. */
+const ItemRow: React.FC<{
+  item: CalculatorItemState;
+  onChange: (id: string, delta: number) => void;
+  onToggleDisassemble: (id: string) => void;
+}> = ({ item, onChange, onToggleDisassemble }) => {
+  const active = item.quantity > 0;
+  return (
+    <li className={`flex items-center gap-3 px-4 py-3 transition-colors duration-150 sm:px-5 ${active ? 'bg-slate-50' : 'bg-white'}`}>
+      <div className="min-w-0 flex-1">
+        <p className="text-lg font-medium leading-snug text-[#0B1E33]">{item.name}</p>
+        <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="text-sm tabular-nums text-slate-500">{formatVolume(item.volume)} m³</span>
+          {active && (
+            <label className="-my-2 inline-flex cursor-pointer items-center gap-2 py-2 text-sm text-slate-600">
+              <input
+                type="checkbox"
+                checked={item.disassemble}
+                onChange={() => onToggleDisassemble(item.id)}
+                className="h-4 w-4 cursor-pointer rounded border-slate-300 accent-[#0B1E33]"
+              />
+              À démonter
+            </label>
+          )}
+        </div>
+      </div>
+      <div className="flex shrink-0 items-center rounded-xl border border-slate-200 bg-white">
+        <button
+          type="button"
+          onClick={() => onChange(item.id, -1)}
+          disabled={!active}
+          aria-label={`Retirer ${item.name}`}
+          className="grid h-11 w-11 place-items-center rounded-l-xl text-[#0B1E33] transition-colors duration-150 hover:bg-slate-100 active:bg-slate-200 disabled:cursor-not-allowed disabled:text-slate-300 disabled:hover:bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284C7]"
+        >
+          <Minus className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+        </button>
+        <span className={`w-8 text-center text-lg font-semibold tabular-nums ${active ? 'text-[#0B1E33]' : 'text-slate-400'}`} aria-hidden="true">
+          {item.quantity}
+        </span>
+        <button
+          type="button"
+          onClick={() => onChange(item.id, 1)}
+          disabled={item.quantity >= 99}
+          aria-label={`Ajouter ${item.name}`}
+          className="grid h-11 w-11 place-items-center rounded-r-xl text-[#0B1E33] transition-colors duration-150 hover:bg-slate-100 active:bg-slate-200 disabled:cursor-not-allowed disabled:text-slate-300 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284C7]"
+        >
+          <Plus className="h-4 w-4" strokeWidth={2.5} aria-hidden="true" />
+        </button>
+      </div>
+    </li>
+  );
 };
 
 export default function Calculator() {
   const navigate = useNavigate();
-  const {
-    summary,
-    activePreset,
-    applyPreset,
-    updateQuantity,
-    toggleDisassemble,
-    resetCalculator,
-    getItemsByCategory,
-    getAllItems,
-  } = useVolumeCalculator();
+  const { items, summary, activePreset, applyPreset, updateQuantity, toggleDisassemble, resetCalculator, getAllItems } =
+    useVolumeCalculator();
 
-  const [activeCategory, setActiveCategory] = useState<string>('salon');
+  const [activeCategory, setActiveCategory] = useState<CategoryId>('salon');
+  const [query, setQuery] = useState('');
+  const [announcement, setAnnouncement] = useState('');
+  const [showHint, setShowHint] = useState(false);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Determine recommended truck and team based on volume
-  const getLogisticsRecommendation = (vol: number) => {
-    if (vol === 0) return { truck: 'Sélectionnez vos meubles', team: 'Estimation sur-mesure' };
-    if (vol <= 12) return { truck: 'Fourgon 14m³', team: '2 déménageurs' };
-    if (vol <= 24) return { truck: 'Camion capitonné 20m³', team: '2 à 3 déménageurs' };
-    if (vol <= 38) return { truck: 'Grand Camion 35m³', team: '3 déménageurs' };
-    return { truck: 'Convoi Pro 50m³+', team: '4 déménageurs' };
+  const empty = summary.totalVolume === 0;
+
+  const normalized = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const visibleItems = useMemo(() => {
+    const q = normalized(query.trim());
+    if (q) return items.filter((i) => normalized(i.name).includes(q));
+    return items.filter((i) => i.category === activeCategory);
+  }, [items, activeCategory, query]);
+
+  const countByCategory = useMemo(() => {
+    const out: Record<string, { count: number; volume: number }> = {};
+    for (const c of CALCULATOR_CATEGORIES) out[c.id] = { count: 0, volume: 0 };
+    for (const i of items) {
+      out[i.category].count += i.quantity;
+      out[i.category].volume += i.quantity * i.volume;
+    }
+    return out;
+  }, [items]);
+
+  // Annonce vocale : le lecteur d'écran entend la nouvelle quantité et le total.
+  const handleChange = (id: string, delta: number) => {
+    const item = items.find((i) => i.id === id);
+    if (!item) return;
+    const next = Math.max(0, Math.min(99, item.quantity + delta));
+    const total = Math.max(0, Math.round((summary.totalVolume + (next - item.quantity) * item.volume) * 10) / 10);
+    updateQuantity(id, delta);
+    setShowHint(false);
+    setAnnouncement(`${item.name} : ${next}. Volume total ${formatVolume(total)} mètres cubes.`);
   };
 
-  const logistics = getLogisticsRecommendation(summary.totalVolume);
+  const handlePreset = (presetId: string, name: string, volume: number) => {
+    applyPreset(presetId);
+    setShowHint(false);
+    setAnnouncement(`Logement type ${name} appliqué. Volume total ${formatVolume(volume)} mètres cubes.`);
+  };
 
-  const handleProceedToCheckout = () => {
-    if (summary.totalVolume === 0) {
-      alert('Veuillez sélectionner au moins un meuble ou un type de logement');
+  const handleReset = () => {
+    resetCalculator();
+    setAnnouncement('Inventaire effacé.');
+  };
+
+  const handleProceed = () => {
+    if (empty) {
+      setShowHint(true);
       return;
     }
-
-    const allItems = getAllItems();
-
-    const calculatorData = {
-      items: allItems.map(item => ({
+    const payload = {
+      items: getAllItems().map((item) => ({
         id: item.id,
         name: item.name,
         quantity: item.quantity,
@@ -89,304 +139,267 @@ export default function Calculator() {
       disassembleCount: summary.disassembleCount,
       timestamp: new Date().toISOString(),
     };
-
-    localStorage.setItem('calculatorData', JSON.stringify(calculatorData));
-    navigate('/calculator/checkout');
+    try {
+      window.localStorage.setItem(CALCULATOR_CHECKOUT_KEY, JSON.stringify(payload));
+    } catch {
+      /* stockage bloqué : la page suivante affichera son état vide */
+    }
+    navigate('/calculator/checkout', { state: payload });
   };
 
-  const currentCategoryItems = getItemsByCategory(activeCategory);
-  const volumePercentage = Math.min(Math.round((summary.totalVolume / 50) * 100), 100);
+  // Navigation clavier entre les onglets (flèches gauche/droite).
+  const onTabKey = (e: React.KeyboardEvent, index: number) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const next = (index + (e.key === 'ArrowRight' ? 1 : -1) + CALCULATOR_CATEGORIES.length) % CALCULATOR_CATEGORIES.length;
+    setActiveCategory(CALCULATOR_CATEGORIES[next].id);
+    tabRefs.current[next]?.focus();
+  };
+
+  const ctaLabel = 'Recevoir mon prix ferme';
 
   return (
-    <div className="flex-1 min-h-[calc(100dvh-98px)] lg:h-[calc(100dvh-98px)] lg:max-h-[calc(100dvh-98px)] bg-gradient-to-b from-[#07182b] via-[#0B1E33] to-[#061424] text-slate-100 flex flex-col justify-between relative overflow-y-auto lg:overflow-hidden font-sans">
+    <div className="bg-[#F8FAFC] font-sans text-slate-900">
       <SEO
         title="Calculateur de Volume Déménagement Gratuit - Batimove"
-        description="Calculez précisément le volume en m³ de vos meubles et obtenez un devis immédiat pour votre déménagement à Genève, Lausanne et en Suisse Romande."
+        description="Calculez le volume en m³ de vos meubles et recevez votre prix ferme sous 30 min pour votre déménagement à Genève, Lausanne et en Suisse romande."
         canonical="https://www.batimove.ch/calculator"
       />
-      
-      {/* Ambient Lighting Orbs */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[130px] pointer-events-none" />
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
 
-      {/* Main Centered Content */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex-1 flex flex-col justify-center relative z-10 my-auto">
-
-        {/* Minimal High-End Header */}
-        <div className="text-center mb-3 sm:mb-4 flex-shrink-0">
-          <h1 className="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight">
-            Configurez Votre Déménagement
-            <span className="sr-only"> : Calculateur en m³ de volume et estimation de prix immédiate</span>
+      <div className="mx-auto max-w-7xl px-4 pb-32 pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pb-20">
+        <header className="max-w-3xl">
+          <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
+            Calculez votre volume
+            <span className="sr-only"> : calculateur de volume en m³ et devis gratuit sous 30 min</span>
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto mt-1 font-normal leading-relaxed">
-            Sélectionnez votre type de logement ou ajustez votre inventaire pièce par pièce.
+          <p className="mt-3 text-lg leading-relaxed text-slate-600">
+            Partez d'un logement type, puis ajustez pièce par pièce. Votre prix ferme, établi sur ce volume, vous est envoyé
+            sous 30&nbsp;min (8h-19h).
           </p>
-        </div>
+        </header>
 
-        {/* APPLE-STYLE 3D HOUSING PRESET CARDS */}
-        <div className="mb-3 sm:mb-4 flex-shrink-0">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 max-w-5xl mx-auto">
+        {/* Logements types */}
+        <section aria-labelledby="presets-title" className="mt-8">
+          <h2 id="presets-title" className="text-lg font-semibold text-[#0B1E33]">
+            Point de départ
+          </h2>
+          <ul className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
             {HOUSING_PRESETS.map((preset) => {
-              const isSelected = activePreset === preset.id;
-              const IconComponent = PRESET_ICONS[preset.id] || Studio3DIcon;
-
+              const selected = activePreset === preset.id;
+              const volume = presetVolume(preset.defaultItems);
               return (
-                <button
-                  key={preset.id}
-                  onClick={() => applyPreset(preset.id)}
-                  className={`relative p-2.5 sm:p-3 rounded-2xl text-left transition-all duration-200 border flex items-center gap-3 cursor-pointer group ${
-                    isSelected
-                      ? 'bg-gradient-to-b from-[#143254] to-[#0d2238] border-sky-400/80 text-white shadow-[0_8px_20px_-4px_rgba(56,189,248,0.25)] ring-1 ring-sky-400/40'
-                      : 'bg-white/[0.03] hover:bg-white/[0.06] border-white/[0.08] hover:border-white/20 text-slate-300 hover:text-white'
-                  }`}
-                >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-xl bg-white/[0.04] border border-white/5 group-hover:scale-105 transition-transform">
-                    <IconComponent className="w-8 h-8 drop-shadow-md" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-xs sm:text-sm font-bold truncate leading-tight text-white">
-                      {preset.name}
-                    </div>
-                    <div className="text-[10px] text-sky-400/90 font-mono mt-0.5">
-                      ~{preset.badge}
-                    </div>
-                  </div>
-                  {isSelected && (
-                    <div className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 2-COLUMN MAIN WORKSPACE */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 items-stretch w-full flex-1 min-h-0">
-
-          {/* LEFT COLUMN: ROOM SELECTOR & INTERACTIVE INVENTORY (7 Cols) */}
-          <div className="lg:col-span-7 bg-[#081a2e]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 shadow-2xl flex flex-col justify-between overflow-hidden">
-            <div>
-              {/* Category Segmented Control with 3D Icons */}
-              <div className="flex items-center gap-1.5 pb-3 border-b border-white/10 overflow-x-auto scrollbar-hide mb-3">
-                {CATEGORIES.map((cat) => {
-                  const isActive = activeCategory === cat.id;
-                  const Icon = cat.icon;
-                  const catItems = getItemsByCategory(cat.id);
-                  const selectedCount = catItems.reduce((sum, it) => sum + it.quantity, 0);
-
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveCategory(cat.id)}
-                      className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer border ${
-                        isActive
-                          ? 'bg-sky-500 text-white border-sky-400 shadow-md shadow-sky-500/25'
-                          : 'bg-white/[0.03] text-slate-300 hover:text-white border-white/5 hover:bg-white/[0.07]'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 shrink-0" />
-                      <span>{cat.label}</span>
-                      {selectedCount > 0 && (
-                        <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-white/20 text-white font-bold font-mono">
-                          {selectedCount}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Items List (Scrollable within container) */}
-              <div className="space-y-1.5 h-[230px] sm:h-[260px] lg:h-[280px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                {currentCategoryItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className={`flex items-center justify-between p-2.5 rounded-xl border transition-all ${
-                      item.quantity > 0
-                        ? 'bg-sky-500/10 border-sky-400/30 text-white'
-                        : 'bg-white/[0.02] border-white/5 text-slate-300 hover:bg-white/[0.04]'
+                <li key={preset.id}>
+                  <button
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => handlePreset(preset.id, preset.name, volume)}
+                    className={`flex h-full min-h-[72px] w-full items-center justify-between gap-3 rounded-xl border bg-white px-4 py-3 text-left transition-[border-color,background-color,box-shadow] duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284C7] ${
+                      selected
+                        ? 'border-[#0B1E33] shadow-[inset_0_0_0_1px_#0B1E33]'
+                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                     }`}
                   >
-                    <div className="flex-1 min-w-0 mr-3">
-                      <div className="text-xs sm:text-sm font-semibold truncate text-white">
-                        {item.name}
-                      </div>
-                      <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                        <span className="font-mono bg-white/[0.05] px-1.5 py-0.2 rounded text-[10px]">
-                          {item.volume} m³
-                        </span>
-                        {item.quantity > 0 && (
-                          <button
-                            onClick={() => toggleDisassemble(item.id)}
-                            className={`px-2 py-0.5 rounded-md text-[10px] font-medium border transition-all flex items-center gap-1.5 cursor-pointer ${
-                              item.disassemble
-                                ? 'bg-sky-500/20 border-sky-400/40 text-sky-300'
-                                : 'bg-white/[0.03] border-white/10 text-slate-400 hover:text-slate-200'
+                    <span className="min-w-0">
+                      <span className="block font-display text-lg font-semibold tracking-tight text-[#0B1E33]">{preset.name}</span>
+                      <span className="block text-sm text-slate-500">{preset.rooms}</span>
+                      <span className="block text-sm font-semibold tabular-nums text-[#0B1E33]">≈ {formatVolume(volume)} m³</span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${selected ? 'bg-[#0B1E33] text-white' : 'border border-slate-300'}`}
+                    >
+                      {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
+          {/* Inventaire */}
+          <section aria-labelledby="inventory-title" className="overflow-hidden rounded-xl border border-slate-200 bg-white lg:col-span-8">
+            <div className="border-b border-slate-200 px-4 pb-4 pt-5 sm:px-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 id="inventory-title" className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">
+                  Votre inventaire
+                </h2>
+                <button type="button" onClick={handleReset} disabled={empty} className={buttonClass('ghost', 'sm', '-mr-2 text-slate-600')}>
+                  <RotateCcw className="h-4 w-4" aria-hidden="true" />
+                  Tout effacer
+                </button>
+              </div>
+
+              <div className="relative mt-4">
+                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                <label htmlFor="calc-search" className="sr-only">
+                  Rechercher un meuble
+                </label>
+                <input
+                  id="calc-search"
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Rechercher un meuble"
+                  className="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-10 text-lg text-[#0B1E33] placeholder:text-slate-500 outline-none transition-[border-color,box-shadow] duration-150 hover:border-slate-400 focus:border-[#0284C7] focus:ring-2 focus:ring-[#0284C7]/25 [&::-webkit-search-cancel-button]:hidden"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => setQuery('')}
+                    aria-label="Effacer la recherche"
+                    className="absolute right-1 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-[#0B1E33]"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                )}
+              </div>
+
+              {!query && (
+                <div role="tablist" aria-label="Pièces" className="-mx-1 mt-4 flex gap-1 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {CALCULATOR_CATEGORIES.map((cat, index) => {
+                    const selected = activeCategory === cat.id;
+                    const count = countByCategory[cat.id].count;
+                    return (
+                      <button
+                        key={cat.id}
+                        ref={(el) => {
+                          tabRefs.current[index] = el;
+                        }}
+                        type="button"
+                        role="tab"
+                        id={`tab-${cat.id}`}
+                        aria-selected={selected}
+                        aria-controls="calc-items"
+                        tabIndex={selected ? 0 : -1}
+                        onClick={() => setActiveCategory(cat.id)}
+                        onKeyDown={(e) => onTabKey(e, index)}
+                        className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-lg px-3.5 text-base font-semibold transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284C7] ${
+                          selected ? 'bg-[#0B1E33] text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-[#0B1E33]'
+                        }`}
+                      >
+                        <span title={cat.label}>{cat.short}</span>
+                        {count > 0 && (
+                          <span
+                            className={`min-w-[22px] rounded-full px-1.5 text-center text-sm tabular-nums ${
+                              selected ? 'bg-white/20 text-white' : 'bg-slate-200 text-[#0B1E33]'
                             }`}
                           >
-                            <span className={`w-1.5 h-1.5 rounded-full ${item.disassemble ? 'bg-sky-400 shadow-[0_0_6px_#38bdf8]' : 'bg-slate-500'}`} />
-                            <span>Démontage (+25 CHF)</span>
-                          </button>
+                            {count}
+                          </span>
                         )}
-                      </div>
-                    </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
-                    {/* Stepper Buttons (Apple Tactile Pill) */}
-                    <div className="flex items-center bg-white/[0.06] border border-white/10 rounded-xl p-0.5 shrink-0">
-                      <button
-                        onClick={() => updateQuantity(item.id, -1)}
-                        disabled={item.quantity === 0}
-                        className="w-7 h-7 rounded-lg hover:bg-white/10 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer"
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <span className="w-7 text-center text-xs font-bold text-white font-mono">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, 1)}
-                        className="w-7 h-7 rounded-lg bg-sky-500 hover:bg-sky-400 active:scale-95 flex items-center justify-center text-white transition-all cursor-pointer shadow-sm shadow-sky-500/30"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+            <ul
+              id="calc-items"
+              role={query ? undefined : 'tabpanel'}
+              aria-labelledby={query ? undefined : `tab-${activeCategory}`}
+              className="divide-y divide-slate-200"
+            >
+              {visibleItems.map((item) => (
+                <ItemRow key={item.id} item={item} onChange={handleChange} onToggleDisassemble={toggleDisassemble} />
+              ))}
+            </ul>
+            {visibleItems.length === 0 && (
+              <div className="px-5 py-10 text-center">
+                <p className="text-lg font-semibold text-[#0B1E33]">Aucun meuble ne correspond à « {query} ».</p>
+                <p className="mt-1 text-base text-slate-600">
+                  Essayez un autre mot, ou décrivez l'objet dans les précisions de votre demande.
+                </p>
+              </div>
+            )}
+          </section>
+
+          {/* Récapitulatif (collant sur desktop) */}
+          <aside aria-labelledby="summary-title" className="lg:sticky lg:top-36 lg:col-span-4">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)] sm:p-6">
+              <h2 id="summary-title" className="text-base font-semibold text-slate-600">
+                Volume estimé
+              </h2>
+              <p className="mt-1 font-display text-5xl font-extrabold tracking-tight text-[#0B1E33] tabular-nums">
+                {formatVolume(summary.totalVolume)}
+                <span className="ml-1.5 text-2xl font-bold text-slate-500">m³</span>
+              </p>
+              <p className="mt-1 text-base text-slate-600 tabular-nums">
+                {summary.totalItems} article{summary.totalItems > 1 ? 's' : ''}
+                {summary.disassembleCount > 0 && ` · ${summary.disassembleCount} à démonter`}
+              </p>
+
+              <dl className="mt-5 divide-y divide-slate-200 border-y border-slate-200">
+                {CALCULATOR_CATEGORIES.map((cat) => (
+                  <div key={cat.id} className="flex items-baseline justify-between gap-3 py-2.5">
+                    <dt className="text-base text-slate-600">{cat.label}</dt>
+                    <dd className="text-base font-semibold tabular-nums text-[#0B1E33]">
+                      {formatVolume(Math.round(countByCategory[cat.id].volume * 10) / 10)} m³
+                    </dd>
                   </div>
                 ))}
-              </div>
-            </div>
+              </dl>
 
-            {/* Quick Helper Note */}
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-sky-400" />
-                <span>Protection sous couverture capitonnée incluse pour chaque meuble.</span>
-              </span>
-              <button
-                onClick={resetCalculator}
-                className="text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1 cursor-pointer text-[11px]"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>Réinitialiser</span>
+              <p className="mt-5 text-base leading-relaxed text-slate-600">
+                Votre prix ferme, établi sur ce volume, vous est envoyé sous 30&nbsp;min (8h-19h). Aucun surcoût une fois le devis
+                accepté.
+              </p>
+              <button type="button" onClick={handleProceed} aria-disabled={empty} className={buttonClass('primary', 'lg', `mt-5 w-full ${empty ? 'opacity-50' : ''}`)}>
+                {ctaLabel}
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: REFINED APPLE-GRADE SUMMARY & LIVE DEVIS (5 Cols) */}
-          <div className="lg:col-span-5 bg-gradient-to-b from-[#0c223a] via-[#091b2e] to-[#061424] border border-sky-500/30 rounded-2xl p-5 sm:p-6 shadow-2xl flex flex-col justify-between text-white relative backdrop-blur-xl">
-            <div>
-              {/* Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-300 font-display">
-                  Estimation Directe
-                </div>
-                <span className="text-xs text-slate-400 font-medium">
-                  Suisse Romande
-                </span>
-              </div>
-
-              {/* Volume & Capacity Gauge */}
-              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-4">
-                <div className="flex justify-between items-baseline mb-2">
-                  <span className="text-xs text-slate-300 font-medium">Volume estimé</span>
-                  <span className="font-display text-2xl font-black text-sky-400">
-                    {summary.totalVolume} <span className="text-sm font-normal text-sky-300/80">m³</span>
-                  </span>
-                </div>
-
-                {/* Linear Capacity Meter */}
-                <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden mb-2">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${volumePercentage}%` }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-
-                <div className="flex justify-between text-[11px] text-slate-400">
-                  <span>{summary.totalItems} articles inventoriés</span>
-                  <span>{summary.disassembleCount > 0 ? `${summary.disassembleCount} démontage(s)` : 'Sans démontage'}</span>
-                </div>
-
-                {/* Pricing Showcase */}
-                <div className="border-t border-white/[0.08] pt-3 mt-3">
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                    Tarif Transparent Estimé
-                  </div>
-                  <div className="font-display text-3xl sm:text-4xl font-black text-white tracking-tight leading-none mt-1">
-                    {summary.estimatedPrice > 0 ? (
-                      <>
-                        <span className="text-xl font-bold text-sky-400 mr-1.5">CHF</span>
-                        {summary.estimatedPrice}.-
-                      </>
-                    ) : (
-                      <span className="text-2xl text-slate-400 font-normal">CHF 0.-</span>
-                    )}
-                  </div>
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    Véhicule, carburant, manutentionnaires & assurance inclus.
-                  </p>
-                </div>
-              </div>
-
-              {/* Logistics & Security Cards with 3D Icons */}
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-400/20 flex items-center justify-center shrink-0">
-                    <Truck3DIcon className="w-6 h-6" />
-                  </div>
-                  <div className="text-xs">
-                    <div className="text-slate-400 text-[10px] uppercase font-semibold">Logistique recommandée</div>
-                    <div className="text-white font-bold">{logistics.truck} • {logistics.team}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center shrink-0">
-                    <Shield3DIcon className="w-6 h-6" />
-                  </div>
-                  <div className="text-xs">
-                    <div className="text-slate-400 text-[10px] uppercase font-semibold">Garantie & Protection</div>
-                    <div className="text-white font-bold">Assurance RC Pro 5M CHF incluse</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Primary Action Button */}
-            <div className="pt-2">
-              <Button
-                variant="secondary"
-                onClick={handleProceedToCheckout}
-                disabled={summary.totalVolume === 0}
-                className="w-full bg-[#0284c7] hover:bg-sky-500 disabled:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider shadow-xl shadow-sky-600/30 hover:shadow-sky-500/40 transition-all flex items-center justify-center gap-2 font-display border-none cursor-pointer active:scale-[0.99]"
+              {/* No celular, o alerta aparece na barra fixa; aqui só no desktop. */}
+              {(empty || showHint) && (
+                <p
+                  className={`mt-2.5 text-sm ${showHint ? 'hidden text-red-700 lg:block' : 'text-slate-500'}`}
+                  role={showHint ? 'alert' : undefined}
+                >
+                  Ajoutez au moins un meuble ou choisissez un logement type.
+                </p>
+              )}
+              <a
+                href="tel:0800825925"
+                className="mt-4 flex items-center justify-center gap-2 py-2 text-base font-semibold text-[#0B1E33] transition-colors hover:text-[#0369A1]"
               >
-                <span>Recevoir Mon Devis Gratuit</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-              <div className="flex items-center justify-center gap-2 text-center text-[10px] text-slate-400 mt-2">
-                <Check className="w-3 h-3 text-emerald-400" />
-                <span>Sans engagement • Réponse personnalisée sous 30 min (8h-19h)</span>
-              </div>
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                Préférez parler à quelqu'un&nbsp;? <span className="tabular-nums">0800 825 925</span>
+              </a>
             </div>
-          </div>
-
-        </div>
-
-      </div>
-
-      {/* Sleek Minimal Bottom Bar */}
-      <div className="w-full border-t border-white/5 bg-[#05101c]/80 backdrop-blur-md py-2 px-4 flex-shrink-0 text-[11px] text-slate-400 z-10">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1">
-          <span>🇨🇭 Batimove Sàrl • Tarifs transparents sans frais cachés • Genève & Suisse Romande</span>
-          <div className="flex items-center gap-4 text-slate-300">
-            <a href="tel:0800825925" className="hover:text-white transition-colors">Hotline: 0800 825 925</a>
-            <span className="text-slate-600">•</span>
-            <Link to="/contact" className="hover:text-white text-sky-400 transition-colors">Besoin d'aide ?</Link>
-          </div>
+          </aside>
         </div>
       </div>
 
+      {/* Barre récapitulative mobile (l'espace à droite reste libre pour le bouton WhatsApp) */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden">
+        {showHint && (
+          <p role="alert" className="px-4 pt-2.5 text-sm text-red-700">
+            Ajoutez au moins un meuble ou choisissez un logement type.
+          </p>
+        )}
+        <div className="flex items-center gap-3 py-3 pl-4 pr-[92px]">
+          <div className="min-w-0">
+            <p className="text-sm text-slate-500">Volume</p>
+            <p className="font-display text-xl font-extrabold leading-tight tracking-tight text-[#0B1E33] tabular-nums">
+              {formatVolume(summary.totalVolume)} m³
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleProceed}
+            aria-disabled={empty}
+            aria-label={ctaLabel}
+            className={buttonClass('primary', 'md', `ml-auto min-w-0 ${empty ? 'opacity-50' : ''}`)}
+          >
+            Mon prix ferme
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -95,7 +95,10 @@ export const CALCULATOR_ITEMS: CalculatorItem[] = [
     { id: 'divers-19', name: 'Valise', volume: 0.2, category: 'divers' },
 ];
 
-// Pricing configuration - Adjusted for smaller Swiss company
-export const PRICE_PER_M3 = 85; // CHF per m³ (competitive pricing)
-export const DISASSEMBLE_SURCHARGE = 0.10; // 10% surcharge for disassembly
-export const MINIMUM_PRICE = 350; // CHF minimum
+// Libellés des catégories, dans l'ordre d'affichage du calculateur.
+export const CALCULATOR_CATEGORIES = [
+    { id: 'salon', label: 'Salon et séjour', short: 'Salon' },
+    { id: 'chambre', label: 'Chambres et bureau', short: 'Chambres' },
+    { id: 'cuisine', label: 'Cuisine et électroménager', short: 'Cuisine' },
+    { id: 'divers', label: 'Cave, garage et divers', short: 'Cave et divers' },
+] as const;
