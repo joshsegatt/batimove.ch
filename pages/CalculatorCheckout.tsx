@@ -364,7 +364,6 @@ export default function CalculatorCheckout() {
         message: [
           f.message.trim() || 'Demande de prix ferme via le calculateur de volume.',
           f.email.trim() ? '' : 'E-mail : non renseigné (répondre par téléphone ou WhatsApp).',
-          ...(lang === 'en' ? ['Langue du client : anglais'] : []),
           '',
           `Inventaire (${formatVolume(d.totalVolume)} m³) :`,
           ...lines.map((l) => `- ${l}`),
@@ -373,6 +372,7 @@ export default function CalculatorCheckout() {
         estimatedPrice: d.estimatedPrice.toString(),
         itemCount: d.totalItems.toString(),
         disassembleCount: d.disassembleCount.toString(),
+        clientLang: lang,
       });
       trackGoogleAdsLeadConversion({ leadId: crypto.randomUUID(), value: d.estimatedPrice, currency: 'CHF' });
       try {

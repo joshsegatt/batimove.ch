@@ -15,6 +15,15 @@ const EMAILJS_PUBLIC_KEY = 'yflDdVrcEumOX4Ogs';
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
+/** Idioma do site em que o cliente preencheu. Os e-mails para a equipe ficam sempre em francês. */
+export type ClientLang = 'fr' | 'en';
+
+/**
+ * Primeira linha de todo e-mail interno quando o cliente usou o site em inglês,
+ * para a equipe saber em que idioma responder. Em francês não acrescenta nada.
+ */
+const clientLangLine = (lang?: ClientLang): string => (lang === 'en' ? 'Langue du client : anglais\n' : '');
+
 // Response types
 interface ApiResponse {
     success: boolean;
@@ -39,6 +48,7 @@ interface ContactData {
     email: string;
     subject: string;
     message: string;
+    clientLang?: ClientLang;
 }
 
 // Business lead data
@@ -127,7 +137,7 @@ export const submitContact = async (data: ContactData): Promise<ContactResponse>
             from_name: data.name,
             from_email: data.email,
             subject: data.subject,
-            message: data.message,
+            message: clientLangLine(data.clientLang) + data.message,
             to_email: 'info@batimove.ch' // Company email
         };
 
@@ -214,8 +224,10 @@ export const sendQuoteEmail = async (data: {
     estimatedPrice: string;
     itemCount: string;
     disassembleCount: string;
+    clientLang?: ClientLang;
 }): Promise<ApiResponse> => {
     try {
+        const message = clientLangLine(data.clientLang) + (data.message || 'Demande de devis via calculateur de volume');
         const templateParams = {
             // Client Information
             from_name: data.name,
@@ -250,8 +262,8 @@ export const sendQuoteEmail = async (data: {
             items_demontage: data.disassembleCount,
 
             // Message
-            message: data.message || 'Demande de devis via calculateur de volume',
-            client_message: data.message || 'Demande de devis via calculateur de volume',
+            message,
+            client_message: message,
 
             // Destination
             to_email: 'info@batimove.ch',
@@ -289,14 +301,11 @@ export interface ServiceQuoteData {
     details?: string;
     /** De onde veio o pedido, aparece na primeira linha do e-mail */
     source?: string;
-    /** Idioma do site em que o cliente preencheu; o e-mail continua sempre em francês */
-    clientLang?: 'fr' | 'en';
+    clientLang?: ClientLang;
 }
 
 export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiResponse> => {
     try {
-        // Só aparece para quem preencheu em inglês: a equipe sabe em que idioma responder.
-        const langLine = data.clientLang === 'en' ? 'Langue du client : anglais\n' : '';
         const templateParams = {
             service_name: data.serviceName,
             service_id: data.serviceName,
@@ -309,8 +318,8 @@ export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiRes
             date: data.date || 'Non spécifiée',
             from_zip: data.fromCity || 'Non spécifié',
             to_zip: data.toCity || 'Non spécifié',
-            message: `Demande de devis direct depuis ${data.source || 'la page Services'}:
-${langLine}Prestation: ${data.serviceName}
+            message: `${clientLangLine(data.clientLang)}Demande de devis direct depuis ${data.source || 'la page Services'}:
+Prestation: ${data.serviceName}
 Client: ${data.clientName}
 Téléphone: ${data.clientPhone}
 Email: ${data.clientEmail}
