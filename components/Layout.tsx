@@ -1,3 +1,4 @@
+import { LangSwitch } from './LangSwitch';
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Phone, Shield, ExternalLink, Linkedin, Instagram, Facebook, MapPin, Mail, Clock, Search, ChevronRight, ChevronDown, Lock } from 'lucide-react';
 import { Button, Logo } from './UIComponents';
@@ -174,10 +175,11 @@ export const Navbar: React.FC = () => {
               </ul>
             </nav>
 
-            <div className="hidden shrink-0 items-center gap-3 sm:flex">
+            <div className="ml-auto flex shrink-0 items-center gap-3 lg:ml-0">
+              <LangSwitch />
               <Link
                 to="/quote"
-                className="btn btn-md btn-primary h-10 px-4 text-base"
+                className="btn btn-md btn-primary hidden h-10 px-4 text-base sm:inline-flex"
               >
                 Devis gratuit
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />

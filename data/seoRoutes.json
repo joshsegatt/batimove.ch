@@ -145,6 +145,163 @@
     "/nettoyage-fin-de-bail-yverdon-les-bains": {
       "title": "Nettoyage Fin de Bail Yverdon-les-Bains | Batimove",
       "description": "Nettoyage de fin de bail à Yverdon-les-Bains, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Grandson, Yvonand."
+    },
+    "/demenagement-international": {
+      "title": "Déménagement international depuis la Suisse | Batimove",
+      "description": "Déménagement de Genève et Vaud vers la France, l'Italie, l'Allemagne, l'Autriche, l'UE et le Royaume-Uni. Aide aux documents de douane. Devis sous 30 min."
+    },
+    "/demenagement-londres": {
+      "title": "Déménagement Genève – Londres | Batimove",
+      "description": "Déménagement entre la Suisse et Londres : emballage, transport, documents de douane et livraison. Devis gratuit sous 30 min, appel gratuit au 0800 825 925."
+    },
+    "/en": {
+      "title": "Batimove Sàrl: Removals in Geneva, Lausanne & Vaud",
+      "description": "Swiss removal company for homes and businesses in Geneva, Lausanne and the canton of Vaud. Free quote within 30 min and CHF 5M liability cover."
+    },
+    "/en/services": {
+      "title": "Removals, House Clearance & Cleaning | Batimove",
+      "description": "Complete removal services in French-speaking Switzerland: homes, office moves, house clearance and end of tenancy cleaning to letting-agency standards."
+    },
+    "/en/house-clearance": {
+      "title": "House Clearance Geneva & Vaud: Free Quote | Batimove",
+      "description": "Flat, house, cellar and attic clearance in Geneva and the canton of Vaud. Sorting, removal and recycling. Fixed price, free quote within 30 min."
+    },
+    "/en/end-of-tenancy-cleaning": {
+      "title": "End of Tenancy Cleaning Geneva & Vaud | Batimove",
+      "description": "End of tenancy cleaning to letting-agency standards in Geneva and the canton of Vaud. Free touch-up if anything is flagged. Quote within 30 min."
+    },
+    "/en/storage": {
+      "title": "Furniture Storage in Geneva | Batimove",
+      "description": "Furniture storage in Geneva: ventilated, CCTV-monitored depot for short or long stays, with collection in Geneva and the canton of Vaud."
+    },
+    "/en/international-removals": {
+      "title": "International Removals from Switzerland | Batimove",
+      "description": "Removals from Geneva and Vaud to France, Italy, Germany, Austria, the rest of the EU and the UK. Help with customs documents. Quote within 30 min."
+    },
+    "/en/moving-to-london": {
+      "title": "Removals Geneva to London | Batimove",
+      "description": "Moving between Switzerland and London: packing, transport, customs paperwork and delivery. Free quote within 30 min, freephone 0800 825 925."
+    },
+    "/en/removals-geneva": {
+      "title": "Removals in Geneva: Free Quote in 30 min | Batimove",
+      "description": "Removal company in Geneva for homes and businesses. Parking permits, furniture lifts, free quote from CHF 550. CHF 5M liability cover."
+    },
+    "/en/removals-lausanne": {
+      "title": "Removals in Lausanne: Fixed Price | Batimove",
+      "description": "Professional movers in Lausanne and its suburbs. Experts in steep access, furniture lifts and eDéménagement. Free quote within 30 min from CHF 550."
+    },
+    "/en/removals-vaud": {
+      "title": "Removals in Vaud: La Côte & Riviera | Batimove",
+      "description": "Removals across the canton of Vaud: Nyon, Morges, Vevey, Montreux, Yverdon. Qualified movers, storage and a free quote within 30 min from CHF 550."
+    },
+    "/en/contact": {
+      "title": "Contact Batimove | Movers in Geneva & Vaud",
+      "description": "Talk to our removal team in Geneva and Lausanne. Freephone 0800 825 925, WhatsApp or email for a tailored quote within 30 min."
+    },
+    "/en/volume-calculator": {
+      "title": "Free Removal Volume Calculator | Batimove",
+      "description": "Work out the volume of your furniture in m³ and get a fixed-price quote within 30 min for your move in Geneva, Lausanne and western Switzerland."
+    },
+    "/en/volume-calculator/checkout": {
+      "title": "Finalise Your Quote | Batimove Sàrl",
+      "description": "Finalise the details of your move and receive your tailored quote within 30 min.",
+      "robots": "noindex, nofollow"
+    },
+    "/en/quote": {
+      "title": "Free Removal Quote, No Obligation | Batimove",
+      "description": "Request your free removal quote online and get an answer within 30 min. Takes 2 minutes, or call us free on 0800 825 925."
+    },
+    "/en/legal-notice": {
+      "title": "Legal Notice | Batimove Sàrl",
+      "description": "Legal notice for Batimove Sàrl: publisher, registered office in Geneva, UID CHE-143.091.230 and website hosting."
+    },
+    "/en/terms": {
+      "title": "General Terms and Conditions | Batimove Sàrl",
+      "description": "Batimove Sàrl terms: quotes, prices, obligations, CHF 5M liability insurance, cancellation and place of jurisdiction."
+    },
+    "/en/privacy": {
+      "title": "Privacy Policy (nFADP) | Batimove Sàrl",
+      "description": "What data Batimove Sàrl processes, with which providers, for how long and how to exercise your rights under the Swiss nFADP."
+    },
+    "/en/house-clearance-geneva": {
+      "title": "House Clearance Geneva: Free Quote | Batimove",
+      "description": "House clearance in Geneva: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Eaux-Vives, Champel, Plainpalais."
+    },
+    "/en/end-of-tenancy-cleaning-geneva": {
+      "title": "End of Tenancy Cleaning Geneva | Batimove",
+      "description": "End of tenancy cleaning in Geneva, to letting-agency standards. Free touch-up if anything is flagged. Also: Eaux-Vives, Champel, Plainpalais."
+    },
+    "/en/house-clearance-carouge": {
+      "title": "House Clearance Carouge: Free Quote | Batimove",
+      "description": "House clearance in Carouge: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Vieux-Carouge, Lancy."
+    },
+    "/en/end-of-tenancy-cleaning-carouge": {
+      "title": "End of Tenancy Cleaning Carouge | Batimove",
+      "description": "End of tenancy cleaning in Carouge, to letting-agency standards. Free touch-up if anything is flagged. Also: Vieux-Carouge, Lancy, Plan-les-Ouates."
+    },
+    "/en/house-clearance-vaud": {
+      "title": "House Clearance Vaud: Free Quote | Batimove",
+      "description": "House clearance in the canton of Vaud: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Lausanne, Renens, Nyon."
+    },
+    "/en/end-of-tenancy-cleaning-vaud": {
+      "title": "End of Tenancy Cleaning Vaud | Batimove",
+      "description": "End of tenancy cleaning in the canton of Vaud, to letting-agency standards. Free touch-up if anything is flagged. Also: Lausanne, Renens, Nyon."
+    },
+    "/en/house-clearance-lausanne": {
+      "title": "House Clearance Lausanne: Free Quote | Batimove",
+      "description": "House clearance in Lausanne: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Ouchy, Sous-Gare, Chailly."
+    },
+    "/en/end-of-tenancy-cleaning-lausanne": {
+      "title": "End of Tenancy Cleaning Lausanne | Batimove",
+      "description": "End of tenancy cleaning in Lausanne, to letting-agency standards. Free touch-up if anything is flagged. Also: Ouchy, Sous-Gare, Chailly."
+    },
+    "/en/house-clearance-renens": {
+      "title": "House Clearance Renens: Free Quote | Batimove",
+      "description": "House clearance in Renens: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Crissier, Ecublens."
+    },
+    "/en/end-of-tenancy-cleaning-renens": {
+      "title": "End of Tenancy Cleaning Renens | Batimove",
+      "description": "End of tenancy cleaning in Renens, to letting-agency standards. Free touch-up if anything is flagged. Also: Crissier, Ecublens, Chavannes-près-Renens."
+    },
+    "/en/house-clearance-nyon": {
+      "title": "House Clearance Nyon: Free Quote | Batimove",
+      "description": "House clearance in Nyon: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Prangins, Gland, Rolle."
+    },
+    "/en/end-of-tenancy-cleaning-nyon": {
+      "title": "End of Tenancy Cleaning Nyon | Batimove",
+      "description": "End of tenancy cleaning in Nyon, to letting-agency standards. Free touch-up if anything is flagged. Also: Prangins, Gland, Rolle."
+    },
+    "/en/house-clearance-morges": {
+      "title": "House Clearance Morges: Free Quote | Batimove",
+      "description": "House clearance in Morges: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Tolochenaz, Préverenges, Saint-Prex."
+    },
+    "/en/end-of-tenancy-cleaning-morges": {
+      "title": "End of Tenancy Cleaning Morges | Batimove",
+      "description": "End of tenancy cleaning in Morges, to letting-agency standards. Free touch-up if anything is flagged. Also: Tolochenaz, Préverenges, Saint-Prex."
+    },
+    "/en/house-clearance-vevey": {
+      "title": "House Clearance Vevey: Free Quote | Batimove",
+      "description": "House clearance in Vevey: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: La Tour-de-Peilz, Corseaux."
+    },
+    "/en/end-of-tenancy-cleaning-vevey": {
+      "title": "End of Tenancy Cleaning Vevey | Batimove",
+      "description": "End of tenancy cleaning in Vevey, to letting-agency standards. Free touch-up if anything is flagged. Also: La Tour-de-Peilz, Corseaux, Corsier-sur-Vevey."
+    },
+    "/en/house-clearance-montreux": {
+      "title": "House Clearance Montreux: Free Quote | Batimove",
+      "description": "House clearance in Montreux: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Clarens, Territet, Glion."
+    },
+    "/en/end-of-tenancy-cleaning-montreux": {
+      "title": "End of Tenancy Cleaning Montreux | Batimove",
+      "description": "End of tenancy cleaning in Montreux, to letting-agency standards. Free touch-up if anything is flagged. Also: Clarens, Territet, Glion."
+    },
+    "/en/house-clearance-yverdon-les-bains": {
+      "title": "House Clearance Yverdon-les-Bains: Free Quote | Batimove",
+      "description": "House clearance in Yverdon-les-Bains: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Grandson, Yvonand."
+    },
+    "/en/end-of-tenancy-cleaning-yverdon-les-bains": {
+      "title": "End of Tenancy Cleaning Yverdon-les-Bains | Batimove",
+      "description": "End of tenancy cleaning in Yverdon-les-Bains, to letting-agency standards. Free touch-up if anything is flagged. Also: Grandson, Yvonand."
     }
   }
 }

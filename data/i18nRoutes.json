@@ -1,0 +1,26 @@
+{
+  "_comment": "Pares de rotas FR <-> EN. Fonte única para o roteador (App.tsx), o botão FR/EN, o hreflang do prerender, o sitemap e os rewrites do vercel.json. As páginas locais (débarras e nettoyage por cidade) vêm de serviceLocalities.json (campo enSlug). Depois de editar: node scripts/sync-localities.mjs",
+  "static": [
+    ["/", "/en"],
+    ["/services", "/en/services"],
+    ["/debarras", "/en/house-clearance"],
+    ["/nettoyage-fin-de-bail", "/en/end-of-tenancy-cleaning"],
+    ["/garde-meubles", "/en/storage"],
+    ["/demenagement-international", "/en/international-removals"],
+    ["/demenagement-londres", "/en/moving-to-london"],
+    ["/demenagement-geneve", "/en/removals-geneva"],
+    ["/demenagement-lausanne", "/en/removals-lausanne"],
+    ["/demenagement-vaud", "/en/removals-vaud"],
+    ["/contact", "/en/contact"],
+    ["/calculator", "/en/volume-calculator"],
+    ["/calculator/checkout", "/en/volume-calculator/checkout"],
+    ["/quote", "/en/quote"],
+    ["/legal", "/en/legal-notice"],
+    ["/terms", "/en/terms"],
+    ["/privacy", "/en/privacy"]
+  ],
+  "local": {
+    "debarras": "/en/house-clearance-",
+    "nettoyage": "/en/end-of-tenancy-cleaning-"
+  }
+}
