@@ -1,4 +1,5 @@
 import type { QuoteServiceId } from './quoteServices';
+import type { Lang } from '../i18n';
 
 // Conteúdo das páginas próprias de serviço (/debarras, /nettoyage-fin-de-bail).
 // Regra do site: só afirmações já sustentadas em outras partes do site ou
@@ -20,7 +21,10 @@ export interface ServiceLanding {
   faq: { question: string; answer: string }[];
 }
 
-export const SERVICE_LANDINGS: Record<'debarras' | 'nettoyage' | 'garde-meubles', ServiceLanding> = {
+export type ServiceLandingId = 'debarras' | 'nettoyage' | 'garde-meubles';
+
+/** Versão francesa (idioma de origem). */
+export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
   debarras: {
     serviceId: 'debarras',
     path: '/debarras',
@@ -175,4 +179,155 @@ export const SERVICE_LANDINGS: Record<'debarras' | 'nettoyage' | 'garde-meubles'
       },
     ],
   },
+};
+
+/**
+ * Versão inglesa. `path` continua sendo o caminho FRANCÊS: o template passa
+ * por lp() para chegar ao endereço em inglês. Fotos iguais, só o alt muda.
+ */
+export const SERVICE_LANDINGS_EN: Record<ServiceLandingId, ServiceLanding> = {
+  debarras: {
+    ...SERVICE_LANDINGS.debarras,
+    seoTitle: 'House Clearance Geneva & Vaud | Free Quote in 30 min',
+    seoDescription:
+      'House clearance for flats, houses, cellars and attics in Geneva and the canton of Vaud. Sorting, removal and recycling. Fixed price, free quote within 30 min.',
+    breadcrumb: 'House clearance',
+    hero: {
+      ...SERVICE_LANDINGS.debarras.hero,
+      alt: 'Two removal workers carrying a wrapped armchair out of a building towards a van',
+    },
+    h1: 'House clearance in Geneva and the canton of Vaud',
+    lead:
+      'Flat, house, cellar or attic: we sort, clear and leave the space empty. Anything still usable is given a second life; the rest goes for recycling.',
+    included: [
+      'On-site sorting: what to keep, donate or recycle',
+      'Complete clearance by our own teams',
+      'Reusable items given a second life',
+      'Communal areas protected throughout the job',
+      'Parking permit requested on your behalf',
+      'End of tenancy cleaning available straight afterwards',
+    ],
+    steps: [
+      { title: 'Free quote within 30 min', text: 'Tell us what needs clearing. You receive a fixed price, from 8 am to 7 pm.' },
+      { title: 'Clearance on the agreed date', text: 'Our teams sort, clear and protect the communal areas.' },
+      { title: 'An empty property', text: 'Ready for a sale, a new tenant or the check-out inspection.' },
+    ],
+    faq: [
+      {
+        question: 'What happens to everything you take away?',
+        answer:
+          'Reusable items are given a second life. Everything else is sorted on site and taken to the appropriate recycling streams.',
+      },
+      {
+        question: 'Can the price change on the day?',
+        answer: 'No. Once you accept the quote, the price is fixed: you will not be charged anything extra.',
+      },
+      {
+        question: 'Do you clear just a cellar or an attic?',
+        answer: 'Yes. We clear a single cellar or attic just as we clear an entire flat or house.',
+      },
+      {
+        question: 'Can you follow on with end of tenancy cleaning?',
+        answer:
+          'Yes. We schedule the cleaning straight after the clearance, so the property is ready for the check-out inspection.',
+      },
+    ],
+  },
+  nettoyage: {
+    ...SERVICE_LANDINGS.nettoyage,
+    seoTitle: 'End of Tenancy Cleaning Geneva & Vaud | Batimove',
+    seoDescription:
+      'End of tenancy cleaning to letting agency standards in Geneva and the canton of Vaud. Free touch-up if anything is flagged. Quote within 30 min.',
+    breadcrumb: 'End of tenancy cleaning',
+    hero: {
+      ...SERVICE_LANDINGS.nettoyage.hero,
+      alt: 'End of tenancy cleaning in an empty flat with a view of the lake',
+    },
+    h1: 'End of tenancy cleaning in Geneva and the canton of Vaud',
+    lead:
+      'A property handed back to letting agency standards, for a check-out inspection with nothing to redo. And if the agency flags anything, we come back free of charge.',
+    included: [
+      'Complete cleaning of the property, room by room',
+      'Meets the standards of Swiss letting agencies',
+      'Key handover guarantee: free touch-up if anything is flagged',
+      'Can be combined with your move or a house clearance',
+      'Fixed price, no extra charges once the quote is accepted',
+      'From studios to houses',
+    ],
+    steps: [
+      { title: 'Free quote within 30 min', text: 'Tell us the size of the property and the date of the check-out inspection. You receive a fixed price.' },
+      { title: 'Cleaning before the inspection', text: 'Our teams leave the property to the letting agency’s standards.' },
+      { title: 'Key handover', text: 'If the agency flags anything, we come back at no cost.' },
+    ],
+    faq: [
+      {
+        question: 'Does end of tenancy cleaning come with a guarantee for the check-out inspection?',
+        answer:
+          'Yes. Our end of tenancy cleaning includes a key handover guarantee, 100% compliant with the standards of Swiss letting agencies. If anything is flagged at the check-out inspection, we come back free of charge.',
+      },
+      {
+        question: 'Can you combine the cleaning with my move?',
+        answer: 'Yes. We carry out the move and then the cleaning, with a single quote for both.',
+      },
+      {
+        question: 'Can the price change after the quote?',
+        answer: 'No. Once you accept the quote, the price is fixed: you will not be charged anything extra.',
+      },
+      {
+        question: 'What size of property do you cover?',
+        answer: 'From studios to houses, in Geneva and the canton of Vaud.',
+      },
+    ],
+  },
+  'garde-meubles': {
+    ...SERVICE_LANDINGS['garde-meubles'],
+    seoTitle: 'Furniture Storage Geneva - Secure Storage | Batimove',
+    seoDescription:
+      'Furniture storage in Geneva: ventilated depot under video surveillance, short or long-term storage, collection in Geneva and the canton of Vaud.',
+    breadcrumb: 'Storage',
+    hero: {
+      ...SERVICE_LANDINGS['garde-meubles'].hero,
+      alt: 'Clean, well-organised furniture storage depot with wrapped furniture and storage crates',
+    },
+    h1: 'Secure furniture storage in Geneva',
+    lead:
+      'For a few weeks or several months: we pack, transport and store your belongings in a ventilated depot under video surveillance, then deliver them when you are ready.',
+    included: [
+      'Ventilated depot under round-the-clock video surveillance',
+      'Short-term or long-term storage',
+      'Collection in Geneva and the canton of Vaud',
+      'Your belongings packed and protected before storage',
+      'Delivery to your new address when you are ready',
+      'Fixed price, no extra charges once the quote is accepted',
+    ],
+    steps: [
+      { title: 'Free quote within 30 min', text: 'Tell us the volume and the duration. You receive a fixed price, from 8 am to 7 pm.' },
+      { title: 'Collection and storage', text: 'Our teams pack, transport and store your belongings in the depot.' },
+      { title: 'Delivery', text: 'When you are ready, we deliver to the address of your choice.' },
+    ],
+    faq: [
+      {
+        question: 'Where is the storage depot?',
+        answer: 'In Geneva. We collect your belongings in Geneva and the canton of Vaud.',
+      },
+      {
+        question: 'How long can I store my belongings?',
+        answer: 'Storage can be short-term or long-term: from a few weeks to several months.',
+      },
+      {
+        question: 'Can I store just a few boxes?',
+        answer: 'Yes. We store anything from a few boxes to the entire contents of a flat or house.',
+      },
+      {
+        question: 'Can the price change after the quote?',
+        answer: 'No. Once you accept the quote, the price is fixed: you will not be charged anything extra.',
+      },
+    ],
+  },
+};
+
+/** As duas versões, por idioma: SERVICE_LANDINGS_BY_LANG[lang].debarras */
+export const SERVICE_LANDINGS_BY_LANG: Record<Lang, Record<ServiceLandingId, ServiceLanding>> = {
+  fr: SERVICE_LANDINGS,
+  en: SERVICE_LANDINGS_EN,
 };

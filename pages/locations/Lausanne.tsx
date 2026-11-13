@@ -1,6 +1,7 @@
 import React from 'react';
 import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
 import { getReviews } from '../../data/reviews';
+import { defineCopy, useLang } from '../../i18n';
 
 const lausanneConfig: LocationConfig = {
   cityName: 'Lausanne',
@@ -68,7 +69,69 @@ const lausanneConfig: LocationConfig = {
   testimonials: getReviews(['julien', 'andressa', 'wagner'])
 };
 
+// Inglês: mesmas régies, coordenadas e avis (a citação fica em francês).
+const lausanneConfigEn: LocationConfig = {
+  ...lausanneConfig,
+  cityName: 'Lausanne',
+  regionBadge: 'Capital of Vaud • Lausanne & surrounding area',
+  heroHeadlineMain: 'Trusted removals in',
+  heroHeadlineHighlight: 'Lausanne & surroundings',
+  heroSubtitle:
+    'Teams specialised in Lausanne’s tricky access and steep slopes. The right equipment, full respect for Vaud letting agencies’ standards and comprehensive CHF 5M insurance.',
+  metaTitle: 'Removals Lausanne | Fixed Price & Letting Agency Guarantee',
+  metaDescription:
+    'Professional movers in Lausanne and the surrounding area. Specialists in steep access, furniture lifts and eDéménagement. Free quote within 30 min, from CHF 550.',
+  canonicalUrl: 'https://www.batimove.ch/en/removals-lausanne',
+  districts: [
+    { name: 'Lausanne centre & Le Flon', desc: 'Service in pedestrian zones, with access coordination and municipal permits.' },
+    { name: 'Ouchy & Sous-Gare', desc: 'Period buildings, steep gradients and residences on the shores of Lake Geneva.' },
+    { name: 'Chailly & La Sallaz', desc: 'Family neighbourhoods, detached houses and flats with sloping access.' },
+    { name: 'Montchoisi & Georgette', desc: 'Upmarket residential areas, with protective packing for valuable furniture.' },
+    { name: 'Beaulieu, Grey & Borde', desc: 'Flat moves and relocations of offices and medical practices.' },
+    { name: 'Pully, Prilly & Renens', desc: 'Fast service throughout Lausanne’s inner suburbs at no extra cost.' }
+  ],
+  localFeatures: [
+    {
+      title: 'Handling steep access and gradients',
+      desc: 'Our lorries and drivers are trained for the specific topography of the city of Lausanne.'
+    },
+    {
+      title: 'eDéménagement Vaud support',
+      desc: 'Advice and certificates for your official change-of-address notification to the Vaud residents’ registration office.'
+    },
+    {
+      title: 'Vaud letting agency guarantee',
+      desc: 'End of tenancy cleaning and transport recognised by Bernard Nicod, Cogestim, Régie du Rhône and Domicim.'
+    },
+    {
+      title: 'Furniture lifts for narrow streets',
+      desc: 'Compact lifts for safe access through windows, without blocking neighbourhood traffic.'
+    }
+  ],
+  faqList: [
+    {
+      question: 'How do you handle a move on Lausanne’s steep streets?',
+      answer: 'Lausanne has a height difference of more than 500 metres between the lake and the top of the city. Our vehicles are fitted with professional safety chocks, tail lifts and suitable carrying equipment to secure every load, even on the steepest streets.'
+    },
+    {
+      question: 'How quickly can I get a removal quote in Lausanne?',
+      answer: 'You can calculate your volume straight away with our online 3D calculator, or receive a detailed fixed quote within 30 min (8 am to 7 pm) by email or by phone on 0800 825 925.'
+    },
+    {
+      question: 'Do you offer end of tenancy cleaning with a guarantee for the letting agency?',
+      answer: 'Yes, our cleaning team guarantees a 100% successful check-out inspection. If the letting agency (Bernard Nicod, Cogestim, etc.) asks for a touch-up on the day of the inspection, we step in immediately at no extra cost.'
+    },
+    {
+      question: 'Do you handle moves between Lausanne and Geneva or Valais?',
+      answer: 'Absolutely. We run daily trips around Lake Geneva (Lausanne–Geneva) as well as to Valais, Fribourg, Neuchâtel and the rest of Switzerland.'
+    }
+  ]
+};
+
+const CONFIG = defineCopy<LocationConfig>(lausanneConfig, lausanneConfigEn);
+
 export const Lausanne: React.FC = () => {
-  return <LocationLandingTemplate config={lausanneConfig} />;
+  const { lang } = useLang();
+  return <LocationLandingTemplate config={CONFIG[lang]} />;
 };
 export default Lausanne;

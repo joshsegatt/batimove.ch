@@ -37,7 +37,28 @@ if (!existsSync(gabarit)) {
   console.error('[prerender] dist/index.html introuvable — lancez vite build avant.');
   process.exit(1);
 }
-const html = readFileSync(gabarit, 'utf8');
+const html = readFileSync(gabarit, 'utf8')
+  // Les liens hreflang du gabarit sont remplacés route par route plus bas.
+  .replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');
+
+// Paires FR <-> EN (même source que l'application : data/i18nRoutes.json et
+// le champ enSlug de data/serviceLocalities.json).
+const i18n = JSON.parse(readFileSync(join(racine, 'data', 'i18nRoutes.json'), 'utf8'));
+const { localities } = JSON.parse(readFileSync(join(racine, 'data', 'serviceLocalities.json'), 'utf8'));
+const paires = [
+  ...i18n.static,
+  ...localities.flatMap((l) => [
+    [`/debarras-${l.slug}`, `${i18n.local.debarras}${l.enSlug}`],
+    [`/nettoyage-fin-de-bail-${l.slug}`, `${i18n.local.nettoyage}${l.enSlug}`],
+  ]),
+];
+const paireDe = new Map();
+for (const [fr, en] of paires) {
+  paireDe.set(fr, { fr, en });
+  paireDe.set(en, { fr, en });
+}
+const estAnglais = (route) => route === '/en' || route.startsWith('/en/');
+const url = (route) => (route === '/' ? `${origine}/` : `${origine}${route}`);
 
 /** Échappe le texte destiné à un attribut HTML. */
 const esc = (s) =>
@@ -77,7 +98,19 @@ function pageDeRoute(route, meta) {
     [/<meta name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${image}" />`]
   ];
 
-  let sortie = html;
+  const en = estAnglais(route);
+  balises.push([/<meta property="og:locale"[^>]*>/, `<meta property="og:locale" content="${en ? 'en_GB' : 'fr_CH'}" />`]);
+
+  let sortie = html.replace(/<html lang="[^"]*">/, `<html lang="${en ? 'en' : 'fr-CH'}">`);
+  const paire = paireDe.get(route);
+  if (paire && paire.fr in routes && paire.en in routes) {
+    const alternates = [
+      `<link rel="alternate" hreflang="fr-CH" href="${url(paire.fr)}" />`,
+      `<link rel="alternate" hreflang="en" href="${url(paire.en)}" />`,
+      `<link rel="alternate" hreflang="x-default" href="${url(paire.fr)}" />`,
+    ].join('\n  ');
+    sortie = sortie.replace('</head>', `  ${alternates}\n</head>`);
+  }
   for (const [motif, valeur] of balises) {
     const r = remplacer(sortie, motif, valeur);
     sortie = r.html;

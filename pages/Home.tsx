@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CUSTOMER_REVIEWS, GOOGLE_RATING } from '../data/reviews';
-import { HOME_FAQ } from '../data/homeFaq';
-import { QUOTE_SERVICES } from '../data/quoteServices';
-import { HOME_ENGAGEMENTS, HOME_FICHE } from '../data/homeTrust';
+import { CUSTOMER_REVIEWS, GOOGLE_RATING, localizeReview } from '../data/reviews';
+import { HOME_FAQ_BY_LANG } from '../data/homeFaq';
+import { QUOTE_SERVICES, localizeQuoteService } from '../data/quoteServices';
+import { HOME_ENGAGEMENTS_BY_LANG, HOME_FICHE_BY_LANG } from '../data/homeTrust';
+import { defineCopy, useLang, type Lang } from '../i18n';
 import { 
   ArrowRight, 
   Check, 
@@ -282,11 +283,266 @@ const AssuranceUmbrellaIcon: React.FC<{ className?: string }> = ({ className = "
   </svg>
 );
 
+
+/** Serviços além da mudança local. Só o que a Batimove confirma fazer. */
+type HomeComplementaire = {
+  title: string;
+  text: string;
+  cta: string;
+  /** Caminho francês; passa por lp() na renderização. */
+  to?: string;
+  href?: string;
+  Icon: React.FC<{ className?: string }>;
+};
+
+const HOME_COMPLEMENTAIRES: Record<Lang, HomeComplementaire[]> = {
+  fr: [
+  {
+    title: 'Déménagement international',
+    text: "Vers la France, l'Italie, l'Allemagne, l'Autriche, le reste de l'Union européenne et le Royaume-Uni. Nous vous aidons avec les documents de douane.",
+    cta: "Voir le déménagement international",
+    to: '/demenagement-international',
+    Icon: LogisticServicesPlaneIcon,
+  },
+  {
+    title: 'Transport de véhicules',
+    text: 'Voitures et motos transportées en Suisse et en Europe.',
+    cta: 'Demander un devis',
+    to: '/quote?type=prive',
+    Icon: CarShippingTruckIcon,
+  },
+  {
+    title: 'Urgences 24/7',
+    text: 'Un logement à libérer plus tôt que prévu, un départ avancé : une équipe répond de jour comme de nuit.',
+    cta: 'Appeler le 0800 825 925',
+    href: 'tel:0800825925',
+    Icon: FastestShippingClockIcon,
+  },
+  {
+    title: 'Garde-meubles',
+    text: 'Stockage de quelques semaines ou de plusieurs mois, dans un dépôt ventilé sous vidéosurveillance.',
+    cta: 'Voir le garde-meubles',
+    to: '/garde-meubles',
+    Icon: WarehouseShelfIcon,
+  },
+  ],
+  en: [
+    {
+      title: 'International removals',
+      text: 'To France, Italy, Germany, Austria, the rest of the European Union and the United Kingdom. We help you with the customs paperwork.',
+      cta: 'See international removals',
+      to: '/demenagement-international',
+      Icon: LogisticServicesPlaneIcon,
+    },
+    {
+      title: 'Vehicle transport',
+      text: 'Cars and motorbikes transported within Switzerland and across Europe.',
+      cta: 'Request a quote',
+      to: '/quote?type=prive',
+      Icon: CarShippingTruckIcon,
+    },
+    {
+      title: 'Emergencies 24/7',
+      text: 'A home to vacate sooner than planned, a departure brought forward: a team responds day and night.',
+      cta: 'Call 0800 825 925',
+      href: 'tel:0800825925',
+      Icon: FastestShippingClockIcon,
+    },
+    {
+      title: 'Storage',
+      text: 'Storage for a few weeks or several months, in a ventilated depot under CCTV surveillance.',
+      cta: 'Explore storage',
+      to: '/garde-meubles',
+      Icon: WarehouseShelfIcon,
+    },
+  ],
+};
+
+const COPY = defineCopy(
+  {
+    heroTitle1: "L'Art du",
+    heroTitle2: 'Déménagement !',
+    heroTitleSr: ' : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud',
+    heroLead:
+      "Services professionnels de déménagement, emballage de haute précision et garde-meubles sécurisé à Genève, Lausanne et dans toute la Suisse. Assurance RC Pro jusqu'à 5M CHF incluse.",
+    heroProjectTitle: 'Quel est votre projet ?',
+    heroProjectHint: 'Devis gratuit, réponse sous 30 min (8h-19h).',
+    heroFixedPrice: 'Prix ferme : aucun surcoût une fois le devis accepté',
+    heroReachable: 'Joignable 7j/7',
+    freeCall: 'appel gratuit',
+    calcVolume: 'Calculer mon volume',
+    statFixedPrice: 'Prix fixe garanti',
+    statInsurance: 'Assurance RC incluse',
+    statReviews: 'Avis clients vérifiés',
+    heroImgAlt: 'Déménageur professionnel Batimove Sarl avec carton officiel',
+
+    engagementsTitle: 'Ce que nous réglons pour vous',
+
+    aboutImgAlt: "Déménageur Batimove avec des cartons à l'effigie de l'entreprise",
+    aboutTitle: 'Batimove, en toute transparence',
+    aboutLead:
+      'Une entreprise genevoise au service des particuliers et des entreprises de Suisse romande. Pas de promesse floue : voici qui nous sommes, où nous intervenons et ce qui vous protège.',
+    aboutServices: 'Découvrir nos prestations',
+    aboutQuote: 'Demander un devis',
+
+    proTitle: 'Recommandé par les professionnels et les régies',
+    proAdviceTitle: 'Conseil gratuit',
+    proAdviceText: 'Visite technique sur place ou estimation par vidéo gratuite sous 24h.',
+    proGuaranteeTitle: 'Garantie totale',
+    proGuaranteeText: 'Garantie 100% remise de clés conforme aux exigences des régies suisses.',
+    proUrgentTitle: 'Urgences 24/7',
+    proUrgentText: "Ligne d'urgence 24/7 et chef de projet joignable en direct le jour J.",
+    proLead:
+      'Particuliers, expatriés et entreprises nous confient leur déménagement à Genève et dans le canton de Vaud. Nous connaissons les exigences des régies lors de la remise des clés et préparons chaque état des lieux en conséquence.',
+    proCardKicker: "Besoin d'un devis immédiat ?",
+    proCardText: 'Nos spécialistes répondent à vos questions et planifient votre projet sans engagement :',
+    proCardPhoneNote: 'Numéro gratuit en Suisse',
+
+    readyTitle: 'Toujours prêts à répondre à vos besoins',
+    learnMore: 'En savoir plus',
+    readyLongTitle: 'Déménagement longue distance',
+    readyLongText:
+      'Intercantonal et international (Genève, Vaud, Zurich, France, UE) avec formalités de douane suisses intégrales.',
+    readyLocalTitle: 'Déménagement résidentiel local',
+    readyLocalText: 'Genève, Lausanne, Nyon, Montreux. Formules sur mesure du studio à la villa avec protection complète.',
+    readyImgAlt: 'Déménageur Batimove officiel avec cartons de déménagement',
+    readyBusinessTitle: "Transfert d'entreprise et de bureaux",
+    readyBusinessText:
+      "Déménagement de parcs informatiques, archives et open-spaces le week-end sans aucune coupure d'activité.",
+    readySmallTitle: 'Petits volumes et transports express',
+    readySmallText:
+      "Transport de meubles spécifiques, enlèvement d'achats volumineux et interventions urgentes en Romandie.",
+
+    complementairesTitle: 'Services complémentaires',
+    complementairesLead:
+      "Au-delà du déménagement en Suisse romande : l'étranger, vos véhicules, l'urgence et le stockage.",
+
+    packImgAlt: "Déménageur Batimove avec liste d'inventaire et cartons de déménagement officiels",
+    packTitle: 'Nous emballons tout avec le plus grand soin',
+    packLead:
+      "L'emballage constitue la clé d'un déménagement sans accroc. Nos techniciens utilisent des techniques éprouvées et des fournitures professionnelles renforcées pour chaque type d'objet.",
+    packPackingTitle: 'Emballage et déballage',
+    packPackingText: 'Caisses alvéolées et papier bulle anti-choc pour verres, vaisselle et objets fragiles.',
+    packStorageTitle: 'Garde-meubles et stockage',
+    packStorageText: "Inventaire complet avec contrôle d'état et stockage sécurisé sous scellés à Genève.",
+    packInsuranceTitle: 'Assurance All Risk',
+    packInsuranceText: "Couverture All Risk de vos biens, en complément de notre RC Pro jusqu'à 5M CHF.",
+    packCtaText: "Estimez votre matériel et commandez vos fournitures d'emballage en quelques clics.",
+    packCtaButton: 'Calculer mes cartons',
+
+    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} avis Google vérifiés`,
+    reviewsTitle: 'Ce que disent nos clients',
+    googleReview: 'Avis Google',
+    reviewDotLabel: (n: number, total: number) => `Avis ${n} sur ${total}`,
+
+    bannerTitle: 'Vous avez un projet de déménagement ?',
+    bannerPromise: 'Devis gratuit et ferme sous 30 min (8h-19h).',
+    bannerNoCommitment: 'Sans engagement • Appel gratuit au',
+    bannerCta: 'Demander un devis gratuit',
+    bannerImgAlt: 'Déménageur professionnel Batimove avec cartons et devis',
+
+    faqTitle: 'Questions fréquentes',
+    faqMore: 'Une autre question ? Appelez-nous gratuitement au',
+    faqOr: 'ou',
+    faqWrite: 'écrivez-nous',
+  },
+  {
+    heroTitle1: 'The art of',
+    heroTitle2: 'moving!',
+    heroTitleSr: ': professional removal company in Geneva, Lausanne and Vaud',
+    heroLead:
+      'Professional removal services, high-precision packing and secure storage in Geneva, Lausanne and throughout Switzerland. Professional liability insurance up to CHF 5M included.',
+    heroProjectTitle: 'What can we help you with?',
+    heroProjectHint: 'Free quote, reply within 30 min (8am-7pm).',
+    heroFixedPrice: 'Fixed price: no extra charges once the quote is accepted',
+    heroReachable: 'Available 7 days a week',
+    freeCall: 'free call',
+    calcVolume: 'Calculate my volume',
+    statFixedPrice: 'Guaranteed fixed price',
+    statInsurance: 'Liability insurance included',
+    statReviews: 'Verified customer reviews',
+    heroImgAlt: 'Professional Batimove Sàrl mover holding an official box',
+
+    engagementsTitle: 'What we take care of for you',
+
+    aboutImgAlt: 'Batimove mover with company-branded boxes',
+    aboutTitle: 'Batimove, in full transparency',
+    aboutLead:
+      'A Geneva company serving private clients and businesses across French-speaking Switzerland. No vague promises: here is who we are, where we work and what protects you.',
+    aboutServices: 'Explore our services',
+    aboutQuote: 'Request a quote',
+
+    proTitle: 'Recommended by professionals and letting agencies',
+    proAdviceTitle: 'Free advice',
+    proAdviceText: 'On-site survey or free video estimate within 24 hours.',
+    proGuaranteeTitle: 'Full guarantee',
+    proGuaranteeText: '100% key handover guarantee, compliant with the requirements of Swiss letting agencies.',
+    proUrgentTitle: 'Emergencies 24/7',
+    proUrgentText: '24/7 emergency line and a project manager you can reach directly on moving day.',
+    proLead:
+      'Private clients, expats and businesses trust us with their move in Geneva and the canton of Vaud. We know what letting agencies expect at key handover and prepare every check-out inspection accordingly.',
+    proCardKicker: 'Need a quote right away?',
+    proCardText: 'Our specialists answer your questions and plan your project, with no obligation:',
+    proCardPhoneNote: 'Freephone within Switzerland',
+
+    readyTitle: 'Always ready to meet your needs',
+    learnMore: 'Learn more',
+    readyLongTitle: 'Long-distance removals',
+    readyLongText:
+      'Between cantons and abroad (Geneva, Vaud, Zurich, France, EU), with all Swiss customs formalities handled in full.',
+    readyLocalTitle: 'Local home removals',
+    readyLocalText: 'Geneva, Lausanne, Nyon, Montreux. Tailored packages from studio flat to villa, with full protection.',
+    readyImgAlt: 'Official Batimove mover with moving boxes',
+    readyBusinessTitle: 'Business and office relocation',
+    readyBusinessText:
+      'IT equipment, archives and open-plan offices moved at the weekend, with no interruption to your business.',
+    readySmallTitle: 'Small loads and express transport',
+    readySmallText:
+      'Transport of individual pieces of furniture, collection of bulky purchases and urgent jobs across French-speaking Switzerland.',
+
+    complementairesTitle: 'Additional services',
+    complementairesLead:
+      'Beyond moving within French-speaking Switzerland: abroad, your vehicles, emergencies and storage.',
+
+    packImgAlt: 'Batimove mover with an inventory list and official moving boxes',
+    packTitle: 'We pack everything with the utmost care',
+    packLead:
+      'Packing is the key to a smooth move. Our technicians use proven techniques and reinforced professional supplies for every type of item.',
+    packPackingTitle: 'Packing and unpacking',
+    packPackingText: 'Cell-divided crates and shock-absorbing bubble wrap for glasses, crockery and fragile items.',
+    packStorageTitle: 'Furniture storage',
+    packStorageText: 'Full inventory with condition check and secure, sealed storage in Geneva.',
+    packInsuranceTitle: 'All Risk insurance',
+    packInsuranceText: 'All Risk cover for your belongings, on top of our professional liability insurance up to CHF 5M.',
+    packCtaText: 'Estimate what you need and order your packing supplies in a few clicks.',
+    packCtaButton: 'Calculate my boxes',
+
+    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} verified Google reviews`,
+    reviewsTitle: 'What our customers say',
+    googleReview: 'Google review',
+    reviewDotLabel: (n: number, total: number) => `Review ${n} of ${total}`,
+
+    bannerTitle: 'Planning a move?',
+    bannerPromise: 'Free, fixed quote within 30 min (8am-7pm).',
+    bannerNoCommitment: 'No obligation • Free call on',
+    bannerCta: 'Request a free quote',
+    bannerImgAlt: 'Professional Batimove mover with boxes and a quote',
+
+    faqTitle: 'Frequently asked questions',
+    faqMore: 'Any other questions? Call us free of charge on',
+    faqOr: 'or',
+    faqWrite: 'write to us',
+  }
+);
+
 export const Home: React.FC = () => {
+  const { lang, lp } = useLang();
+  const c = COPY[lang];
+
   // Testimonial Carousel Active State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-  const testimonials = CUSTOMER_REVIEWS;
+  const testimonials = CUSTOMER_REVIEWS.map((r) => localizeReview(r, lang));
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">
@@ -309,35 +565,35 @@ export const Home: React.FC = () => {
             {/* Coluna de texto */}
             <div className="flex min-w-0 flex-col justify-center py-4 sm:py-6 lg:col-span-7 lg:py-10 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:940px)]:py-5 [@media(min-width:1024px)_and_(max-height:760px)]:!py-4">
               <h1 className="mb-4 font-display text-3xl font-medium leading-[1.05] tracking-tight text-[#0B1E33] min-[400px]:text-4xl sm:mb-5 sm:text-5xl xl:text-6xl [@media(max-height:500px)]:!text-4xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:text-5xl [@media(min-width:1024px)_and_(max-height:760px)]:!mb-2">
-                L'Art du <br />
-                <span className="whitespace-nowrap text-[#0284c7]">Déménagement&nbsp;!</span>
-                <span className="sr-only"> : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud</span>
+                {c.heroTitle1} <br />
+                <span className="whitespace-nowrap text-[#0284c7]">{c.heroTitle2}</span>
+                <span className="sr-only">{c.heroTitleSr}</span>
               </h1>
 
               <p className="mb-6 max-w-xl text-lg font-normal leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-4 [@media(min-width:1024px)_and_(max-height:940px)]:text-lg [@media(min-width:1024px)_and_(max-height:760px)]:!mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:leading-normal">
-                Services professionnels de déménagement, emballage de haute précision et garde-meubles sécurisé à Genève, Lausanne et dans toute la Suisse. Assurance RC Pro jusqu'à 5M CHF incluse.
+                {c.heroLead}
               </p>
 
               {/* Seletor de serviço: cada opção é um devis gratuito já direcionado */}
               <div className="max-w-xl">
                 <h2 id="hero-projet" className="font-display text-lg font-semibold tracking-tight text-[#0B1E33]">
-                  Quel est votre projet&nbsp;?
+                  {c.heroProjectTitle}
                 </h2>
                 <p className="mb-4 mt-1 text-sm text-slate-600 [@media(min-width:1024px)_and_(max-height:940px)]:mb-3">
-                  Devis gratuit, réponse sous 30&nbsp;min (8h-19h).
+                  {c.heroProjectHint}
                 </p>
                 <ul
                   aria-labelledby="hero-projet"
                   className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-rest"
                 >
-                  {QUOTE_SERVICES.map(({ id: type, label, hint, icon: Icon }, i) => (
+                  {QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang)).map(({ id: type, label, hint, icon: Icon }, i) => (
                     <li key={type} className="relative">
                       {/* Separador recuado até o texto, como nas listas agrupadas do iOS */}
                       {i > 0 && (
                         <span aria-hidden="true" className="pointer-events-none absolute left-[76px] right-0 top-0 h-px bg-slate-200 sm:left-[80px]" />
                       )}
                       <Link
-                        to={`/quote?type=${type}`}
+                        to={lp(`/quote?type=${type}`)}
                         className="group flex min-h-[72px] items-center gap-4 bg-white px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] active:bg-slate-100 sm:px-5 [@media(min-width:1024px)_and_(max-height:940px)]:min-h-[60px] [@media(min-width:1024px)_and_(max-height:940px)]:py-2.5 [@media(min-width:1024px)_and_(max-height:760px)]:!min-h-[56px] [@media(min-width:1024px)_and_(max-height:760px)]:!py-2"
                       >
                         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white [@media(min-width:1024px)_and_(max-height:940px)]:h-10 [@media(min-width:1024px)_and_(max-height:940px)]:w-10 [@media(min-width:1024px)_and_(max-height:760px)]:!h-9 [@media(min-width:1024px)_and_(max-height:760px)]:!w-9">
@@ -360,11 +616,11 @@ export const Home: React.FC = () => {
                 <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-slate-600">
                   <li className="flex items-center gap-1.5">
                     <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
-                    Prix ferme&nbsp;: aucun surcoût une fois le devis accepté
+                    {c.heroFixedPrice}
                   </li>
                   <li className="flex items-center gap-1.5">
                     <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
-                    Joignable 7j/7
+                    {c.heroReachable}
                   </li>
                 </ul>
                 <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-base [@media(min-width:1024px)_and_(max-height:940px)]:mt-4">
@@ -374,13 +630,13 @@ export const Home: React.FC = () => {
                   >
                     <Phone className="h-4 w-4" aria-hidden="true" />
                     <span className="tabular-nums">0800 825 925</span>
-                    <span className="font-normal text-slate-500">appel gratuit</span>
+                    <span className="font-normal text-slate-500">{c.freeCall}</span>
                   </a>
                   <Link
-                    to="/calculator"
+                    to={lp('/calculator')}
                     className="py-1 font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
                   >
-                    Calculer mon volume
+                    {c.calcVolume}
                   </Link>
                 </div>
               </div>
@@ -389,15 +645,15 @@ export const Home: React.FC = () => {
               <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-slate-200/80 pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
                 <div>
                   <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
-                  <div className="text-xs font-medium text-slate-500">Prix fixe garanti</div>
+                  <div className="text-xs font-medium text-slate-500">{c.statFixedPrice}</div>
                 </div>
                 <div>
                   <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
-                  <div className="text-xs font-medium text-slate-500">Assurance RC incluse</div>
+                  <div className="text-xs font-medium text-slate-500">{c.statInsurance}</div>
                 </div>
                 <div>
                   <div className="font-display text-xl font-medium tabular-nums text-[#0284c7] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs font-medium text-slate-500">Avis clients vérifiés</div>
+                  <div className="text-xs font-medium text-slate-500">{c.statReviews}</div>
                 </div>
               </div>
             </div>
@@ -407,7 +663,7 @@ export const Home: React.FC = () => {
             <div className="flex min-w-0 items-end justify-center self-end lg:col-span-5 lg:justify-end xl:col-span-6">
               <img
                 src="/hero-mover-tight.png"
-                alt="Déménageur professionnel Batimove Sarl avec carton officiel"
+                alt={c.heroImgAlt}
                 width={675}
                 height={763}
                 fetchPriority="high"
@@ -432,10 +688,10 @@ export const Home: React.FC = () => {
               id="engagements-title"
               className="font-display text-2xl font-medium leading-[1.1] tracking-tight text-white lg:col-span-3 lg:text-4xl"
             >
-              Ce que nous réglons pour vous
+              {c.engagementsTitle}
             </h2>
             <ul className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-9">
-              {HOME_ENGAGEMENTS.map(({ title, text }) => (
+              {HOME_ENGAGEMENTS_BY_LANG[lang].map(({ title, text }) => (
                 <li key={title} className="border-t border-white/20 pt-5">
                   <h3 className="font-display text-xl font-medium tracking-tight text-white">{title}</h3>
                   <p className="mt-2 text-lg leading-relaxed text-slate-300">{text}</p>
@@ -460,7 +716,7 @@ export const Home: React.FC = () => {
               <div className="mx-auto max-w-[460px] overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <img
                   src="/votre-partenaire-mover-v2.jpg"
-                  alt="Déménageur Batimove avec des cartons à l'effigie de l'entreprise"
+                  alt={c.aboutImgAlt}
                   width={871}
                   height={1024}
                   className="block h-auto w-full select-none object-contain"
@@ -475,15 +731,14 @@ export const Home: React.FC = () => {
                 id="about-title"
                 className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl"
               >
-                Batimove, en toute transparence
+                {c.aboutTitle}
               </h2>
               <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-slate-600">
-                Une entreprise genevoise au service des particuliers et des entreprises de Suisse romande.
-                Pas de promesse floue&nbsp;: voici qui nous sommes, où nous intervenons et ce qui vous protège.
+                {c.aboutLead}
               </p>
 
               <dl className="mt-10 grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2">
-                {HOME_FICHE.map(({ term, desc, href }, i) => (
+                {HOME_FICHE_BY_LANG[lang].map(({ term, desc, href }, i) => (
                   <div
                     key={term}
                     className={`border-b border-slate-200 py-4 ${i % 2 === 1 ? 'sm:border-l sm:pl-6' : 'sm:pr-6'}`}
@@ -507,17 +762,17 @@ export const Home: React.FC = () => {
 
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <Link
-                  to="/services"
+                  to={lp('/services')}
                   className="btn btn-lg btn-secondary"
                 >
-                  Découvrir nos prestations
+                  {c.aboutServices}
                   <ChevronRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
                 <Link
-                  to="/quote"
+                  to={lp('/quote')}
                   className="inline-block py-3 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
                 >
-                  Demander un devis
+                  {c.aboutQuote}
                 </Link>
               </div>
             </div>
@@ -536,12 +791,9 @@ export const Home: React.FC = () => {
             
             {/* Left Column: Why Choose Us & 3 Icons */}
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                POURQUOI NOUS CHOISIR
-              </span>
               
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
-                Recommandé par les professionnels et les régies
+                {c.proTitle}
               </h2>
 
               {/* 3 Columns under title */}
@@ -553,10 +805,10 @@ export const Home: React.FC = () => {
                     <FileText className="w-6 h-6" />
                   </div>
                   <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    Conseil gratuit
+                    {c.proAdviceTitle}
                   </h3>
                   <p className="text-base text-slate-500 leading-relaxed">
-                    Visite technique sur place ou estimation par vidéo gratuite sous 24h.
+                    {c.proAdviceText}
                   </p>
                 </div>
 
@@ -566,10 +818,10 @@ export const Home: React.FC = () => {
                     <ShieldCheck className="w-6 h-6" />
                   </div>
                   <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    Garantie totale
+                    {c.proGuaranteeTitle}
                   </h3>
                   <p className="text-base text-slate-500 leading-relaxed">
-                    Garantie 100% remise de clés conforme aux exigences des régies suisses.
+                    {c.proGuaranteeText}
                   </p>
                 </div>
 
@@ -579,10 +831,10 @@ export const Home: React.FC = () => {
                     <Headphones className="w-6 h-6" />
                   </div>
                   <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    Urgences 24/7
+                    {c.proUrgentTitle}
                   </h3>
                   <p className="text-base text-slate-500 leading-relaxed">
-                    Ligne d'urgence 24/7 et chef de projet joignable en direct le jour J.
+                    {c.proUrgentText}
                   </p>
                 </div>
 
@@ -592,17 +844,17 @@ export const Home: React.FC = () => {
             {/* Right Column: Paragraph & Dark Blue Phone Card */}
             <div className="lg:col-span-5 flex flex-col justify-between h-full pt-4">
               <p className="text-slate-600 text-base leading-relaxed mb-8">
-                Particuliers, expatriés et entreprises nous confient leur déménagement à Genève et dans le canton de Vaud. Nous connaissons les exigences des régies lors de la remise des clés et préparons chaque état des lieux en conséquence.
+                {c.proLead}
               </p>
 
               {/* Dark Navy Highlight Card with Phone */}
               <div className="bg-[#0B1E33] text-white p-8 rounded-3xl shadow-xl border border-sky-500/20 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
                 <h4 className="text-sky-400 font-semibold text-sm tracking-wider uppercase font-display mb-2">
-                  Besoin d'un devis immédiat ?
+                  {c.proCardKicker}
                 </h4>
                 <p className="text-slate-300 text-base mb-6">
-                  Nos spécialistes répondent à vos questions et planifient votre projet sans engagement :
+                  {c.proCardText}
                 </p>
                 <a 
                   href="tel:0800825925" 
@@ -615,7 +867,7 @@ export const Home: React.FC = () => {
                     <div className="text-2xl sm:text-3xl font-medium font-display tracking-tight">
                       0800 825 925
                     </div>
-                    <div className="text-xs text-sky-400 font-medium">Numéro gratuit en Suisse</div>
+                    <div className="text-xs text-sky-400 font-medium">{c.proCardPhoneNote}</div>
                   </div>
                 </a>
               </div>
@@ -634,11 +886,8 @@ export const Home: React.FC = () => {
           
           {/* Header Centered */}
           <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              NOS SERVICES COMPLETS
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
-              Toujours prêts à répondre à vos besoins
+              {c.readyTitle}
             </h2>
           </div>
 
@@ -650,22 +899,22 @@ export const Home: React.FC = () => {
               
               {/* Service 1: Longue Distance */}
               <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to="/services?type=prive" className="transform group-hover:scale-110 transition-transform duration-300 block">
+                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
                   <ParachuteCargoIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
-                <Link to="/services?type=prive">
+                <Link to={lp('/services?type=prive')}>
                   <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Déménagement longue distance
+                    {c.readyLongTitle}
                   </h3>
                 </Link>
                 <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
-                  Intercantonal et international (Genève, Vaud, Zurich, France, UE) avec formalités de douane suisses intégrales.
+                  {c.readyLongText}
                 </p>
                 <Link
-                  to="/services?type=prive"
+                  to={lp('/services?type=prive')}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En savoir plus</span>
+                  <span>{c.learnMore}</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -674,22 +923,22 @@ export const Home: React.FC = () => {
 
               {/* Service 2: Résidentiel Local */}
               <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to="/services?type=prive" className="transform group-hover:scale-110 transition-transform duration-300 block">
+                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
                   <ScooterDeliveryIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
-                <Link to="/services?type=prive">
+                <Link to={lp('/services?type=prive')}>
                   <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Déménagement résidentiel local
+                    {c.readyLocalTitle}
                   </h3>
                 </Link>
                 <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
-                  Genève, Lausanne, Nyon, Montreux. Formules sur mesure du studio à la villa avec protection complète.
+                  {c.readyLocalText}
                 </p>
                 <Link
-                  to="/services?type=prive"
+                  to={lp('/services?type=prive')}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En savoir plus</span>
+                  <span>{c.learnMore}</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -706,7 +955,7 @@ export const Home: React.FC = () => {
 
                 <img
                   src="/toujours-prets-mover.png"
-                  alt="Déménageur Batimove officiel avec cartons de déménagement"
+                  alt={c.readyImgAlt}
                   width={530}
                   height={925}
                   className="w-full h-auto object-contain block select-none mx-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
@@ -721,22 +970,22 @@ export const Home: React.FC = () => {
               
               {/* Service 3: Transfert d'Entreprise */}
               <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to="/services?type=entreprise" className="transform group-hover:scale-110 transition-transform duration-300 block">
+                <Link to={lp('/services?type=entreprise')} className="transform group-hover:scale-110 transition-transform duration-300 block">
                   <WarehouseShelfIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
-                <Link to="/services?type=entreprise">
+                <Link to={lp('/services?type=entreprise')}>
                   <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Transfert d'entreprise et de bureaux
+                    {c.readyBusinessTitle}
                   </h3>
                 </Link>
                 <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
-                  Déménagement de parcs informatiques, archives et open-spaces le week-end sans aucune coupure d'activité.
+                  {c.readyBusinessText}
                 </p>
                 <Link
-                  to="/services?type=entreprise"
+                  to={lp('/services?type=entreprise')}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En savoir plus</span>
+                  <span>{c.learnMore}</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -745,22 +994,22 @@ export const Home: React.FC = () => {
 
               {/* Service 4: Petits Volumes & Express */}
               <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to="/services?type=prive" className="transform group-hover:scale-110 transition-transform duration-300 block">
+                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
                   <LocationParcelIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
-                <Link to="/services?type=prive">
+                <Link to={lp('/services?type=prive')}>
                   <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Petits volumes et transports express
+                    {c.readySmallTitle}
                   </h3>
                 </Link>
                 <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
-                  Transport de meubles spécifiques, enlèvement d'achats volumineux et interventions urgentes en Romandie.
+                  {c.readySmallText}
                 </p>
                 <Link
-                  to="/services?type=prive"
+                  to={lp('/services?type=prive')}
                   className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En savoir plus</span>
+                  <span>{c.learnMore}</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -774,125 +1023,50 @@ export const Home: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 6: "SERVICES COMPLÉMENTAIRES" ("ADDITIONAL SERVICES")
+          SECTION 6: SERVICES COMPLÉMENTAIRES
+          Só o que a Batimove faz de fato (confirmado: internacional, veículos,
+          urgências 24/7, garde-meubles). Lista em duas colunas, sem cartões
+          idênticos nem textura de fundo.
           ========================================================================= */}
-      <section className="py-20 lg:py-28 bg-[#0B1E33] text-white relative overflow-hidden">
-        {/* Dark Background Overlay with subtle texture */}
-        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
-              PRESTATIONS SUR MESURE
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight">
-              Services complémentaires
-            </h2>
+      <section aria-labelledby="complementaires-title" className="bg-[#0B1E33] py-20 text-white lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-4">
+              <h2 id="complementaires-title" className="font-display text-3xl font-medium tracking-tight text-white sm:text-4xl">
+                {c.complementairesTitle}
+              </h2>
+              <p className="mt-4 max-w-sm text-lg leading-relaxed text-slate-300">
+                {c.complementairesLead}
+              </p>
+            </div>
+
+            <ul className="grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:col-span-8">
+              {HOME_COMPLEMENTAIRES[lang].map(({ title, text, to, href, cta, Icon }) => {
+                const inner = (
+                  <>
+                    <Icon className="h-14 w-14 shrink-0" />
+                    <span className="mt-5 block font-display text-xl font-medium text-white">{title}</span>
+                    <span className="mt-2 block text-base leading-relaxed text-slate-300">{text}</span>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-base font-semibold text-sky-300 transition-colors group-hover:text-white">
+                      {cta}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                    </span>
+                  </>
+                );
+                const cls =
+                  'group flex h-full flex-col bg-[#0B1E33] p-7 transition-colors duration-150 hover:bg-[#0f2742] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-300 sm:p-8';
+                return (
+                  <li key={title}>
+                    {href ? (
+                      <a href={href} className={cls}>{inner}</a>
+                    ) : (
+                      <Link to={lp(to!)} className={cls}>{inner}</Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-
-          {/* 4 Cards Matching Reference with Identical Duotone Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Card 1: Logistic Services */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <LogisticServicesPlaneIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Services logistiques
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Fret aérien, formalités de douane suisses et garde-meubles sous haute sécurité pour particuliers et entreprises.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 2: Car Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <CarShippingTruckIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de véhicules
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Acheminement sécurisé de voitures, motos et flottes d'entreprise dans toute la Suisse et l'Europe.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 3: Furniture Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <FurnitureShippingShipIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de mobilier
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Manutention experte de mobilier volumineux, monte-meubles extérieur et fret maritime pour vos relocalisations.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 4: Fastest Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <FastestShippingClockIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Livraisons express
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Interventions d'urgence 24/7, transport de petits volumes et livraisons express sous délais stricts garantis.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
@@ -914,7 +1088,7 @@ export const Home: React.FC = () => {
 
                 <img
                   src="/emballage-mover.png"
-                  alt="Déménageur Batimove avec liste d'inventaire et cartons de déménagement officiels"
+                  alt={c.packImgAlt}
                   width={995}
                   height={945}
                   className="w-full h-auto object-contain block select-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
@@ -926,16 +1100,13 @@ export const Home: React.FC = () => {
 
             {/* Right: Content & 2x2 Services Grid Matching Reference Image 2 */}
             <div className="lg:col-span-6 flex flex-col justify-center">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                EMBALLAGE PROFESSIONNEL
-              </span>
               
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-6">
-                Nous emballons tout avec le plus grand soin
+                {c.packTitle}
               </h2>
 
               <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
-                L'emballage constitue la clé d'un déménagement sans accroc. Nos techniciens utilisent des techniques éprouvées et des fournitures professionnelles renforcées pour chaque type d'objet.
+                {c.packLead}
               </p>
 
               {/* 2x2 Grid: 3 Service Cards + 1 Action / CTA Card */}
@@ -948,10 +1119,10 @@ export const Home: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                      Emballage et déballage
+                      {c.packPackingTitle}
                     </h3>
                     <p className="text-base text-slate-600 leading-relaxed">
-                      Caisses alvéolées et papier bulle anti-choc pour verres, vaisselle et objets fragiles.
+                      {c.packPackingText}
                     </p>
                   </div>
                 </div>
@@ -963,10 +1134,10 @@ export const Home: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                      Garde-meubles et stockage
+                      {c.packStorageTitle}
                     </h3>
                     <p className="text-base text-slate-600 leading-relaxed">
-                      Inventaire complet avec contrôle d'état et stockage sécurisé sous scellés à Genève.
+                      {c.packStorageText}
                     </p>
                   </div>
                 </div>
@@ -978,10 +1149,10 @@ export const Home: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                      Assurance All Risk
+                      {c.packInsuranceTitle}
                     </h3>
                     <p className="text-base text-slate-600 leading-relaxed">
-                      Couverture All Risk de vos biens, en complément de notre RC Pro jusqu'à 5M CHF.
+                      {c.packInsuranceText}
                     </p>
                   </div>
                 </div>
@@ -989,10 +1160,10 @@ export const Home: React.FC = () => {
                 {/* 4: Action Slot (Short text + Button as in Reference) */}
                 <div className="p-6 rounded-2xl flex flex-col justify-between items-start bg-slate-50/50 border border-slate-100">
                   <p className="text-base text-slate-600 leading-relaxed mb-4">
-                    Estimez votre matériel et commandez vos fournitures d'emballage en quelques clics.
+                    {c.packCtaText}
                   </p>
-                  <Link to="/calculator" className={buttonClass('secondary', 'md', 'w-full sm:w-auto')}>
-                    Calculer mes cartons
+                  <Link to={lp('/calculator')} className={buttonClass('secondary', 'md', 'w-full sm:w-auto')}>
+                    {c.packCtaButton}
                   </Link>
                 </div>
 
@@ -1019,10 +1190,10 @@ export const Home: React.FC = () => {
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
               </svg>
-              <span>{GOOGLE_RATING.value} / 5 • {GOOGLE_RATING.count} avis Google vérifiés</span>
+              <span>{c.reviewsBadge(GOOGLE_RATING.value, GOOGLE_RATING.count)}</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
-              Ce que disent nos clients
+              {c.reviewsTitle}
             </h2>
           </div>
 
@@ -1050,11 +1221,11 @@ export const Home: React.FC = () => {
                           <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                           <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
                         </svg>
-                        <span>Avis Google</span>
+                        <span>{c.googleReview}</span>
                       </div>
                     </div>
                     {/* Quote */}
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic" lang={lang === 'en' ? 'fr' : undefined}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -1096,10 +1267,10 @@ export const Home: React.FC = () => {
                           <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                           <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
                         </svg>
-                        <span>Avis Google</span>
+                        <span>{c.googleReview}</span>
                       </div>
                     </div>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic">
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic" lang={lang === 'en' ? 'fr' : undefined}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -1126,7 +1297,7 @@ export const Home: React.FC = () => {
                 key={i}
                 onClick={() => setActiveTestimonial(i)}
                 className="p-2 -m-1 cursor-pointer"
-                aria-label={`Avis ${i + 1} sur ${testimonials.length}`}
+                aria-label={c.reviewDotLabel(i + 1, testimonials.length)}
                 aria-current={activeTestimonial === i}
               >
                 <span
@@ -1151,16 +1322,16 @@ export const Home: React.FC = () => {
             {/* Left: Text & CTA with site's red button */}
             <div className="md:col-span-7 lg:col-span-7 z-10">
               <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium text-white tracking-tight leading-tight mb-2.5">
-                Vous avez un projet de déménagement ?
+                {c.bannerTitle}
               </h2>
               <p className="text-sky-300 text-base sm:text-lg lg:text-xl font-medium mb-1.5">
-                Devis gratuit et ferme sous 30 min (8h-19h).
+                {c.bannerPromise}
               </p>
               <p className="text-slate-300 text-base font-normal mb-6">
-                Sans engagement • Appel gratuit au <a href="tel:0800825925" className="font-semibold text-white underline underline-offset-2 tabular-nums">0800 825 925</a>
+                {c.bannerNoCommitment} <a href="tel:0800825925" className="font-semibold text-white underline underline-offset-2 tabular-nums">0800 825 925</a>
               </p>
-              <Link to="/quote" className={buttonClass('primary', 'lg')}>
-                Demander un devis gratuit
+              <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
+                {c.bannerCta}
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </div>
@@ -1172,7 +1343,7 @@ export const Home: React.FC = () => {
             <div className="md:hidden flex justify-center items-end mt-6 -mb-7">
               <img
                 src="/plan-to-move-boxes-mover.png"
-                alt="Déménageur professionnel Batimove avec cartons et devis"
+                alt={c.bannerImgAlt}
                 width={995}
                 height={945}
                 loading="lazy"
@@ -1187,7 +1358,7 @@ export const Home: React.FC = () => {
           <div className="hidden md:flex absolute bottom-0 right-2 sm:right-6 lg:right-10 xl:right-16 items-end pointer-events-none z-30">
             <img
               src="/plan-to-move-boxes-mover.png"
-              alt="Déménageur professionnel Batimove avec cartons et devis"
+              alt={c.bannerImgAlt}
               width={995}
               height={945}
               loading="lazy"
@@ -1205,11 +1376,11 @@ export const Home: React.FC = () => {
       <section className="py-12 sm:py-14 lg:py-16 bg-[#f8fafc] border-b border-slate-200/60" aria-labelledby="home-faq-title">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="home-faq-title" className="font-display text-2xl sm:text-3xl lg:text-4xl font-medium text-[#0B1E33] tracking-tight text-center mb-8 lg:mb-10">
-            Questions fréquentes
+            {c.faqTitle}
           </h2>
 
           <div className="divide-y divide-slate-200 border-y border-slate-200">
-            {HOME_FAQ.map((item) => (
+            {HOME_FAQ_BY_LANG[lang].map((item) => (
               <details key={item.question} className="group py-1">
                 <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
                   <h3 className="font-display font-semibold text-base sm:text-lg text-[#0B1E33] leading-snug">
@@ -1228,9 +1399,9 @@ export const Home: React.FC = () => {
           </div>
 
           <p className="mt-8 text-center text-sm text-slate-600">
-            Une autre question ? Appelez-nous gratuitement au{' '}
+            {c.faqMore}{' '}
             <a href="tel:0800825925" className="font-semibold text-[#0B1E33] underline underline-offset-2 tabular-nums">0800 825 925</a>{' '}
-            ou <Link to="/contact" className="font-semibold text-[#0B1E33] underline underline-offset-2">écrivez-nous</Link>.
+            {c.faqOr} <Link to={lp('/contact')} className="font-semibold text-[#0B1E33] underline underline-offset-2">{c.faqWrite}</Link>.
           </p>
         </div>
       </section>

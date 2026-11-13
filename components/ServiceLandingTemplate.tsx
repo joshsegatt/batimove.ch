@@ -2,45 +2,113 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ChevronDown, ChevronRight, MapPin, Phone } from 'lucide-react';
 import { SEO } from './SEO';
-import { QUOTE_SERVICES, getQuoteService } from '../data/quoteServices';
-import type { ServiceLanding } from '../data/serviceLandings';
-import { CANTONS, LOCALITIES, localPath, routeMeta, type LocalService, type Locality } from '../data/localities';
+import { QUOTE_SERVICES, getQuoteService, localizeQuoteService } from '../data/quoteServices';
+import { SERVICE_LANDINGS_BY_LANG, type ServiceLandingId } from '../data/serviceLandings';
+import {
+  CANTONS,
+  LOCALITIES,
+  cantonName,
+  localPath,
+  localizeLocality,
+  routeMeta,
+  type LocalService,
+  type Locality,
+} from '../data/localities';
 import { QuoteWizard } from './quote/QuoteWizard';
+import { defineCopy, useLang } from '../i18n';
 
 // Página de um serviço (Débarras, Nettoyage). Duas versões com o mesmo template:
 // - hub (/debarras): a página geral do serviço;
 // - local (/debarras-lausanne): mesmo serviço com conteúdo próprio da localidade
 //   (bairros e comunas, notas locais, FAQ local), para o SEO local.
 // Em ambas, o wizard completo fica no topo e capta o lead sem trocar de página.
+// FR e EN: o conteúdo vem de SERVICE_LANDINGS_BY_LANG e de localizeLocality();
+// os links são escritos com o caminho francês e passam por lp().
 
-const SERVICE_NAME: Record<LocalService, string> = {
-  debarras: 'Débarras',
-  nettoyage: 'Nettoyage de fin de bail',
-};
+const COPY = defineCopy(
+  {
+    serviceName: { debarras: 'Débarras', nettoyage: 'Nettoyage de fin de bail' } as Record<LocalService, string>,
+    breadcrumbLabel: "Fil d'Ariane",
+    home: 'Accueil',
+    trust: ['RC Pro CHF 5M et All Risk', 'Prix ferme, aucun surcoût', 'Joignable 7j/7'],
+    freeCall: 'appel gratuit',
+    includedTitle: 'Ce qui est compris',
+    stepsTitle: 'Comment ça se passe',
+    step: (n: number) => `Étape ${n}`,
+    faqTitle: 'Questions fréquentes',
+    localFaqQuestion: (l: Locality, isCanton: boolean) =>
+      isCanton ? `Où intervenez-vous dans le canton de ${l.name} ?` : `Intervenez-vous aussi autour de ${l.name} ?`,
+    localFaqAnswer: (areas: string, canton: string) => `Oui : ${areas}, et dans tout le canton de ${canton}.`,
+    moveLink: (l: Locality, isCanton: boolean) =>
+      `Vous déménagez aussi ? Déménagement ${isCanton ? `dans le canton de ${l.name}` : `à ${l.name}`}`,
+    nearYou: (serviceName: string) => `${serviceName} près de chez vous`,
+    cantonOf: (name: string) => `Canton de ${name}`,
+    /** Rótulo da localidade atual (sem link) */
+    zoneCurrent: (l: Locality, isCanton: boolean) => (isCanton ? `Tout le canton` : l.name),
+    /** Rótulo do link para outra localidade */
+    zoneService: { debarras: 'Débarras', nettoyage: 'Nettoyage' } as Record<LocalService, string>,
+    zoneLink: (zoneService: string, l: Locality, isCanton: boolean) =>
+      `${zoneService} ${isCanton ? `canton de ${l.name}` : l.name}`,
+    othersTitle: 'Nos autres prestations',
+    ctaTitle: 'Devis gratuit sous 30 min',
+    ctaText: 'Prix ferme : aucun surcoût une fois le devis accepté.',
+    ctaButton: 'Demander un devis',
+  },
+  {
+    serviceName: { debarras: 'House clearance', nettoyage: 'End of tenancy cleaning' },
+    breadcrumbLabel: 'Breadcrumb',
+    home: 'Home',
+    trust: ['CHF 5M public liability and all-risks cover', 'Fixed price, no extra charges', 'Available 7 days a week'],
+    freeCall: 'free call',
+    includedTitle: 'What’s included',
+    stepsTitle: 'How it works',
+    step: (n: number) => `Step ${n}`,
+    faqTitle: 'Frequently asked questions',
+    localFaqQuestion: (l: Locality, isCanton: boolean) =>
+      isCanton ? `Where do you work in the canton of ${l.name}?` : `Do you also cover the area around ${l.name}?`,
+    localFaqAnswer: (areas: string, canton: string) => `Yes: ${areas}, and throughout the canton of ${canton}.`,
+    moveLink: (l: Locality) => `Moving as well? Removals ${l.prep}`,
+    nearYou: (serviceName: string) => `${serviceName} near you`,
+    cantonOf: (name: string) => `Canton of ${name}`,
+    zoneCurrent: (l: Locality, isCanton: boolean) => (isCanton ? 'Whole canton' : l.name),
+    // "House clearance in Nyon", "Cleaning in the canton of Vaud"
+    zoneService: { debarras: 'House clearance', nettoyage: 'Cleaning' },
+    zoneLink: (zoneService: string, l: Locality) => `${zoneService} ${l.prep}`,
+    othersTitle: 'Our other services',
+    ctaTitle: 'Free quote within 30 min',
+    ctaText: 'Fixed price: no extra charges once the quote is accepted.',
+    ctaButton: 'Request a quote',
+  },
+);
 
-const cantonName = (id: Locality['canton']) => CANTONS.find((c) => c.id === id)?.name ?? id;
-
-export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality?: Locality }> = ({ config, locality }) => {
+export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; locality?: Locality }> = ({
+  service: serviceId,
+  locality: rawLocality,
+}) => {
+  const { lang, lp } = useLang();
+  const c = COPY[lang];
+  const config = SERVICE_LANDINGS_BY_LANG[lang][serviceId];
+  const locality = rawLocality ? localizeLocality(rawLocality, lang) : undefined;
   const service = getQuoteService(config.serviceId);
   const serviceKey = config.serviceId as LocalService;
-  const others = QUOTE_SERVICES.filter((s) => s.id !== config.serviceId);
+  const others = QUOTE_SERVICES.filter((s) => s.id !== config.serviceId).map((s) => localizeQuoteService(s, lang));
+  const serviceName = c.serviceName[serviceKey];
 
   const path = locality ? localPath(serviceKey, locality.slug) : config.path;
   const meta = locality ? routeMeta(path) : { title: config.seoTitle, description: config.seoDescription };
-  const h1 = locality ? `${SERVICE_NAME[serviceKey]} ${locality.prep}` : config.h1;
+  const h1 = locality ? `${serviceName} ${locality.prep}` : config.h1;
   const lead = locality ? `${locality.intro} ${config.lead}` : config.lead;
-  const isCanton = locality?.kind === 'canton';
+  // `kind` francês decide a lógica (o inglês é só texto).
+  const isCanton = rawLocality?.kind === 'canton';
   // Só Débarras e Nettoyage têm páginas por cidade.
-  const hasLocalPages = serviceKey in SERVICE_NAME;
+  const hasLocalPages = serviceKey in c.serviceName;
 
   // Pergunta local primeiro: responde "vous venez chez moi ?" com a lista real.
   const faq = locality
     ? [
         {
-          question: isCanton
-            ? `Où intervenez-vous dans le canton de ${locality.name} ?`
-            : `Intervenez-vous aussi autour de ${locality.name} ?`,
-          answer: `Oui : ${locality.areas.slice(0, 8).join(', ')}, et dans tout le canton de ${cantonName(locality.canton)}.`,
+          question: c.localFaqQuestion(locality, isCanton),
+          answer: c.localFaqAnswer(locality.areas.slice(0, 8).join(', '), cantonName(locality.canton, lang)),
         },
         ...config.faq,
       ]
@@ -48,7 +116,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
 
   return (
     <div className="bg-white font-sans text-slate-900">
-      <SEO title={meta.title} description={meta.description} canonical={`https://www.batimove.ch${path}`} />
+      <SEO title={meta.title} description={meta.description} canonical={`https://www.batimove.ch${lp(path)}`} />
 
       {/* Topo: foto do serviço + wizard completo. O lead é captado aqui mesmo,
           sem trocar de página; o envio termina em e-mail + WhatsApp. */}
@@ -74,10 +142,10 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
 
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
           <div className="lg:col-span-6 lg:pt-4 xl:col-span-7">
-            <nav aria-label="Fil d'Ariane" className="text-sm text-slate-300">
+            <nav aria-label={c.breadcrumbLabel} className="text-sm text-slate-300">
               <ol className="flex flex-wrap items-center gap-1.5">
                 <li>
-                  <Link to="/" className="underline-offset-4 hover:text-white hover:underline">Accueil</Link>
+                  <Link to={lp('/')} className="underline-offset-4 hover:text-white hover:underline">{c.home}</Link>
                 </li>
                 <li aria-hidden="true">
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -85,7 +153,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
                 {locality ? (
                   <>
                     <li>
-                      <Link to={config.path} className="underline-offset-4 hover:text-white hover:underline">{config.breadcrumb}</Link>
+                      <Link to={lp(config.path)} className="underline-offset-4 hover:text-white hover:underline">{config.breadcrumb}</Link>
                     </li>
                     <li aria-hidden="true">
                       <ChevronRight className="h-3.5 w-3.5" />
@@ -100,7 +168,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
             <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl">{h1}</h1>
             <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-slate-200 sm:text-xl">{lead}</p>
             <ul className="mt-7 flex flex-col gap-2.5 text-base text-white sm:flex-row sm:flex-wrap sm:gap-x-6">
-              {['RC Pro CHF 5M et All Risk', 'Prix ferme, aucun surcoût', 'Joignable 7j/7'].map((t) => (
+              {c.trust.map((t) => (
                 <li key={t} className="flex items-center gap-2">
                   <Check className="h-4 w-4 shrink-0 text-sky-300" strokeWidth={2.5} aria-hidden="true" />
                   {t}
@@ -113,13 +181,13 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
             >
               <Phone className="h-5 w-5" aria-hidden="true" />
               <span className="tabular-nums">0800 825 925</span>
-              <span className="font-normal text-slate-300">appel gratuit</span>
+              <span className="font-normal text-slate-300">{c.freeCall}</span>
             </a>
           </div>
 
           <div id="devis" className="scroll-mt-32 lg:col-span-6 xl:col-span-5">
             <QuoteWizard
-              key={`${service.id}-${locality?.slug ?? 'hub'}`}
+              key={`${service.id}-${locality?.slug ?? 'hub'}-${lang}`}
               urlService={service.id}
               initialFrom={locality && !isCanton ? locality.name : undefined}
               elevated
@@ -132,7 +200,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section aria-labelledby="compris-title" className="py-16 lg:py-24">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8">
           <h2 id="compris-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:col-span-4 lg:text-4xl">
-            Ce qui est compris
+            {c.includedTitle}
           </h2>
           <ul className="grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2 lg:col-span-8">
             {config.included.map((item, i) => (
@@ -154,7 +222,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8">
             <div className="lg:col-span-5">
               <h2 id="local-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
-                {SERVICE_NAME[serviceKey]} {locality.prep}
+                {serviceName} {locality.prep}
               </h2>
               <p className="mt-6 text-sm font-semibold text-slate-500">{locality.areasTitle}</p>
               <ul className="mt-3 flex flex-wrap gap-2">
@@ -177,10 +245,10 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
               </dl>
               {locality.movePage && (
                 <Link
-                  to={locality.movePage}
+                  to={lp(locality.movePage)}
                   className="mt-2 inline-flex items-center gap-1.5 py-2 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
                 >
-                  Vous déménagez aussi ? Déménagement {isCanton ? `dans le canton de ${locality.name}` : `à ${locality.name}`}
+                  {c.moveLink(locality, isCanton)}
                   <ChevronRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
               )}
@@ -193,12 +261,12 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section aria-labelledby="etapes-title" className="bg-[#F8FAFC] py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 id="etapes-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
-            Comment ça se passe
+            {c.stepsTitle}
           </h2>
           <ol className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
             {config.steps.map((step, i) => (
               <li key={step.title} className="border-t-2 border-[#0B1E33] pt-5">
-                <span className="font-display text-sm font-semibold tabular-nums text-slate-500">Étape {i + 1}</span>
+                <span className="font-display text-sm font-semibold tabular-nums text-slate-500">{c.step(i + 1)}</span>
                 <h3 className="mt-2 font-display text-xl font-medium tracking-tight text-[#0B1E33]">{step.title}</h3>
                 <p className="mt-2 text-lg leading-relaxed text-slate-600">{step.text}</p>
               </li>
@@ -211,7 +279,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section aria-labelledby="faq-title" className="py-16 lg:py-20">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h2 id="faq-title" className="font-display text-3xl font-medium tracking-tight text-[#0B1E33]">
-            Questions fréquentes
+            {c.faqTitle}
           </h2>
           <div className="mt-6 divide-y divide-slate-200 border-y border-slate-200">
             {faq.map((item) => (
@@ -232,28 +300,29 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section aria-labelledby="zones-title" className="border-t border-slate-200 bg-[#F8FAFC] py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 id="zones-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
-            {SERVICE_NAME[serviceKey]} près de chez vous
+            {c.nearYou(serviceName)}
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {CANTONS.map((c) => (
-              <div key={c.id}>
-                <p className="text-sm font-semibold text-slate-500">Canton de {c.name}</p>
+            {CANTONS.map((canton) => (
+              <div key={canton.id}>
+                <p className="text-sm font-semibold text-slate-500">{c.cantonOf(cantonName(canton.id, lang))}</p>
                 <ul className="mt-3 flex flex-wrap gap-2">
-                  {LOCALITIES.filter((l) => l.canton === c.id).map((l) => {
-                    const current = l.slug === locality?.slug;
-                    const label = l.kind === 'canton' ? `Tout le canton` : l.name;
+                  {LOCALITIES.filter((l) => l.canton === canton.id).map((raw) => {
+                    const l = localizeLocality(raw, lang);
+                    const current = raw.slug === locality?.slug;
+                    const lIsCanton = raw.kind === 'canton';
                     return (
-                      <li key={l.slug}>
+                      <li key={raw.slug}>
                         {current ? (
                           <span aria-current="page" className="inline-flex h-10 items-center rounded-lg bg-[#0B1E33] px-3.5 text-base font-semibold text-white">
-                            {label}
+                            {c.zoneCurrent(l, lIsCanton)}
                           </span>
                         ) : (
                           <Link
-                            to={localPath(serviceKey, l.slug)}
+                            to={lp(localPath(serviceKey, raw.slug))}
                             className="inline-flex h-10 items-center rounded-lg border border-slate-200 bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 hover:border-[#0B1E33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
                           >
-                            {SERVICE_NAME[serviceKey].split(' ')[0]} {label === 'Tout le canton' ? `canton de ${l.name}` : label}
+                            {c.zoneLink(c.zoneService[serviceKey], l, lIsCanton)}
                           </Link>
                         )}
                       </li>
@@ -271,13 +340,13 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section aria-labelledby="autres-title" className="border-t border-slate-200 py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 id="autres-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
-            Nos autres prestations
+            {c.othersTitle}
           </h2>
           <ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
             {others.map(({ id, label, hint, icon: Icon, page }) => (
               <li key={id}>
                 <Link
-                  to={page}
+                  to={lp(page)}
                   className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
                 >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 group-hover:bg-[#0B1E33] group-hover:text-white">
@@ -299,15 +368,15 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section className="bg-[#0B1E33]">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:px-8">
           <div>
-            <h2 className="font-display text-3xl font-medium tracking-tight text-white">Devis gratuit sous 30 min</h2>
-            <p className="mt-2 text-lg text-slate-300">Prix ferme : aucun surcoût une fois le devis accepté.</p>
+            <h2 className="font-display text-3xl font-medium tracking-tight text-white">{c.ctaTitle}</h2>
+            <p className="mt-2 text-lg text-slate-300">{c.ctaText}</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <a
               href="#devis"
               className="btn btn-lg btn-inverse"
             >
-              Demander un devis
+              {c.ctaButton}
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </a>
             <a href="tel:0800825925" className="inline-flex items-center gap-2 py-3 text-lg font-semibold text-white transition-colors hover:text-sky-300">

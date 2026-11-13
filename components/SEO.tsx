@@ -1,4 +1,10 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import seoRoutes from '../data/seoRoutes.json';
+import { alternatePath, langOf } from '../i18n';
+
+const ORIGIN = 'https://www.batimove.ch';
+const ROUTES = (seoRoutes as { routes: Record<string, { title: string; description: string; robots?: string }> }).routes;
 
 export interface SEOProps {
   title?: string;
@@ -15,15 +21,46 @@ const DEFAULT_DESCRIPTION = "Entreprise de déménagement en Suisse Romande pour
 const DEFAULT_CANONICAL = 'https://www.batimove.ch/';
 const DEFAULT_OG_IMAGE = 'https://www.batimove.ch/batimove-logo.png';
 
-export const SEO: React.FC<SEOProps> = ({
-  title = DEFAULT_TITLE,
-  description = DEFAULT_DESCRIPTION,
-  canonical = DEFAULT_CANONICAL,
-  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  ogImage = DEFAULT_OG_IMAGE,
-  ogType = 'website',
-  schema,
-}) => {
+/**
+ * Metadados da página. Se a rota atual está em data/seoRoutes.json, o título,
+ * a descrição e o canonical vêm de lá (a mesma fonte do prerender), em
+ * qualquer idioma; as props só valem para rotas fora da lista.
+ * Também mantém <html lang> e os links hreflang FR/EN.
+ */
+export const SEO: React.FC<SEOProps> = (props) => {
+  const { pathname } = useLocation();
+  const path = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname;
+  const fromRoutes = ROUTES[path];
+  const title = fromRoutes?.title ?? props.title ?? DEFAULT_TITLE;
+  const description = fromRoutes?.description ?? props.description ?? DEFAULT_DESCRIPTION;
+  const canonical = fromRoutes ? `${ORIGIN}${path === '/' ? '/' : path}` : props.canonical ?? DEFAULT_CANONICAL;
+  const robots = fromRoutes?.robots ?? props.robots ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+  const ogImage = props.ogImage ?? DEFAULT_OG_IMAGE;
+  const ogType = props.ogType ?? 'website';
+  const schema = props.schema;
+  const lang = langOf(path);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    const fr = alternatePath(path, 'fr');
+    const en = alternatePath(path, 'en');
+    const hasPair = fr in ROUTES && en in ROUTES;
+    for (const [hreflang, href] of [['fr', fr], ['en', en], ['x-default', fr]] as const) {
+      let link = document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
+      if (!hasPair) {
+        link?.remove();
+        continue;
+      }
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'alternate';
+        link.hreflang = hreflang;
+        document.head.appendChild(link);
+      }
+      link.href = `${ORIGIN}${href === '/' ? '/' : href}`;
+    }
+  }, [path, lang]);
+
   useEffect(() => {
     // 1. Update Title
     if (title) {

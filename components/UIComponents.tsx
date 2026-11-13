@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
+import { defineCopy, useLang } from '../i18n';
 
 // --- Button ---
 // Usa o sistema de botões global (src/index.css: .btn, .btn-primary…), o mesmo
@@ -36,13 +37,21 @@ export const Button: React.FC<ButtonProps> = ({
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
         </svg>
-        Envoi en cours…
+        <LoadingLabel />
       </>
     ) : (
       children
     )}
   </button>
 );
+
+const LOADING_COPY = defineCopy({ sending: 'Envoi en cours…' }, { sending: 'Sending…' });
+
+/** Texto do estado de envio, no idioma da página. */
+const LoadingLabel: React.FC = () => {
+  const { lang } = useLang();
+  return <>{LOADING_COPY[lang].sending}</>;
+};
 
 // --- Input ---
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

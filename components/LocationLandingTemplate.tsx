@@ -29,6 +29,7 @@ import { Button, buttonClass } from './UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from './SEO';
 import { GOOGLE_RATING } from '../data/reviews';
+import { defineCopy, useLang } from '../i18n';
 
 // Duotone Icons matching Home.tsx
 const ParachuteCargoIcon: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => (
@@ -115,17 +116,126 @@ export interface LocationConfig {
   localFeatures: Array<{ title: string; desc: string }>;
   regiesList: string[];
   faqList: Array<{ question: string; answer: string }>;
-  testimonials: Array<{ name: string; role: string; quote: string; rating: number; location: string; avatar?: string }>;
+  /** Avis reais (data/reviews.ts). `id` permite traduzir os rótulos; a citação fica sempre em francês. */
+  testimonials: Array<{ id?: string; name: string; role: string; quote: string; rating: number; location: string; avatar?: string }>;
 }
 
+// Rótulos em inglês em volta dos avis reais (prestação e localização do cliente).
+// O texto do avis (`quote`) nunca é traduzido: é a citação literal publicada.
+const REVIEW_LABELS_EN: Record<string, { role: string; location: string }> = {
+  andressa: { role: 'International removal', location: 'London to Switzerland' },
+  julien: { role: 'MOVU certified partner', location: 'Lausanne & canton of Vaud' },
+  wagner: { role: 'Turnkey home removal', location: 'Geneva' },
+  pedro: { role: 'Transport and home removal', location: 'Geneva & surrounding area' },
+};
+
+const COPY = defineCopy(
+  {
+    schemaName: (city: string) => `Batimove Sàrl - Déménagement ${city}`,
+    srOnlyHeadline: (city: string) => ` : Service professionnel de déménagement certifié à ${city}`,
+    ctaQuote: 'Demander un devis gratuit',
+    ctaCalculator: 'Calculer mon volume',
+    trustFixedPrice: 'Prix fixe garanti',
+    trustInsurance: 'Assurance RC incluse',
+    trustReviews: 'Avis clients vérifiés',
+    heroAlt: (city: string) => `Déménageur professionnel Batimove Sàrl à ${city}`,
+    teamAlt: (city: string) => `Équipe Batimove en intervention à ${city}`,
+    regiesBadgeTitle: 'Régies Suisses',
+    regiesBadgeText: "Garantie intégrale de remise des clés lors de l'état des lieux.",
+    expertiseTitle: (city: string) => `Maîtrise Parfaite des Spécificités de ${city}`,
+    expertiseText: (city: string) =>
+      `Chaque région suisse présente ses propres défis logistiques. À ${city}, nos équipes interviennent avec du matériel adapté aux contraintes urbaines, ruelles historiques, autorisations d'accès et règlements de copropriété.`,
+    regiesLabel: 'Habitués des états des lieux auprès des régies :',
+    districtsTitle: (city: string) => `Présents Partout à ${city} & Environs`,
+    districtsText:
+      'Nos camions capitonnés circulent quotidiennement dans tous les secteurs. Aucune majoration kilométrique injustifiée au sein de notre zone de service.',
+    servicesTitle: 'Toutes les solutions pour votre déménagement',
+    residentialTitle: 'Déménagement résidentiel',
+    residentialText: (city: string) =>
+      `Appartements et villas à ${city}. Protection intégrale sous couvertures capitonnées et assurance RC 5M CHF.`,
+    residentialLink: 'Découvrir la formule',
+    businessTitle: "Transfert d'Entreprise",
+    businessText: 'Bureaux, archives, commerces et informatique. Planification précise pour zéro interruption de vos activités.',
+    businessLink: 'Services aux entreprises',
+    storageTitle: 'Garde-meubles sécurisé',
+    storageText: (city: string) =>
+      `Entreposage propre, tempéré et sous alarme 24h/24. Stockage courte ou longue durée pour vos biens à ${city}.`,
+    storageLink: 'Solutions de stockage',
+    cleaningTitle: "Nettoyage d'état des lieux",
+    cleaningText:
+      'Nettoyage fin de bail 100% garanti avec présence physique de nos agents lors de la remise des clés à la régie.',
+    cleaningLink: 'Garantie remise de clés',
+    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} avis Google vérifiés`,
+    reviewsTitle: 'Ce que disent vos voisins',
+    googleReview: 'Avis Google',
+    faqTitle: (city: string) => `Tout Savoir sur Votre Déménagement à ${city}`,
+    finalTitle: (city: string) => `Prêt pour un Déménagement Serein à ${city} ?`,
+    finalText:
+      'Obtenez votre estimation en 2 minutes grâce à notre calculateur de volume 3D ou échangez avec un expert au téléphone.',
+    finalCalculator: 'Estimer mon volume en ligne',
+    finalPhone: '0800 825 925 (Appel Gratuit)',
+  },
+  {
+    schemaName: (city: string) => `Batimove Sàrl - Removals ${city}`,
+    srOnlyHeadline: (city: string) => `: certified professional removal service in ${city}`,
+    ctaQuote: 'Request a free quote',
+    ctaCalculator: 'Calculate my volume',
+    trustFixedPrice: 'Guaranteed fixed price',
+    trustInsurance: 'Liability insurance included',
+    trustReviews: 'Verified customer reviews',
+    heroAlt: (city: string) => `Professional Batimove Sàrl mover in ${city}`,
+    teamAlt: (city: string) => `Batimove team on a job in ${city}`,
+    regiesBadgeTitle: 'Swiss letting agencies',
+    regiesBadgeText: 'Full key handover guarantee at the check-out inspection.',
+    expertiseTitle: (city: string) => `Complete mastery of the particularities of ${city}`,
+    expertiseText: (city: string) =>
+      `Every Swiss region has its own logistical challenges. In ${city}, our teams work with equipment suited to urban constraints, historic lanes, access permits and co-ownership regulations.`,
+    regiesLabel: 'Experienced with check-out inspections for these letting agencies:',
+    districtsTitle: (city: string) => `Everywhere in ${city} and the surrounding area`,
+    districtsText:
+      'Our padded lorries are on the road in every district, every day. No unjustified mileage surcharges within our service area.',
+    servicesTitle: 'Every solution for your move',
+    residentialTitle: 'Home removals',
+    residentialText: (city: string) =>
+      `Flats and villas in ${city}. Full protection under padded blankets and CHF 5M liability insurance.`,
+    residentialLink: 'Discover the service',
+    businessTitle: 'Office relocation',
+    businessText: 'Offices, archives, shops and IT. Precise planning for zero disruption to your business.',
+    businessLink: 'Business services',
+    storageTitle: 'Secure furniture storage',
+    storageText: (city: string) =>
+      `Clean, temperature-controlled storage with a 24/7 alarm. Short or long-term storage for your belongings in ${city}.`,
+    storageLink: 'Storage solutions',
+    cleaningTitle: 'End of tenancy cleaning',
+    cleaningText:
+      '100% guaranteed end of tenancy cleaning, with our staff present in person at the key handover to the letting agency.',
+    cleaningLink: 'Key handover guarantee',
+    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} verified Google reviews`,
+    reviewsTitle: 'What your neighbours say',
+    googleReview: 'Google review',
+    faqTitle: (city: string) => `Everything you need to know about moving in ${city}`,
+    finalTitle: (city: string) => `Ready for a stress-free move in ${city}?`,
+    finalText: 'Get your estimate in 2 minutes with our 3D volume calculator, or talk to an expert on the phone.',
+    finalCalculator: 'Estimate my volume online',
+    finalPhone: '0800 825 925 (free call)',
+  },
+);
+
+/** Recebe a config já no idioma da página (as páginas escolhem com defineCopy + useLang). */
 export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ config }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const { lang, lp } = useLang();
+  const c = COPY[lang];
+  const testimonials =
+    lang === 'en'
+      ? config.testimonials.map((t) => ({ ...t, ...(t.id ? REVIEW_LABELS_EN[t.id] : undefined) }))
+      : config.testimonials;
 
   // Schema.org tailored specifically for this local landing page
   const localSchema = {
     "@context": "https://schema.org",
     "@type": ["MovingCompany", "LocalBusiness"],
-    "name": `Batimove Sàrl - Déménagement ${config.cityName}`,
+    "name": c.schemaName(config.cityName),
     "image": "https://www.batimove.ch/batimove-logo-3d.png",
     "url": config.canonicalUrl,
     "telephone": "+41-800-825-925",
@@ -177,7 +287,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[58px] 2xl:text-[66px] font-medium tracking-tight leading-[1.08] text-[#0B1E33] mb-6">
                 {config.heroHeadlineMain} <br />
                 <span className="text-[#0284c7] whitespace-nowrap">{config.heroHeadlineHighlight}</span>
-                <span className="sr-only"> : Service professionnel de déménagement certifié à {config.cityName}</span>
+                <span className="sr-only">{c.srOnlyHeadline(config.cityName)}</span>
               </h1>
 
               <p className="text-slate-600 text-base sm:text-lg lg:text-[17px] xl:text-xl font-normal leading-relaxed max-w-xl lg:max-w-[460px] xl:max-w-xl mb-8">
@@ -186,12 +296,12 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <Link to="/quote" className={buttonClass('primary', 'lg')}>
-                  Demander un devis gratuit
+                <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
+                  {c.ctaQuote}
                   <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
-                <Link to="/calculator" className={buttonClass('outline', 'lg')}>
-                  Calculer mon volume
+                <Link to={lp('/calculator')} className={buttonClass('outline', 'lg')}>
+                  {c.ctaCalculator}
                 </Link>
               </div>
 
@@ -199,15 +309,15 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-slate-200/80 max-w-lg">
                 <div>
                   <div className="text-xl sm:text-2xl font-medium text-[#0B1E33] font-display tabular-nums">100%</div>
-                  <div className="text-xs text-slate-500 font-medium">Prix fixe garanti</div>
+                  <div className="text-xs text-slate-500 font-medium">{c.trustFixedPrice}</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-medium text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
-                  <div className="text-xs text-slate-500 font-medium">Assurance RC incluse</div>
+                  <div className="text-xs text-slate-500 font-medium">{c.trustInsurance}</div>
                 </div>
                 <div>
                   <div className="text-xl sm:text-2xl font-medium text-[#0284c7] font-display tabular-nums">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs text-slate-500 font-medium">Avis clients vérifiés</div>
+                  <div className="text-xs text-slate-500 font-medium">{c.trustReviews}</div>
                 </div>
               </div>
             </div>
@@ -217,7 +327,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div className="relative w-full max-w-[460px] lg:max-w-none flex justify-center items-end">
                 <img
                   src="/hero-mover-tight.png"
-                  alt={`Déménageur professionnel Batimove Sàrl à ${config.cityName}`}
+                  alt={c.heroAlt(config.cityName)}
                   className="w-full max-w-[480px] lg:max-w-[540px] xl:max-w-[580px] h-auto object-contain object-bottom drop-shadow-2xl relative z-10"
                 />
               </div>
@@ -238,27 +348,24 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
                 <img
                   src="/votre-partenaire-mover.jpg"
-                  alt={`Équipe Batimove en intervention à ${config.cityName}`}
+                  alt={c.teamAlt(config.cityName)}
                   className="w-full h-auto object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-[#0B1E33] text-white p-6 rounded-2xl shadow-2xl hidden sm:block max-w-[240px]">
-                <div className="text-2xl font-medium font-display text-sky-400 mb-1">Régies Suisses</div>
+                <div className="text-2xl font-medium font-display text-sky-400 mb-1">{c.regiesBadgeTitle}</div>
                 <div className="text-xs text-slate-300 leading-relaxed">
-                  Garantie intégrale de remise des clés lors de l'état des lieux.
+                  {c.regiesBadgeText}
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                EXPERTISE LOCALE À {config.cityName.toUpperCase()}
-              </span>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.15] mb-6">
-                Maîtrise Parfaite des Spécificités de {config.cityName}
+                {c.expertiseTitle(config.cityName)}
               </h2>
               <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
-                Chaque région suisse présente ses propres défis logistiques. À {config.cityName}, nos équipes interviennent avec du matériel adapté aux contraintes urbaines, ruelles historiques, autorisations d'accès et règlements de copropriété.
+                {c.expertiseText(config.cityName)}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -278,7 +385,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               {/* Régies Partners Badges */}
               <div className="pt-4 border-t border-slate-100">
                 <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                  Habitués des états des lieux auprès des régies :
+                  {c.regiesLabel}
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {config.regiesList.map((regie, idx) => (
@@ -301,14 +408,11 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              ZONES & COMMUNES COUVERTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
-              Présents Partout à {config.cityName} & Environs
+              {c.districtsTitle(config.cityName)}
             </h2>
             <p className="text-slate-600 text-sm sm:text-base mt-4 max-w-2xl mx-auto">
-              Nos camions capitonnés circulent quotidiennement dans tous les secteurs. Aucune majoration kilométrique injustifiée au sein de notre zone de service.
+              {c.districtsText}
             </p>
           </div>
 
@@ -340,11 +444,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              PRESTATIONS COMPLÈTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
-              Toutes les solutions pour votre déménagement
+              {c.servicesTitle}
             </h2>
           </div>
 
@@ -355,14 +456,14 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div>
                 <ParachuteCargoIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
-                  Déménagement résidentiel
+                  {c.residentialTitle}
                 </h3>
                 <p className="text-slate-600 text-base leading-relaxed mb-6">
-                  Appartements et villas à {config.cityName}. Protection intégrale sous couvertures capitonnées et assurance RC 5M CHF.
+                  {c.residentialText(config.cityName)}
                 </p>
               </div>
-              <Link to="/services?type=prive" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
-                <span>Découvrir la formule</span>
+              <Link to={lp('/services?type=prive')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+                <span>{c.residentialLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -372,14 +473,14 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div>
                 <ScooterDeliveryIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
-                  Transfert d'Entreprise
+                  {c.businessTitle}
                 </h3>
                 <p className="text-slate-600 text-base leading-relaxed mb-6">
-                  Bureaux, archives, commerces et informatique. Planification précise pour zéro interruption de vos activités.
+                  {c.businessText}
                 </p>
               </div>
-              <Link to="/services?type=entreprise" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
-                <span>Services aux entreprises</span>
+              <Link to={lp('/services?type=entreprise')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+                <span>{c.businessLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -389,14 +490,14 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div>
                 <WarehouseShelfIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
-                  Garde-meubles sécurisé
+                  {c.storageTitle}
                 </h3>
                 <p className="text-slate-600 text-base leading-relaxed mb-6">
-                  Entreposage propre, tempéré et sous alarme 24h/24. Stockage courte ou longue durée pour vos biens à {config.cityName}.
+                  {c.storageText(config.cityName)}
                 </p>
               </div>
-              <Link to="/services" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
-                <span>Solutions de stockage</span>
+              <Link to={lp('/services')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+                <span>{c.storageLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -406,14 +507,14 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               <div>
                 <LocationParcelIcon className="w-14 h-14 mb-6" />
                 <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
-                  Nettoyage d'état des lieux
+                  {c.cleaningTitle}
                 </h3>
                 <p className="text-slate-600 text-base leading-relaxed mb-6">
-                  Nettoyage fin de bail 100% garanti avec présence physique de nos agents lors de la remise des clés à la régie.
+                  {c.cleaningText}
                 </p>
               </div>
-              <Link to="/nettoyage-fin-de-bail" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
-                <span>Garantie remise de clés</span>
+              <Link to={lp('/nettoyage-fin-de-bail')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+                <span>{c.cleaningLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -436,15 +537,15 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
               </svg>
-              <span>{GOOGLE_RATING.value} / 5 • {GOOGLE_RATING.count} avis Google vérifiés</span>
+              <span>{c.reviewsBadge(GOOGLE_RATING.value, GOOGLE_RATING.count)}</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight">
-              Ce que disent vos voisins
+              {c.reviewsTitle}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {config.testimonials.map((t, idx) => (
+            {testimonials.map((t, idx) => (
               <div 
                 key={idx}
                 className="bg-[#0b1e33] p-8 rounded-3xl border border-white/10 hover:border-sky-400/50 shadow-xl transition-all flex flex-col justify-between"
@@ -463,10 +564,11 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                         <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                         <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
                       </svg>
-                      <span>Avis Google</span>
+                      <span>{c.googleReview}</span>
                     </div>
                   </div>
-                  <p className="text-slate-300 text-sm leading-relaxed mb-6 italic">
+                  {/* Citação literal do avis, sempre em francês */}
+                  <p lang={lang === 'en' ? 'fr' : undefined} className="text-slate-300 text-sm leading-relaxed mb-6 italic">
                     "{t.quote}"
                   </p>
                 </div>
@@ -503,11 +605,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
-              QUESTIONS FRÉQUENTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#0B1E33] tracking-tight">
-              Tout Savoir sur Votre Déménagement à {config.cityName}
+              {c.faqTitle(config.cityName)}
             </h2>
           </div>
 
@@ -547,26 +646,23 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
           ========================================================================= */}
       <section className="py-20 lg:py-24 bg-gradient-to-b from-[#0B1E33] to-[#07182b] text-white text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-            DEVIS GRATUIT & SANS ENGAGEMENT
-          </span>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight mb-6">
-            Prêt pour un Déménagement Serein à {config.cityName} ?
+            {c.finalTitle(config.cityName)}
           </h2>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
-            Obtenez votre estimation en 2 minutes grâce à notre calculateur de volume 3D ou échangez avec un expert au téléphone.
+            {c.finalText}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/calculator" className={buttonClass('inverse', 'lg')}>
-              Estimer mon volume en ligne
+            <Link to={lp('/calculator')} className={buttonClass('inverse', 'lg')}>
+              {c.finalCalculator}
             </Link>
             <a 
               href="tel:0800825925" 
               className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-base transition-all border border-white/20"
             >
               <Phone className="w-5 h-5 text-sky-400" />
-              <span>0800 825 925 (Appel Gratuit)</span>
+              <span>{c.finalPhone}</span>
             </a>
           </div>
         </div>
