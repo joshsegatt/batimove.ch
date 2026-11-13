@@ -53,7 +53,7 @@ const genevaConfig: LocationConfig = {
     },
     {
       question: "Combien coûte un déménagement à Genève avec Batimove ?",
-      answer: "Nos tarifs démarrent dès CHF 550 pour la formule Basic (camion et déménageurs). Le coût exact dépend du volume en m³, de l'étage et des options choisies (emballage, monte-meubles). Vous recevez un devis ferme et sans surprise sous 30 min (8h-19h)."
+      answer: "Nos déménagements démarrent dès CHF 550. Le coût exact dépend du volume en m³, de l'étage et des options choisies (emballage, monte-meubles). Vous recevez un devis ferme et sans surprise sous 30 min (8h-19h)."
     },
     {
       question: "Intervenez-vous dans les communes autour de Genève ?",

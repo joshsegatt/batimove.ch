@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CUSTOMER_REVIEWS, GOOGLE_RATING } from '../data/reviews';
 import { HOME_FAQ } from '../data/homeFaq';
+import { QUOTE_SERVICES } from '../data/quoteServices';
+import { HOME_ENGAGEMENTS, HOME_FICHE } from '../data/homeTrust';
 import { 
   ArrowRight, 
   Check, 
   CheckCircle2, 
   ChevronDown,
-  Phone, 
+  ChevronRight,
+  Phone,
   ShieldCheck, 
   Clock, 
   MapPin, 
@@ -30,7 +33,7 @@ import {
   Navigation,
   Car
 } from 'lucide-react';
-import { Button } from '../components/UIComponents';
+import { Button, buttonClass } from '../components/UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
@@ -294,231 +297,229 @@ export const Home: React.FC = () => {
       />
 
       {/* =========================================================================
-          SECTION 1: HERO SECTION ("L'Art du Déménagement !" / "The Way to Move!")
+          SECTION 1: HERO SECTION ("L'Art du Déménagement !")
+          Cabe em qualquer tela: tipografia fluida por largura, compactação por
+          altura em laptops baixos (lg + max-height 820px) e imagem limitada pela
+          coluna e pela altura útil da janela, sempre colada na faixa navy.
           ========================================================================= */}
-      <section className="relative bg-[#f8fafc] overflow-hidden pt-8 lg:pt-12 pb-0">
-        {/* Subtle background geometric pattern and ambient glow */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(2,132,199,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(2,132,199,0.03)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-200/25 rounded-full blur-[140px] pointer-events-none" />
+      <section className="relative overflow-hidden bg-[#F8FAFC] pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-end gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-6 xl:gap-10">
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 xl:gap-8 items-end">
-            
-            {/* Left Column: Hero Text */}
-            <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center py-6 sm:py-8 lg:py-12 relative z-10">
-              {/* Main Headline with exact two-tone styling */}
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[62px] 2xl:text-[70px] font-extrabold tracking-tight leading-[1.05] text-[#0B1E33] mb-6">
+            {/* Coluna de texto */}
+            <div className="flex min-w-0 flex-col justify-center py-4 sm:py-6 lg:col-span-7 lg:py-10 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:940px)]:py-5 [@media(min-width:1024px)_and_(max-height:760px)]:!py-4">
+              <h1 className="mb-4 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-[#0B1E33] min-[400px]:text-4xl sm:mb-5 sm:text-5xl xl:text-6xl [@media(max-height:500px)]:!text-4xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:text-5xl [@media(min-width:1024px)_and_(max-height:760px)]:!mb-2">
                 L'Art du <br />
-                <span className="text-[#0284c7] whitespace-nowrap">Déménagement&nbsp;!</span>
+                <span className="whitespace-nowrap text-[#0284c7]">Déménagement&nbsp;!</span>
                 <span className="sr-only"> : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud</span>
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-slate-600 text-base sm:text-lg lg:text-[17px] xl:text-xl font-normal leading-relaxed max-w-xl lg:max-w-[460px] xl:max-w-xl mb-8">
+              <p className="mb-6 max-w-xl text-lg font-normal leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-4 [@media(min-width:1024px)_and_(max-height:940px)]:text-lg [@media(min-width:1024px)_and_(max-height:760px)]:!mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:leading-normal">
                 Services professionnels de déménagement, emballage de haute précision et garde-meubles sécurisé à Genève, Lausanne et dans toute la Suisse. Assurance RC Pro jusqu'à 5M CHF incluse.
               </p>
 
-              {/* CTA Button */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <Link to="/quote">
-                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-[#0B1E33]/25 flex items-center gap-2.5 sm:gap-3 transition-all hover:scale-105 group">
-                    <span>Demander un Devis Gratuit</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-sky-400" />
-                  </Button>
-                </Link>
-                <Link to="/calculator">
-                  <Button variant="outline" className="border-slate-300 hover:bg-slate-100 text-slate-700 px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all">
-                    <span>Calculer mon volume</span>
-                  </Button>
-                </Link>
+              {/* Seletor de serviço: cada opção é um devis gratuito já direcionado */}
+              <div className="max-w-xl">
+                <h2 id="hero-projet" className="font-display text-lg font-bold tracking-tight text-[#0B1E33]">
+                  Quel est votre projet&nbsp;?
+                </h2>
+                <p className="mb-4 mt-1 text-sm text-slate-600 [@media(min-width:1024px)_and_(max-height:940px)]:mb-3">
+                  Devis gratuit, réponse sous 30&nbsp;min (8h-19h).
+                </p>
+                <ul
+                  aria-labelledby="hero-projet"
+                  className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]"
+                >
+                  {QUOTE_SERVICES.map(({ id: type, label, hint, icon: Icon }, i) => (
+                    <li key={type} className="relative">
+                      {/* Separador recuado até o texto, como nas listas agrupadas do iOS */}
+                      {i > 0 && (
+                        <span aria-hidden="true" className="pointer-events-none absolute left-[76px] right-0 top-0 h-px bg-slate-200 sm:left-[80px]" />
+                      )}
+                      <Link
+                        to={`/quote?type=${type}`}
+                        className="group flex min-h-[72px] items-center gap-4 bg-white px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] active:bg-slate-100 sm:px-5 [@media(min-width:1024px)_and_(max-height:940px)]:min-h-[60px] [@media(min-width:1024px)_and_(max-height:940px)]:py-2.5 [@media(min-width:1024px)_and_(max-height:760px)]:!min-h-[56px] [@media(min-width:1024px)_and_(max-height:760px)]:!py-2"
+                      >
+                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white [@media(min-width:1024px)_and_(max-height:940px)]:h-10 [@media(min-width:1024px)_and_(max-height:940px)]:w-10 [@media(min-width:1024px)_and_(max-height:760px)]:!h-9 [@media(min-width:1024px)_and_(max-height:760px)]:!w-9">
+                          <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block font-display text-lg font-semibold leading-snug tracking-tight text-[#0B1E33]">{label}</span>
+                          <span className="mt-0.5 block text-sm leading-snug text-slate-500">{hint}</span>
+                        </span>
+                        <ChevronRight
+                          className="h-[18px] w-[18px] shrink-0 text-slate-300 transition-[transform,color] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:text-[#0B1E33] group-focus-visible:text-[#0B1E33] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Promessas confirmadas pela Batimove + caminhos alternativos */}
+                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-slate-600">
+                  <li className="flex items-center gap-1.5">
+                    <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
+                    Prix ferme&nbsp;: aucun surcoût une fois le devis accepté
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
+                    Joignable 7j/7
+                  </li>
+                </ul>
+                <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-base [@media(min-width:1024px)_and_(max-height:940px)]:mt-4">
+                  <a
+                    href="tel:0800825925"
+                    className="inline-flex items-center gap-2 py-1 font-bold text-[#0B1E33] transition-colors duration-150 hover:text-[#0284c7]"
+                  >
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    <span className="tabular-nums">0800 825 925</span>
+                    <span className="font-normal text-slate-500">appel gratuit</span>
+                  </a>
+                  <Link
+                    to="/calculator"
+                    className="py-1 font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
+                  >
+                    Calculer mon volume
+                  </Link>
+                </div>
               </div>
 
-              {/* Micro Trust Indicators */}
-              <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-slate-200/80 max-w-lg">
+              {/* Indicadores de confiança */}
+              <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-slate-200/80 pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">100%</div>
-                  <div className="text-xs text-slate-500 font-medium">Prix Fixe Garanti</div>
+                  <div className="font-display text-xl font-bold tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
+                  <div className="text-xs font-medium text-slate-500">Prix Fixe Garanti</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
-                  <div className="text-xs text-slate-500 font-medium">Assurance RC Incluse</div>
+                  <div className="font-display text-xl font-bold tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
+                  <div className="text-xs font-medium text-slate-500">Assurance RC Incluse</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs text-slate-500 font-medium">Avis Clients Vérifiés</div>
+                  <div className="font-display text-xl font-bold tabular-nums text-[#0284c7] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
+                  <div className="text-xs font-medium text-slate-500">Avis Clients Vérifiés</div>
                 </div>
               </div>
-
             </div>
 
-            {/* Right Column: Hero Graphic Mover with Official Batimove Box */}
-            <div className="lg:col-span-5 xl:col-span-6 relative flex justify-center lg:justify-end items-end self-end w-full">
-              <div className="relative w-full flex items-end justify-center lg:justify-end">
-                <div className="absolute top-1/4 right-0 w-72 h-72 bg-sky-200/25 rounded-full blur-3xl -z-10 pointer-events-none" />
+            {/* Imagem: limitada pela largura da coluna e pela altura útil da janela,
+                alinhada embaixo para encostar na faixa navy. Nunca invade o texto. */}
+            <div className="flex min-w-0 items-end justify-center self-end lg:col-span-5 lg:justify-end xl:col-span-6">
+              <img
+                src="/hero-mover-tight.png"
+                alt="Déménageur professionnel Batimove Sarl avec carton officiel"
+                width={675}
+                height={763}
+                fetchPriority="high"
+                decoding="async"
+                className="pointer-events-none block h-auto max-h-[min(380px,52vh)] w-auto max-w-full select-none object-contain object-bottom -mb-px drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)] sm:max-h-[min(460px,55vh)] lg:max-h-[min(720px,calc(100dvh-140px))]"
+              />
+            </div>
 
-                {/* Freestanding High-Res Mover with Official Batimove Logo Box - Connected directly to bottom blue section */}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 2: CE QUE NOUS RÉGLONS POUR VOUS (faixa navy)
+          Só o que a Batimove faz de concreto e que já está afirmado no site:
+          autorização de estacionamento, proteção das áreas comuns, entrega à régie.
+          ========================================================================= */}
+      <section aria-labelledby="engagements-title" className="relative z-20 bg-[#0B1E33] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
+            <h2
+              id="engagements-title"
+              className="font-display text-2xl font-extrabold leading-[1.1] tracking-tight text-white lg:col-span-3 lg:text-4xl"
+            >
+              Ce que nous réglons pour vous
+            </h2>
+            <ul className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-9">
+              {HOME_ENGAGEMENTS.map(({ title, text }) => (
+                <li key={title} className="border-t border-white/20 pt-5">
+                  <h3 className="font-display text-xl font-semibold tracking-tight text-white">{title}</h3>
+                  <p className="mt-2 text-lg leading-relaxed text-slate-300">{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 3: À PROPOS, EN TOUTE TRANSPARENCE (fiche d'identité)
+          Concorrentes antigos pesam por história (Harsch 1957, Balestrafic 50 ans).
+          A Batimove pesa por precisão: fatos que o cliente pode conferir.
+          ========================================================================= */}
+      <section id="about" aria-labelledby="about-title" className="bg-white py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
+
+            {/* Imagem provisória: trocar pela foto real da equipe quando chegar */}
+            <div className="lg:col-span-5">
+              <div className="mx-auto max-w-[460px] overflow-hidden rounded-xl border border-slate-200 bg-white">
                 <img
-                  src="/hero-mover-tight.png"
-                  alt="Déménageur professionnel Batimove Sarl avec carton officiel"
-                  width={675}
-                  height={763}
-                  fetchPriority="high"
+                  src="/votre-partenaire-mover-v2.jpg"
+                  alt="Déménageur Batimove avec des cartons à l'effigie de l'entreprise"
+                  width={871}
+                  height={1024}
+                  className="block h-auto w-full select-none object-contain"
+                  loading="lazy"
                   decoding="async"
-                  className="w-auto h-[380px] sm:h-[450px] md:h-[500px] lg:h-[500px] xl:h-[640px] 2xl:h-[720px] max-w-full lg:max-w-none object-contain object-bottom block align-bottom -mb-[1px] select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)] lg:translate-x-10 xl:translate-x-12 2xl:translate-x-24 transition-transform duration-200"
                 />
               </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECTION 2: FEATURES VALUE PROPS (3-COLUMN DARK NAVY BAR)
-          ========================================================================= */}
-      <section className="bg-[#07182b] text-white py-12 relative z-20 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            
-            {/* Value 1 */}
-            <div className="flex items-start gap-5 group">
-              <div className="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0 group-hover:bg-sky-500 group-hover:text-white transition-all duration-300">
-                <Truck className="w-7 h-7" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold font-display text-white mb-2 tracking-tight group-hover:text-sky-300 transition-colors">
-                  Déménagement Rapide
-                </h3>
-                <p className="text-slate-300 text-sm leading-relaxed font-normal">
-                  Planification suisse rigoureuse et exécution express pour respecter scrupuleusement vos délais et plannings.
-                </p>
-              </div>
-            </div>
-
-            {/* Value 2 */}
-            <div className="flex items-start gap-5 group">
-              <div className="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0 group-hover:bg-sky-500 group-hover:text-white transition-all duration-300">
-                <ShieldCheck className="w-7 h-7" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold font-display text-white mb-2 tracking-tight group-hover:text-sky-300 transition-colors">
-                  Sûr & 100% Assuré
-                </h3>
-                <p className="text-slate-300 text-sm leading-relaxed font-normal">
-                  Assurance RC Pro jusqu'à CHF 5M et couverture All Risk de vos biens. Chaque objet manipulé avec un soin absolu.
-                </p>
-              </div>
-            </div>
-
-            {/* Value 3 */}
-            <div className="flex items-start gap-5 group">
-              <div className="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0 group-hover:bg-sky-500 group-hover:text-white transition-all duration-300">
-                <Clock className="w-7 h-7" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold font-display text-white mb-2 tracking-tight group-hover:text-sky-300 transition-colors">
-                  Ponctualité Suisse
-                </h3>
-                <p className="text-slate-300 text-sm leading-relaxed font-normal">
-                  Arrivée et livraison à l'heure exacte convenue, sans mauvaise surprise, avec coordination logistique continue.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECTION 3: "VOTRE PARTENAIRE DÉMÉNAGEMENT" ("WE'RE YOUR MOVING PARTNER")
-          ========================================================================= */}
-      <section id="about" className="py-20 lg:py-28 bg-white relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
-            {/* Left: Mover Graphic with Official Batimove Boxes */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              <div className="relative w-full max-w-[460px]">
-                {/* Subtle Ambient Glow */}
-                <div className="absolute -inset-3 bg-gradient-to-tr from-sky-100/60 to-slate-100/40 rounded-3xl blur-xl -z-10" />
-
-                {/* Main Card with Batimove Official Mover Artwork */}
-                <div className="rounded-3xl overflow-hidden shadow-xl border-4 border-slate-50 bg-white">
-                  <img
-                    src="/votre-partenaire-mover-v2.jpg"
-                    alt="Déménageur professionnel Batimove Sarl avec cartons officiels"
-                    width={871}
-                    height={1024}
-                    className="w-full h-auto object-contain block select-none"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Partner Content */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3">
-                À PROPOS DE BATIMOVE
-              </span>
-              
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight leading-[1.12] mb-6">
-                Votre Partenaire Déménagement de Confiance
+            <div className="lg:col-span-7">
+              <h2
+                id="about-title"
+                className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl"
+              >
+                Batimove, en toute transparence
               </h2>
-
-              <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
-                Batimove accompagne les familles et les entreprises de Suisse romande. Nous combinons rigueur helvétique, matériel moderne et déménageurs qualifiés pour faire de chaque transition un moment serein.
+              <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-slate-600">
+                Une entreprise genevoise au service des particuliers et des entreprises de Suisse romande.
+                Pas de promesse floue&nbsp;: voici qui nous sommes, où nous intervenons et ce qui vous protège.
               </p>
 
-              {/* 2 Feature Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-                <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
-                    <Truck className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-slate-900 text-sm">Équipes Qualifiées</h3>
-                    <p className="text-xs text-slate-500">Personnel formé en continu</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                  <div className="w-12 h-12 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-slate-900 text-sm">Prix Fixes & Clairs</h3>
-                    <p className="text-xs text-slate-500">Devis sans surcoût caché</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Checklist */}
-              <div className="space-y-3.5 mb-8">
-                {[
-                  "Protection intégrale de vos sols, murs et ascenseurs avant manipulation",
-                  "Gestion des autorisations de stationnement auprès de la police et des communes",
-                  "Prise en charge clé en main du premier carton à l'installation finale"
-                ].map((text, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                    <span className="text-sm sm:text-base text-slate-700 font-medium">{text}</span>
+              <dl className="mt-10 grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2">
+                {HOME_FICHE.map(({ term, desc, href }, i) => (
+                  <div
+                    key={term}
+                    className={`border-b border-slate-200 py-4 ${i % 2 === 1 ? 'sm:border-l sm:pl-6' : 'sm:pr-6'}`}
+                  >
+                    <dt className="text-sm text-slate-500">{term}</dt>
+                    <dd className="mt-1 text-lg font-semibold leading-snug text-[#0B1E33] tabular-nums">
+                      {href ? (
+                        <a
+                          href={href}
+                          className="-my-3 inline-block py-3 underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
+                        >
+                          {desc}
+                        </a>
+                      ) : (
+                        desc
+                      )}
+                    </dd>
                   </div>
                 ))}
-              </div>
+              </dl>
 
-              {/* Button */}
-              <div>
-                <Link to="/services">
-                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-7 py-3.5 rounded-xl font-bold text-sm transition-all shadow-md">
-                    En Savoir Plus
-                  </Button>
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Link
+                  to="/services"
+                  className="btn btn-lg btn-secondary"
+                >
+                  Découvrir nos prestations
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+                <Link
+                  to="/quote"
+                  className="inline-block py-3 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
+                >
+                  Demander un devis
                 </Link>
               </div>
-
             </div>
 
           </div>
@@ -990,10 +991,8 @@ export const Home: React.FC = () => {
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
                     Estimez votre matériel et commandez vos fournitures d'emballage en quelques clics.
                   </p>
-                  <Link to="/calculator" className="w-full sm:w-auto">
-                    <Button className="w-full sm:w-auto bg-[#0B1E33] hover:bg-[#132c48] text-white px-7 py-3.5 rounded-xl font-bold text-sm shadow-md transition-all">
-                      Calculer mes Cartons
-                    </Button>
+                  <Link to="/calculator" className={buttonClass('secondary', 'md', 'w-full sm:w-auto')}>
+                    Calculer mes cartons
                   </Link>
                 </div>
 
@@ -1160,10 +1159,9 @@ export const Home: React.FC = () => {
               <p className="text-slate-300 text-xs sm:text-sm font-normal mb-6">
                 Sans engagement • Appel gratuit au <a href="tel:0800825925" className="font-semibold text-white underline underline-offset-2 tabular-nums">0800 825 925</a>
               </p>
-              <Link to="/quote">
-                <Button variant="secondary" className="bg-[#0284c7] hover:bg-sky-500 text-white px-8 py-3.5 rounded-xl font-bold text-base shadow-xl shadow-sky-500/30 hover:shadow-sky-400/40 transition-all hover:scale-105 border-none">
-                  Demander un Devis Gratuit
-                </Button>
+              <Link to="/quote" className={buttonClass('primary', 'lg')}>
+                Demander un devis gratuit
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </div>
 

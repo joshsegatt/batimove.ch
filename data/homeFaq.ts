@@ -14,7 +14,7 @@ export const HOME_FAQ: HomeFaqItem[] = [
   {
     question: "Combien coûte un déménagement à Genève ou dans le canton de Vaud ?",
     answer:
-      "Le tarif d'un déménagement dépend du volume en m³, des accès (étages, ascenseur) et des prestations choisies (emballage, monte-meubles). Nos formules démarrent dès CHF 550 pour la formule Basic, avec devis gratuit ferme sous 30 min sans aucun frais caché."
+      "Le tarif d'un déménagement dépend du volume en m³, des accès (étages, ascenseur) et des prestations choisies (emballage, monte-meubles). Nos déménagements démarrent dès CHF 550 ; le prix exact vous est donné dans un devis gratuit et ferme sous 30 min, sans aucun frais caché."
   },
   {
     question: "Comment s'organise l'autorisation de stationnement à Genève ?",
