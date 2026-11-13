@@ -22,7 +22,7 @@ export const Quote: React.FC = () => {
       />
 
       <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
-        <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
+        <h1 className="font-display text-3xl font-medium leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
           Votre devis gratuit
           <span className="sr-only"> : devis de déménagement à Genève, Vaud et en Suisse romande</span>
         </h1>

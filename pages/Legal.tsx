@@ -25,7 +25,7 @@ const LAST_UPDATED = '31 octobre 2026';
 
 const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
   privacy: {
-    title: 'Protection des Données (nLPD)',
+    title: 'Protection des données (nLPD)',
     icon: Shield,
     intro:
       "La présente politique explique quelles données personnelles Batimove Sàrl traite lorsque vous utilisez batimove.ch, à quelles fins, avec quels prestataires, et quels droits vous pouvez exercer. Elle est établie conformément à la Loi fédérale sur la protection des données (nLPD) et, pour les visiteurs établis dans l'Union européenne, au RGPD.",
@@ -105,7 +105,7 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
     ]
   },
   terms: {
-    title: 'Conditions Générales (CGV)',
+    title: 'Conditions générales (CGV)',
     icon: FileText,
     intro:
       "Les présentes conditions régissent les prestations de déménagement, transport, garde-meubles, débarras et nettoyage fournies par Batimove Sàrl. Les conditions commerciales propres à votre dossier (prix, acompte, délais, modalités d'annulation) figurent sur le devis qui vous est adressé et prévalent sur les dispositions générales ci-dessous.",
@@ -175,7 +175,7 @@ const DOCUMENTS: Record<LegalProps['type'], LegalDocument> = {
     ]
   },
   impressum: {
-    title: 'Mentions Légales',
+    title: 'Mentions légales',
     icon: Scale,
     intro: "Informations légales relatives à l'éditeur et à l'hébergement du site batimove.ch.",
     sections: [
@@ -250,19 +250,19 @@ export const Legal: React.FC<LegalProps> = ({ type }) => {
           Retour
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 md:p-12">
+        <div className="bg-white rounded-2xl shadow-rest border border-slate-200 p-8 md:p-12">
           <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-8">
             <Icon className="w-8 h-8 text-batimove-blue" />
           </div>
 
-          <h1 className="font-display text-3xl font-bold text-slate-900 mb-5">{doc.title}</h1>
+          <h1 className="font-display text-3xl font-medium text-slate-900 mb-5">{doc.title}</h1>
 
           <p className="text-slate-600 text-base leading-relaxed">{doc.intro}</p>
 
           <div className="mt-10 space-y-9">
             {doc.sections.map((section) => (
               <section key={section.heading}>
-                <h2 className="font-display text-lg font-bold text-slate-900 mb-3">{section.heading}</h2>
+                <h2 className="font-display text-lg font-semibold text-slate-900 mb-3">{section.heading}</h2>
 
                 {section.paragraphs?.map((paragraph) => (
                   <p key={paragraph} className="text-slate-600 text-sm leading-relaxed mb-3 last:mb-0">

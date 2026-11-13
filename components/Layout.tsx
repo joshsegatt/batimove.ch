@@ -211,7 +211,7 @@ export const Navbar: React.FC = () => {
         {isMegaOpen && (
         <div
           id={megaId}
-          className="nav-panel-in absolute inset-x-0 top-full hidden border-t border-slate-200 bg-white shadow-[0_24px_40px_-24px_rgba(11,30,51,0.25)] lg:block"
+          className="nav-panel-in absolute inset-x-0 top-full hidden border-t border-slate-200 bg-white shadow-overlay lg:block"
         >
           <div className="mx-auto grid max-w-7xl grid-cols-12 gap-8 px-8 py-8">
             <div className="col-span-6">
@@ -261,7 +261,7 @@ export const Navbar: React.FC = () => {
 
             <div className="col-span-3">
               <div className="flex h-full flex-col rounded-xl bg-slate-50 p-6">
-                <p className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">Devis gratuit sous 30&nbsp;min</p>
+                <p className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">Devis gratuit sous 30&nbsp;min</p>
                 <p className="mt-2 text-base leading-relaxed text-slate-600">
                   Prix ferme&nbsp;: aucun surcoût une fois le devis accepté. Réponse de 8h à 19h.
                 </p>
@@ -296,7 +296,7 @@ export const Navbar: React.FC = () => {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="nav-drawer-in fixed right-0 top-0 z-[80] flex h-[100dvh] w-[min(400px,88vw)] flex-col bg-white shadow-[-24px_0_48px_-24px_rgba(11,30,51,0.35)]"
+            className="nav-drawer-in fixed right-0 top-0 z-[80] flex h-[100dvh] w-[min(400px,88vw)] flex-col bg-white shadow-modal"
           >
             <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-slate-200 px-5">
               <BrandLogo markClassName="h-8 w-auto" textClassName="text-lg text-[#0B1E33]" />

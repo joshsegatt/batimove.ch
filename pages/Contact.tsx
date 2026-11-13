@@ -139,7 +139,7 @@ export const Contact: React.FC = () => {
 
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <header className="max-w-2xl">
-          <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-[#0B1E33] sm:text-5xl">
+          <h1 className="font-display text-4xl font-medium leading-[1.08] tracking-tight text-[#0B1E33] sm:text-5xl">
             Parlons de votre projet
             <span className="sr-only"> : contacter Batimove à Genève, Lausanne et dans le canton de Vaud</span>
           </h1>
@@ -156,7 +156,7 @@ export const Contact: React.FC = () => {
               <h2 id="canaux-title" className="text-sm font-semibold text-slate-500">
                 Nous joindre directement
               </h2>
-              <ul className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]">
+              <ul className="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-rest">
                 {CHANNELS.map(({ href, icon: Icon, title, hint, external }, i) => (
                   <li key={href} className="relative">
                     {i > 0 && (
@@ -182,16 +182,10 @@ export const Contact: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 text-sm text-slate-500">
-                Depuis l'étranger :{' '}
-                <a href="tel:+41228008292" className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 tabular-nums hover:decoration-[#0B1E33]">
-                  +41 22 800 82 92
-                </a>
-              </p>
             </section>
 
-            <section aria-labelledby="bureau-title" className="rounded-xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]">
-              <h2 id="bureau-title" className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">
+            <section aria-labelledby="bureau-title" className="rounded-xl border border-slate-200 bg-white p-6 shadow-rest">
+              <h2 id="bureau-title" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
                 Notre bureau
               </h2>
               <dl className="mt-4 space-y-4">
@@ -231,7 +225,7 @@ export const Contact: React.FC = () => {
             </section>
 
             <section aria-labelledby="devis-title" className="rounded-xl bg-[#0B1E33] p-6">
-              <h2 id="devis-title" className="font-display text-xl font-bold tracking-tight text-white">
+              <h2 id="devis-title" className="font-display text-xl font-medium tracking-tight text-white">
                 Besoin d'un devis ?
               </h2>
               <p className="mt-2 text-lg leading-relaxed text-slate-300">
@@ -248,7 +242,7 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-7">
             <section
               aria-labelledby="form-title"
-              className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)] sm:p-8"
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-rest sm:p-8"
             >
               {sentName !== null ? (
                 <div className="wizard-in-up py-6 text-center">
@@ -259,7 +253,7 @@ export const Contact: React.FC = () => {
                     ref={successRef}
                     tabIndex={-1}
                     id="form-title"
-                    className="mt-5 font-display text-3xl font-extrabold tracking-tight text-[#0B1E33] outline-none"
+                    className="mt-5 font-display text-3xl font-medium tracking-tight text-[#0B1E33] outline-none"
                   >
                     Message envoyé
                   </h2>
@@ -283,7 +277,7 @@ export const Contact: React.FC = () => {
                 </div>
               ) : (
                 <>
-                  <h2 id="form-title" className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">
+                  <h2 id="form-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
                     Écrivez-nous
                   </h2>
                   <p className="mt-1.5 text-base text-slate-600">

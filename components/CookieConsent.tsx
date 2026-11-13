@@ -46,7 +46,7 @@ setIsVisible(false);
       <div
         role="dialog"
         aria-labelledby="cookie-consent-title"
-        className="bg-[#0B1E33]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl shadow-black/40 text-white"
+        className="bg-[#0B1E33]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-modal text-white"
       >
         <div className="flex items-start gap-3">
           {/* Elegant Compact Cookie Icon */}
@@ -55,7 +55,7 @@ setIsVisible(false);
           </div>
 
           <div className="flex-1 min-w-0">
-            <p id="cookie-consent-title" className="text-xs text-slate-200 leading-relaxed">
+            <p id="cookie-consent-title" className="text-base text-slate-200 leading-relaxed">
               <span className="font-semibold text-white">Cookies</span> : nous utilisons des cookies
               de mesure d'audience et de publicité (Google Ads) pour comprendre l'origine de nos
               demandes de devis. Refuser n'a aucune conséquence sur votre navigation.{' '}
@@ -70,7 +70,7 @@ setIsVisible(false);
         <div className="flex items-center gap-2 mt-3">
           <button
             onClick={handleAccept}
-            className="flex-1 bg-[#0284c7] hover:bg-sky-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors shadow-md shadow-sky-600/25 active:scale-95 cursor-pointer"
+            className="flex-1 bg-[#0284c7] hover:bg-sky-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors active:scale-95 cursor-pointer"
           >
             Accepter
           </button>

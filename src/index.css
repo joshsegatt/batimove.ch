@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tipografia (Google Sans Flex). O eixo de tamanho óptico segue o tamanho do
+   texto sozinho; o texto corrido ganha um respiro leve entre letras e os títulos
+   um aperto leve. As classes tracking-* continuam valendo por cima disto. */
+@layer base {
+  html {
+    font-optical-sizing: auto;
+    font-feature-settings: 'kern' 1;
+  }
+  body {
+    letter-spacing: 0.006em;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
 /* Wizard do orçamento: entrada de cada etapa em CSS. A etapa nova entra no DOM
    na hora; a animação só decora. Não depende de requestAnimationFrame, então
    uma aba em segundo plano nunca fica presa numa etapa. */

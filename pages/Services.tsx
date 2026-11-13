@@ -37,7 +37,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'prive',
     number: 1,
-    name: "Déménagement Résidentiel",
+    name: "Déménagement résidentiel",
     shortName: "Résidentiel",
     subtitle: "Prestation complète pour votre déménagement à domicile.",
     tags: ["Emballage sur-mesure", "Démontage", "Garantie RC 5M"],
@@ -47,7 +47,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'entreprise',
     number: 2,
-    name: "Transfert d'Entreprise & Bureaux",
+    name: "Transfert d'entreprise et de bureaux",
     shortName: "Entreprise",
     subtitle: "Déménagement professionnel clé en main.",
     tags: ["Planification", "Zéro interruption"],
@@ -57,7 +57,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'debarras',
     number: 3,
-    name: "Débarras Professionnel & Écologique",
+    name: "Débarras professionnel et écologique",
     shortName: "Débarras",
     subtitle: "Valorisation et tri sélectif des biens.",
     tags: ["Écoresponsable", "Certifié"],
@@ -67,7 +67,7 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'nettoyage',
     number: 4,
-    name: "Nettoyage État des Lieux",
+    name: "Nettoyage d'état des lieux",
     shortName: "Nettoyage",
     subtitle: "Nettoyage professionnel conforme régies.",
     tags: ["État des lieux", "Clés en main"],
@@ -184,7 +184,7 @@ export const Services: React.FC = () => {
             
             {/* Header */}
             <div className="mb-5 flex-shrink-0">
-              <h1 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#0B1E33] tracking-tight leading-[1.15]">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-[42px] font-medium text-[#0B1E33] tracking-tight leading-[1.15]">
                 Services de Déménagement <br className="hidden sm:inline" />
                 <span className="text-[#0284c7]">& Logistique</span>
               </h1>
@@ -223,11 +223,11 @@ export const Services: React.FC = () => {
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <h3 className="text-sm sm:text-[15px] font-bold text-[#0B1E33] truncate">
+                          <h3 className="text-sm sm:text-[15px] font-semibold text-[#0B1E33] truncate">
                             {service.name}
                           </h3>
                           {isSelected && (
-                            <span className="text-[10px] font-semibold bg-sky-50 text-[#0284c7] border border-sky-200/60 px-2 py-0.5 rounded-md">
+                            <span className="text-xs font-semibold bg-sky-50 text-[#0284c7] border border-sky-200/60 px-2 py-0.5 rounded-md">
                               Actif
                             </span>
                           )}
@@ -269,13 +269,13 @@ export const Services: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN: ENTERPRISE QUOTE CARD (5 COLS) */}
-          <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-[0_12px_32px_-8px_rgba(11,30,51,0.06),0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between text-slate-900 relative">
+          <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-raised flex flex-col justify-between text-slate-900 relative">
             <div>
               {/* Header */}
               <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-slate-100 mb-4">
                 <div className="min-w-0">
-                  <h2 className="font-display font-bold text-[#0B1E33] text-base leading-tight">
-                    Votre Estimation Express
+                  <h2 className="font-display font-semibold text-[#0B1E33] text-base leading-tight">
+                    Votre estimation express
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">
                     Prestation : <span className="font-semibold text-slate-800">{currentService.shortName}</span>
@@ -301,10 +301,10 @@ export const Services: React.FC = () => {
                       <Check className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0B1E33] text-base">
+                      <h4 className="font-semibold text-[#0B1E33] text-base">
                         Demande transmise avec succès !
                       </h4>
-                      <p className="text-xs text-slate-600 mt-1 max-w-xs mx-auto leading-relaxed">
+                      <p className="text-base text-slate-600 mt-1 max-w-xs mx-auto leading-relaxed">
                         Votre dossier pour <strong>{currentService.name}</strong> a bien été envoyé à <strong>info@batimove.ch</strong>.
                       </p>
                       <p className="text-xs text-sky-700 font-semibold mt-2">
@@ -450,7 +450,7 @@ export const Services: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-[#0284c7] hover:bg-sky-500 active:scale-[0.99] text-white py-3.5 px-6 rounded-xl font-bold text-sm shadow-md shadow-sky-600/25 hover:shadow-lg transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                        className="btn btn-lg btn-primary w-full"
                       >
                         {isSubmitting ? (
                           <>
@@ -480,7 +480,7 @@ export const Services: React.FC = () => {
       </div>
 
       {/* Pristine Light Bottom Bar */}
-      <div className="w-full border-t border-slate-200/80 bg-white/95 backdrop-blur-md py-2.5 px-4 flex-shrink-0 text-[11px] text-slate-500 z-10">
+      <div className="w-full border-t border-slate-200/80 bg-white/95 backdrop-blur-md py-2.5 px-4 flex-shrink-0 text-xs text-slate-500 z-10">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1.5">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />

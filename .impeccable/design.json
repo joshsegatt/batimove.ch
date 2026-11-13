@@ -198,19 +198,24 @@
     },
     "shadows": [
       {
-        "name": "subtle",
-        "value": "0 1px 2px 0 rgba(0,0,0,0.03)",
-        "purpose": "Cartões em repouso."
+        "name": "rest",
+        "value": "0 1px 2px rgba(11,30,51,0.06), 0 1px 3px rgba(11,30,51,0.04)",
+        "purpose": "Cartões e formulários em repouso (também shadow-sm/shadow)."
       },
       {
-        "name": "premium",
-        "value": "0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04), 0 16px 32px rgba(0,0,0,0.04)",
-        "purpose": "Painéis destacados e formulários."
+        "name": "raised",
+        "value": "0 2px 4px -1px rgba(11,30,51,0.06), 0 8px 16px -4px rgba(11,30,51,0.08)",
+        "purpose": "Hover de cartão clicável, selos flutuantes (também shadow-md)."
       },
       {
-        "name": "glass",
-        "value": "0 4px 30px rgba(0,0,0,0.05)",
-        "purpose": "Cabeçalho e sobreposições."
+        "name": "overlay",
+        "value": "0 4px 8px -2px rgba(11,30,51,0.06), 0 16px 32px -8px rgba(11,30,51,0.14)",
+        "purpose": "Menus e popovers (também shadow-lg/shadow-xl)."
+      },
+      {
+        "name": "modal",
+        "value": "0 8px 16px -4px rgba(11,30,51,0.08), 0 32px 64px -16px rgba(11,30,51,0.24)",
+        "purpose": "Drawer, banner de cookies, wizard sobre foto (também shadow-2xl)."
       }
     ],
     "motion": [
@@ -246,7 +251,7 @@
       "refersTo": "button-primary",
       "description": "Ação de conversão (devis, envoyer, continuer). Bleu Action em degradê sutil, texto branco AA, sombra neutra com offset, scale 0.98 no clique.",
       "html": "<button class=\"ds-btn-primary\">Demander un devis gratuit</button>",
-      "css": ".ds-btn-primary { background-image: linear-gradient(180deg,#0377B8 0%,#0369A1 100%); color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; letter-spacing:-0.01em; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(11,30,51,.16), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-image 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background-image: linear-gradient(180deg,#0369A1 0%,#075985 100%); } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+      "css": ".ds-btn-primary { background-image: linear-gradient(180deg,#0377B8 0%,#0369A1 100%); color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Google Sans Flex',sans-serif; font-weight:600; font-size:16px; letter-spacing:-0.01em; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(11,30,51,.16), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-image 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background-image: linear-gradient(180deg,#0369A1 0%,#075985 100%); } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
     },
     {
       "name": "Secondary Button",
@@ -254,7 +259,7 @@
       "refersTo": "button-secondary",
       "description": "Navy institucional, ação forte que não é conversão.",
       "html": "<button class=\"ds-btn-secondary\">Découvrir nos prestations</button>",
-      "css": ".ds-btn-secondary { background:#0B1E33; color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 1px 2px rgba(11,30,51,.18), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background:#132C48; } .ds-btn-secondary:active { transform: scale(0.98); } .ds-btn-secondary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+      "css": ".ds-btn-secondary { background:#0B1E33; color:#fff; height:48px; padding:0 24px; border:none; border-radius:12px; font-family:'Google Sans Flex',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 1px 2px rgba(11,30,51,.18), 0 6px 14px -6px rgba(11,30,51,.35); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background:#132C48; } .ds-btn-secondary:active { transform: scale(0.98); } .ds-btn-secondary:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
     },
     {
       "name": "Outline Button",
@@ -262,7 +267,7 @@
       "refersTo": "button-outline",
       "description": "Ação alternativa ao lado da principal.",
       "html": "<button class=\"ds-btn-outline\">Calculer mon volume</button>",
-      "css": ".ds-btn-outline { background:#fff; color:#0B1E33; height:48px; padding:0 24px; border:1px solid #CBD5E1; border-radius:12px; font-family:'Inter',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: 0 1px 2px rgba(11,30,51,.06); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-outline:hover { background:#F8FAFC; border-color:#94A3B8; } .ds-btn-outline:active { transform: scale(0.98); } .ds-btn-outline:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
+      "css": ".ds-btn-outline { background:#fff; color:#0B1E33; height:48px; padding:0 24px; border:1px solid #CBD5E1; border-radius:12px; font-family:'Google Sans Flex',sans-serif; font-weight:600; font-size:16px; cursor:pointer; box-shadow: 0 1px 2px rgba(11,30,51,.06); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1), transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-outline:hover { background:#F8FAFC; border-color:#94A3B8; } .ds-btn-outline:active { transform: scale(0.98); } .ds-btn-outline:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; }"
     },
     {
       "name": "Text Input",
@@ -270,7 +275,7 @@
       "refersTo": "input",
       "description": "Campo de formulário de orçamento e contato.",
       "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Nom & Prénom *</span><input class=\"ds-input\" placeholder=\"Ex. Marc Dupont\" /></label>",
-      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Inter', sans-serif; } .ds-field-label { font-size: 13px; font-weight: 500; color: #334155; } .ds-input { padding: 8px 16px; border: 1px solid #CBD5E1; border-radius: 8px; background: #fff; color: #0B1E33; font-size: 14px; outline: none; transition: box-shadow 180ms cubic-bezier(0.16,1,0.3,1), border-color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-input:focus { border-color: #0284C7; box-shadow: 0 0 0 2px rgba(2,132,199,0.35); }"
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family:'Google Sans Flex',sans-serif; } .ds-field-label { font-size: 13px; font-weight: 500; color: #334155; } .ds-input { padding: 8px 16px; border: 1px solid #CBD5E1; border-radius: 8px; background: #fff; color: #0B1E33; font-size: 14px; outline: none; transition: box-shadow 180ms cubic-bezier(0.16,1,0.3,1), border-color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-input:focus { border-color: #0284C7; box-shadow: 0 0 0 2px rgba(2,132,199,0.35); }"
     },
     {
       "name": "Card",
@@ -278,7 +283,7 @@
       "refersTo": "card",
       "description": "Contêiner branco sobre o fundo ardósia.",
       "html": "<div class=\"ds-card\"><h3 class=\"ds-card-title\">Garde-Meubles & Stockage</h3><p class=\"ds-card-body\">Entreposage propre, tempéré et sous alarme.</p></div>",
-      "css": ".ds-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03); } .ds-card-title { margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; letter-spacing: -0.025em; } .ds-card-body { margin: 0; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #475569; }"
+      "css": ".ds-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px rgba(11,30,51,0.06), 0 1px 3px rgba(11,30,51,0.04); } .ds-card-title { margin: 0 0 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; letter-spacing: -0.025em; } .ds-card-body { margin: 0; font-family:'Google Sans Flex',sans-serif; font-size: 14px; line-height: 1.6; color: #475569; }"
     },
     {
       "name": "Navigation",
@@ -286,7 +291,7 @@
       "refersTo": "",
       "description": "Cabeçalho fixo com links e ação principal.",
       "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-logo\">Batimove Sàrl</span><a class=\"ds-nav-link\" href=\"#\">Services</a><a class=\"ds-nav-link\" href=\"#\">Tarifs</a><a class=\"ds-nav-link\" href=\"#\">Contact</a><a class=\"ds-nav-cta\" href=\"#\">Devis Gratuit</a></nav>",
-      "css": ".ds-nav { display: flex; align-items: center; gap: 24px; padding: 16px 24px; background: rgba(255,255,255,0.95); border-bottom: 1px solid #F1F5F9; font-family: 'Inter', sans-serif; } .ds-nav-logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; color: #0B1E33; margin-right: auto; } .ds-nav-link { color: #0B1E33; font-size: 14px; font-weight: 500; text-decoration: none; transition: color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: #0284C7; } .ds-nav-link:focus-visible, .ds-nav-cta:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 6px; } .ds-nav-cta { background: #0B1E33; color: #fff; padding: 10px 18px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; } .ds-nav-cta:hover { background: #132C48; }"
+      "css": ".ds-nav { display: flex; align-items: center; gap: 24px; padding: 16px 24px; background: rgba(255,255,255,0.95); border-bottom: 1px solid #F1F5F9; font-family:'Google Sans Flex',sans-serif; } .ds-nav-logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; color: #0B1E33; margin-right: auto; } .ds-nav-link { color: #0B1E33; font-size: 14px; font-weight: 500; text-decoration: none; transition: color 180ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: #0284C7; } .ds-nav-link:focus-visible, .ds-nav-cta:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 6px; } .ds-nav-cta { background: #0B1E33; color: #fff; padding: 10px 18px; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; } .ds-nav-cta:hover { background: #132C48; }"
     },
     {
       "name": "Badge",
@@ -294,7 +299,7 @@
       "refersTo": "badge",
       "description": "Rótulo pequeno de status ou categoria.",
       "html": "<span class=\"ds-badge\">Avis Google</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; }"
+      "css": ".ds-badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-family:'Google Sans Flex',sans-serif; font-size: 12px; font-weight: 600; }"
     },
     {
       "name": "FAQ Item",
@@ -302,7 +307,7 @@
       "refersTo": "",
       "description": "Pergunta frequente em accordion nativo.",
       "html": "<details class=\"ds-faq\" open><summary class=\"ds-faq-q\">Vos services de déménagement sont-ils assurés ?<svg class=\"ds-faq-chev\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><p class=\"ds-faq-a\">Chaque transport est couvert par une assurance RC professionnelle jusqu'à CHF 5'000'000.</p></details>",
-      "css": ".ds-faq { border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; font-family: 'Inter', sans-serif; } .ds-faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; min-height: 44px; cursor: pointer; list-style: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; } .ds-faq-q::-webkit-details-marker { display: none; } .ds-faq-q:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 12px; } .ds-faq-chev { color: #64748B; flex-shrink: 0; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-faq[open] .ds-faq-chev { transform: rotate(180deg); } .ds-faq-a { margin: 0; padding: 0 36px 20px 0; font-size: 14px; line-height: 1.625; color: #475569; }"
+      "css": ".ds-faq { border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; font-family:'Google Sans Flex',sans-serif; } .ds-faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; min-height: 44px; cursor: pointer; list-style: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; color: #0B1E33; } .ds-faq-q::-webkit-details-marker { display: none; } .ds-faq-q:focus-visible { outline: 2px solid #0284C7; outline-offset: 2px; border-radius: 12px; } .ds-faq-chev { color: #64748B; flex-shrink: 0; transition: transform 200ms cubic-bezier(0.16,1,0.3,1); } .ds-faq[open] .ds-faq-chev { transform: rotate(180deg); } .ds-faq-a { margin: 0; padding: 0 36px 20px 0; font-size: 14px; line-height: 1.625; color: #475569; }"
     }
   ],
   "narrative": {
@@ -337,7 +342,7 @@
       },
       {
         "name": "The No Neon Rule",
-        "body": "Nada de sombra colorida (shadow-sky-500/30) nem glow radial em fundo escuro. Sombra é neutra e tem offset.",
+        "body": "Nada de sombra colorida (shadow-sky-500/30, verde do WhatsApp) nem glow radial em fundo escuro. Sombra é navy, tem offset e sai da escala de quatro níveis.",
         "section": "elevation"
       },
       {

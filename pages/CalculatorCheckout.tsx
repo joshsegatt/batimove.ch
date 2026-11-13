@@ -123,9 +123,9 @@ const SummaryCard: React.FC<{ data: CalculatorData }> = ({ data }) => {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
       <h2 className="text-base font-semibold text-slate-600">Votre inventaire</h2>
-      <p className="mt-1 font-display text-4xl font-extrabold tracking-tight text-[#0B1E33] tabular-nums">
+      <p className="mt-1 font-display text-4xl font-medium tracking-tight text-[#0B1E33] tabular-nums">
         {formatVolume(data.totalVolume)}
-        <span className="ml-1.5 text-xl font-bold text-slate-500">m³</span>
+        <span className="ml-1.5 text-xl font-semibold text-slate-500">m³</span>
       </p>
       <p className="mt-1 text-base text-slate-600 tabular-nums">
         {data.totalItems} article{data.totalItems > 1 ? 's' : ''}
@@ -261,7 +261,7 @@ export default function CalculatorCheckout() {
           <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-slate-100 text-[#0B1E33]">
             <Package2 className="h-6 w-6" aria-hidden="true" />
           </span>
-          <h1 className="mt-5 font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">Votre inventaire est vide</h1>
+          <h1 className="mt-5 font-display text-2xl font-medium tracking-tight text-[#0B1E33]">Votre inventaire est vide</h1>
           <p className="mt-2 text-lg leading-relaxed text-slate-600">
             Indiquez vos meubles dans le calculateur, ou décrivez directement votre projet : la réponse arrive sous 30&nbsp;min
             (8h-19h).
@@ -289,7 +289,7 @@ export default function CalculatorCheckout() {
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#0B1E33] text-white">
             <Check className="h-7 w-7" strokeWidth={2.5} aria-hidden="true" />
           </span>
-          <h1 ref={successRef} tabIndex={-1} className="mt-5 font-display text-3xl font-extrabold tracking-tight text-[#0B1E33] outline-none">
+          <h1 ref={successRef} tabIndex={-1} className="mt-5 font-display text-3xl font-medium tracking-tight text-[#0B1E33] outline-none">
             Demande envoyée
           </h1>
           <p className="mx-auto mt-2 max-w-md text-lg leading-relaxed text-slate-600">
@@ -339,7 +339,7 @@ export default function CalculatorCheckout() {
               href={buildWhatsAppUrl(data, sent)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#075E54] px-6 text-lg font-bold text-white transition-colors duration-150 hover:bg-[#064A42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284C7]"
+              className="flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#075E54] px-6 text-lg font-semibold text-white transition-colors duration-150 hover:bg-[#064A42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284C7]"
             >
               <WhatsappIcon className="h-5 w-5" />
               {whatsAppOpened ? 'Rouvrir WhatsApp' : 'Envoyer aussi sur WhatsApp'}
@@ -369,7 +369,7 @@ export default function CalculatorCheckout() {
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           Calculateur
         </Link>
-        <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
+        <h1 className="mt-2 font-display text-3xl font-medium leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
           Recevoir mon prix ferme
         </h1>
         <p className="mt-2 text-lg text-slate-600">
@@ -383,7 +383,7 @@ export default function CalculatorCheckout() {
 
           <form onSubmit={handleSubmit} noValidate className="rounded-xl border border-slate-200 bg-white lg:order-1 lg:col-span-7">
             <div className="px-5 pb-6 pt-6 sm:px-8">
-              <h2 className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">Vos coordonnées</h2>
+              <h2 className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">Vos coordonnées</h2>
 
               {submitError && (
                 <div ref={alertRef} role="alert" className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-base text-red-800">

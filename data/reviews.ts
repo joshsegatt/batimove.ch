@@ -46,7 +46,7 @@ export const CUSTOMER_REVIEWS: CustomerReview[] = [
   {
     id: 'andressa',
     name: 'Andressa Segat',
-    role: 'Déménagement International',
+    role: 'Déménagement international',
     location: 'Londres vers Suisse',
     quote:
       "Excellente expérience avec BATIMOVE ! Ils ont fait mon déménagement de Londres vers la Suisse et tout s’est parfaitement déroulé. Équipe organisée, ponctuelle, très professionnelle et soigneuse avec les meubles. La communication a également été irréprochable tout au long du transfert.",
@@ -56,7 +56,7 @@ export const CUSTOMER_REVIEWS: CustomerReview[] = [
   {
     id: 'julien',
     name: 'Julien B.',
-    role: 'Partenaire Certifié MOVU',
+    role: 'Partenaire certifié MOVU',
     location: 'Lausanne & Canton de Vaud',
     quote:
       "Une entreprise de déménagement au Top ! Réservé via MOVU, prix très compétitif pour un travail très qualitatif ! Rapidité et qualité, deux mots désignant parfaitement l’équipe ! Je recommande vivement !",
@@ -66,7 +66,7 @@ export const CUSTOMER_REVIEWS: CustomerReview[] = [
   {
     id: 'wagner',
     name: 'Wagner Custódio',
-    role: 'Déménagement Résidentiel Clés en Main',
+    role: 'Déménagement résidentiel clés en main',
     location: 'Genève',
     quote:
       "Batimove est une entreprise merveilleuse ! Tout s’est très bien passé du début à la fin. L’équipe est professionnelle, efficace et très sympathique. Mon déménagement s’est déroulé sans aucun problème. Je recommande cette entreprise les yeux fermés !",
@@ -76,7 +76,7 @@ export const CUSTOMER_REVIEWS: CustomerReview[] = [
   {
     id: 'pedro',
     name: 'Pedro Silva',
-    role: 'Transport & Déménagement Privé',
+    role: 'Transport et déménagement privé',
     location: 'Genève & Environs',
     quote:
       "Une entreprise sérieuse avec d'excellents professionnels ! Félicitations pour le travail accompli ! Je recommande vivement !",

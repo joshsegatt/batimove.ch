@@ -75,7 +75,7 @@ export const Card: React.FC<CardProps> = ({ children, className = '', noPadding 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-xl border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden ${noPadding ? '' : 'p-6'} ${className}`}
+      className={`bg-white rounded-xl border border-slate-100 shadow-rest overflow-hidden ${noPadding ? '' : 'p-6'} ${className}`}
       {...props}
     >
       {children}

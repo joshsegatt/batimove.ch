@@ -27,7 +27,7 @@ const lausanneConfig: LocationConfig = {
   ],
   localFeatures: [
     {
-      title: "Gestion des Accès en Pente & Déclivités",
+      title: "Gestion des accès en pente et déclivités",
       desc: "Nos camions et chauffeurs sont formés aux contraintes topographiques spécifiques de la ville de Lausanne."
     },
     {
@@ -35,11 +35,11 @@ const lausanneConfig: LocationConfig = {
       desc: "Conseils et attestations pour votre annonce officielle de changement d'adresse auprès du contrôle des habitants vaudois."
     },
     {
-      title: "Garantie Régies Immobilières Vaudoises",
+      title: "Garantie régies immobilières vaudoises",
       desc: "Nettoyage fin de bail et transport reconnus par Bernard Nicod, Cogestim, Régie du Rhône et Domicim."
     },
     {
-      title: "Monte-Meubles pour Rues Étroites",
+      title: "Monte-meubles pour rues étroites",
       desc: "Élévateurs compacts permettant le passage sécurisé par fenêtre sans bloquer la circulation de quartier."
     }
   ],

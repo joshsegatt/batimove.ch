@@ -222,7 +222,7 @@ const SegmentedGroup: React.FC<{
             <span
               className={`flex h-11 cursor-pointer items-center justify-center rounded-lg px-2 text-center text-base font-semibold transition-[background-color,color,box-shadow] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-1 peer-focus-visible:outline-[#0284c7] ${
                 checked
-                  ? 'bg-white text-[#0B1E33] shadow-[0_1px_2px_rgba(11,30,51,0.08),0_1px_1px_rgba(11,30,51,0.04)]'
+                  ? 'bg-white text-[#0B1E33] shadow-rest'
                   : 'text-slate-600 hover:text-[#0B1E33]'
               }`}
             >
@@ -422,8 +422,8 @@ export const QuoteWizard: React.FC<{
   };
 
   const shadowClass = elevated
-    ? 'shadow-[0_24px_48px_-20px_rgba(0,0,0,0.45)]'
-    : 'shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]';
+    ? 'shadow-modal'
+    : 'shadow-rest';
 
   // Animação de entrada só depois de uma navegação (no primeiro carregamento a etapa já aparece pronta).
   const enterClass = hasNavigated.current ? (direction > 0 ? 'wizard-in-next' : 'wizard-in-prev') : '';
@@ -444,7 +444,7 @@ export const QuoteWizard: React.FC<{
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="mt-5 font-display text-3xl font-extrabold tracking-tight text-[#0B1E33] outline-none"
+            className="mt-5 font-display text-3xl font-medium tracking-tight text-[#0B1E33] outline-none"
           >
             Demande envoyée
           </h2>
@@ -492,7 +492,7 @@ export const QuoteWizard: React.FC<{
               href={buildWhatsAppUrl(sent)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#075E54] px-6 text-lg font-bold text-white transition-colors duration-150 hover:bg-[#064A42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
+              className="flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#075E54] px-6 text-lg font-semibold text-white transition-colors duration-150 hover:bg-[#064A42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
             >
               <WhatsappIcon className="h-5 w-5" />
               {whatsAppOpened ? 'Rouvrir WhatsApp' : 'Envoyer aussi sur WhatsApp'}
@@ -563,7 +563,7 @@ export const QuoteWizard: React.FC<{
               {/* Etapa 1: serviço */}
               {step === 0 && (
                 <>
-                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33] outline-none">
+                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-medium tracking-tight text-[#0B1E33] outline-none">
                     Quel est votre projet&nbsp;?
                   </h2>
                   <ul className="mt-5 overflow-hidden rounded-xl border border-slate-200">
@@ -610,7 +610,7 @@ export const QuoteWizard: React.FC<{
               {/* Etapa 2: lugar e data */}
               {step === 1 && service && (
                 <>
-                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33] outline-none">
+                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-medium tracking-tight text-[#0B1E33] outline-none">
                     {service.hasRoute ? "D'où partez-vous, et vers où ?" : 'Où se trouve le logement ?'}
                   </h2>
                   <p className="mt-1.5 text-base text-slate-600">
@@ -672,7 +672,7 @@ export const QuoteWizard: React.FC<{
               {/* Etapa 3: detalhes */}
               {step === 2 && service && (
                 <>
-                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33] outline-none">
+                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-medium tracking-tight text-[#0B1E33] outline-none">
                     Quelques détails
                   </h2>
                   <p className="mt-1.5 text-base text-slate-600">Pour un devis juste du premier coup.</p>
@@ -709,7 +709,7 @@ export const QuoteWizard: React.FC<{
               {/* Etapa 4: contato */}
               {step === 3 && service && (
                 <>
-                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33] outline-none">
+                  <h2 ref={headingRef} tabIndex={-1} className="font-display text-2xl font-medium tracking-tight text-[#0B1E33] outline-none">
                     Où vous envoyer le devis&nbsp;?
                   </h2>
                   <p className="mt-1.5 text-base text-slate-600">Réponse sous 30&nbsp;min (8h-19h), gratuite et sans engagement.</p>
