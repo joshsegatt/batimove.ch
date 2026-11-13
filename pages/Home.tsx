@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useRevealOnce } from '../hooks/useRevealOnce';
 import { CUSTOMER_REVIEWS, GOOGLE_RATING, localizeReview } from '../data/reviews';
 import { HOME_FAQ_BY_LANG } from '../data/homeFaq';
 import { QUOTE_SERVICES, localizeQuoteService } from '../data/quoteServices';
@@ -541,6 +541,10 @@ export const Home: React.FC = () => {
 
   // Testimonial Carousel Active State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  // Movimento da página (DESIGN.md, The Ruled Line Rule): as linhas se desenham
+  // quando o bloco entra na tela, como itens resolvidos um após o outro.
+  const engagementsReveal = useRevealOnce<HTMLUListElement>();
+  const ficheReveal = useRevealOnce<HTMLDListElement>(0.25);
 
   const testimonials = CUSTOMER_REVIEWS.map((r) => localizeReview(r, lang));
 
@@ -690,11 +694,28 @@ export const Home: React.FC = () => {
             >
               {c.engagementsTitle}
             </h2>
-            <ul className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-9">
-              {HOME_ENGAGEMENTS_BY_LANG[lang].map(({ title, text }) => (
-                <li key={title} className="border-t border-white/20 pt-5">
-                  <h3 className="font-display text-xl font-medium tracking-tight text-white">{title}</h3>
-                  <p className="mt-2 text-lg leading-relaxed text-slate-300">{text}</p>
+            <ul ref={engagementsReveal.ref} className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-9">
+              {HOME_ENGAGEMENTS_BY_LANG[lang].map(({ title, text }, i) => (
+                <li key={title} className="relative border-t border-white/20 pt-5">
+                  {/* Traço azul que se desenha da esquerda: o item "réglé" */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 -top-px h-px origin-left bg-sky-300 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                    style={{
+                      transform: engagementsReveal.pending ? 'scaleX(0)' : 'scaleX(1)',
+                      transitionDelay: `${i * 220}ms`,
+                    }}
+                  />
+                  <div
+                    className={`transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                      // Texto nunca some: se a animação não rodar, continua legível.
+                      engagementsReveal.pending ? 'translate-y-1 opacity-60' : 'translate-y-0 opacity-100'
+                    }`}
+                    style={{ transitionDelay: `${i * 220 + 280}ms` }}
+                  >
+                    <h3 className="font-display text-xl font-medium tracking-tight text-white">{title}</h3>
+                    <p className="mt-2 text-lg leading-relaxed text-slate-300">{text}</p>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -737,12 +758,20 @@ export const Home: React.FC = () => {
                 {c.aboutLead}
               </p>
 
-              <dl className="mt-10 grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2">
+              <dl ref={ficheReveal.ref} className="mt-10 grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2">
                 {HOME_FICHE_BY_LANG[lang].map(({ term, desc, href }, i) => (
                   <div
                     key={term}
-                    className={`border-b border-slate-200 py-4 ${i % 2 === 1 ? 'sm:border-l sm:pl-6' : 'sm:pr-6'}`}
+                    className={`relative py-4 ${i % 2 === 1 ? 'sm:border-l sm:border-slate-200 sm:pl-6' : 'sm:pr-6'}`}
                   >
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-px origin-left bg-slate-200 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                      style={{
+                        transform: ficheReveal.pending ? 'scaleX(0)' : 'scaleX(1)',
+                        transitionDelay: `${i * 70}ms`,
+                      }}
+                    />
                     <dt className="text-sm text-slate-500">{term}</dt>
                     <dd className="mt-1 text-lg font-semibold leading-snug text-[#0B1E33] tabular-nums">
                       {href ? (
@@ -1178,7 +1207,7 @@ export const Home: React.FC = () => {
               return (
                 <div 
                   key={`${t.name}-${offset}`}
-                  className="flex flex-col justify-between rounded-xl border border-glacier-line bg-white p-8 shadow-rest"
+                  className="flex animate-fade-in flex-col justify-between rounded-xl border border-glacier-line bg-white p-8 shadow-rest motion-reduce:animate-none"
                 >
                   <div>
                     {/* Stars + Google badge */}
@@ -1226,7 +1255,7 @@ export const Home: React.FC = () => {
             {(() => {
               const t = testimonials[activeTestimonial % testimonials.length];
               return (
-                <div className="flex flex-col justify-between rounded-xl border border-glacier-line bg-white p-6 shadow-rest sm:p-8">
+                <div key={t.name} className="flex animate-fade-in flex-col justify-between rounded-xl border border-glacier-line bg-white p-6 shadow-rest motion-reduce:animate-none sm:p-8">
                   <div>
                     <div className="flex items-center justify-between mb-5">
                       <div className="flex items-center gap-1 text-amber-400">

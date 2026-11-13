@@ -252,7 +252,8 @@ Um só sistema, em `src/index.css` (`.btn` + tamanho + variante) e no componente
 ### Do:
 - **Do** usar números tabulares em todas as métricas e preços.
 - **Do** manter bordas de 1px `#E2E8F0` e raio de 12px em cartões e botões.
-- **Do** animar só em resposta a clique ou hover, em 150–200ms com `cubic-bezier(0.16, 1, 0.3, 1)`.
+- **Do** animar a interação (clique, hover) em 150–200ms com `cubic-bezier(0.16, 1, 0.3, 1)`. A única animação de entrada é a da regra abaixo.
+- **Do** seguir **The Ruled Line Rule**: o movimento de entrada do site é o traço. Quando um bloco de itens entra na tela, as linhas que o estruturam se desenham da esquerda para a direita (`scaleX` 0 → 1, `origin-left`), uma após a outra, e o texto aparece logo depois. É a precisão da régua suíça, e diz "resolvido, item por item". Momento principal: a faixa "Ce que nous réglons pour vous" (traço azul, 700ms, 220ms entre itens). Apoio: a ficha "En toute transparence" (traço cinza, 500ms, 70ms entre linhas). Hook `hooks/useRevealOnce.ts`: roda uma vez, nunca no que já está visível ao abrir, e com `prefers-reduced-motion` mostra tudo pronto. Nada de fade-and-rise genérico em cada seção.
 - **Do** basear toda afirmação de confiança em fato verificável (RC Pro 5M CHF, resposta sob 30 min, avaliações Google reais).
 
 ### Don't:
