@@ -3,10 +3,36 @@
     "outputDirectory": "dist",
     "devCommand": "npm run dev",
     "installCommand": "npm install",
+    "trailingSlash": false,
     "redirects": [
         {
             "source": "/pricing",
             "destination": "/quote",
+            "permanent": true
+        },
+        {
+            "source": "/business",
+            "destination": "/services?type=entreprise",
+            "permanent": true
+        },
+        {
+            "source": "/portal",
+            "destination": "/",
+            "permanent": true
+        },
+        {
+            "source": "/portal/:path*",
+            "destination": "/",
+            "permanent": true
+        },
+        {
+            "source": "/admin",
+            "destination": "/",
+            "permanent": true
+        },
+        {
+            "source": "/admin/:path*",
+            "destination": "/",
             "permanent": true
         }
     ],
@@ -304,8 +330,12 @@
             "destination": "/nettoyage-fin-de-bail-yverdon-les-bains/index.html"
         },
         {
-            "source": "/(.*)",
-            "destination": "/index.html"
+            "source": "/quote/:serviceId",
+            "destination": "/quote/index.html"
+        },
+        {
+            "source": "/en/quote/:serviceId",
+            "destination": "/en/quote/index.html"
         }
     ],
     "headers": [
