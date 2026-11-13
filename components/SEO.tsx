@@ -39,13 +39,21 @@ export const SEO: React.FC<SEOProps> = (props) => {
   const ogType = props.ogType ?? 'website';
   const schema = props.schema;
   const lang = langOf(path);
+  const noCanonical = !fromRoutes && /noindex/.test(robots);
 
   useEffect(() => {
-    document.documentElement.lang = lang;
+    // Mesmos valores que o prerender (scripts/prerender.mjs) escreve no HTML:
+    // se divergirem, a navegação deixa links velhos ou duplicados no <head>.
+    document.documentElement.lang = lang === 'en' ? 'en' : 'fr-CH';
     const fr = alternatePath(path, 'fr');
     const en = alternatePath(path, 'en');
     const hasPair = fr in ROUTES && en in ROUTES;
-    for (const [hreflang, href] of [['fr', fr], ['en', en], ['x-default', fr]] as const) {
+    const pairs = [['fr-CH', fr], ['en', en], ['x-default', fr]] as const;
+    // Remove qualquer alternate de outro idioma (versões antigas usavam "fr").
+    document.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]').forEach((l) => {
+      if (!pairs.some(([h]) => h === l.hreflang)) l.remove();
+    });
+    for (const [hreflang, href] of pairs) {
       let link = document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`) as HTMLLinkElement | null;
       if (!hasPair) {
         link?.remove();
@@ -88,6 +96,7 @@ export const SEO: React.FC<SEOProps> = (props) => {
     setMetaTag('property', 'og:url', canonical);
     setMetaTag('property', 'og:type', ogType);
     setMetaTag('property', 'og:image', ogImage);
+    setMetaTag('property', 'og:locale', lang === 'en' ? 'en_GB' : 'fr_CH');
 
     // 4. Twitter Tags
     setMetaTag('name', 'twitter:title', title);
@@ -95,14 +104,19 @@ export const SEO: React.FC<SEOProps> = (props) => {
     setMetaTag('name', 'twitter:url', canonical);
     setMetaTag('name', 'twitter:image', ogImage);
 
-    // 5. Canonical Link Tag
+    // 5. Canonical Link Tag. Página noindex fora da lista (a 404) não tem
+    // canonical: apontar para a home faria o Google tratá-la como duplicata.
     let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (!canonicalLink) {
-      canonicalLink = document.createElement('link');
-      canonicalLink.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalLink);
+    if (noCanonical) {
+      canonicalLink?.remove();
+    } else {
+      if (!canonicalLink) {
+        canonicalLink = document.createElement('link');
+        canonicalLink.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.setAttribute('href', canonical);
     }
-    canonicalLink.setAttribute('href', canonical);
 
     // 6. Dynamic Schema.org JSON-LD (if provided)
     let dynamicSchemaScript = document.getElementById('seo-dynamic-jsonld') as HTMLScriptElement | null;
@@ -117,7 +131,7 @@ export const SEO: React.FC<SEOProps> = (props) => {
     } else if (dynamicSchemaScript) {
       dynamicSchemaScript.remove();
     }
-  }, [title, description, canonical, robots, ogImage, ogType, schema]);
+  }, [title, description, canonical, noCanonical, robots, ogImage, ogType, schema, lang]);
 
   return null;
 };

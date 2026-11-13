@@ -33,7 +33,10 @@ export const langOf = (pathname: string): Lang =>
 
 const split = (path: string) => {
   const m = path.match(/^([^?#]*)(.*)$/);
-  return { base: m?.[1] || '/', rest: m?.[2] || '' };
+  const raw = m?.[1] || '/';
+  // "/debarras/" e "/debarras" são a mesma página.
+  const base = raw.length > 1 ? raw.replace(/\/+$/, '') || '/' : raw;
+  return { base, rest: m?.[2] || '' };
 };
 
 /** Caminho francês -> caminho no idioma pedido (preserva ?query e #hash). */
