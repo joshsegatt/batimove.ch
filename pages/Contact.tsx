@@ -182,12 +182,6 @@ export const Contact: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 text-sm text-slate-500">
-                Depuis l'étranger :{' '}
-                <a href="tel:+41228008292" className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 tabular-nums hover:decoration-[#0B1E33]">
-                  +41 22 800 82 92
-                </a>
-              </p>
             </section>
 
             <section aria-labelledby="bureau-title" className="rounded-xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]">
