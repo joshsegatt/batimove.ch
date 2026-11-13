@@ -6,7 +6,8 @@ import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
 import { Quote } from './pages/Quote';
 import { CookieConsent } from './components/CookieConsent';
-import { LOCALITIES, localPath } from './data/localities';
+import { LOCALITIES, LOCAL_SERVICES, isGeneratedLocal, localPath } from './data/localities';
+import { COUNTRIES } from './data/countries';
 import { localizePath } from './i18n';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
@@ -24,6 +25,7 @@ const CalculatorCheckout = lazy(() => import('./pages/CalculatorCheckout'));
 const Geneve = lazy(() => import('./pages/locations/Geneve').then((m) => ({ default: m.Geneve })));
 const International = lazy(() => import('./pages/International').then((m) => ({ default: m.International })));
 const London = lazy(() => import('./pages/International').then((m) => ({ default: m.London })));
+const CountryPage = lazy(() => import('./pages/International').then((m) => ({ default: m.CountryPage })));
 const Lausanne = lazy(() => import('./pages/locations/Lausanne').then((m) => ({ default: m.Lausanne })));
 const Vaud = lazy(() => import('./pages/locations/Vaud').then((m) => ({ default: m.Vaud })));
 
@@ -74,6 +76,7 @@ const PAGES: [string, React.ReactElement][] = [
   ['/garde-meubles', <GardeMeubles />],
   ['/demenagement-international', <International />],
   ['/demenagement-londres', <London />],
+  ...COUNTRIES.map((p): [string, React.ReactElement] => [p.path, <CountryPage slug={p.slug} />]),
   ['/demenagement-geneve', <Geneve />],
   ['/demenagement-lausanne', <Lausanne />],
   ['/demenagement-vaud', <Vaud />],
@@ -119,9 +122,10 @@ const AppContent: React.FC = () => {
               <Route key={en} path={en} element={element} />,
             ];
           })}
-          {/* Páginas locais (SEO): /debarras-<cidade> e /nettoyage-fin-de-bail-<cidade> */}
+          {/* Páginas locais (SEO): /demenagement-<cidade>, /debarras-<cidade> e
+              /nettoyage-fin-de-bail-<cidade>. Genève, Lausanne e Vaud têm página de mudança própria. */}
           {LOCALITIES.flatMap((l) =>
-            (['debarras', 'nettoyage'] as const).flatMap((service) => {
+            LOCAL_SERVICES.filter((service) => isGeneratedLocal(service, l.slug)).flatMap((service) => {
               const path = localPath(service, l.slug);
               const element = <LocalServiceLanding service={service} slug={l.slug} />;
               return [

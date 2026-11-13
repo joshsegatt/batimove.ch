@@ -7,7 +7,8 @@ import { SERVICE_LANDINGS_BY_LANG, type ServiceLandingId } from '../data/service
 import {
   CANTONS,
   LOCALITIES,
-  cantonName,
+  LOCAL_SERVICES,
+  cantonOf,
   localPath,
   localizeLocality,
   routeMeta,
@@ -17,17 +18,18 @@ import {
 import { QuoteWizard } from './quote/QuoteWizard';
 import { defineCopy, useLang } from '../i18n';
 
-// Página de um serviço (Débarras, Nettoyage). Duas versões com o mesmo template:
+// Página de um serviço (Débarras, Nettoyage, Garde-meubles). Duas versões com o mesmo template:
 // - hub (/debarras): a página geral do serviço;
-// - local (/debarras-lausanne): mesmo serviço com conteúdo próprio da localidade
-//   (bairros e comunas, notas locais, FAQ local), para o SEO local.
+// - local (/debarras-lausanne, /demenagement-nyon): mesmo serviço com conteúdo próprio
+//   da localidade (bairros e comunas, notas locais, FAQ local), para o SEO local.
+//   Déménagement só tem a versão local; o hub dele é /services?type=prive.
 // Em ambas, o wizard completo fica no topo e capta o lead sem trocar de página.
 // FR e EN: o conteúdo vem de SERVICE_LANDINGS_BY_LANG e de localizeLocality();
 // os links são escritos com o caminho francês e passam por lp().
 
 const COPY = defineCopy(
   {
-    serviceName: { debarras: 'Débarras', nettoyage: 'Nettoyage de fin de bail' } as Record<LocalService, string>,
+    serviceName: { demenagement: 'Déménagement', debarras: 'Débarras', nettoyage: 'Nettoyage de fin de bail' } as Record<LocalService, string>,
     breadcrumbLabel: "Fil d'Ariane",
     home: 'Accueil',
     trust: ['RC Pro CHF 5M et All Risk', 'Prix ferme, aucun surcoût', 'Joignable 7j/7'],
@@ -38,15 +40,14 @@ const COPY = defineCopy(
     faqTitle: 'Questions fréquentes',
     localFaqQuestion: (l: Locality, isCanton: boolean) =>
       isCanton ? `Où intervenez-vous dans le canton de ${l.name} ?` : `Intervenez-vous aussi autour de ${l.name} ?`,
-    localFaqAnswer: (areas: string, canton: string) => `Oui : ${areas}, et dans tout le canton de ${canton}.`,
-    moveLink: (l: Locality, isCanton: boolean) =>
-      `Vous déménagez aussi ? Déménagement ${isCanton ? `dans le canton de ${l.name}` : `à ${l.name}`}`,
+    localFaqAnswer: (areas: string, of: string) => `Oui : ${areas}, et dans tout le canton ${of}.`,
+    alsoTitle: (l: Locality) => `Aussi ${l.prep}`,
     nearYou: (serviceName: string) => `${serviceName} près de chez vous`,
-    cantonOf: (name: string) => `Canton de ${name}`,
+    cantonOf: (of: string) => `Canton ${of}`,
     /** Rótulo da localidade atual (sem link) */
     zoneCurrent: (l: Locality, isCanton: boolean) => (isCanton ? `Tout le canton` : l.name),
     /** Rótulo do link para outra localidade */
-    zoneService: { debarras: 'Débarras', nettoyage: 'Nettoyage' } as Record<LocalService, string>,
+    zoneService: { demenagement: 'Déménagement', debarras: 'Débarras', nettoyage: 'Nettoyage' } as Record<LocalService, string>,
     zoneLink: (zoneService: string, l: Locality, isCanton: boolean) =>
       `${zoneService} ${isCanton ? `canton de ${l.name}` : l.name}`,
     othersTitle: 'Nos autres prestations',
@@ -55,7 +56,7 @@ const COPY = defineCopy(
     ctaButton: 'Demander un devis',
   },
   {
-    serviceName: { debarras: 'House clearance', nettoyage: 'End of tenancy cleaning' },
+    serviceName: { demenagement: 'Removals', debarras: 'House clearance', nettoyage: 'End of tenancy cleaning' },
     breadcrumbLabel: 'Breadcrumb',
     home: 'Home',
     trust: ['CHF 5M public liability and all-risks cover', 'Fixed price, no extra charges', 'Available 7 days a week'],
@@ -66,13 +67,13 @@ const COPY = defineCopy(
     faqTitle: 'Frequently asked questions',
     localFaqQuestion: (l: Locality, isCanton: boolean) =>
       isCanton ? `Where do you work in the canton of ${l.name}?` : `Do you also cover the area around ${l.name}?`,
-    localFaqAnswer: (areas: string, canton: string) => `Yes: ${areas}, and throughout the canton of ${canton}.`,
-    moveLink: (l: Locality) => `Moving as well? Removals ${l.prep}`,
+    localFaqAnswer: (areas: string, of: string) => `Yes: ${areas}, and throughout the canton ${of}.`,
+    alsoTitle: (l: Locality) => `Also ${l.prep}`,
     nearYou: (serviceName: string) => `${serviceName} near you`,
-    cantonOf: (name: string) => `Canton of ${name}`,
+    cantonOf: (of: string) => `Canton ${of}`,
     zoneCurrent: (l: Locality, isCanton: boolean) => (isCanton ? 'Whole canton' : l.name),
     // "House clearance in Nyon", "Cleaning in the canton of Vaud"
-    zoneService: { debarras: 'House clearance', nettoyage: 'Cleaning' },
+    zoneService: { demenagement: 'Removals', debarras: 'House clearance', nettoyage: 'Cleaning' },
     zoneLink: (zoneService: string, l: Locality) => `${zoneService} ${l.prep}`,
     othersTitle: 'Our other services',
     ctaTitle: 'Free quote within 30 min',
@@ -90,25 +91,24 @@ export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; local
   const config = SERVICE_LANDINGS_BY_LANG[lang][serviceId];
   const locality = rawLocality ? localizeLocality(rawLocality, lang) : undefined;
   const service = getQuoteService(config.serviceId);
-  const serviceKey = config.serviceId as LocalService;
+  // Serviço com páginas por cidade (Déménagement, Débarras, Nettoyage); Garde-meubles não tem.
+  const localKey = (LOCAL_SERVICES as string[]).includes(serviceId) ? (serviceId as LocalService) : null;
   const others = QUOTE_SERVICES.filter((s) => s.id !== config.serviceId).map((s) => localizeQuoteService(s, lang));
-  const serviceName = c.serviceName[serviceKey];
+  const serviceName = localKey ? c.serviceName[localKey] : config.breadcrumb;
 
-  const path = locality ? localPath(serviceKey, locality.slug) : config.path;
+  const path = locality && localKey ? localPath(localKey, locality.slug) : config.path;
   const meta = locality ? routeMeta(path) : { title: config.seoTitle, description: config.seoDescription };
   const h1 = locality ? `${serviceName} ${locality.prep}` : config.h1;
   const lead = locality ? `${locality.intro} ${config.lead}` : config.lead;
   // `kind` francês decide a lógica (o inglês é só texto).
   const isCanton = rawLocality?.kind === 'canton';
-  // Só Débarras e Nettoyage têm páginas por cidade.
-  const hasLocalPages = serviceKey in c.serviceName;
 
   // Pergunta local primeiro: responde "vous venez chez moi ?" com a lista real.
   const faq = locality
     ? [
         {
           question: c.localFaqQuestion(locality, isCanton),
-          answer: c.localFaqAnswer(locality.areas.slice(0, 8).join(', '), cantonName(locality.canton, lang)),
+          answer: c.localFaqAnswer(locality.areas.slice(0, 8).join(', '), cantonOf(locality.canton, lang)),
         },
         ...config.faq,
       ]
@@ -243,14 +243,24 @@ export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; local
                   </div>
                 ))}
               </dl>
-              {locality.movePage && (
-                <Link
-                  to={lp(locality.movePage)}
-                  className="mt-2 inline-flex items-center gap-1.5 py-2 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
-                >
-                  {c.moveLink(locality, isCanton)}
-                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
+              {/* Os outros serviços na mesma localidade (malha de links internos) */}
+              {localKey && (
+                <div className="mt-2">
+                  <p className="text-sm font-semibold text-slate-500">{c.alsoTitle(locality)}</p>
+                  <ul className="mt-1 flex flex-col items-start">
+                    {LOCAL_SERVICES.filter((s) => s !== localKey).map((s) => (
+                      <li key={s}>
+                        <Link
+                          to={lp(localPath(s, locality.slug))}
+                          className="inline-flex items-center gap-1.5 py-2 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
+                        >
+                          {c.serviceName[s]} {locality.prep}
+                          <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </div>
           </div>
@@ -296,7 +306,7 @@ export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; local
       </section>
 
       {/* Todas as localidades do serviço (malha de links internos do SEO local) */}
-      {hasLocalPages && (
+      {localKey && (
       <section aria-labelledby="zones-title" className="border-t border-slate-200 bg-[#F8FAFC] py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 id="zones-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
@@ -305,7 +315,7 @@ export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; local
           <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
             {CANTONS.map((canton) => (
               <div key={canton.id}>
-                <p className="text-sm font-semibold text-slate-500">{c.cantonOf(cantonName(canton.id, lang))}</p>
+                <p className="text-sm font-semibold text-slate-500">{c.cantonOf(cantonOf(canton.id, lang))}</p>
                 <ul className="mt-3 flex flex-wrap gap-2">
                   {LOCALITIES.filter((l) => l.canton === canton.id).map((raw) => {
                     const l = localizeLocality(raw, lang);
@@ -319,10 +329,10 @@ export const ServiceLandingTemplate: React.FC<{ service: ServiceLandingId; local
                           </span>
                         ) : (
                           <Link
-                            to={lp(localPath(serviceKey, raw.slug))}
+                            to={lp(localPath(localKey, raw.slug))}
                             className="inline-flex h-10 items-center rounded-lg border border-slate-200 bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 hover:border-[#0B1E33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
                           >
-                            {c.zoneLink(c.zoneService[serviceKey], l, lIsCanton)}
+                            {c.zoneLink(c.zoneService[localKey], l, lIsCanton)}
                           </Link>
                         )}
                       </li>

@@ -68,83 +68,103 @@
     },
     "/debarras-geneve": {
       "title": "Débarras Genève - Devis en 30 min | Batimove",
-      "description": "Débarras à Genève : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Eaux-Vives, Champel, Plainpalais."
+      "description": "Débarras à Genève : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Eaux-Vives, Champel, Plainpalais.",
+      "h1": "Débarras à Genève"
     },
     "/nettoyage-fin-de-bail-geneve": {
       "title": "Nettoyage Fin de Bail Genève | Batimove",
-      "description": "Nettoyage de fin de bail à Genève, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Eaux-Vives, Champel, Plainpalais."
+      "description": "Nettoyage de fin de bail à Genève, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Eaux-Vives, Champel, Plainpalais.",
+      "h1": "Nettoyage de fin de bail à Genève"
     },
     "/debarras-carouge": {
       "title": "Débarras Carouge - Devis en 30 min | Batimove",
-      "description": "Débarras à Carouge : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Vieux-Carouge, Lancy, Plan-les-Ouates."
+      "description": "Débarras à Carouge : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Vieux-Carouge, Lancy, Plan-les-Ouates.",
+      "h1": "Débarras à Carouge"
     },
     "/nettoyage-fin-de-bail-carouge": {
       "title": "Nettoyage Fin de Bail Carouge | Batimove",
-      "description": "Nettoyage de fin de bail à Carouge, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Vieux-Carouge, Lancy."
+      "description": "Nettoyage de fin de bail à Carouge, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Vieux-Carouge, Lancy.",
+      "h1": "Nettoyage de fin de bail à Carouge"
     },
     "/debarras-vaud": {
       "title": "Débarras Vaud - Devis en 30 min | Batimove",
-      "description": "Débarras dans le canton de Vaud : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Lausanne, Renens, Nyon."
+      "description": "Débarras dans le canton de Vaud : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Lausanne, Renens, Nyon.",
+      "h1": "Débarras dans le canton de Vaud"
     },
     "/nettoyage-fin-de-bail-vaud": {
       "title": "Nettoyage Fin de Bail Vaud | Batimove",
-      "description": "Nettoyage de fin de bail dans le canton de Vaud, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Lausanne, Renens."
+      "description": "Nettoyage de fin de bail dans le canton de Vaud, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Lausanne, Renens.",
+      "h1": "Nettoyage de fin de bail dans le canton de Vaud"
     },
     "/debarras-lausanne": {
       "title": "Débarras Lausanne - Devis en 30 min | Batimove",
-      "description": "Débarras à Lausanne : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Ouchy, Sous-Gare, Chailly."
+      "description": "Débarras à Lausanne : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Ouchy, Sous-Gare, Chailly.",
+      "h1": "Débarras à Lausanne"
     },
     "/nettoyage-fin-de-bail-lausanne": {
       "title": "Nettoyage Fin de Bail Lausanne | Batimove",
-      "description": "Nettoyage de fin de bail à Lausanne, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Ouchy, Sous-Gare, Chailly."
+      "description": "Nettoyage de fin de bail à Lausanne, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Ouchy, Sous-Gare, Chailly.",
+      "h1": "Nettoyage de fin de bail à Lausanne"
     },
     "/debarras-renens": {
       "title": "Débarras Renens - Devis en 30 min | Batimove",
-      "description": "Débarras à Renens : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Crissier, Ecublens, Chavannes-près-Renens."
+      "description": "Débarras à Renens : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Crissier, Ecublens, Chavannes-près-Renens.",
+      "h1": "Débarras à Renens"
     },
     "/nettoyage-fin-de-bail-renens": {
       "title": "Nettoyage Fin de Bail Renens | Batimove",
-      "description": "Nettoyage de fin de bail à Renens, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Crissier, Ecublens."
+      "description": "Nettoyage de fin de bail à Renens, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Crissier, Ecublens.",
+      "h1": "Nettoyage de fin de bail à Renens"
     },
     "/debarras-nyon": {
       "title": "Débarras Nyon - Devis en 30 min | Batimove",
-      "description": "Débarras à Nyon : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Prangins, Gland, Rolle."
+      "description": "Débarras à Nyon : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Prangins, Gland, Rolle.",
+      "h1": "Débarras à Nyon"
     },
     "/nettoyage-fin-de-bail-nyon": {
       "title": "Nettoyage Fin de Bail Nyon | Batimove",
-      "description": "Nettoyage de fin de bail à Nyon, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Prangins, Gland, Rolle."
+      "description": "Nettoyage de fin de bail à Nyon, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Prangins, Gland, Rolle.",
+      "h1": "Nettoyage de fin de bail à Nyon"
     },
     "/debarras-morges": {
       "title": "Débarras Morges - Devis en 30 min | Batimove",
-      "description": "Débarras à Morges : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Tolochenaz, Préverenges, Saint-Prex."
+      "description": "Débarras à Morges : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Tolochenaz, Préverenges, Saint-Prex.",
+      "h1": "Débarras à Morges"
     },
     "/nettoyage-fin-de-bail-morges": {
       "title": "Nettoyage Fin de Bail Morges | Batimove",
-      "description": "Nettoyage de fin de bail à Morges, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Tolochenaz, Préverenges."
+      "description": "Nettoyage de fin de bail à Morges, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Tolochenaz, Préverenges.",
+      "h1": "Nettoyage de fin de bail à Morges"
     },
     "/debarras-vevey": {
       "title": "Débarras Vevey - Devis en 30 min | Batimove",
-      "description": "Débarras à Vevey : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : La Tour-de-Peilz, Corseaux."
+      "description": "Débarras à Vevey : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : La Tour-de-Peilz, Corseaux.",
+      "h1": "Débarras à Vevey"
     },
     "/nettoyage-fin-de-bail-vevey": {
       "title": "Nettoyage Fin de Bail Vevey | Batimove",
-      "description": "Nettoyage de fin de bail à Vevey, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : La Tour-de-Peilz, Corseaux."
+      "description": "Nettoyage de fin de bail à Vevey, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : La Tour-de-Peilz, Corseaux.",
+      "h1": "Nettoyage de fin de bail à Vevey"
     },
     "/debarras-montreux": {
       "title": "Débarras Montreux - Devis en 30 min | Batimove",
-      "description": "Débarras à Montreux : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Clarens, Territet, Glion."
+      "description": "Débarras à Montreux : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Clarens, Territet, Glion.",
+      "h1": "Débarras à Montreux"
     },
     "/nettoyage-fin-de-bail-montreux": {
       "title": "Nettoyage Fin de Bail Montreux | Batimove",
-      "description": "Nettoyage de fin de bail à Montreux, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Clarens, Territet, Glion."
+      "description": "Nettoyage de fin de bail à Montreux, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Clarens, Territet, Glion.",
+      "h1": "Nettoyage de fin de bail à Montreux"
     },
     "/debarras-yverdon-les-bains": {
       "title": "Débarras Yverdon-les-Bains - Devis en 30 min | Batimove",
-      "description": "Débarras à Yverdon-les-Bains : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Grandson, Yvonand."
+      "description": "Débarras à Yverdon-les-Bains : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Grandson, Yvonand.",
+      "h1": "Débarras à Yverdon-les-Bains"
     },
     "/nettoyage-fin-de-bail-yverdon-les-bains": {
       "title": "Nettoyage Fin de Bail Yverdon-les-Bains | Batimove",
-      "description": "Nettoyage de fin de bail à Yverdon-les-Bains, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Grandson, Yvonand."
+      "description": "Nettoyage de fin de bail à Yverdon-les-Bains, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Grandson, Yvonand.",
+      "h1": "Nettoyage de fin de bail à Yverdon-les-Bains"
     },
     "/demenagement-international": {
       "title": "Déménagement international depuis la Suisse | Batimove",
@@ -225,83 +245,553 @@
     },
     "/en/house-clearance-geneva": {
       "title": "House Clearance Geneva: Free Quote | Batimove",
-      "description": "House clearance in Geneva: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Eaux-Vives, Champel, Plainpalais."
+      "description": "House clearance in Geneva: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Eaux-Vives, Champel, Plainpalais.",
+      "h1": "House clearance in Geneva"
     },
     "/en/end-of-tenancy-cleaning-geneva": {
       "title": "End of Tenancy Cleaning Geneva | Batimove",
-      "description": "End of tenancy cleaning in Geneva, to letting-agency standards. Free touch-up if anything is flagged. Also: Eaux-Vives, Champel, Plainpalais."
+      "description": "End of tenancy cleaning in Geneva, to letting-agency standards. Free touch-up if anything is flagged. Also: Eaux-Vives, Champel, Plainpalais.",
+      "h1": "End of tenancy cleaning in Geneva"
     },
     "/en/house-clearance-carouge": {
       "title": "House Clearance Carouge: Free Quote | Batimove",
-      "description": "House clearance in Carouge: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Vieux-Carouge, Lancy."
+      "description": "House clearance in Carouge: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Vieux-Carouge, Lancy.",
+      "h1": "House clearance in Carouge"
     },
     "/en/end-of-tenancy-cleaning-carouge": {
       "title": "End of Tenancy Cleaning Carouge | Batimove",
-      "description": "End of tenancy cleaning in Carouge, to letting-agency standards. Free touch-up if anything is flagged. Also: Vieux-Carouge, Lancy, Plan-les-Ouates."
+      "description": "End of tenancy cleaning in Carouge, to letting-agency standards. Free touch-up if anything is flagged. Also: Vieux-Carouge, Lancy, Plan-les-Ouates.",
+      "h1": "End of tenancy cleaning in Carouge"
     },
     "/en/house-clearance-vaud": {
       "title": "House Clearance Vaud: Free Quote | Batimove",
-      "description": "House clearance in the canton of Vaud: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Lausanne, Renens, Nyon."
+      "description": "House clearance in the canton of Vaud: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Lausanne, Renens, Nyon.",
+      "h1": "House clearance in the canton of Vaud"
     },
     "/en/end-of-tenancy-cleaning-vaud": {
       "title": "End of Tenancy Cleaning Vaud | Batimove",
-      "description": "End of tenancy cleaning in the canton of Vaud, to letting-agency standards. Free touch-up if anything is flagged. Also: Lausanne, Renens, Nyon."
+      "description": "End of tenancy cleaning in the canton of Vaud, to letting-agency standards. Free touch-up if anything is flagged. Also: Lausanne, Renens, Nyon.",
+      "h1": "End of tenancy cleaning in the canton of Vaud"
     },
     "/en/house-clearance-lausanne": {
       "title": "House Clearance Lausanne: Free Quote | Batimove",
-      "description": "House clearance in Lausanne: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Ouchy, Sous-Gare, Chailly."
+      "description": "House clearance in Lausanne: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Ouchy, Sous-Gare, Chailly.",
+      "h1": "House clearance in Lausanne"
     },
     "/en/end-of-tenancy-cleaning-lausanne": {
       "title": "End of Tenancy Cleaning Lausanne | Batimove",
-      "description": "End of tenancy cleaning in Lausanne, to letting-agency standards. Free touch-up if anything is flagged. Also: Ouchy, Sous-Gare, Chailly."
+      "description": "End of tenancy cleaning in Lausanne, to letting-agency standards. Free touch-up if anything is flagged. Also: Ouchy, Sous-Gare, Chailly.",
+      "h1": "End of tenancy cleaning in Lausanne"
     },
     "/en/house-clearance-renens": {
       "title": "House Clearance Renens: Free Quote | Batimove",
-      "description": "House clearance in Renens: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Crissier, Ecublens."
+      "description": "House clearance in Renens: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Crissier, Ecublens.",
+      "h1": "House clearance in Renens"
     },
     "/en/end-of-tenancy-cleaning-renens": {
       "title": "End of Tenancy Cleaning Renens | Batimove",
-      "description": "End of tenancy cleaning in Renens, to letting-agency standards. Free touch-up if anything is flagged. Also: Crissier, Ecublens, Chavannes-près-Renens."
+      "description": "End of tenancy cleaning in Renens, to letting-agency standards. Free touch-up if anything is flagged. Also: Crissier, Ecublens, Chavannes-près-Renens.",
+      "h1": "End of tenancy cleaning in Renens"
     },
     "/en/house-clearance-nyon": {
       "title": "House Clearance Nyon: Free Quote | Batimove",
-      "description": "House clearance in Nyon: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Prangins, Gland, Rolle."
+      "description": "House clearance in Nyon: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Prangins, Gland, Rolle.",
+      "h1": "House clearance in Nyon"
     },
     "/en/end-of-tenancy-cleaning-nyon": {
       "title": "End of Tenancy Cleaning Nyon | Batimove",
-      "description": "End of tenancy cleaning in Nyon, to letting-agency standards. Free touch-up if anything is flagged. Also: Prangins, Gland, Rolle."
+      "description": "End of tenancy cleaning in Nyon, to letting-agency standards. Free touch-up if anything is flagged. Also: Prangins, Gland, Rolle.",
+      "h1": "End of tenancy cleaning in Nyon"
     },
     "/en/house-clearance-morges": {
       "title": "House Clearance Morges: Free Quote | Batimove",
-      "description": "House clearance in Morges: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Tolochenaz, Préverenges, Saint-Prex."
+      "description": "House clearance in Morges: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Tolochenaz, Préverenges, Saint-Prex.",
+      "h1": "House clearance in Morges"
     },
     "/en/end-of-tenancy-cleaning-morges": {
       "title": "End of Tenancy Cleaning Morges | Batimove",
-      "description": "End of tenancy cleaning in Morges, to letting-agency standards. Free touch-up if anything is flagged. Also: Tolochenaz, Préverenges, Saint-Prex."
+      "description": "End of tenancy cleaning in Morges, to letting-agency standards. Free touch-up if anything is flagged. Also: Tolochenaz, Préverenges, Saint-Prex.",
+      "h1": "End of tenancy cleaning in Morges"
     },
     "/en/house-clearance-vevey": {
       "title": "House Clearance Vevey: Free Quote | Batimove",
-      "description": "House clearance in Vevey: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: La Tour-de-Peilz, Corseaux."
+      "description": "House clearance in Vevey: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: La Tour-de-Peilz, Corseaux.",
+      "h1": "House clearance in Vevey"
     },
     "/en/end-of-tenancy-cleaning-vevey": {
       "title": "End of Tenancy Cleaning Vevey | Batimove",
-      "description": "End of tenancy cleaning in Vevey, to letting-agency standards. Free touch-up if anything is flagged. Also: La Tour-de-Peilz, Corseaux, Corsier-sur-Vevey."
+      "description": "End of tenancy cleaning in Vevey, to letting-agency standards. Free touch-up if anything is flagged. Also: La Tour-de-Peilz, Corseaux, Corsier-sur-Vevey.",
+      "h1": "End of tenancy cleaning in Vevey"
     },
     "/en/house-clearance-montreux": {
       "title": "House Clearance Montreux: Free Quote | Batimove",
-      "description": "House clearance in Montreux: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Clarens, Territet, Glion."
+      "description": "House clearance in Montreux: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Clarens, Territet, Glion.",
+      "h1": "House clearance in Montreux"
     },
     "/en/end-of-tenancy-cleaning-montreux": {
       "title": "End of Tenancy Cleaning Montreux | Batimove",
-      "description": "End of tenancy cleaning in Montreux, to letting-agency standards. Free touch-up if anything is flagged. Also: Clarens, Territet, Glion."
+      "description": "End of tenancy cleaning in Montreux, to letting-agency standards. Free touch-up if anything is flagged. Also: Clarens, Territet, Glion.",
+      "h1": "End of tenancy cleaning in Montreux"
     },
     "/en/house-clearance-yverdon-les-bains": {
       "title": "House Clearance Yverdon-les-Bains: Free Quote | Batimove",
-      "description": "House clearance in Yverdon-les-Bains: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Grandson, Yvonand."
+      "description": "House clearance in Yverdon-les-Bains: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Grandson, Yvonand.",
+      "h1": "House clearance in Yverdon-les-Bains"
     },
     "/en/end-of-tenancy-cleaning-yverdon-les-bains": {
       "title": "End of Tenancy Cleaning Yverdon-les-Bains | Batimove",
-      "description": "End of tenancy cleaning in Yverdon-les-Bains, to letting-agency standards. Free touch-up if anything is flagged. Also: Grandson, Yvonand."
+      "description": "End of tenancy cleaning in Yverdon-les-Bains, to letting-agency standards. Free touch-up if anything is flagged. Also: Grandson, Yvonand.",
+      "h1": "End of tenancy cleaning in Yverdon-les-Bains"
+    },
+    "/demenagement-carouge": {
+      "title": "Déménagement Carouge - Devis en 30 min | Batimove",
+      "description": "Déménagement à Carouge : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Vieux-Carouge, Lancy, Plan-les-Ouates.",
+      "h1": "Déménagement à Carouge"
+    },
+    "/demenagement-versoix": {
+      "title": "Déménagement Versoix - Devis en 30 min | Batimove",
+      "description": "Déménagement à Versoix : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Genthod, Bellevue, Collex-Bossy.",
+      "h1": "Déménagement à Versoix"
+    },
+    "/debarras-versoix": {
+      "title": "Débarras Versoix - Devis en 30 min | Batimove",
+      "description": "Débarras à Versoix : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Genthod, Bellevue, Collex-Bossy.",
+      "h1": "Débarras à Versoix"
+    },
+    "/nettoyage-fin-de-bail-versoix": {
+      "title": "Nettoyage Fin de Bail Versoix | Batimove",
+      "description": "Nettoyage de fin de bail à Versoix, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Genthod, Bellevue, Collex-Bossy.",
+      "h1": "Nettoyage de fin de bail à Versoix"
+    },
+    "/demenagement-renens": {
+      "title": "Déménagement Renens - Devis en 30 min | Batimove",
+      "description": "Déménagement à Renens : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Crissier, Ecublens.",
+      "h1": "Déménagement à Renens"
+    },
+    "/demenagement-nyon": {
+      "title": "Déménagement Nyon - Devis en 30 min | Batimove",
+      "description": "Déménagement à Nyon : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Prangins, Gland, Rolle.",
+      "h1": "Déménagement à Nyon"
+    },
+    "/demenagement-morges": {
+      "title": "Déménagement Morges - Devis en 30 min | Batimove",
+      "description": "Déménagement à Morges : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Tolochenaz, Préverenges, Saint-Prex.",
+      "h1": "Déménagement à Morges"
+    },
+    "/demenagement-vevey": {
+      "title": "Déménagement Vevey - Devis en 30 min | Batimove",
+      "description": "Déménagement à Vevey : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : La Tour-de-Peilz, Corseaux.",
+      "h1": "Déménagement à Vevey"
+    },
+    "/demenagement-montreux": {
+      "title": "Déménagement Montreux - Devis en 30 min | Batimove",
+      "description": "Déménagement à Montreux : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Clarens, Territet, Glion.",
+      "h1": "Déménagement à Montreux"
+    },
+    "/demenagement-yverdon-les-bains": {
+      "title": "Déménagement Yverdon-les-Bains - Devis en 30 min | Batimove",
+      "description": "Déménagement à Yverdon-les-Bains : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Grandson, Yvonand.",
+      "h1": "Déménagement à Yverdon-les-Bains"
+    },
+    "/demenagement-gland": {
+      "title": "Déménagement Gland - Devis en 30 min | Batimove",
+      "description": "Déménagement à Gland : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Vich, Coinsins, Begnins.",
+      "h1": "Déménagement à Gland"
+    },
+    "/debarras-gland": {
+      "title": "Débarras Gland - Devis en 30 min | Batimove",
+      "description": "Débarras à Gland : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Vich, Coinsins, Begnins.",
+      "h1": "Débarras à Gland"
+    },
+    "/nettoyage-fin-de-bail-gland": {
+      "title": "Nettoyage Fin de Bail Gland | Batimove",
+      "description": "Nettoyage de fin de bail à Gland, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Vich, Coinsins, Begnins.",
+      "h1": "Nettoyage de fin de bail à Gland"
+    },
+    "/demenagement-rolle": {
+      "title": "Déménagement Rolle - Devis en 30 min | Batimove",
+      "description": "Déménagement à Rolle : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "Déménagement à Rolle"
+    },
+    "/debarras-rolle": {
+      "title": "Débarras Rolle - Devis en 30 min | Batimove",
+      "description": "Débarras à Rolle : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "Débarras à Rolle"
+    },
+    "/nettoyage-fin-de-bail-rolle": {
+      "title": "Nettoyage Fin de Bail Rolle | Batimove",
+      "description": "Nettoyage de fin de bail à Rolle, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "Nettoyage de fin de bail à Rolle"
+    },
+    "/demenagement-aubonne": {
+      "title": "Déménagement Aubonne - Devis en 30 min | Batimove",
+      "description": "Déménagement à Aubonne : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Allaman, Etoy, Lavigny.",
+      "h1": "Déménagement à Aubonne"
+    },
+    "/debarras-aubonne": {
+      "title": "Débarras Aubonne - Devis en 30 min | Batimove",
+      "description": "Débarras à Aubonne : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Allaman, Etoy, Lavigny.",
+      "h1": "Débarras à Aubonne"
+    },
+    "/nettoyage-fin-de-bail-aubonne": {
+      "title": "Nettoyage Fin de Bail Aubonne | Batimove",
+      "description": "Nettoyage de fin de bail à Aubonne, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Allaman, Etoy, Lavigny.",
+      "h1": "Nettoyage de fin de bail à Aubonne"
+    },
+    "/demenagement-fribourg": {
+      "title": "Déménagement Fribourg - Devis en 30 min | Batimove",
+      "description": "Déménagement à Fribourg : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Villars-sur-Glâne, Marly, Givisiez.",
+      "h1": "Déménagement à Fribourg"
+    },
+    "/debarras-fribourg": {
+      "title": "Débarras Fribourg - Devis en 30 min | Batimove",
+      "description": "Débarras à Fribourg : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Villars-sur-Glâne, Marly, Givisiez.",
+      "h1": "Débarras à Fribourg"
+    },
+    "/nettoyage-fin-de-bail-fribourg": {
+      "title": "Nettoyage Fin de Bail Fribourg | Batimove",
+      "description": "Nettoyage de fin de bail à Fribourg, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Villars-sur-Glâne, Marly.",
+      "h1": "Nettoyage de fin de bail à Fribourg"
+    },
+    "/demenagement-bulle": {
+      "title": "Déménagement Bulle - Devis en 30 min | Batimove",
+      "description": "Déménagement à Bulle : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "Déménagement à Bulle"
+    },
+    "/debarras-bulle": {
+      "title": "Débarras Bulle - Devis en 30 min | Batimove",
+      "description": "Débarras à Bulle : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "Débarras à Bulle"
+    },
+    "/nettoyage-fin-de-bail-bulle": {
+      "title": "Nettoyage Fin de Bail Bulle | Batimove",
+      "description": "Nettoyage de fin de bail à Bulle, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "Nettoyage de fin de bail à Bulle"
+    },
+    "/demenagement-sion": {
+      "title": "Déménagement Sion - Devis en 30 min | Batimove",
+      "description": "Déménagement à Sion : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Bramois, Savièse, Conthey.",
+      "h1": "Déménagement à Sion"
+    },
+    "/debarras-sion": {
+      "title": "Débarras Sion - Devis en 30 min | Batimove",
+      "description": "Débarras à Sion : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Bramois, Savièse, Conthey.",
+      "h1": "Débarras à Sion"
+    },
+    "/nettoyage-fin-de-bail-sion": {
+      "title": "Nettoyage Fin de Bail Sion | Batimove",
+      "description": "Nettoyage de fin de bail à Sion, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Bramois, Savièse, Conthey.",
+      "h1": "Nettoyage de fin de bail à Sion"
+    },
+    "/demenagement-martigny": {
+      "title": "Déménagement Martigny - Devis en 30 min | Batimove",
+      "description": "Déménagement à Martigny : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Martigny-Combe, Charrat, Fully.",
+      "h1": "Déménagement à Martigny"
+    },
+    "/debarras-martigny": {
+      "title": "Débarras Martigny - Devis en 30 min | Batimove",
+      "description": "Débarras à Martigny : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Martigny-Combe, Charrat, Fully.",
+      "h1": "Débarras à Martigny"
+    },
+    "/nettoyage-fin-de-bail-martigny": {
+      "title": "Nettoyage Fin de Bail Martigny | Batimove",
+      "description": "Nettoyage de fin de bail à Martigny, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Martigny-Combe, Charrat, Fully.",
+      "h1": "Nettoyage de fin de bail à Martigny"
+    },
+    "/demenagement-monthey": {
+      "title": "Déménagement Monthey - Devis en 30 min | Batimove",
+      "description": "Déménagement à Monthey : appartement, maison ou bureau. Emballage, démontage et transport, prix ferme. Également : Choëx, Collombey-Muraz, Massongex.",
+      "h1": "Déménagement à Monthey"
+    },
+    "/debarras-monthey": {
+      "title": "Débarras Monthey - Devis en 30 min | Batimove",
+      "description": "Débarras à Monthey : appartement, maison, cave ou grenier. Tri, évacuation et recyclage, prix ferme. Également : Choëx, Collombey-Muraz, Massongex.",
+      "h1": "Débarras à Monthey"
+    },
+    "/nettoyage-fin-de-bail-monthey": {
+      "title": "Nettoyage Fin de Bail Monthey | Batimove",
+      "description": "Nettoyage de fin de bail à Monthey, conforme aux exigences des régies. Retouche gratuite en cas de remarque. Également : Choëx, Collombey-Muraz, Massongex.",
+      "h1": "Nettoyage de fin de bail à Monthey"
+    },
+    "/en/removals-carouge": {
+      "title": "Removals Carouge: Free Quote | Batimove",
+      "description": "Removals in Carouge: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Vieux-Carouge, Lancy, Plan-les-Ouates.",
+      "h1": "Removals in Carouge"
+    },
+    "/en/removals-versoix": {
+      "title": "Removals Versoix: Free Quote | Batimove",
+      "description": "Removals in Versoix: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Genthod, Bellevue, Collex-Bossy.",
+      "h1": "Removals in Versoix"
+    },
+    "/en/house-clearance-versoix": {
+      "title": "House Clearance Versoix: Free Quote | Batimove",
+      "description": "House clearance in Versoix: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Genthod, Bellevue, Collex-Bossy.",
+      "h1": "House clearance in Versoix"
+    },
+    "/en/end-of-tenancy-cleaning-versoix": {
+      "title": "End of Tenancy Cleaning Versoix | Batimove",
+      "description": "End of tenancy cleaning in Versoix, to letting-agency standards. Free touch-up if anything is flagged. Also: Genthod, Bellevue, Collex-Bossy.",
+      "h1": "End of tenancy cleaning in Versoix"
+    },
+    "/en/removals-renens": {
+      "title": "Removals Renens: Free Quote | Batimove",
+      "description": "Removals in Renens: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Crissier, Ecublens, Chavannes-près-Renens.",
+      "h1": "Removals in Renens"
+    },
+    "/en/removals-nyon": {
+      "title": "Removals Nyon: Free Quote | Batimove",
+      "description": "Removals in Nyon: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Prangins, Gland, Rolle.",
+      "h1": "Removals in Nyon"
+    },
+    "/en/removals-morges": {
+      "title": "Removals Morges: Free Quote | Batimove",
+      "description": "Removals in Morges: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Tolochenaz, Préverenges, Saint-Prex.",
+      "h1": "Removals in Morges"
+    },
+    "/en/removals-vevey": {
+      "title": "Removals Vevey: Free Quote | Batimove",
+      "description": "Removals in Vevey: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: La Tour-de-Peilz, Corseaux, Corsier-sur-Vevey.",
+      "h1": "Removals in Vevey"
+    },
+    "/en/removals-montreux": {
+      "title": "Removals Montreux: Free Quote | Batimove",
+      "description": "Removals in Montreux: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Clarens, Territet, Glion.",
+      "h1": "Removals in Montreux"
+    },
+    "/en/removals-yverdon-les-bains": {
+      "title": "Removals Yverdon-les-Bains: Free Quote | Batimove",
+      "description": "Removals in Yverdon-les-Bains: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Grandson, Yvonand.",
+      "h1": "Removals in Yverdon-les-Bains"
+    },
+    "/en/removals-gland": {
+      "title": "Removals Gland: Free Quote | Batimove",
+      "description": "Removals in Gland: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Vich, Coinsins, Begnins.",
+      "h1": "Removals in Gland"
+    },
+    "/en/house-clearance-gland": {
+      "title": "House Clearance Gland: Free Quote | Batimove",
+      "description": "House clearance in Gland: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Vich, Coinsins, Begnins.",
+      "h1": "House clearance in Gland"
+    },
+    "/en/end-of-tenancy-cleaning-gland": {
+      "title": "End of Tenancy Cleaning Gland | Batimove",
+      "description": "End of tenancy cleaning in Gland, to letting-agency standards. Free touch-up if anything is flagged. Also: Vich, Coinsins, Begnins.",
+      "h1": "End of tenancy cleaning in Gland"
+    },
+    "/en/removals-rolle": {
+      "title": "Removals Rolle: Free Quote | Batimove",
+      "description": "Removals in Rolle: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "Removals in Rolle"
+    },
+    "/en/house-clearance-rolle": {
+      "title": "House Clearance Rolle: Free Quote | Batimove",
+      "description": "House clearance in Rolle: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "House clearance in Rolle"
+    },
+    "/en/end-of-tenancy-cleaning-rolle": {
+      "title": "End of Tenancy Cleaning Rolle | Batimove",
+      "description": "End of tenancy cleaning in Rolle, to letting-agency standards. Free touch-up if anything is flagged. Also: Mont-sur-Rolle, Perroy, Bursins.",
+      "h1": "End of tenancy cleaning in Rolle"
+    },
+    "/en/removals-aubonne": {
+      "title": "Removals Aubonne: Free Quote | Batimove",
+      "description": "Removals in Aubonne: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Allaman, Etoy, Lavigny.",
+      "h1": "Removals in Aubonne"
+    },
+    "/en/house-clearance-aubonne": {
+      "title": "House Clearance Aubonne: Free Quote | Batimove",
+      "description": "House clearance in Aubonne: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Allaman, Etoy, Lavigny.",
+      "h1": "House clearance in Aubonne"
+    },
+    "/en/end-of-tenancy-cleaning-aubonne": {
+      "title": "End of Tenancy Cleaning Aubonne | Batimove",
+      "description": "End of tenancy cleaning in Aubonne, to letting-agency standards. Free touch-up if anything is flagged. Also: Allaman, Etoy, Lavigny.",
+      "h1": "End of tenancy cleaning in Aubonne"
+    },
+    "/en/removals-fribourg": {
+      "title": "Removals Fribourg: Free Quote | Batimove",
+      "description": "Removals in Fribourg: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Villars-sur-Glâne, Marly, Givisiez.",
+      "h1": "Removals in Fribourg"
+    },
+    "/en/house-clearance-fribourg": {
+      "title": "House Clearance Fribourg: Free Quote | Batimove",
+      "description": "House clearance in Fribourg: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Villars-sur-Glâne, Marly, Givisiez.",
+      "h1": "House clearance in Fribourg"
+    },
+    "/en/end-of-tenancy-cleaning-fribourg": {
+      "title": "End of Tenancy Cleaning Fribourg | Batimove",
+      "description": "End of tenancy cleaning in Fribourg, to letting-agency standards. Free touch-up if anything is flagged. Also: Villars-sur-Glâne, Marly, Givisiez.",
+      "h1": "End of tenancy cleaning in Fribourg"
+    },
+    "/en/removals-bulle": {
+      "title": "Removals Bulle: Free Quote | Batimove",
+      "description": "Removals in Bulle: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "Removals in Bulle"
+    },
+    "/en/house-clearance-bulle": {
+      "title": "House Clearance Bulle: Free Quote | Batimove",
+      "description": "House clearance in Bulle: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "House clearance in Bulle"
+    },
+    "/en/end-of-tenancy-cleaning-bulle": {
+      "title": "End of Tenancy Cleaning Bulle | Batimove",
+      "description": "End of tenancy cleaning in Bulle, to letting-agency standards. Free touch-up if anything is flagged. Also: La Tour-de-Trême, Riaz, Morlon.",
+      "h1": "End of tenancy cleaning in Bulle"
+    },
+    "/en/removals-sion": {
+      "title": "Removals Sion: Free Quote | Batimove",
+      "description": "Removals in Sion: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Bramois, Savièse, Conthey.",
+      "h1": "Removals in Sion"
+    },
+    "/en/house-clearance-sion": {
+      "title": "House Clearance Sion: Free Quote | Batimove",
+      "description": "House clearance in Sion: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Bramois, Savièse, Conthey.",
+      "h1": "House clearance in Sion"
+    },
+    "/en/end-of-tenancy-cleaning-sion": {
+      "title": "End of Tenancy Cleaning Sion | Batimove",
+      "description": "End of tenancy cleaning in Sion, to letting-agency standards. Free touch-up if anything is flagged. Also: Bramois, Savièse, Conthey.",
+      "h1": "End of tenancy cleaning in Sion"
+    },
+    "/en/removals-martigny": {
+      "title": "Removals Martigny: Free Quote | Batimove",
+      "description": "Removals in Martigny: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Martigny-Combe, Charrat, Fully.",
+      "h1": "Removals in Martigny"
+    },
+    "/en/house-clearance-martigny": {
+      "title": "House Clearance Martigny: Free Quote | Batimove",
+      "description": "House clearance in Martigny: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Martigny-Combe, Charrat, Fully.",
+      "h1": "House clearance in Martigny"
+    },
+    "/en/end-of-tenancy-cleaning-martigny": {
+      "title": "End of Tenancy Cleaning Martigny | Batimove",
+      "description": "End of tenancy cleaning in Martigny, to letting-agency standards. Free touch-up if anything is flagged. Also: Martigny-Combe, Charrat, Fully.",
+      "h1": "End of tenancy cleaning in Martigny"
+    },
+    "/en/removals-monthey": {
+      "title": "Removals Monthey: Free Quote | Batimove",
+      "description": "Removals in Monthey: flats, houses and offices. Packing, dismantling and transport at a fixed price. Also: Choëx, Collombey-Muraz, Massongex.",
+      "h1": "Removals in Monthey"
+    },
+    "/en/house-clearance-monthey": {
+      "title": "House Clearance Monthey: Free Quote | Batimove",
+      "description": "House clearance in Monthey: flats, houses, cellars and attics. Sorting, removal and recycling at a fixed price. Also: Choëx, Collombey-Muraz, Massongex.",
+      "h1": "House clearance in Monthey"
+    },
+    "/en/end-of-tenancy-cleaning-monthey": {
+      "title": "End of Tenancy Cleaning Monthey | Batimove",
+      "description": "End of tenancy cleaning in Monthey, to letting-agency standards. Free touch-up if anything is flagged. Also: Choëx, Collombey-Muraz, Massongex.",
+      "h1": "End of tenancy cleaning in Monthey"
+    },
+    "/demenagement-france": {
+      "title": "Déménagement France depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et la France : Paris, Lyon, Annecy, Annemasse… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et la France"
+    },
+    "/en/moving-to-france": {
+      "title": "Removals to France from Switzerland | Batimove",
+      "description": "Removals between Switzerland and France: Paris, Lyon, Annecy, Annemasse… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and France"
+    },
+    "/demenagement-italie": {
+      "title": "Déménagement Italie depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et l'Italie : Milan, Turin, Aoste, Côme… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et l'Italie"
+    },
+    "/en/moving-to-italy": {
+      "title": "Removals to Italy from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Italy: Milan, Turin, Aosta, Como… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Italy"
+    },
+    "/demenagement-portugal": {
+      "title": "Déménagement Portugal depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et le Portugal : Lisbonne, Porto, Braga, Coimbra… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et le Portugal"
+    },
+    "/en/moving-to-portugal": {
+      "title": "Removals to Portugal from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Portugal: Lisbon, Porto, Braga, Coimbra… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Portugal"
+    },
+    "/demenagement-espagne": {
+      "title": "Déménagement Espagne depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et l'Espagne : Barcelone, Madrid, Valence, Alicante… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et l'Espagne"
+    },
+    "/en/moving-to-spain": {
+      "title": "Removals to Spain from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Spain: Barcelona, Madrid, Valencia, Alicante… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Spain"
+    },
+    "/demenagement-allemagne": {
+      "title": "Déménagement Allemagne depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et l'Allemagne : Munich, Stuttgart… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et l'Allemagne"
+    },
+    "/en/moving-to-germany": {
+      "title": "Removals to Germany from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Germany: Munich, Stuttgart, Freiburg, Frankfurt… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Germany"
+    },
+    "/demenagement-belgique": {
+      "title": "Déménagement Belgique depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et la Belgique : Bruxelles, Anvers, Gand, Liège… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et la Belgique"
+    },
+    "/en/moving-to-belgium": {
+      "title": "Removals to Belgium from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Belgium: Brussels, Antwerp, Ghent, Liège… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Belgium"
+    },
+    "/demenagement-pays-bas": {
+      "title": "Déménagement Pays-Bas depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et les Pays-Bas : Amsterdam, Rotterdam, La Haye… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et les Pays-Bas"
+    },
+    "/en/moving-to-the-netherlands": {
+      "title": "Removals to the Netherlands from Switzerland | Batimove",
+      "description": "Removals between Switzerland and the Netherlands: Amsterdam, Rotterdam, The Hague… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and the Netherlands"
+    },
+    "/demenagement-luxembourg": {
+      "title": "Déménagement Luxembourg depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et le Luxembourg : Luxembourg-ville, Kirchberg… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et le Luxembourg"
+    },
+    "/en/moving-to-luxembourg": {
+      "title": "Removals to Luxembourg from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Luxembourg: Luxembourg City, Kirchberg, Strassen… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Luxembourg"
+    },
+    "/demenagement-autriche": {
+      "title": "Déménagement Autriche depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et l'Autriche : Vienne, Innsbruck, Salzbourg, Graz… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et l'Autriche"
+    },
+    "/en/moving-to-austria": {
+      "title": "Removals to Austria from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Austria: Vienna, Innsbruck, Salzburg, Graz… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Austria"
+    },
+    "/demenagement-monaco": {
+      "title": "Déménagement Monaco depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et Monaco : Monte-Carlo, Fontvieille, La Condamine… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et Monaco"
+    },
+    "/en/moving-to-monaco": {
+      "title": "Removals to Monaco from Switzerland | Batimove",
+      "description": "Removals between Switzerland and Monaco: Monte Carlo, Fontvieille, La Condamine… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and Monaco"
+    },
+    "/demenagement-royaume-uni": {
+      "title": "Déménagement Royaume-Uni depuis la Suisse | Batimove",
+      "description": "Déménagement entre la Suisse et le Royaume-Uni : Londres, Oxford, Cambridge… Emballage, transport et aide pour la douane. Devis gratuit, prix ferme.",
+      "h1": "Déménagement entre la Suisse et le Royaume-Uni"
+    },
+    "/en/moving-to-the-uk": {
+      "title": "Removals to the United Kingdom from Switzerland | Batimove",
+      "description": "Removals between Switzerland and the United Kingdom: London, Oxford, Cambridge… Packing, transport and help with customs. Free quote, fixed price.",
+      "h1": "Removals between Switzerland and the United Kingdom"
     }
   }
 }

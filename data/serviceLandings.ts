@@ -21,10 +21,62 @@ export interface ServiceLanding {
   faq: { question: string; answer: string }[];
 }
 
-export type ServiceLandingId = 'debarras' | 'nettoyage' | 'garde-meubles';
+export type ServiceLandingId = 'demenagement' | 'debarras' | 'nettoyage' | 'garde-meubles';
 
 /** Versão francesa (idioma de origem). */
 export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
+  // Só usada pelas páginas por cidade (/demenagement-nyon…); o hub é /services?type=prive.
+  // Afirmações já feitas no site: emballage et déballage, démontage, monte-meubles,
+  // protection des parties communes, autorisation de stationnement, cartons livrés,
+  // garde-meubles, RC Pro 5M, prix ferme, devis sous 30 min.
+  demenagement: {
+    serviceId: 'prive',
+    path: '/services?type=prive',
+    seoTitle: 'Déménagement privé | Batimove',
+    seoDescription: 'Déménagement privé en Suisse romande : emballage, démontage, transport et livraison. Prix ferme, devis gratuit sous 30 min.',
+    breadcrumb: 'Déménagement',
+    hero: {
+      src: '/hero-debarras.jpg',
+      srcSmall: '/hero-debarras-sm.jpg',
+      width: 1920,
+      height: 1072,
+      alt: 'Deux déménageurs sortent un fauteuil emballé d’un immeuble vers une camionnette',
+      position: '50% 55%',
+    },
+    h1: 'Déménagement',
+    lead: 'Appartement, maison ou bureau : nous emballons, démontons, transportons et livrons à la nouvelle adresse, à la date convenue.',
+    included: [
+      'Emballage et déballage, cartons livrés chez vous',
+      'Démontage des meubles et protection du mobilier',
+      'Sols, murs et cages d’escalier protégés',
+      'Autorisation de stationnement demandée pour vous',
+      'Monte-meubles si l’accès l’exige',
+      'Garde-meubles entre deux logements',
+    ],
+    steps: [
+      { title: 'Devis gratuit sous 30 min', text: 'Décrivez le logement, les accès et la date. Vous recevez un prix ferme, de 8h à 19h.' },
+      { title: 'Préparation', text: 'Cartons livrés, autorisation de stationnement demandée, équipe et camion choisis selon les accès.' },
+      { title: 'Le jour J', text: 'Emballage, chargement, transport et livraison à la nouvelle adresse, avec un interlocuteur joignable 7j/7.' },
+    ],
+    faq: [
+      {
+        question: 'Le prix peut-il changer le jour du déménagement ?',
+        answer: 'Non. Une fois le devis accepté, le prix est ferme : aucun surcoût ne vous sera facturé.',
+      },
+      {
+        question: 'De quoi dépend le prix ?',
+        answer: 'Du volume à déménager, des accès (étages, ascenseur, distance au camion), de la date et des options choisies, comme l’emballage ou le monte-meubles.',
+      },
+      {
+        question: 'Pouvez-vous stocker mes meubles si mon nouveau logement n’est pas prêt ?',
+        answer: 'Oui, dans notre garde-meubles à Genève, pour quelques semaines ou plusieurs mois.',
+      },
+      {
+        question: 'Pouvez-vous aussi nettoyer l’ancien logement ?',
+        answer: 'Oui. Nous organisons le nettoyage de fin de bail après le déménagement, pour que le logement soit prêt pour l’état des lieux.',
+      },
+    ],
+  },
   debarras: {
     serviceId: 'debarras',
     path: '/debarras',
@@ -186,6 +238,49 @@ export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
  * por lp() para chegar ao endereço em inglês. Fotos iguais, só o alt muda.
  */
 export const SERVICE_LANDINGS_EN: Record<ServiceLandingId, ServiceLanding> = {
+  demenagement: {
+    ...SERVICE_LANDINGS.demenagement,
+    seoTitle: 'Home Removals | Batimove',
+    seoDescription: 'Home removals in French-speaking Switzerland: packing, dismantling, transport and delivery. Fixed price, free quote within 30 min.',
+    breadcrumb: 'Removals',
+    hero: {
+      ...SERVICE_LANDINGS.demenagement.hero,
+      alt: 'Two removal workers carrying a wrapped armchair out of a building towards a van',
+    },
+    h1: 'Removals',
+    lead: 'Flat, house or office: we pack, dismantle, transport and deliver to your new address on the agreed date.',
+    included: [
+      'Packing and unpacking, boxes delivered to your door',
+      'Furniture dismantling and protection',
+      'Floors, walls and stairwells protected',
+      'Parking permit requested for you',
+      'Furniture lift if the access requires it',
+      'Storage between two homes',
+    ],
+    steps: [
+      { title: 'Free quote within 30 min', text: 'Tell us about the property, the access and the date. You get a fixed price, between 8am and 7pm.' },
+      { title: 'Preparation', text: 'Boxes delivered, parking permit requested, team and lorry chosen to suit the access.' },
+      { title: 'Moving day', text: 'Packing, loading, transport and delivery to your new address, with a contact you can reach 7 days a week.' },
+    ],
+    faq: [
+      {
+        question: 'Can the price change on moving day?',
+        answer: 'No. Once you accept the quote the price is fixed: you will not be charged anything extra.',
+      },
+      {
+        question: 'What does the price depend on?',
+        answer: 'The volume to move, the access (floors, lift, distance to the lorry), the date and the options you choose, such as packing or a furniture lift.',
+      },
+      {
+        question: 'Can you store my furniture if my new home is not ready?',
+        answer: 'Yes, in our storage facility in Geneva, for a few weeks or several months.',
+      },
+      {
+        question: 'Can you also clean the old home?',
+        answer: 'Yes. We arrange the end of tenancy cleaning after the move, so the property is ready for the check-out inspection.',
+      },
+    ],
+  },
   debarras: {
     ...SERVICE_LANDINGS.debarras,
     seoTitle: 'House Clearance Geneva & Vaud | Free Quote in 30 min',

@@ -1,5 +1,5 @@
 {
-  "_comment": "Pares de rotas FR <-> EN. Fonte única para o roteador (App.tsx), o botão FR/EN, o hreflang do prerender, o sitemap e os rewrites do vercel.json. As páginas locais (débarras e nettoyage por cidade) vêm de serviceLocalities.json (campo enSlug). Depois de editar: node scripts/sync-localities.mjs",
+  "_comment": "Pares de rotas FR <-> EN. Fonte única para o roteador (App.tsx), o botão FR/EN, o hreflang do prerender, o sitemap e os rewrites do vercel.json. As páginas locais (déménagement, débarras e nettoyage por cidade) vêm de serviceLocalities.json (campo enSlug) com os prefixos [fr, en] de \"local\"; uma página local cujo caminho francês já está em \"static\" (ex. /demenagement-geneve) é a página própria e não é gerada. Depois de editar: node scripts/sync-localities.mjs",
   "static": [
     ["/", "/en"],
     ["/services", "/en/services"],
@@ -8,6 +8,17 @@
     ["/garde-meubles", "/en/storage"],
     ["/demenagement-international", "/en/international-removals"],
     ["/demenagement-londres", "/en/moving-to-london"],
+    ["/demenagement-france", "/en/moving-to-france"],
+    ["/demenagement-italie", "/en/moving-to-italy"],
+    ["/demenagement-portugal", "/en/moving-to-portugal"],
+    ["/demenagement-espagne", "/en/moving-to-spain"],
+    ["/demenagement-allemagne", "/en/moving-to-germany"],
+    ["/demenagement-belgique", "/en/moving-to-belgium"],
+    ["/demenagement-pays-bas", "/en/moving-to-the-netherlands"],
+    ["/demenagement-luxembourg", "/en/moving-to-luxembourg"],
+    ["/demenagement-autriche", "/en/moving-to-austria"],
+    ["/demenagement-monaco", "/en/moving-to-monaco"],
+    ["/demenagement-royaume-uni", "/en/moving-to-the-uk"],
     ["/demenagement-geneve", "/en/removals-geneva"],
     ["/demenagement-lausanne", "/en/removals-lausanne"],
     ["/demenagement-vaud", "/en/removals-vaud"],
@@ -20,7 +31,8 @@
     ["/privacy", "/en/privacy"]
   ],
   "local": {
-    "debarras": "/en/house-clearance-",
-    "nettoyage": "/en/end-of-tenancy-cleaning-"
+    "demenagement": ["/demenagement-", "/en/removals-"],
+    "debarras": ["/debarras-", "/en/house-clearance-"],
+    "nettoyage": ["/nettoyage-fin-de-bail-", "/en/end-of-tenancy-cleaning-"]
   }
 }

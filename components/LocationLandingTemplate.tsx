@@ -26,10 +26,71 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { Button, buttonClass } from './UIComponents';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SEO } from './SEO';
 import { GOOGLE_RATING } from '../data/reviews';
-import { defineCopy, useLang } from '../i18n';
+import { alternatePath, defineCopy, useLang } from '../i18n';
+import { CANTONS, LOCALITIES, cantonOf, localPath, localizeLocality } from '../data/localities';
+
+/** Links para todas as páginas de mudança por cidade (mesma malha das páginas geradas). */
+const NEAR_COPY = defineCopy(
+  {
+    title: 'Déménagement près de chez vous',
+    canton: (of: string) => `Canton ${of}`,
+    link: (name: string, isCanton: boolean) => (isCanton ? `Tout le canton ${name}` : name),
+  },
+  {
+    title: 'Removals near you',
+    canton: (of: string) => `Canton ${of}`,
+    link: (name: string, isCanton: boolean) => (isCanton ? `The whole canton ${name}` : name),
+  }
+);
+
+const MovesNearYou: React.FC = () => {
+  const { lang, lp } = useLang();
+  const { pathname } = useLocation();
+  const current = alternatePath(pathname, 'fr');
+  const k = NEAR_COPY[lang];
+  return (
+    <section aria-labelledby="near-title" className="border-b border-slate-200 bg-[#F8FAFC] py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 id="near-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
+          {k.title}
+        </h2>
+        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
+          {CANTONS.map((canton) => (
+            <div key={canton.id}>
+              <p className="text-sm font-semibold text-slate-500">{k.canton(cantonOf(canton.id, lang))}</p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {LOCALITIES.filter((l) => l.canton === canton.id).map((raw) => {
+                  const l = localizeLocality(raw, lang);
+                  const to = localPath('demenagement', raw.slug);
+                  const label = k.link(raw.kind === 'canton' ? cantonOf(canton.id, lang) : l.name, raw.kind === 'canton');
+                  return (
+                    <li key={raw.slug}>
+                      {to === current ? (
+                        <span aria-current="page" className="inline-flex h-10 items-center rounded-lg bg-[#0B1E33] px-3.5 text-base font-semibold text-white">
+                          {label}
+                        </span>
+                      ) : (
+                        <Link
+                          to={lp(to)}
+                          className="inline-flex h-10 items-center rounded-lg border border-slate-200 bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 hover:border-[#0B1E33] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
+                        >
+                          {label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 // Duotone Icons matching Home.tsx
 const ParachuteCargoIcon: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => (
@@ -640,6 +701,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
         </div>
       </section>
+
+      <MovesNearYou />
 
       {/* =========================================================================
           SECTION 7: FINAL HIGH-IMPACT LUXURY CTA

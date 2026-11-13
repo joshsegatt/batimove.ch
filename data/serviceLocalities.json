@@ -1,15 +1,33 @@
 {
-  "_comment": "Localidades das páginas locais de Débarras e Nettoyage (/debarras-<slug>, /nettoyage-fin-de-bail-<slug>). Só geografia real e afirmações já feitas no site. Título e descrição de cada rota ficam em seoRoutes.json; rotas, sitemap e vercel.json são gerados a partir desta lista.",
+  "_comment": "Localidades das páginas locais de Déménagement, Débarras e Nettoyage (/demenagement-<slug>, /debarras-<slug>, /nettoyage-fin-de-bail-<slug>). Só geografia real e afirmações já feitas no site (zona de atuação: Genève, Vaud, Fribourg, Valais). Genève, Lausanne e Vaud têm página de mudança própria (pages/locations); as outras são geradas. Título e descrição de cada rota ficam em seoRoutes.json; rotas, sitemap e vercel.json são gerados a partir desta lista: node scripts/sync-localities.mjs",
   "cantons": [
     {
       "id": "geneve",
       "name": "Genève",
-      "nameEn": "Geneva"
+      "nameEn": "Geneva",
+      "of": "de Genève",
+      "ofEn": "of Geneva"
     },
     {
       "id": "vaud",
       "name": "Vaud",
-      "nameEn": "Vaud"
+      "nameEn": "Vaud",
+      "of": "de Vaud",
+      "ofEn": "of Vaud"
+    },
+    {
+      "id": "fribourg",
+      "name": "Fribourg",
+      "nameEn": "Fribourg",
+      "of": "de Fribourg",
+      "ofEn": "of Fribourg"
+    },
+    {
+      "id": "valais",
+      "name": "Valais",
+      "nameEn": "Valais",
+      "of": "du Valais",
+      "ofEn": "of Valais"
     }
   ],
   "localities": [
@@ -53,7 +71,6 @@
           "text": "Ruelles pavées, accès piétons et escaliers étroits : nos équipes protègent sols, murs et cages d'escalier avant de commencer."
         }
       ],
-      "movePage": "/demenagement-geneve",
       "enSlug": "geneva",
       "en": {
         "name": "Geneva",
@@ -123,7 +140,6 @@
           "text": "Rues étroites et immeubles anciens : nous protégeons les parties communes et organisons l'accès en conséquence."
         }
       ],
-      "movePage": "/demenagement-geneve",
       "enSlug": "carouge",
       "en": {
         "name": "Carouge",
@@ -149,6 +165,52 @@
           {
             "title": "The streets of Vieux-Carouge",
             "text": "Narrow streets and older buildings: we protect the communal areas and plan access accordingly."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "versoix",
+      "name": "Versoix",
+      "prep": "à Versoix",
+      "canton": "geneve",
+      "kind": "commune genevoise",
+      "intro": "À Versoix et sur la rive droite du lac, entre Genève et la frontière vaudoise.",
+      "areasTitle": "Versoix et communes voisines",
+      "areas": [
+        "Versoix",
+        "Genthod",
+        "Bellevue",
+        "Collex-Bossy",
+        "Pregny-Chambésy",
+        "Le Grand-Saconnex",
+        "Céligny"
+      ],
+      "notes": [
+        {
+          "title": "Bord du lac et centre",
+          "text": "Maisons avec jardin au bord du lac ou appartements près de la gare : nous adaptons l'équipe et le camion à chaque accès."
+        },
+        {
+          "title": "Stationnement à Versoix",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la police et de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "versoix",
+      "en": {
+        "name": "Versoix",
+        "prep": "in Versoix",
+        "kind": "Geneva municipality",
+        "intro": "In Versoix and along the right bank of the lake, between Geneva and the Vaud border.",
+        "areasTitle": "Versoix and neighbouring municipalities",
+        "notes": [
+          {
+            "title": "Lakeside and town centre",
+            "text": "Houses with gardens by the lake or flats near the station: we match the team and the lorry to every access."
+          },
+          {
+            "title": "Parking in Versoix",
+            "text": "We apply for the parking permit from the police and the municipality, so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -186,7 +248,6 @@
           "text": "Appartements en ville, maisons de village ou villas : nos équipes s'adaptent aux accès et protègent les parties communes."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "vaud",
       "en": {
         "name": "Vaud",
@@ -238,7 +299,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la Ville, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-lausanne",
       "enSlug": "lausanne",
       "en": {
         "name": "Lausanne",
@@ -299,7 +359,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-lausanne",
       "enSlug": "renens",
       "en": {
         "name": "Renens",
@@ -347,7 +406,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "nyon",
       "en": {
         "name": "Nyon",
@@ -394,7 +452,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "morges",
       "en": {
         "name": "Morges",
@@ -440,7 +497,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "vevey",
       "en": {
         "name": "Vevey",
@@ -487,7 +543,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "montreux",
       "en": {
         "name": "Montreux",
@@ -533,7 +588,6 @@
           "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
         }
       ],
-      "movePage": "/demenagement-vaud",
       "enSlug": "yverdon-les-bains",
       "en": {
         "name": "Yverdon-les-Bains",
@@ -548,6 +602,378 @@
           },
           {
             "title": "Parking in Yverdon-les-Bains",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "gland",
+      "name": "Gland",
+      "prep": "à Gland",
+      "canton": "vaud",
+      "kind": "ville",
+      "intro": "À Gland et dans les communes de La Côte, entre Nyon et Rolle.",
+      "areasTitle": "Gland et environs",
+      "areas": [
+        "Gland",
+        "Vich",
+        "Coinsins",
+        "Begnins",
+        "Prangins",
+        "Dully",
+        "Bursinel"
+      ],
+      "notes": [
+        {
+          "title": "Immeubles récents et maisons",
+          "text": "Appartements avec ascenseur ou maisons avec jardin : nos équipes s'adaptent à chaque accès."
+        },
+        {
+          "title": "Stationnement à Gland",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "gland",
+      "en": {
+        "name": "Gland",
+        "prep": "in Gland",
+        "kind": "town",
+        "intro": "In Gland and the municipalities of La Côte, between Nyon and Rolle.",
+        "areasTitle": "Gland and the surrounding area",
+        "notes": [
+          {
+            "title": "Newer buildings and houses",
+            "text": "Flats with a lift or houses with a garden: our teams adapt to every access."
+          },
+          {
+            "title": "Parking in Gland",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "rolle",
+      "name": "Rolle",
+      "prep": "à Rolle",
+      "canton": "vaud",
+      "kind": "ville",
+      "intro": "À Rolle et dans les villages viticoles de La Côte.",
+      "areasTitle": "Rolle et villages voisins",
+      "areas": [
+        "Rolle",
+        "Mont-sur-Rolle",
+        "Perroy",
+        "Bursins",
+        "Gilly",
+        "Allaman",
+        "Tartegnin"
+      ],
+      "notes": [
+        {
+          "title": "Grand-Rue et maisons dans les vignes",
+          "text": "Immeubles anciens du centre ou maisons de village : nous protégeons sols, murs et cages d’escalier avant de commencer."
+        },
+        {
+          "title": "Stationnement à Rolle",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "rolle",
+      "en": {
+        "name": "Rolle",
+        "prep": "in Rolle",
+        "kind": "town",
+        "intro": "In Rolle and the wine villages of La Côte.",
+        "areasTitle": "Rolle and nearby villages",
+        "notes": [
+          {
+            "title": "Grand-Rue and vineyard houses",
+            "text": "Older buildings in the centre or village houses: we protect floors, walls and stairwells before we start."
+          },
+          {
+            "title": "Parking in Rolle",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "aubonne",
+      "name": "Aubonne",
+      "prep": "à Aubonne",
+      "canton": "vaud",
+      "kind": "ville",
+      "intro": "À Aubonne et dans les communes entre le lac et le pied du Jura.",
+      "areasTitle": "Aubonne et environs",
+      "areas": [
+        "Aubonne",
+        "Allaman",
+        "Etoy",
+        "Lavigny",
+        "Féchy",
+        "Saint-Livres",
+        "Gimel"
+      ],
+      "notes": [
+        {
+          "title": "Un bourg en pente",
+          "text": "Rues étroites et en pente du bourg : nous choisissons le camion et l'équipe selon l'accès de votre logement."
+        },
+        {
+          "title": "Stationnement à Aubonne",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "aubonne",
+      "en": {
+        "name": "Aubonne",
+        "prep": "in Aubonne",
+        "kind": "town",
+        "intro": "In Aubonne and the municipalities between the lake and the foot of the Jura.",
+        "areasTitle": "Aubonne and the surrounding area",
+        "notes": [
+          {
+            "title": "A hillside town",
+            "text": "Narrow, sloping streets in the old town: we choose the lorry and the team to suit the access to your home."
+          },
+          {
+            "title": "Parking in Aubonne",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "fribourg",
+      "name": "Fribourg",
+      "prep": "à Fribourg",
+      "canton": "fribourg",
+      "kind": "ville",
+      "intro": "À Fribourg et dans l'agglomération, de la Basse-Ville aux communes voisines.",
+      "areasTitle": "Fribourg et agglomération",
+      "areas": [
+        "Fribourg",
+        "Villars-sur-Glâne",
+        "Marly",
+        "Givisiez",
+        "Granges-Paccot",
+        "Belfaux",
+        "Corminboeuf",
+        "Guin"
+      ],
+      "notes": [
+        {
+          "title": "Basse-Ville et vieille ville",
+          "text": "Rues pavées, pentes et escaliers entre la Basse-Ville et le haut de la ville : nos équipes préparent chaque accès avant de commencer."
+        },
+        {
+          "title": "Stationnement à Fribourg",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la ville, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "fribourg",
+      "en": {
+        "name": "Fribourg",
+        "prep": "in Fribourg",
+        "kind": "city",
+        "intro": "In Fribourg and the surrounding area, from the Lower Town to the neighbouring municipalities.",
+        "areasTitle": "Fribourg and the surrounding area",
+        "notes": [
+          {
+            "title": "Lower Town and old town",
+            "text": "Cobbled streets, slopes and stairs between the Lower Town and the upper town: our teams prepare every access before they start."
+          },
+          {
+            "title": "Parking in Fribourg",
+            "text": "We apply for the parking permit from the city, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "bulle",
+      "name": "Bulle",
+      "prep": "à Bulle",
+      "canton": "fribourg",
+      "kind": "ville",
+      "intro": "À Bulle et dans toute la Gruyère.",
+      "areasTitle": "Bulle et la Gruyère",
+      "areas": [
+        "Bulle",
+        "La Tour-de-Trême",
+        "Riaz",
+        "Morlon",
+        "Vuadens",
+        "Le Pâquier",
+        "Gruyères",
+        "Broc"
+      ],
+      "notes": [
+        {
+          "title": "Ville et villages de la Gruyère",
+          "text": "Appartements en ville, fermes ou chalets dans les villages : nous adaptons l'équipe et le camion à chaque accès."
+        },
+        {
+          "title": "Stationnement à Bulle",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "bulle",
+      "en": {
+        "name": "Bulle",
+        "prep": "in Bulle",
+        "kind": "town",
+        "intro": "In Bulle and throughout the Gruyère region.",
+        "areasTitle": "Bulle and the Gruyère",
+        "notes": [
+          {
+            "title": "Town and Gruyère villages",
+            "text": "Flats in town, farmhouses or chalets in the villages: we match the team and the lorry to every access."
+          },
+          {
+            "title": "Parking in Bulle",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sion",
+      "name": "Sion",
+      "prep": "à Sion",
+      "canton": "valais",
+      "kind": "ville",
+      "intro": "À Sion et dans le Valais central, de la vieille ville aux coteaux.",
+      "areasTitle": "Sion et Valais central",
+      "areas": [
+        "Sion",
+        "Bramois",
+        "Savièse",
+        "Conthey",
+        "Vétroz",
+        "Grimisuat",
+        "Ayent",
+        "Saint-Léonard"
+      ],
+      "notes": [
+        {
+          "title": "Vieille ville et coteaux",
+          "text": "Ruelles de la vieille ville ou maisons sur les coteaux : nous choisissons le camion et l'équipe selon la route et l'accès."
+        },
+        {
+          "title": "Stationnement à Sion",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la ville, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "sion",
+      "en": {
+        "name": "Sion",
+        "prep": "in Sion",
+        "kind": "city",
+        "intro": "In Sion and central Valais, from the old town to the hillsides.",
+        "areasTitle": "Sion and central Valais",
+        "notes": [
+          {
+            "title": "Old town and hillsides",
+            "text": "Lanes in the old town or houses on the hillsides: we choose the lorry and the team to suit the road and the access."
+          },
+          {
+            "title": "Parking in Sion",
+            "text": "We apply for the parking permit from the city, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "martigny",
+      "name": "Martigny",
+      "prep": "à Martigny",
+      "canton": "valais",
+      "kind": "ville",
+      "intro": "À Martigny et dans les communes voisines, de la plaine du Rhône aux vallées.",
+      "areasTitle": "Martigny et environs",
+      "areas": [
+        "Martigny",
+        "Martigny-Combe",
+        "Charrat",
+        "Fully",
+        "Saxon",
+        "Saillon",
+        "Vernayaz",
+        "Bovernier"
+      ],
+      "notes": [
+        {
+          "title": "Plaine du Rhône et vallées",
+          "text": "Appartements en ville ou maisons dans les villages des vallées : nous choisissons le camion selon la route et l’accès."
+        },
+        {
+          "title": "Stationnement à Martigny",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "martigny",
+      "en": {
+        "name": "Martigny",
+        "prep": "in Martigny",
+        "kind": "town",
+        "intro": "In Martigny and the neighbouring municipalities, from the Rhône plain to the valleys.",
+        "areasTitle": "Martigny and the surrounding area",
+        "notes": [
+          {
+            "title": "Rhône plain and valleys",
+            "text": "Flats in town or houses in the valley villages: we choose the lorry to suit the road and the access."
+          },
+          {
+            "title": "Parking in Martigny",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
+    },
+    {
+      "slug": "monthey",
+      "name": "Monthey",
+      "prep": "à Monthey",
+      "canton": "valais",
+      "kind": "ville",
+      "intro": "À Monthey et dans le Chablais valaisan.",
+      "areasTitle": "Monthey et Chablais",
+      "areas": [
+        "Monthey",
+        "Choëx",
+        "Collombey-Muraz",
+        "Massongex",
+        "Vionnaz",
+        "Troistorrents",
+        "Saint-Maurice"
+      ],
+      "notes": [
+        {
+          "title": "Chablais et val d'Illiez",
+          "text": "Du centre de Monthey aux villages du val d'Illiez : nous choisissons le camion selon la route et l'accès."
+        },
+        {
+          "title": "Stationnement à Monthey",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "enSlug": "monthey",
+      "en": {
+        "name": "Monthey",
+        "prep": "in Monthey",
+        "kind": "town",
+        "intro": "In Monthey and the Valais Chablais.",
+        "areasTitle": "Monthey and the Chablais",
+        "notes": [
+          {
+            "title": "Chablais and the Val d'Illiez",
+            "text": "From the centre of Monthey to the villages of the Val d'Illiez: we choose the lorry to suit the road and the access."
+          },
+          {
+            "title": "Parking in Monthey",
             "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
           }
         ]
