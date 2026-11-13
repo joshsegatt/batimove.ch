@@ -6,13 +6,61 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BrandLogo } from './BrandMark';
 import { WhatsappIcon } from './WhatsAppButton';
 import { QUOTE_SERVICES, localizeQuoteService } from '../data/quoteServices';
-import { alternatePath, defineCopy, useLang } from '../i18n';
+import { alternatePath, defineCopy, useLang, type Lang } from '../i18n';
+import { LOCALITIES, localPath, localizeLocality } from '../data/localities';
+import { COUNTRIES } from '../data/countries';
 
 // Navegação principal. Estrutura inspirada na Helvetia (menu por serviço, com um
-// painel dedicado "Déménagement"), no estilo Batimove e só com páginas que existem.
+// painel dedicado "Déménagement" que lista todas as páginas de mudança por cidade
+// e por país), no estilo Batimove e só com páginas que existem.
 // Os caminhos (`to`) são sempre franceses e passam por lp() na hora de renderizar.
-type MenuRegion = { label: string; hint: string; to: string };
 type MenuLink = { label: string; to: string; xlOnly?: boolean };
+/** Link de mudança: rótulo curto no menu ("Nyon") e completo no rodapé ("Déménagement Nyon"). */
+type MoveLink = MenuLink & { full: string };
+
+const MOVE_LINKS_COPY = defineCopy(
+  {
+    canton: (name: string) => `Canton de ${name}`,
+    move: (name: string) => `Déménagement ${name}`,
+    moveTo: (p: { name: string; enTo: string }) => `Déménagement ${p.name}`,
+    international: 'Tous les pays',
+    internationalFull: 'Déménagement international',
+    london: 'Genève – Londres',
+  },
+  {
+    canton: (name: string) => `Canton of ${name}`,
+    move: (name: string) => `Removals ${name}`,
+    moveTo: (p: { name: string; enTo: string }) => `Removals to ${p.enTo}`,
+    international: 'All countries',
+    internationalFull: 'International removals',
+    london: 'Geneva – London',
+  }
+);
+
+/** Páginas de mudança na Suíça, uma por localidade (Genève, Nyon, Sion…). */
+const swissMoveLinks = (lang: Lang): MoveLink[] =>
+  LOCALITIES.map((raw) => {
+    const l = localizeLocality(raw, lang);
+    const k = MOVE_LINKS_COPY[lang];
+    return {
+      label: raw.kind === 'canton' ? k.canton(l.name) : l.name,
+      full: k.move(l.name),
+      to: localPath('demenagement', raw.slug),
+    };
+  });
+
+/** Páginas de mudança para o exterior: um link por país, mais Londres e a página geral. */
+const abroadMoveLinks = (lang: Lang): MoveLink[] => {
+  const k = MOVE_LINKS_COPY[lang];
+  return [
+    ...COUNTRIES.map((p) => {
+      const name = lang === 'en' ? p.nameEn : p.name;
+      return { label: name, full: k.moveTo(p), to: p.path };
+    }),
+    { label: k.london, full: k.london, to: '/demenagement-londres' },
+    { label: k.international, full: k.internationalFull, to: '/demenagement-international' },
+  ];
+};
 
 const NAV_COPY = defineCopy(
   {
@@ -29,20 +77,14 @@ const NAV_COPY = defineCopy(
     closeMenu: 'Fermer le menu',
     menu: 'Menu',
     ourServices: 'Nos prestations',
-    byRegion: 'Par région',
+    inSwitzerland: 'Déménagement en Suisse',
+    abroad: "Déménagement à l'étranger",
     panelTitle: 'Devis gratuit sous 30\u00a0min',
     panelText: 'Prix ferme\u00a0: aucun surcoût une fois le devis accepté. Réponse de 8h à 19h.',
     requestQuote: 'Demander un devis',
     estimateVolume: 'Estimer mon volume',
     mobileNav: 'Navigation mobile',
     requestFreeQuote: 'Demander un devis gratuit',
-    regions: [
-      { label: 'Genève', hint: 'Ville et communes du canton', to: '/demenagement-geneve' },
-      { label: 'Lausanne', hint: 'Ville et région lausannoise', to: '/demenagement-lausanne' },
-      { label: 'Canton de Vaud', hint: 'Nyon, Morges, Vevey, Montreux…', to: '/demenagement-vaud' },
-      { label: 'Déménagement international', hint: 'France, Italie, UE, Royaume-Uni', to: '/demenagement-international' },
-      { label: 'Genève – Londres', hint: 'Entre la Suisse et Londres', to: '/demenagement-londres' },
-    ] as MenuRegion[],
     links: [
       { label: 'Débarras', to: '/debarras' },
       { label: 'Nettoyage', to: '/nettoyage-fin-de-bail' },
@@ -70,20 +112,14 @@ const NAV_COPY = defineCopy(
     closeMenu: 'Close the menu',
     menu: 'Menu',
     ourServices: 'Our services',
-    byRegion: 'By region',
+    inSwitzerland: 'Removals in Switzerland',
+    abroad: 'Removals abroad',
     panelTitle: 'Free quote within 30\u00a0min',
     panelText: 'Fixed price: no extra charges once the quote is accepted. We reply from 8am to 7pm.',
     requestQuote: 'Request a quote',
     estimateVolume: 'Estimate my volume',
     mobileNav: 'Mobile navigation',
     requestFreeQuote: 'Request a free quote',
-    regions: [
-      { label: 'Geneva', hint: 'The city and the communes of the canton', to: '/demenagement-geneve' },
-      { label: 'Lausanne', hint: 'The city and the Lausanne area', to: '/demenagement-lausanne' },
-      { label: 'Canton of Vaud', hint: 'Nyon, Morges, Vevey, Montreux…', to: '/demenagement-vaud' },
-      { label: 'International removals', hint: 'France, Italy, EU, United Kingdom', to: '/demenagement-international' },
-      { label: 'Geneva – London', hint: 'Between Switzerland and London', to: '/demenagement-londres' },
-    ],
     links: [
       { label: 'House clearance', to: '/debarras' },
       { label: 'Cleaning', to: '/nettoyage-fin-de-bail' },
@@ -98,6 +134,34 @@ const NAV_COPY = defineCopy(
   }
 );
 
+/** Lista compacta de páginas de mudança no painel do menu (texto, sem ícones). */
+const MoveLinkList: React.FC<{ title: string; links: MenuLink[]; columns: 2 | 3; className?: string }> = ({
+  title,
+  links,
+  columns,
+  className = '',
+}) => {
+  const { lp } = useLang();
+  return (
+    <div className={`border-l border-slate-200 pl-8 ${className}`}>
+      <p className="text-sm font-semibold text-slate-500">{title}</p>
+      {/* Colunas de cima para baixo: a ordem segue os cantões (Genève, Vaud, Fribourg, Valais) */}
+      <ul className={`mt-3 gap-x-6 ${columns === 3 ? 'columns-3' : 'columns-2'}`}>
+        {links.map((l) => (
+          <li key={l.to} className="break-inside-avoid">
+            <Link
+              to={lp(l.to)}
+              className="-mx-2 block rounded-lg px-2 py-1.5 text-base text-[#0B1E33] transition-colors duration-150 hover:bg-slate-50 hover:underline hover:decoration-slate-300 hover:underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 export const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaOpen, setIsMegaOpen] = useState(false);
@@ -111,6 +175,8 @@ export const Navbar: React.FC = () => {
   const { lang, lp } = useLang();
   const c = NAV_COPY[lang];
   const services = QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang));
+  const swissMoves = swissMoveLinks(lang);
+  const abroadMoves = abroadMoveLinks(lang);
   // Caminho atual em francês: a mesma regra de "ativo" vale em /… e em /en/….
   const frPathname = alternatePath(location.pathname, 'fr');
 
@@ -294,15 +360,15 @@ export const Navbar: React.FC = () => {
           id={megaId}
           className="nav-panel-in absolute inset-x-0 top-full hidden border-t border-slate-200 bg-white shadow-overlay lg:block"
         >
-          <div className="mx-auto grid max-w-7xl grid-cols-12 gap-8 px-8 py-8">
-            <div className="col-span-6">
+          <div className="mx-auto grid max-w-7xl grid-cols-12 gap-8 px-8 pb-6 pt-8">
+            <div className="col-span-4">
               <p className="text-sm font-semibold text-slate-500">{c.ourServices}</p>
-              <ul className="mt-3 grid grid-cols-2 gap-1">
+              <ul className="mt-3 grid grid-cols-1 gap-0.5">
                 {services.map(({ id, label, hint, icon: Icon, page }) => (
                   <li key={id}>
                     <Link
                       to={lp(page)}
-                      className="group flex items-center gap-3.5 rounded-xl p-3 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+                      className="group -mx-3 flex items-center gap-3.5 rounded-xl px-3 py-2 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
                     >
                       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white">
                         <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
@@ -317,50 +383,29 @@ export const Navbar: React.FC = () => {
               </ul>
             </div>
 
-            <div className="col-span-3 border-l border-slate-200 pl-8">
-              <p className="text-sm font-semibold text-slate-500">{c.byRegion}</p>
-              <ul className="mt-3 space-y-1">
-                {c.regions.map((r) => (
-                  <li key={r.to}>
-                    <Link
-                      to={lp(r.to)}
-                      className="group -mx-3 flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
-                    >
-                      <span>
-                        <span className="block text-lg font-semibold text-[#0B1E33]">{r.label}</span>
-                        <span className="block text-sm text-slate-500">{r.hint}</span>
-                      </span>
-                      <ChevronRight
-                        aria-hidden="true"
-                        className="h-4 w-4 shrink-0 text-slate-300 transition-[transform,color] duration-150 group-hover:translate-x-0.5 group-hover:text-[#0B1E33]"
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <MoveLinkList title={c.inSwitzerland} links={swissMoves} columns={3} className="col-span-5" />
+            <MoveLinkList title={c.abroad} links={abroadMoves} columns={2} className="col-span-3" />
+          </div>
 
-            <div className="col-span-3">
-              <div className="flex h-full flex-col rounded-xl bg-slate-50 p-6">
-                <p className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">{c.panelTitle}</p>
-                <p className="mt-2 text-base leading-relaxed text-slate-600">
-                  {c.panelText}
-                </p>
-                <div className="mt-auto space-y-3 pt-6">
-                  <Link
-                    to={lp('/quote')}
-                    className="btn btn-md btn-primary w-full"
-                  >
-                    {c.requestQuote}
-                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
-                  <Link
-                    to={lp('/calculator')}
-                    className="block text-center text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
-                  >
-                    {c.estimateVolume}
-                  </Link>
-                </div>
+          {/* Faixa de devis */}
+          <div className="border-t border-slate-200 bg-slate-50">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-8 py-4">
+              <p className="text-base text-slate-600">
+                <span className="font-display text-lg font-medium tracking-tight text-[#0B1E33]">{c.panelTitle}</span>
+                <span className="mx-2 text-slate-300" aria-hidden="true">·</span>
+                {c.panelText}
+              </p>
+              <div className="flex shrink-0 items-center gap-6">
+                <Link
+                  to={lp('/calculator')}
+                  className="text-base font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
+                >
+                  {c.estimateVolume}
+                </Link>
+                <Link to={lp('/quote')} className="btn btn-md btn-primary">
+                  {c.requestQuote}
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
             </div>
           </div>
@@ -418,17 +463,28 @@ export const Navbar: React.FC = () => {
                 ))}
               </ul>
 
-              <p className="mt-7 text-sm font-semibold text-slate-500">{c.byRegion}</p>
-              <ul className="mt-2 overflow-hidden rounded-xl border border-slate-200">
-                {c.regions.map((r, i) => (
-                  <li key={r.to} className={i > 0 ? 'border-t border-slate-200' : ''}>
-                    <Link to={lp(r.to)} className="flex min-h-[52px] items-center justify-between px-4 text-lg font-semibold text-[#0B1E33] active:bg-slate-100">
-                      {r.label}
-                      <ChevronRight className="h-[18px] w-[18px] text-slate-300" aria-hidden="true" />
-                    </Link>
-                  </li>
+              <div className="mt-7 overflow-hidden rounded-xl border border-slate-200">
+                {[
+                  { title: c.inSwitzerland, links: swissMoves },
+                  { title: c.abroad, links: abroadMoves },
+                ].map((group, i) => (
+                  <details key={group.title} className={`group ${i > 0 ? 'border-t border-slate-200' : ''}`}>
+                    <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between px-4 text-lg font-semibold text-[#0B1E33] active:bg-slate-100 [&::-webkit-details-marker]:hidden">
+                      {group.title}
+                      <ChevronDown className="h-[18px] w-[18px] text-slate-400 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <ul className="grid grid-cols-2 gap-x-3 px-4 pb-3">
+                      {group.links.map((l) => (
+                        <li key={l.to}>
+                          <Link to={lp(l.to)} className="flex min-h-[44px] items-center text-base text-[#0B1E33] active:text-[#0284c7]">
+                            {l.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
                 ))}
-              </ul>
+              </div>
 
               <ul className="mt-7 space-y-1">
                 {c.mobileLinks.map((l) => (
@@ -473,6 +529,9 @@ const FOOTER_COPY = defineCopy(
     address: 'Rue de Monthoux 64, 1201 Genève',
     requestFreeQuote: 'Demander un devis gratuit',
     footerNav: 'Pied de page',
+    movesNav: 'Pages déménagement',
+    inSwitzerland: 'Déménagement en Suisse',
+    abroad: "Déménagement à l'étranger",
     legalLine: 'Batimove Sàrl · IDE CHE-143.091.230 · Genève, Vaud, Fribourg, Valais',
     siteBy: 'Site par joshsegatt',
     columns: [
@@ -525,6 +584,9 @@ const FOOTER_COPY = defineCopy(
     address: 'Rue de Monthoux 64, 1201 Genève',
     requestFreeQuote: 'Request a free quote',
     footerNav: 'Footer',
+    movesNav: 'Removals pages',
+    inSwitzerland: 'Removals in Switzerland',
+    abroad: 'Removals abroad',
     legalLine: 'Batimove Sàrl · UID CHE-143.091.230 · Geneva, Vaud, Fribourg, Valais',
     siteBy: 'Website by joshsegatt',
     columns: [
@@ -652,6 +714,27 @@ export const Footer: React.FC = () => {
             ))}
           </nav>
         </div>
+
+        {/* Todas as páginas de mudança (cidade e país): malha de links internos */}
+        <nav aria-label={c.movesNav} className="mt-12 grid grid-cols-1 gap-8 border-t border-white/10 pt-8 lg:grid-cols-12">
+          {[
+            { title: c.inSwitzerland, links: swissMoveLinks(lang), span: 'lg:col-span-7' },
+            { title: c.abroad, links: abroadMoveLinks(lang), span: 'lg:col-span-5' },
+          ].map((group) => (
+            <div key={group.title} className={group.span}>
+              <h2 className="font-display text-base font-semibold text-white">{group.title}</h2>
+              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                {group.links.map((l) => (
+                  <li key={l.to}>
+                    <Link to={lp(l.to)} className={`${linkClass} text-sm`}>
+                      {l.full}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
 
         {/* Base: dados legais */}
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
