@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRevealOnce } from '../hooks/useRevealOnce';
-import { CUSTOMER_REVIEWS, GOOGLE_RATING, localizeReview } from '../data/reviews';
+import { useGoogleRating } from '../hooks/useGoogleRating';
+import { CUSTOMER_REVIEWS, localizeReview } from '../data/reviews';
 import { HOME_FAQ_BY_LANG } from '../data/homeFaq';
 import { QUOTE_SERVICES, localizeQuoteService } from '../data/quoteServices';
 import { HOME_ENGAGEMENTS_BY_LANG, HOME_FICHE_BY_LANG } from '../data/homeTrust';
@@ -362,8 +363,8 @@ const COPY = defineCopy(
   {
     heroTitle1: 'Déménagement à Genève, Vaud, Fribourg et Valais.',
     heroTitle2: 'Prix ferme, sans surprise.',
-    heroRating: (value: number, count: number) => `${String(value).replace('.', ',')} · ${count} avis Google`,
-    heroRatingLabel: (value: number, count: number) => `Note Google : ${String(value).replace('.', ',')} sur 5, ${count} avis`,
+    heroRating: (value: number) => value.toFixed(1).replace('.', ','),
+    heroRatingLabel: (value: number) => `Note Google : ${value.toFixed(1).replace('.', ',')} sur 5`,
     heroLead:
       "Appartement, maison ou bureau : nous emballons, transportons et livrons à la date convenue, avec notre propre monte-meubles si l'accès l'exige.",
     heroTrust: ['Devis sous 30 min (8h-19h)', 'Prix ferme', 'RC Pro CHF 5M', 'Joignable 7j/7'],
@@ -428,7 +429,7 @@ const COPY = defineCopy(
     packCtaText: "Estimez votre matériel et commandez vos fournitures d'emballage en quelques clics.",
     packCtaButton: 'Calculer mes cartons',
 
-    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} avis Google vérifiés`,
+    reviewsBadge: (value: number, count: number) => `${value.toFixed(1).replace('.', ',')} / 5 • ${count} avis Google vérifiés`,
     reviewsTitle: 'Ce que disent nos clients',
     googleReview: 'Avis Google',
     reviewDotLabel: (n: number, total: number) => `Avis ${n} sur ${total}`,
@@ -447,8 +448,8 @@ const COPY = defineCopy(
   {
     heroTitle1: 'Removals in Geneva, Vaud, Fribourg and Valais.',
     heroTitle2: 'Fixed price, no surprises.',
-    heroRating: (value: number, count: number) => `${value} · ${count} Google reviews`,
-    heroRatingLabel: (value: number, count: number) => `Google rating: ${value} out of 5, ${count} reviews`,
+    heroRating: (value: number) => value.toFixed(1),
+    heroRatingLabel: (value: number) => `Google rating: ${value.toFixed(1)} out of 5`,
     heroLead:
       'Flat, house or office: we pack, transport and deliver on the agreed date, with our own furniture lift if the access requires it.',
     heroTrust: ['Quote within 30 min (8am-7pm)', 'Fixed price', 'CHF 5M liability cover', 'Available 7 days a week'],
@@ -513,7 +514,7 @@ const COPY = defineCopy(
     packCtaText: 'Estimate what you need and order your packing supplies in a few clicks.',
     packCtaButton: 'Calculate my boxes',
 
-    reviewsBadge: (value: number, count: number) => `${value} / 5 • ${count} verified Google reviews`,
+    reviewsBadge: (value: number, count: number) => `${value.toFixed(1)} / 5 • ${count} verified Google reviews`,
     reviewsTitle: 'What our customers say',
     googleReview: 'Google review',
     reviewDotLabel: (n: number, total: number) => `Review ${n} of ${total}`,
@@ -565,6 +566,8 @@ export const Home: React.FC = () => {
 
   // Testimonial Carousel Active State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  // Nota do Google em tempo real (com a nota de data/reviews.ts como reserva).
+  const rating = useGoogleRating();
   // Movimento da página (DESIGN.md, The Ruled Line Rule): as linhas se desenham
   // quando o bloco entra na tela, como itens resolvidos um após o outro.
   const engagementsReveal = useRevealOnce<HTMLUListElement>();
@@ -592,11 +595,7 @@ export const Home: React.FC = () => {
             {/* Coluna de texto: prova (estrelas Google), promessa com lugar e preço,
                 fatos em uma linha, uma ação principal e atalhos por serviço. */}
             <div className="flex min-w-0 flex-col justify-center py-6 lg:col-span-7 lg:py-12 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:860px)]:py-6">
-              <GoogleRating
-                value={GOOGLE_RATING.value}
-                text={c.heroRating(GOOGLE_RATING.value, GOOGLE_RATING.count)}
-                label={c.heroRatingLabel(GOOGLE_RATING.value, GOOGLE_RATING.count)}
-              />
+              <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
               <h1 className="mt-5 font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-5xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-4xl">
                 {c.heroTitle1}{' '}
@@ -925,7 +924,7 @@ export const Home: React.FC = () => {
               
               {/* Service 1: Longue Distance */}
               <Link
-                to={lp('/services?type=prive')}
+                to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <ParachuteCargoIcon className="mx-auto mb-4 h-16 w-16" />
@@ -945,7 +944,7 @@ export const Home: React.FC = () => {
 
               {/* Service 2: Résidentiel Local */}
               <Link
-                to={lp('/services?type=prive')}
+                to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <ScooterDeliveryIcon className="mx-auto mb-4 h-16 w-16" />
@@ -987,7 +986,7 @@ export const Home: React.FC = () => {
               
               {/* Service 3: Transfert d'Entreprise */}
               <Link
-                to={lp('/services?type=entreprise')}
+                to={lp('/quote?type=entreprise')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <WarehouseShelfIcon className="mx-auto mb-4 h-16 w-16" />
@@ -1007,7 +1006,7 @@ export const Home: React.FC = () => {
 
               {/* Service 4: Petits Volumes & Express */}
               <Link
-                to={lp('/services?type=prive')}
+                to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <LocationParcelIcon className="mx-auto mb-4 h-16 w-16" />
@@ -1205,7 +1204,7 @@ export const Home: React.FC = () => {
                 <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
                 <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
               </svg>
-              <span>{c.reviewsBadge(GOOGLE_RATING.value, GOOGLE_RATING.count)}</span>
+              <span>{c.reviewsBadge(rating.value, rating.count)}</span>
             </div>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
               {c.reviewsTitle}
