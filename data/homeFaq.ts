@@ -21,7 +21,7 @@ export const HOME_FAQ: HomeFaqItem[] = [
   {
     question: "Comment s'organise l'autorisation de stationnement à Genève ?",
     answer:
-      "Batimove prend en charge l'ensemble des démarches auprès de la Ville de Genève et de la police pour réserver et poser les panneaux d'interdiction de stationnement temporaires devant votre logement."
+      "L'autorisation se demande à la Ville de Genève et à la police, en principe par le client. Sur demande, Batimove s'occupe des démarches et pose les panneaux d'interdiction de stationnement temporaires devant votre logement."
   },
   {
     question: "Le nettoyage de fin de bail inclut-il une garantie pour l'état des lieux ?",
@@ -53,7 +53,7 @@ export const HOME_FAQ_EN: HomeFaqItem[] = [
   {
     question: "How is the parking permit arranged in Geneva?",
     answer:
-      "Batimove handles all the formalities with the City of Geneva and the police to reserve and put up the temporary no-parking signs outside your home."
+      "The permit is requested from the City of Geneva and the police, normally by the client. On request, Batimove handles the formalities and puts up the temporary no-parking signs outside your home."
   },
   {
     question: "Does end of tenancy cleaning include a guarantee for the check-out inspection?",

@@ -33,7 +33,7 @@ const vaudConfig: LocationConfig = {
     },
     {
       title: "Formalités administratives cantonales",
-      desc: "Accompagnement complet pour les réservations de voirie communale et formalités eDéménagement Vaud."
+      desc: "Sur demande, nous nous occupons des réservations de voirie communale et des formalités eDéménagement Vaud."
     },
     {
       title: "Stockage sécurisé et garde-meubles",
@@ -98,7 +98,7 @@ const vaudConfigEn: LocationConfig = {
     },
     {
       title: 'Cantonal paperwork',
-      desc: 'Full support with municipal road-space bookings and eDéménagement Vaud formalities.'
+      desc: 'On request, we handle municipal road-space bookings and eDéménagement Vaud formalities.'
     },
     {
       title: 'Secure furniture storage',

@@ -8,9 +8,9 @@ const genevaConfig: LocationConfig = {
   regionBadge: 'Canton de Genève • Ville & Communes',
   heroHeadlineMain: "Déménagement Professionnel à",
   heroHeadlineHighlight: "Genève & Environs !",
-  heroSubtitle: "Entreprise suisse basée à Genève. Équipes qualifiées, réservation des panneaux de stationnement auprès de la Ville de Genève et assurance RC jusqu'à 5M CHF.",
+  heroSubtitle: "Entreprise suisse basée à Genève. Équipes qualifiées, réservation des panneaux de stationnement sur demande et assurance RC jusqu'à 5M CHF.",
   metaTitle: "Déménagement Genève | Devis Gratuit en 30 min - Batimove",
-  metaDescription: "Entreprise de déménagement à Genève pour particuliers et entreprises. Réservation de stationnement, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF.",
+  metaDescription: "Entreprise de déménagement à Genève pour particuliers et entreprises. Stationnement sur demande, monte-meubles, devis gratuit dès CHF 550. RC 5M CHF.",
   canonicalUrl: "https://www.batimove.ch/demenagement-geneve",
   geoPosition: {
     lat: 46.2044,
@@ -29,7 +29,7 @@ const genevaConfig: LocationConfig = {
   localFeatures: [
     {
       title: "Autorisation de stationnement Ville de Genève",
-      desc: "Nous effectuons les démarches administratives et posons les panneaux d'interdiction officiels 48h avant le déménagement."
+      desc: "Sur demande, nous effectuons les démarches et posons les panneaux d'interdiction officiels 48 h avant le déménagement."
     },
     {
       title: "Monte-meubles extérieur électrique",
@@ -50,7 +50,7 @@ const genevaConfig: LocationConfig = {
   faqList: [
     {
       question: "Comment réserver une place de stationnement pour mon déménagement à Genève ?",
-      answer: "À Genève, il est obligatoire d'obtenir une autorisation de la police du stationnement et de poser des panneaux officiels. Batimove s'occupe de l'ensemble de la procédure auprès de la Ville de Genève et de l'installation des panneaux 48h à l'avance pour sécuriser l'emplacement de notre camion."
+      answer: "À Genève, il est obligatoire d'obtenir une autorisation de la police du stationnement et de poser des panneaux officiels. C'est en principe au client de le faire ; sur demande, Batimove s'occupe de l'ensemble de la procédure auprès de la Ville de Genève et de l'installation des panneaux 48h à l'avance pour sécuriser l'emplacement de notre camion."
     },
     {
       question: "Combien coûte un déménagement à Genève avec Batimove ?",
@@ -77,10 +77,10 @@ const genevaConfigEn: LocationConfig = {
   heroHeadlineMain: 'Professional removals in',
   heroHeadlineHighlight: 'Geneva & surroundings',
   heroSubtitle:
-    'A Swiss company based in Geneva. Qualified teams, parking signs booked with the City of Geneva and liability insurance up to CHF 5M.',
+    'A Swiss company based in Geneva. Qualified teams, parking signs booked on request and liability insurance up to CHF 5M.',
   metaTitle: 'Removals Geneva | Free Quote in 30 min - Batimove',
   metaDescription:
-    'Removal company in Geneva for private clients and businesses. Parking reservations, furniture lift, free quote, from CHF 550. CHF 5M liability cover.',
+    'Removal company in Geneva for private clients and businesses. Parking on request, furniture lift, free quote, from CHF 550. CHF 5M liability cover.',
   canonicalUrl: 'https://www.batimove.ch/en/removals-geneva',
   districts: [
     { name: 'Geneva centre & Old Town', desc: 'Expert handling of pedestrian access, cobbled lanes and strict delivery time restrictions.' },
@@ -93,7 +93,7 @@ const genevaConfigEn: LocationConfig = {
   localFeatures: [
     {
       title: 'City of Geneva parking permit',
-      desc: 'We handle the paperwork and put up the official no-parking signs 48 h before the move.'
+      desc: 'On request, we handle the paperwork and put up the official no-parking signs 48 h before the move.'
     },
     {
       title: 'Electric external furniture lift',
@@ -111,7 +111,7 @@ const genevaConfigEn: LocationConfig = {
   faqList: [
     {
       question: 'How do I reserve a parking space for my move in Geneva?',
-      answer: 'In Geneva, you must obtain a permit from the parking police and put up official signs. Batimove handles the entire procedure with the City of Geneva and installs the signs 48 h in advance to secure the space for our lorry.'
+      answer: 'In Geneva, you must obtain a permit from the parking police and put up official signs. This is normally up to the client; on request, Batimove handles the entire procedure with the City of Geneva and installs the signs 48 h in advance to secure the space for our lorry.'
     },
     {
       question: 'How much does a move in Geneva with Batimove cost?',
