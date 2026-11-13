@@ -360,20 +360,17 @@ const HOME_COMPLEMENTAIRES: Record<Lang, HomeComplementaire[]> = {
 
 const COPY = defineCopy(
   {
-    heroTitle1: "L'Art du",
-    heroTitle2: 'Déménagement !',
-    heroTitleSr: ' : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud',
+    heroTitle1: 'Déménagement à Genève, Vaud, Fribourg et Valais.',
+    heroTitle2: 'Prix ferme, sans surprise.',
+    heroRating: (value: number, count: number) => `${String(value).replace('.', ',')} · ${count} avis Google`,
+    heroRatingLabel: (value: number, count: number) => `Note Google : ${String(value).replace('.', ',')} sur 5, ${count} avis`,
     heroLead:
-      "Services professionnels de déménagement, emballage de haute précision et garde-meubles sécurisé à Genève, Lausanne et dans toute la Suisse. Assurance RC Pro jusqu'à 5M CHF incluse.",
-    heroProjectTitle: 'Quel est votre projet ?',
-    heroProjectHint: 'Devis gratuit, réponse sous 30 min (8h-19h).',
-    heroFixedPrice: 'Prix ferme : aucun surcoût une fois le devis accepté',
-    heroReachable: 'Joignable 7j/7',
+      "Appartement, maison ou bureau : nous emballons, transportons et livrons à la date convenue, avec notre propre monte-meubles si l'accès l'exige.",
+    heroTrust: ['Devis sous 30 min (8h-19h)', 'Prix ferme', 'RC Pro CHF 5M', 'Joignable 7j/7'],
+    heroCta: 'Obtenir mon devis en 30 min',
     freeCall: 'appel gratuit',
-    calcVolume: 'Calculer mon volume',
-    statFixedPrice: 'Prix fixe garanti',
-    statInsurance: 'Assurance RC incluse',
-    statReviews: 'Avis clients vérifiés',
+    heroShortcuts: 'Ou choisissez directement :',
+    heroPhotoBadge: 'Notre propre monte-meubles',
     heroImgAlt: 'Monte-meubles et camions Batimove garés devant des immeubles',
 
     engagementsTitle: 'Ce que nous réglons pour vous',
@@ -448,20 +445,17 @@ const COPY = defineCopy(
     faqWrite: 'écrivez-nous',
   },
   {
-    heroTitle1: 'The art of',
-    heroTitle2: 'moving!',
-    heroTitleSr: ': professional removal company in Geneva, Lausanne and Vaud',
+    heroTitle1: 'Removals in Geneva, Vaud, Fribourg and Valais.',
+    heroTitle2: 'Fixed price, no surprises.',
+    heroRating: (value: number, count: number) => `${value} · ${count} Google reviews`,
+    heroRatingLabel: (value: number, count: number) => `Google rating: ${value} out of 5, ${count} reviews`,
     heroLead:
-      'Professional removal services, high-precision packing and secure storage in Geneva, Lausanne and throughout Switzerland. Professional liability insurance up to CHF 5M included.',
-    heroProjectTitle: 'What can we help you with?',
-    heroProjectHint: 'Free quote, reply within 30 min (8am-7pm).',
-    heroFixedPrice: 'Fixed price: no extra charges once the quote is accepted',
-    heroReachable: 'Available 7 days a week',
+      'Flat, house or office: we pack, transport and deliver on the agreed date, with our own furniture lift if the access requires it.',
+    heroTrust: ['Quote within 30 min (8am-7pm)', 'Fixed price', 'CHF 5M liability cover', 'Available 7 days a week'],
+    heroCta: 'Get my quote in 30 min',
     freeCall: 'free call',
-    calcVolume: 'Calculate my volume',
-    statFixedPrice: 'Guaranteed fixed price',
-    statInsurance: 'Liability insurance included',
-    statReviews: 'Verified customer reviews',
+    heroShortcuts: 'Or go straight to:',
+    heroPhotoBadge: 'Our own furniture lift',
     heroImgAlt: 'Batimove furniture lift and vans parked in front of apartment buildings',
 
     engagementsTitle: 'What we take care of for you',
@@ -537,6 +531,34 @@ const COPY = defineCopy(
   }
 );
 
+/** Nota Google com estrelas (preenchimento parcial na última), sem texto de avaliação. */
+const GoogleRating: React.FC<{ value: number; text: string; label: string }> = ({ value, text, label }) => {
+  const stars = (cls: string) => (
+    <span className={`flex w-max gap-0.5 ${cls}`}>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <Star key={i} className="h-4 w-4 shrink-0 fill-current" strokeWidth={0} />
+      ))}
+    </span>
+  );
+  return (
+    <p className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-glacier-line bg-white px-3 py-2 shadow-rest" aria-label={label}>
+      <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
+        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
+        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
+        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.27 2.63 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
+      </svg>
+      <span aria-hidden="true" className="relative inline-flex">
+        {stars('text-slate-300')}
+        <span className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${(value / 5) * 100}%` }}>
+          {stars('text-amber-400')}
+        </span>
+      </span>
+      <span aria-hidden="true" className="text-sm font-semibold tabular-nums text-[#0B1E33]">{text}</span>
+    </p>
+  );
+};
+
 export const Home: React.FC = () => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
@@ -559,125 +581,95 @@ export const Home: React.FC = () => {
       />
 
       {/* =========================================================================
-          SECTION 1: HERO SECTION ("L'Art du Déménagement !")
-          Cabe em qualquer tela: tipografia fluida por largura, compactação por
-          altura em laptops baixos (lg + max-height 820px) e imagem limitada pela
-          coluna e pela altura útil da janela, sempre colada na faixa navy.
+          SECTION 1: HERO
+          Em 3 segundos: nota Google, o que fazemos e onde, preço ferme, fatos
+          verificáveis, uma ação principal e o telefone. Compacta em laptops baixos.
           ========================================================================= */}
       <section className="relative overflow-hidden bg-glacier pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-end gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-6 xl:gap-10">
+          <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8 xl:gap-12">
 
-            {/* Coluna de texto */}
-            <div className="flex min-w-0 flex-col justify-center py-4 sm:py-6 lg:col-span-7 lg:py-10 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:940px)]:py-5 [@media(min-width:1024px)_and_(max-height:760px)]:!py-4">
-              <h1 className="mb-4 font-display text-3xl font-medium leading-[1.05] tracking-tight text-[#0B1E33] min-[400px]:text-4xl sm:mb-5 sm:text-5xl xl:text-6xl [@media(max-height:500px)]:!text-4xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:text-5xl [@media(min-width:1024px)_and_(max-height:760px)]:!mb-2">
-                {c.heroTitle1} <br />
-                <span className="whitespace-nowrap text-[#0284c7]">{c.heroTitle2}</span>
-                <span className="sr-only">{c.heroTitleSr}</span>
+            {/* Coluna de texto: prova (estrelas Google), promessa com lugar e preço,
+                fatos em uma linha, uma ação principal e atalhos por serviço. */}
+            <div className="flex min-w-0 flex-col justify-center py-6 lg:col-span-7 lg:py-12 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:860px)]:py-6">
+              <GoogleRating
+                value={GOOGLE_RATING.value}
+                text={c.heroRating(GOOGLE_RATING.value, GOOGLE_RATING.count)}
+                label={c.heroRatingLabel(GOOGLE_RATING.value, GOOGLE_RATING.count)}
+              />
+
+              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-5xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-4xl">
+                {c.heroTitle1}{' '}
+                <span className="text-[#0284c7]">{c.heroTitle2}</span>
               </h1>
 
-              <p className="mb-6 max-w-xl text-lg font-normal leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-4 [@media(min-width:1024px)_and_(max-height:940px)]:text-lg [@media(min-width:1024px)_and_(max-height:760px)]:!mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:leading-normal">
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-lg">
                 {c.heroLead}
               </p>
 
-              {/* Seletor de serviço: cada opção é um devis gratuito já direcionado */}
-              <div className="max-w-xl">
-                <h2 id="hero-projet" className="font-display text-lg font-semibold tracking-tight text-[#0B1E33]">
-                  {c.heroProjectTitle}
-                </h2>
-                <p className="mb-4 mt-1 text-sm text-slate-600 [@media(min-width:1024px)_and_(max-height:940px)]:mb-3">
-                  {c.heroProjectHint}
-                </p>
-                <ul
-                  aria-labelledby="hero-projet"
-                  className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-rest"
+              {/* Fatos verificáveis, numa linha */}
+              <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-base font-medium text-[#0B1E33]">
+                {c.heroTrust.map((t) => (
+                  <li key={t} className="flex items-center gap-1.5">
+                    <Check className="h-4 w-4 shrink-0 text-[#0369A1]" strokeWidth={2.5} aria-hidden="true" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Ação principal + telefone */}
+              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
+                <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
+                  {c.heroCta}
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+                <a
+                  href="tel:0800825925"
+                  className="inline-flex items-center gap-2 py-2 text-lg font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
                 >
-                  {QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang)).map(({ id: type, label, hint, icon: Icon }, i) => (
-                    <li key={type} className="relative">
-                      {/* Separador recuado até o texto, como nas listas agrupadas do iOS */}
-                      {i > 0 && (
-                        <span aria-hidden="true" className="pointer-events-none absolute left-[76px] right-0 top-0 h-px bg-slate-200 sm:left-[80px]" />
-                      )}
+                  <Phone className="h-5 w-5" aria-hidden="true" />
+                  <span className="tabular-nums">0800 825 925</span>
+                  <span className="text-base font-normal text-slate-600">{c.freeCall}</span>
+                </a>
+              </div>
+
+              {/* Atalhos: cada serviço abre o devis já direcionado */}
+              <div className="mt-8 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
+                <p id="hero-projet" className="text-sm font-semibold text-slate-600">{c.heroShortcuts}</p>
+                <ul aria-labelledby="hero-projet" className="mt-2.5 flex flex-wrap gap-2">
+                  {QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang)).map(({ id: type, label, icon: Icon }) => (
+                    <li key={type}>
                       <Link
                         to={lp(`/quote?type=${type}`)}
-                        className="group flex min-h-[72px] items-center gap-4 bg-white px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-glacier focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] active:bg-glacier-line sm:px-5 [@media(min-width:1024px)_and_(max-height:940px)]:min-h-[60px] [@media(min-width:1024px)_and_(max-height:940px)]:py-2.5 [@media(min-width:1024px)_and_(max-height:760px)]:!min-h-[56px] [@media(min-width:1024px)_and_(max-height:760px)]:!py-2"
+                        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-glacier-line bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#0B1E33] hover:bg-[#0B1E33] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
                       >
-                        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white [@media(min-width:1024px)_and_(max-height:940px)]:h-10 [@media(min-width:1024px)_and_(max-height:940px)]:w-10 [@media(min-width:1024px)_and_(max-height:760px)]:!h-9 [@media(min-width:1024px)_and_(max-height:760px)]:!w-9">
-                          <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block font-display text-lg font-semibold leading-snug tracking-tight text-[#0B1E33]">{label}</span>
-                          <span className="mt-0.5 block text-sm leading-snug text-slate-500">{hint}</span>
-                        </span>
-                        <ChevronRight
-                          className="h-[18px] w-[18px] shrink-0 text-slate-300 transition-[transform,color] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:text-[#0B1E33] group-focus-visible:text-[#0B1E33] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-                          aria-hidden="true"
-                        />
+                        <Icon className="h-[18px] w-[18px] text-[#0369A1] transition-colors duration-150 group-hover:text-white" strokeWidth={1.75} aria-hidden="true" />
+                        {label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-
-                {/* Promessas confirmadas pela Batimove + caminhos alternativos */}
-                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-slate-600">
-                  <li className="flex items-center gap-1.5">
-                    <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
-                    {c.heroFixedPrice}
-                  </li>
-                  <li className="flex items-center gap-1.5">
-                    <Check className="h-4 w-4 shrink-0 text-[#0284c7]" aria-hidden="true" />
-                    {c.heroReachable}
-                  </li>
-                </ul>
-                <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-base [@media(min-width:1024px)_and_(max-height:940px)]:mt-4">
-                  <a
-                    href="tel:0800825925"
-                    className="inline-flex items-center gap-2 py-1 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
-                  >
-                    <Phone className="h-4 w-4" aria-hidden="true" />
-                    <span className="tabular-nums">0800 825 925</span>
-                    <span className="font-normal text-slate-600">{c.freeCall}</span>
-                  </a>
-                  <Link
-                    to={lp('/calculator')}
-                    className="py-1 font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
-                  >
-                    {c.calcVolume}
-                  </Link>
-                </div>
-              </div>
-
-              {/* Indicadores de confiança */}
-              <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-glacier-line pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
-                <div>
-                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
-                  <div className="text-xs font-medium text-slate-600">{c.statFixedPrice}</div>
-                </div>
-                <div>
-                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
-                  <div className="text-xs font-medium text-slate-600">{c.statInsurance}</div>
-                </div>
-                <div>
-                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs font-medium text-slate-600">{c.statReviews}</div>
-                </div>
               </div>
             </div>
 
             {/* Foto real: o monte-meubles próprio e a frota. Emoldurada, com folga
                 embaixo para não encostar na faixa navy. */}
-            <div className="flex min-w-0 items-center pb-8 lg:col-span-5 lg:self-center lg:pb-0 xl:col-span-6">
+            <div className="relative min-w-0 pb-8 lg:col-span-5 lg:self-center lg:pb-0 xl:col-span-6">
               <img
                 src="/photos/batimove-flotte-monte-meubles-1280.webp"
                 srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
                 sizes="(min-width: 1280px) 600px, (min-width: 1024px) 42vw, 100vw"
                 alt={c.heroImgAlt}
                 width={1280}
-                height={960}
+                height={853}
                 fetchPriority="high"
                 decoding="async"
-                className="block aspect-[4/3] h-auto w-full rounded-xl object-cover shadow-overlay"
+                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover shadow-overlay"
               />
+              <p className="absolute bottom-12 left-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:bottom-4">
+                <Truck className="h-4 w-4 text-[#0369A1]" aria-hidden="true" />
+                {c.heroPhotoBadge}
+              </p>
             </div>
 
           </div>
@@ -794,13 +786,15 @@ export const Home: React.FC = () => {
               </dl>
 
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <Link
-                  to={lp('/services')}
+                {/* Leva às prestações da própria home (a antiga página /services
+                    era o formulário de leads que não é mais usado). */}
+                <a
+                  href="#services"
                   className="btn btn-lg btn-secondary"
                 >
                   {c.aboutServices}
                   <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
+                </a>
                 <Link
                   to={lp('/quote')}
                   className="inline-block py-3 text-lg font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors duration-150 hover:decoration-[#0B1E33]"
@@ -913,7 +907,7 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 5: "TOUJOURS PRÊTS À VOUS AIDER" ("WE'RE ALWAYS READY TO HELP YOU")
           ========================================================================= */}
-      <section id="services" className="py-20 lg:py-28 bg-white relative overflow-hidden">
+      <section id="services" className="relative scroll-mt-24 overflow-hidden bg-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Header Centered */}

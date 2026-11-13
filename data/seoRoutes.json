@@ -7,7 +7,8 @@
   "routes": {
     "/": {
       "title": "Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud",
-      "description": "Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF."
+      "description": "Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF.",
+      "h1": "Déménagement à Genève, Vaud, Fribourg et Valais. Prix ferme, sans surprise."
     },
     "/demenagement-geneve": {
       "title": "Déménagement Genève | Devis Gratuit en 30 min - Batimove",
@@ -176,7 +177,8 @@
     },
     "/en": {
       "title": "Batimove Sàrl: Removals in Geneva, Lausanne & Vaud",
-      "description": "Swiss removal company for homes and businesses in Geneva, Lausanne and the canton of Vaud. Free quote within 30 min and CHF 5M liability cover."
+      "description": "Swiss removal company for homes and businesses in Geneva, Lausanne and the canton of Vaud. Free quote within 30 min and CHF 5M liability cover.",
+      "h1": "Removals in Geneva, Vaud, Fribourg and Valais. Fixed price, no surprises."
     },
     "/en/services": {
       "title": "Removals, House Clearance & Cleaning | Batimove",
