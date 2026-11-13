@@ -27,19 +27,19 @@ const vaudConfig: LocationConfig = {
   ],
   localFeatures: [
     {
-      title: "Flotte Moderne Adaptée à Tout le Canton",
+      title: "Flotte moderne adaptée à tout le canton",
       desc: "Fourgons agiles pour les centres historiques étroits et camions grands volumes pour villas vaudoises."
     },
     {
-      title: "Formalités Administratives Cantonales",
+      title: "Formalités administratives cantonales",
       desc: "Accompagnement complet pour les réservations de voirie communale et formalités eDéménagement Vaud."
     },
     {
-      title: "Stockage Sécurisé & Garde-Meubles",
+      title: "Stockage sécurisé et garde-meubles",
       desc: "Entrepôts sécurisés sous scellés pour entreposer votre mobilier entre deux baux immobiliers."
     },
     {
-      title: "Couverture Régies & Protection RC 5M CHF",
+      title: "Couverture régies et protection RC 5M CHF",
       desc: "Chaque déménagement est garanti conforme aux exigences des gérances immobilières du canton."
     }
   ],

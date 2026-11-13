@@ -164,10 +164,10 @@ class RootErrorBoundary extends React.Component<RootErrorBoundaryProps, RootErro
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-[#0B1E33] text-white flex flex-col items-center justify-center p-6 text-center font-sans select-none">
-          <div className="w-16 h-16 rounded-2xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center mb-5 text-2xl font-bold">
+          <div className="w-16 h-16 rounded-2xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center mb-5 text-2xl font-semibold">
             !
           </div>
-          <h1 className="text-2xl font-bold mb-2 font-display">Batimove Déménagement Sàrl</h1>
+          <h1 className="text-2xl font-medium mb-2 font-display">Batimove Déménagement Sàrl</h1>
           <p className="text-slate-300 text-sm max-w-md mb-6 leading-relaxed">
             Une mise à jour ou un incident temporaire d'affichage s'est produit. Cliquez sur le bouton ci-dessous pour actualiser les données.
           </p>
@@ -179,7 +179,7 @@ class RootErrorBoundary extends React.Component<RootErrorBoundaryProps, RootErro
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={this.handleHardReset}
-              className="px-6 py-3 rounded-xl bg-[#0052A3] hover:bg-sky-600 text-white font-bold text-sm shadow-lg transition-all cursor-pointer"
+              className="px-6 py-3 rounded-xl bg-[#0052A3] hover:bg-sky-600 text-white font-semibold text-sm shadow-lg transition-all cursor-pointer"
             >
               Vider le cache & Actualiser
             </button>

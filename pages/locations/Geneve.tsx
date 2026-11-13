@@ -27,19 +27,19 @@ const genevaConfig: LocationConfig = {
   ],
   localFeatures: [
     {
-      title: "Autorisation de Stationnement Ville de Genève",
+      title: "Autorisation de stationnement Ville de Genève",
       desc: "Nous effectuons les démarches administratives et posons les panneaux d'interdiction officiels 48h avant le déménagement."
     },
     {
-      title: "Monte-Meubles Extérieur Électrique",
+      title: "Monte-meubles extérieur électrique",
       desc: "Idéal pour les immeubles anciens sans ascenseur à Plainpalais, Servette ou Carouge pour éviter d'endommager les cages d'escalier."
     },
     {
-      title: "Couverture Régies Immobilières Genevoises",
+      title: "Couverture régies immobilières genevoises",
       desc: "Formules adaptées aux exigences très strictes des régies de la place pour un état des lieux sans litige."
     },
     {
-      title: "Garde-Meubles Sécurisé à Genève",
+      title: "Garde-meubles sécurisé à Genève",
       desc: "Dépôt temporaire ou longue durée ventilé, sous surveillance vidéo permanente et accessible facilement."
     }
   ],

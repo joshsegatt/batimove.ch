@@ -174,7 +174,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             
             {/* Left Column: Hero Text */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center py-6 sm:py-8 lg:py-12 relative z-10">
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[58px] 2xl:text-[66px] font-extrabold tracking-tight leading-[1.08] text-[#0B1E33] mb-6">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-[48px] xl:text-[58px] 2xl:text-[66px] font-medium tracking-tight leading-[1.08] text-[#0B1E33] mb-6">
                 {config.heroHeadlineMain} <br />
                 <span className="text-[#0284c7] whitespace-nowrap">{config.heroHeadlineHighlight}</span>
                 <span className="sr-only"> : Service professionnel de déménagement certifié à {config.cityName}</span>
@@ -198,16 +198,16 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               {/* Micro Trust Indicators (Matching Home.tsx) */}
               <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-slate-200/80 max-w-lg">
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">100%</div>
-                  <div className="text-xs text-slate-500 font-medium">Prix Fixe Garanti</div>
+                  <div className="text-xl sm:text-2xl font-medium text-[#0B1E33] font-display tabular-nums">100%</div>
+                  <div className="text-xs text-slate-500 font-medium">Prix fixe garanti</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
-                  <div className="text-xs text-slate-500 font-medium">Assurance RC Incluse</div>
+                  <div className="text-xl sm:text-2xl font-medium text-[#0B1E33] font-display tabular-nums">CHF 5M</div>
+                  <div className="text-xs text-slate-500 font-medium">Assurance RC incluse</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0284c7] font-display tabular-nums">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs text-slate-500 font-medium">Avis Clients Vérifiés</div>
+                  <div className="text-xl sm:text-2xl font-medium text-[#0284c7] font-display tabular-nums">{GOOGLE_RATING.value} / 5</div>
+                  <div className="text-xs text-slate-500 font-medium">Avis clients vérifiés</div>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-[#0B1E33] text-white p-6 rounded-2xl shadow-2xl hidden sm:block max-w-[240px]">
-                <div className="text-2xl font-extrabold font-display text-sky-400 mb-1">Régies Suisses</div>
+                <div className="text-2xl font-medium font-display text-sky-400 mb-1">Régies Suisses</div>
                 <div className="text-xs text-slate-300 leading-relaxed">
                   Garantie intégrale de remise des clés lors de l'état des lieux.
                 </div>
@@ -251,10 +251,10 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </div>
 
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
                 EXPERTISE LOCALE À {config.cityName.toUpperCase()}
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight leading-[1.15] mb-6">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.15] mb-6">
                 Maîtrise Parfaite des Spécificités de {config.cityName}
               </h2>
               <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
@@ -268,8 +268,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                       <Check className="w-4 h-4 stroke-[3]" />
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-[#0B1E33] text-sm mb-1">{item.title}</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                      <h3 className="font-display font-semibold text-[#0B1E33] text-sm mb-1">{item.title}</h3>
+                      <p className="text-base text-slate-500 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -277,7 +277,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
               {/* Régies Partners Badges */}
               <div className="pt-4 border-t border-slate-100">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
                   Habitués des états des lieux auprès des régies :
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -301,10 +301,10 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
               ZONES & COMMUNES COUVERTES
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
               Présents Partout à {config.cityName} & Environs
             </h2>
             <p className="text-slate-600 text-sm sm:text-base mt-4 max-w-2xl mx-auto">
@@ -316,14 +316,14 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             {config.districts.map((district, idx) => (
               <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-sky-300 transition-all">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+                  <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-semibold">
                     <MapPin className="w-5 h-5 text-sky-600" />
                   </div>
-                  <h3 className="font-display font-bold text-[#0B1E33] text-base">
+                  <h3 className="font-display font-semibold text-[#0B1E33] text-base">
                     {district.name}
                   </h3>
                 </div>
-                <p className="text-xs text-slate-500 leading-relaxed">
+                <p className="text-base text-slate-500 leading-relaxed">
                   {district.desc}
                 </p>
               </div>
@@ -340,79 +340,79 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
               PRESTATIONS COMPLÈTES
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
-              Toutes les Solutions pour Votre Déménagement
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
+              Toutes les solutions pour votre déménagement
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Service 1 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between">
               <div>
                 <ParachuteCargoIcon className="w-14 h-14 mb-6" />
-                <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
-                  Déménagement Résidentiel
+                <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
+                  Déménagement résidentiel
                 </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                <p className="text-slate-600 text-base leading-relaxed mb-6">
                   Appartements et villas à {config.cityName}. Protection intégrale sous couvertures capitonnées et assurance RC 5M CHF.
                 </p>
               </div>
-              <Link to="/services?type=prive" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to="/services?type=prive" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>Découvrir la formule</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Service 2 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between">
               <div>
                 <ScooterDeliveryIcon className="w-14 h-14 mb-6" />
-                <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
+                <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
                   Transfert d'Entreprise
                 </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                <p className="text-slate-600 text-base leading-relaxed mb-6">
                   Bureaux, archives, commerces et informatique. Planification précise pour zéro interruption de vos activités.
                 </p>
               </div>
-              <Link to="/services?type=entreprise" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to="/services?type=entreprise" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>Services aux entreprises</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Service 3 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between">
               <div>
                 <WarehouseShelfIcon className="w-14 h-14 mb-6" />
-                <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
-                  Garde-Meubles Sécurisé
+                <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
+                  Garde-meubles sécurisé
                 </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                <p className="text-slate-600 text-base leading-relaxed mb-6">
                   Entreposage propre, tempéré et sous alarme 24h/24. Stockage courte ou longue durée pour vos biens à {config.cityName}.
                 </p>
               </div>
-              <Link to="/services" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to="/services" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>Solutions de stockage</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Service 4 */}
-            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+            <div className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between">
               <div>
                 <LocationParcelIcon className="w-14 h-14 mb-6" />
-                <h3 className="font-display text-xl font-bold text-[#0B1E33] mb-3">
-                  Nettoyage État des Lieux
+                <h3 className="font-display text-xl font-medium text-[#0B1E33] mb-3">
+                  Nettoyage d'état des lieux
                 </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                <p className="text-slate-600 text-base leading-relaxed mb-6">
                   Nettoyage fin de bail 100% garanti avec présence physique de nos agents lors de la remise des clés à la régie.
                 </p>
               </div>
-              <Link to="/nettoyage-fin-de-bail" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to="/nettoyage-fin-de-bail" className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>Garantie remise de clés</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
@@ -438,8 +438,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
               </svg>
               <span>{GOOGLE_RATING.value} / 5 • {GOOGLE_RATING.count} avis Google vérifiés</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Ce Que Disent Vos Voisins
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight">
+              Ce que disent vos voisins
             </h2>
           </div>
 
@@ -456,7 +456,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                         <Star key={i} className="w-4 h-4 fill-amber-400" />
                       ))}
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-semibold text-slate-300">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300">
                       <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
                         <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
@@ -481,11 +481,11 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                       />
                     )}
                     <div>
-                      <h3 className="font-display font-bold text-sm text-white">{t.name}</h3>
+                      <h3 className="font-display font-semibold text-sm text-white">{t.name}</h3>
                       <p className="text-xs text-sky-400">{t.role}</p>
                     </div>
                   </div>
-                  <span className="text-[11px] font-semibold text-slate-400 bg-white/5 px-2.5 py-1 rounded-full shrink-0">
+                  <span className="text-xs font-semibold text-slate-400 bg-white/5 px-2.5 py-1 rounded-full shrink-0">
                     {t.location}
                   </span>
                 </div>
@@ -503,10 +503,10 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-16">
-            <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-2 block">
+            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
               QUESTIONS FRÉQUENTES
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0B1E33] tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#0B1E33] tracking-tight">
               Tout Savoir sur Votre Déménagement à {config.cityName}
             </h2>
           </div>
@@ -523,7 +523,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
                     className="w-full p-6 text-left flex justify-between items-center gap-4 cursor-pointer"
                   >
-                    <h3 className="font-display font-bold text-base sm:text-lg text-[#0B1E33]">
+                    <h3 className="font-display font-semibold text-base sm:text-lg text-[#0B1E33]">
                       {faq.question}
                     </h3>
                     <ChevronDown className={`w-5 h-5 text-sky-600 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
@@ -547,10 +547,10 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
           ========================================================================= */}
       <section className="py-20 lg:py-24 bg-gradient-to-b from-[#0B1E33] to-[#07182b] text-white text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="text-sky-400 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+          <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
             DEVIS GRATUIT & SANS ENGAGEMENT
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-6">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight mb-6">
             Prêt pour un Déménagement Serein à {config.cityName} ?
           </h2>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
@@ -563,7 +563,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </Link>
             <a 
               href="tel:0800825925" 
-              className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-base transition-all border border-white/20"
+              className="inline-flex items-center gap-2 px-8 sm:px-10 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-base transition-all border border-white/20"
             >
               <Phone className="w-5 h-5 text-sky-400" />
               <span>0800 825 925 (Appel Gratuit)</span>

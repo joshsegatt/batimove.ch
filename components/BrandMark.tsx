@@ -57,7 +57,7 @@ export const BrandLogo: React.FC<{ className?: string; markClassName?: string; t
 }) => (
   <span className={`inline-flex items-center gap-2.5 ${className}`}>
     <BrandMark className={markClassName} />
-    <span className={`whitespace-nowrap font-display font-extrabold leading-none tracking-tight ${textClassName}`}>Batimove Sàrl</span>
+    <span className={`whitespace-nowrap font-brand font-extrabold leading-none tracking-[-0.025em] ${textClassName}`}>Batimove Sàrl</span>
   </span>
 );
 

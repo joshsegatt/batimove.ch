@@ -33,7 +33,7 @@ export const WhatsAppButton: React.FC = () => {
                         initial={{ opacity: 0, y: 12, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                        className="pointer-events-auto mb-3.5 w-[330px] bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-[0_20px_45px_-10px_rgba(11,30,51,0.18),0_2px_6px_rgba(0,0,0,0.04)] p-4 sm:p-5 text-slate-900 overflow-hidden font-sans"
+                        className="pointer-events-auto mb-3.5 w-[330px] bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-overlay p-4 sm:p-5 text-slate-900 overflow-hidden font-sans"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3.5">
@@ -47,10 +47,10 @@ export const WhatsAppButton: React.FC = () => {
                                     <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full ring-2 ring-white ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                                 </div>
                                 <div>
-                                    <h4 className="text-xs sm:text-sm font-bold text-[#0B1E33] leading-tight">
+                                    <h4 className="text-xs sm:text-sm font-semibold text-[#0B1E33] leading-tight">
                                         Conseiller Batimove Sàrl
                                     </h4>
-                                    <p className="text-[10px] text-slate-500 flex items-center gap-1.5 mt-0.5">
+                                    <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
                                         <span className={`w-1.5 h-1.5 rounded-full inline-block ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                                         <span>
                                             {isOnline
@@ -74,7 +74,7 @@ export const WhatsAppButton: React.FC = () => {
                             <p>
                                 Bonjour ! Une question sur votre déménagement ou besoin d'un devis immédiat à Genève et Suisse Romande ?
                             </p>
-                            <span className="block text-[10px] text-slate-400 text-right mt-1.5 font-medium">
+                            <span className="block text-xs text-slate-400 text-right mt-1.5 font-medium">
                                 Maintenant
                             </span>
                         </div>
@@ -85,7 +85,7 @@ export const WhatsAppButton: React.FC = () => {
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#128C7E] to-[#0E7A6E] hover:from-[#0f776a] hover:to-[#0a6359] text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-[0_6px_18px_-4px_rgba(18,140,126,0.35)] cursor-pointer"
+                                className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#128C7E] to-[#0E7A6E] hover:from-[#0f776a] hover:to-[#0a6359] text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all shadow-rest cursor-pointer"
                             >
                                 <img src="/whatsapp-3d-luxury-168.png" alt="" className="w-4 h-4 object-contain" />
                                 <span>Discuter sur WhatsApp</span>
@@ -96,12 +96,12 @@ export const WhatsAppButton: React.FC = () => {
                                 className="flex items-center justify-center gap-2 w-full bg-slate-100/90 hover:bg-slate-200 text-[#0B1E33] font-semibold text-xs py-2.5 px-4 rounded-xl border border-slate-200/80 transition-all cursor-pointer"
                             >
                                 <Phone className="w-3.5 h-3.5 text-sky-600" />
-                                <span>Appel Gratuit : 0800 825 925</span>
+                                <span>Appel gratuit : 0800 825 925</span>
                             </a>
                         </div>
 
                         {/* Swiss Trust Footnote */}
-                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[10px] text-slate-400">
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-xs text-slate-400">
                             <ShieldCheck className="w-3 h-3 text-emerald-600" />
                             <span>Service officiel Batimove • Confidentialité assurée</span>
                         </div>
@@ -116,7 +116,7 @@ export const WhatsAppButton: React.FC = () => {
                             initial={{ opacity: 0, x: 8 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.18 }}
-                            className="hidden sm:flex items-center gap-1.5 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3 py-1.5 rounded-full shadow-[0_4px_16px_rgba(11,30,51,0.08)] text-xs font-semibold text-slate-800"
+                            className="hidden sm:flex items-center gap-1.5 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3 py-1.5 rounded-full shadow-raised text-xs font-semibold text-slate-800"
                         >
                             <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
                             <span>{isOnline ? 'WhatsApp disponible' : 'Écrivez-nous sur WhatsApp'}</span>
@@ -141,11 +141,11 @@ export const WhatsAppButton: React.FC = () => {
                     )}
 
                     {isOpen ? (
-                        <div className="w-[50px] h-[50px] rounded-full bg-[#0B1E33] text-white flex items-center justify-center shadow-[0_8px_20px_rgba(11,30,51,0.25)] ring-4 ring-[#0B1E33]/10">
+                        <div className="w-[50px] h-[50px] rounded-full bg-[#0B1E33] text-white flex items-center justify-center shadow-overlay ring-4 ring-[#0B1E33]/10">
                             <X className="w-5 h-5 text-white" />
                         </div>
                     ) : (
-                        <div className="w-full h-full relative flex items-center justify-center filter drop-shadow-[0_10px_20px_rgba(11,30,51,0.18)] hover:drop-shadow-[0_14px_28px_rgba(14,122,110,0.35)] transition-all duration-300">
+                        <div className="w-full h-full relative flex items-center justify-center filter drop-shadow-[0_10px_20px_rgba(11,30,51,0.18)] hover:drop-shadow-[0_14px_28px_rgba(11,30,51,0.24)] transition-all duration-300">
                             <img
                                 src="/whatsapp-3d-luxury-168.png"
                                 alt="WhatsApp 3D"

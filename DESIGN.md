@@ -17,32 +17,34 @@ colors:
   texte-discret: "#64748B"
 typography:
   display:
-    fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif"
+    fontFamily: ""Google Sans Flex", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
     fontSize: "3rem"
-    fontWeight: 800
-    lineHeight: 1.12
+    fontWeight: 500
+    lineHeight: 1.1
     letterSpacing: "-0.025em"
   headline:
-    fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif"
+    fontFamily: ""Google Sans Flex", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
     fontSize: "2.25rem"
-    fontWeight: 800
+    fontWeight: 500
     lineHeight: 1.15
-    letterSpacing: "-0.025em"
+    letterSpacing: "-0.015em"
   title:
-    fontFamily: "Plus Jakarta Sans, -apple-system, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 700
+    fontFamily: ""Google Sans Flex", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 500
     lineHeight: 1.35
+    letterSpacing: "-0.012em"
   body:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
+    fontFamily: ""Google Sans Flex", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.625
+    letterSpacing: "0.006em"
   label:
-    fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
-    fontSize: "0.75rem"
-    fontWeight: 500
-    lineHeight: 1.33
+    fontFamily: ""Google Sans Flex", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 600
+    lineHeight: 1.4
   data:
     fontFamily: "Geist Mono, SF Mono, Menlo, monospace"
     fontSize: "1rem"
@@ -148,26 +150,30 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 
 ## Typography
 
-**Display Font:** Plus Jakarta Sans (com -apple-system, sans-serif)
-**Body Font:** Inter (com -apple-system, BlinkMacSystemFont, Segoe UI, Roboto)
+**Família única:** Google Sans Flex, variável (peso 400–700 e eixo de tamanho óptico), carregada do Google Fonts. `font-sans` e `font-display` apontam para ela.
+**Logotipo:** Plus Jakarta Sans 800, só na palavra "Batimove Sàrl" (`font-brand`). Não usar em mais nada.
 **Label/Mono Font:** Geist Mono (com SF Mono, Menlo), para dados e medidas
 
-**Character:** Plus Jakarta Sans dá autoridade geométrica aos títulos; Inter mantém a leitura neutra e precisa.
+**Character:** uma voz só, calma e precisa. A hierarquia vem do tamanho, não do negrito: títulos grandes em peso 500, como um documento bem composto, não um cartaz. O tamanho óptico afina a letra nos títulos e a abre no texto pequeno sozinho (`font-optical-sizing: auto`).
 
 Atenção: o `tailwind.config.js` redefine a escala. `text-base` vale 14px, `text-sm` 13px, `text-lg` 16px e `text-xxs` 10px.
 
 ### Hierarchy
-- **Display** (800, 3rem, 1.12): headline do topo de página e títulos de seção principais.
-- **Headline** (800, 2.25rem, 1.15): títulos de seção (h2).
-- **Title** (700, 1.125rem, 1.35): títulos de card e de pergunta (h3).
-- **Body** (400, 1rem, 1.625): parágrafos. Medida máxima de 65–75ch.
-- **Label** (500, 0.75rem, 1.33): rótulos de métricas e metadados.
+- **Display** (500, 3rem, 1.1, -0.025em): headline do topo de página.
+- **Headline** (500, 2.25rem, 1.15, `tracking-tight` = -0.015em): títulos de seção (h2).
+- **Title** (500 a partir de 20px; 600 em 16px ou menos): títulos de card e de pergunta (h3).
+- **Body** (400, 1rem, 1.625, +0.006em): parágrafos. Medida máxima de 65–75ch. Nunca abaixo de 14px (`text-base`) em texto que se lê.
+- **Label** (600, 14px): rótulos, metadados e botões. 12px (`text-xs`) só em selos curtos.
 - **Data** (Geist Mono 500, tabular-nums): telefone, preços em CHF, volumes em m³.
 
 ### Named Rules
-**The Tabular Truth Rule.** Métricas e preços usam `font-display` com `tabular-nums`. Números alinhados são parte da promessa de precisão.
+**The Tabular Truth Rule.** Métricas e preços usam `tabular-nums`. Números alinhados são parte da promessa de precisão.
 
-**The Tight Title Rule.** Todo título usa `tracking-tight`.
+**The Quiet Weight Rule.** Peso máximo 600 (`font-semibold`); `font-bold`, `font-extrabold` e `font-black` não existem no site, exceto no logotipo. Título grande (20px+) usa 500 (`font-medium`).
+
+**The French Case Rule.** Títulos, botões e rótulos em caixa de frase, como o francês escreve: "Toujours prêts à répondre à vos besoins", nunca "Toujours Prêts À Répondre". Maiúscula só na primeira palavra e nos nomes próprios.
+
+**The Light Tracking Rule.** Título usa `tracking-tight` (-0.015em) ou, no display, `tracking-tighter` (-0.025em). Nada além de -0.03em.
 
 ## Layout
 
@@ -179,15 +185,20 @@ O cabeçalho é fixo no topo (`sticky top-0`) com fundo branco a 95%.
 
 ## Elevation & Depth
 
-Elevação controlada, sem brilhos artificiais neon. A profundidade vem de borda de 1px e de sombras neutras de offset suave; nunca de halos coloridos.
+Elevação controlada, sem brilhos artificiais neon. Quatro níveis, todos em navy translúcido (rgba(11, 30, 51, …)) e com duas camadas: uma curta que assenta o objeto e uma difusa que dá a altura. As utilidades padrão do Tailwind (`shadow-sm` a `shadow-2xl`) apontam para esses níveis no `tailwind.config.js`, então nenhuma sombra sai da escala.
 
 ### Shadow Vocabulary
-- **Subtle** (`box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03)`): cartões em repouso.
-- **Premium** (`box-shadow: 0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04), 0 16px 32px rgba(0,0,0,0.04)`): painéis destacados e formulários.
-- **Glass** (`box-shadow: 0 4px 30px rgba(0,0,0,0.05)`): cabeçalho e sobreposições.
+- **Rest** (`shadow-rest`; também `shadow-sm`/`shadow`): `0 1px 2px rgba(11,30,51,.06), 0 1px 3px rgba(11,30,51,.04)`. Cartões e formulários em repouso, junto com a borda de 1px.
+- **Raised** (`shadow-raised`; também `shadow-md`): `0 2px 4px -1px rgba(11,30,51,.06), 0 8px 16px -4px rgba(11,30,51,.08)`. Hover de cartão clicável, selos flutuantes.
+- **Overlay** (`shadow-overlay`; também `shadow-lg`/`shadow-xl`): `0 4px 8px -2px rgba(11,30,51,.06), 0 16px 32px -8px rgba(11,30,51,.14)`. Menu "Déménagement", popover do WhatsApp.
+- **Modal** (`shadow-modal`; também `shadow-2xl`): `0 8px 16px -4px rgba(11,30,51,.08), 0 32px 64px -16px rgba(11,30,51,.24)`. Drawer mobile, banner de cookies, wizard sobre foto.
 
 ### Named Rules
-**The No Neon Rule.** Nada de sombra colorida (`shadow-sky-500/30`) nem glow radial em fundo escuro. Sombra é neutra e tem offset.
+**The No Neon Rule.** Nada de sombra colorida (`shadow-sky-500/30`, verde do WhatsApp) nem glow radial em fundo escuro. Sombra é navy, tem offset e sai da escala.
+
+**The Four Levels Rule.** Nenhuma sombra arbitrária (`shadow-[…]`) em componente. Se nenhum dos quatro níveis serve, o problema é a hierarquia, não a sombra. Exceções: o anel interno de seleção (`shadow-[inset_0_0_0_1px_…]`) e o `drop-shadow` das fotos recortadas.
+
+**The One Step Rule.** Hover sobe um nível (rest → raised), nunca dois.
 
 ## Shapes
 
@@ -212,7 +223,7 @@ Um só sistema, em `src/index.css` (`.btn` + tamanho + variante) e no componente
 ### Cards / Containers
 - **Corner Style:** 12px.
 - **Background:** branco sobre o fundo ardósia.
-- **Shadow Strategy:** Subtle em repouso; ver Elevation & Depth.
+- **Shadow Strategy:** Rest em repouso, Raised no hover se o cartão é clicável; ver Elevation & Depth.
 - **Border:** 1px `#E2E8F0`.
 - **Internal Padding:** 24px.
 
@@ -222,7 +233,7 @@ Um só sistema, em `src/index.css` (`.btn` + tamanho + variante) e no componente
 - **Error:** borda vermelha e mensagem de 12px logo abaixo do campo.
 
 ### Navigation
-- Cabeçalho branco fixo com logo, links em Inter 14px navy, hover em Bleu Suisse e o botão primário "Devis Gratuit" à direita. No mobile, menu em painel lateral à direita.
+- Cabeçalho branco fixo com logo, links em Google Sans Flex 14px navy, hover em Bleu Suisse e o botão primário "Devis Gratuit" à direita. No mobile, menu em painel lateral à direita.
 
 ### FAQ (accordion)
 - `<details>` nativo com divisórias de 1px entre itens, pergunta em Title (h3) e seta que gira 180° em 200ms. Área de toque mínima de 44px. O texto tem que ser idêntico ao FAQPage JSON-LD do `index.html`.

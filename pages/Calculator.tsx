@@ -171,7 +171,7 @@ export default function Calculator() {
 
       <div className="mx-auto max-w-7xl px-4 pb-32 pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pb-20">
         <header className="max-w-3xl">
-          <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
+          <h1 className="font-display text-3xl font-medium leading-tight tracking-tight text-[#0B1E33] sm:text-4xl">
             Calculez votre volume
             <span className="sr-only"> : calculateur de volume en m³ et devis gratuit sous 30 min</span>
           </h1>
@@ -225,7 +225,7 @@ export default function Calculator() {
           <section aria-labelledby="inventory-title" className="overflow-hidden rounded-xl border border-slate-200 bg-white lg:col-span-8">
             <div className="border-b border-slate-200 px-4 pb-4 pt-5 sm:px-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h2 id="inventory-title" className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">
+                <h2 id="inventory-title" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
                   Votre inventaire
                 </h2>
                 <button type="button" onClick={handleReset} disabled={empty} className={buttonClass('ghost', 'sm', '-mr-2 text-slate-600')}>
@@ -321,13 +321,13 @@ export default function Calculator() {
 
           {/* Récapitulatif (collant sur desktop) */}
           <aside aria-labelledby="summary-title" className="lg:sticky lg:top-36 lg:col-span-4">
-            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_0_rgba(0,0,0,0.03)] sm:p-6">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-rest sm:p-6">
               <h2 id="summary-title" className="text-base font-semibold text-slate-600">
                 Volume estimé
               </h2>
-              <p className="mt-1 font-display text-5xl font-extrabold tracking-tight text-[#0B1E33] tabular-nums">
+              <p className="mt-1 font-display text-5xl font-medium tracking-tight text-[#0B1E33] tabular-nums">
                 {formatVolume(summary.totalVolume)}
-                <span className="ml-1.5 text-2xl font-bold text-slate-500">m³</span>
+                <span className="ml-1.5 text-2xl font-semibold text-slate-500">m³</span>
               </p>
               <p className="mt-1 text-base text-slate-600 tabular-nums">
                 {summary.totalItems} article{summary.totalItems > 1 ? 's' : ''}
@@ -384,7 +384,7 @@ export default function Calculator() {
         <div className="flex items-center gap-3 py-3 pl-4 pr-[92px]">
           <div className="min-w-0">
             <p className="text-sm text-slate-500">Volume</p>
-            <p className="font-display text-xl font-extrabold leading-tight tracking-tight text-[#0B1E33] tabular-nums">
+            <p className="font-display text-xl font-medium leading-tight tracking-tight text-[#0B1E33] tabular-nums">
               {formatVolume(summary.totalVolume)} m³
             </p>
           </div>

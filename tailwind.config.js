@@ -30,29 +30,21 @@ export default {
         },
       },
       fontFamily: {
-        sans: [
-          '"Inter"', 
-          '-apple-system', 
-          'BlinkMacSystemFont', 
-          '"Segoe UI"', 
-          'Roboto', 
-          '"Helvetica Neue"', 
-          'Arial', 
-          'sans-serif'
-        ],
-        display: [
-          '"Plus Jakarta Sans"', 
-          '-apple-system', 
-          'sans-serif'
-        ],
-        mono: [
-          '"Geist Mono"', 
-          '"SF Mono"', 
-          'Menlo', 
-          'Monaco', 
-          'Consolas', 
-          'monospace'
-        ]
+        // Uma família só: Google Sans Flex, variável, com eixo de tamanho óptico
+        // (o navegador ajusta o desenho da letra ao tamanho). "display" é o mesmo
+        // tipo, mantido como alias para os títulos.
+        sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Arial', 'sans-serif'],
+        display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        // Só o logotipo "Batimove Sàrl".
+        brand: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+        mono: ['"Geist Mono"', '"SF Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      // Tracking calibrado para a Google Sans Flex, que já é desenhada mais justa
+      // nos tamanhos grandes: o "tight" padrão do Tailwind (-0.025em) aperta demais.
+      letterSpacing: {
+        tighter: '-0.025em',
+        tight: '-0.015em',
+        normal: '0',
       },
       fontSize: {
         'xxs': ['10px', '14px'],
@@ -61,10 +53,20 @@ export default {
         'base': ['14px', '20px'],
         'lg': ['16px', '24px'],
       },
+      // Escala de elevação: 4 níveis, navy translúcido, duas camadas (uma curta que
+      // assenta o objeto, uma difusa que dá a altura). As utilidades padrão do
+      // Tailwind apontam para a escala, então shadow-sm…shadow-2xl nunca saem dela.
       boxShadow: {
-        'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
-        'premium': '0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04), 0 16px 32px rgba(0,0,0,0.04)',
-        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        rest: '0 1px 2px rgba(11, 30, 51, 0.06), 0 1px 3px rgba(11, 30, 51, 0.04)',
+        raised: '0 2px 4px -1px rgba(11, 30, 51, 0.06), 0 8px 16px -4px rgba(11, 30, 51, 0.08)',
+        overlay: '0 4px 8px -2px rgba(11, 30, 51, 0.06), 0 16px 32px -8px rgba(11, 30, 51, 0.14)',
+        modal: '0 8px 16px -4px rgba(11, 30, 51, 0.08), 0 32px 64px -16px rgba(11, 30, 51, 0.24)',
+        sm: '0 1px 2px rgba(11, 30, 51, 0.06), 0 1px 3px rgba(11, 30, 51, 0.04)',
+        DEFAULT: '0 1px 2px rgba(11, 30, 51, 0.06), 0 1px 3px rgba(11, 30, 51, 0.04)',
+        md: '0 2px 4px -1px rgba(11, 30, 51, 0.06), 0 8px 16px -4px rgba(11, 30, 51, 0.08)',
+        lg: '0 4px 8px -2px rgba(11, 30, 51, 0.06), 0 16px 32px -8px rgba(11, 30, 51, 0.14)',
+        xl: '0 4px 8px -2px rgba(11, 30, 51, 0.06), 0 16px 32px -8px rgba(11, 30, 51, 0.14)',
+        '2xl': '0 8px 16px -4px rgba(11, 30, 51, 0.08), 0 32px 64px -16px rgba(11, 30, 51, 0.24)',
       },
       animation: {
         'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',

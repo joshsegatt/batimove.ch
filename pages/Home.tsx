@@ -308,7 +308,7 @@ export const Home: React.FC = () => {
 
             {/* Coluna de texto */}
             <div className="flex min-w-0 flex-col justify-center py-4 sm:py-6 lg:col-span-7 lg:py-10 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:940px)]:py-5 [@media(min-width:1024px)_and_(max-height:760px)]:!py-4">
-              <h1 className="mb-4 font-display text-3xl font-extrabold leading-[1.05] tracking-tight text-[#0B1E33] min-[400px]:text-4xl sm:mb-5 sm:text-5xl xl:text-6xl [@media(max-height:500px)]:!text-4xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:text-5xl [@media(min-width:1024px)_and_(max-height:760px)]:!mb-2">
+              <h1 className="mb-4 font-display text-3xl font-medium leading-[1.05] tracking-tight text-[#0B1E33] min-[400px]:text-4xl sm:mb-5 sm:text-5xl xl:text-6xl [@media(max-height:500px)]:!text-4xl [@media(min-width:1024px)_and_(max-height:940px)]:mb-3 [@media(min-width:1024px)_and_(max-height:940px)]:text-5xl [@media(min-width:1024px)_and_(max-height:760px)]:!mb-2">
                 L'Art du <br />
                 <span className="whitespace-nowrap text-[#0284c7]">Déménagement&nbsp;!</span>
                 <span className="sr-only"> : Entreprise de déménagement professionnel à Genève, Lausanne et Vaud</span>
@@ -320,7 +320,7 @@ export const Home: React.FC = () => {
 
               {/* Seletor de serviço: cada opção é um devis gratuito já direcionado */}
               <div className="max-w-xl">
-                <h2 id="hero-projet" className="font-display text-lg font-bold tracking-tight text-[#0B1E33]">
+                <h2 id="hero-projet" className="font-display text-lg font-semibold tracking-tight text-[#0B1E33]">
                   Quel est votre projet&nbsp;?
                 </h2>
                 <p className="mb-4 mt-1 text-sm text-slate-600 [@media(min-width:1024px)_and_(max-height:940px)]:mb-3">
@@ -328,7 +328,7 @@ export const Home: React.FC = () => {
                 </p>
                 <ul
                   aria-labelledby="hero-projet"
-                  className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.03)]"
+                  className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-rest"
                 >
                   {QUOTE_SERVICES.map(({ id: type, label, hint, icon: Icon }, i) => (
                     <li key={type} className="relative">
@@ -370,7 +370,7 @@ export const Home: React.FC = () => {
                 <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-base [@media(min-width:1024px)_and_(max-height:940px)]:mt-4">
                   <a
                     href="tel:0800825925"
-                    className="inline-flex items-center gap-2 py-1 font-bold text-[#0B1E33] transition-colors duration-150 hover:text-[#0284c7]"
+                    className="inline-flex items-center gap-2 py-1 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0284c7]"
                   >
                     <Phone className="h-4 w-4" aria-hidden="true" />
                     <span className="tabular-nums">0800 825 925</span>
@@ -388,16 +388,16 @@ export const Home: React.FC = () => {
               {/* Indicadores de confiança */}
               <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-slate-200/80 pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
                 <div>
-                  <div className="font-display text-xl font-bold tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
-                  <div className="text-xs font-medium text-slate-500">Prix Fixe Garanti</div>
+                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
+                  <div className="text-xs font-medium text-slate-500">Prix fixe garanti</div>
                 </div>
                 <div>
-                  <div className="font-display text-xl font-bold tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
-                  <div className="text-xs font-medium text-slate-500">Assurance RC Incluse</div>
+                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
+                  <div className="text-xs font-medium text-slate-500">Assurance RC incluse</div>
                 </div>
                 <div>
-                  <div className="font-display text-xl font-bold tabular-nums text-[#0284c7] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs font-medium text-slate-500">Avis Clients Vérifiés</div>
+                  <div className="font-display text-xl font-medium tabular-nums text-[#0284c7] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
+                  <div className="text-xs font-medium text-slate-500">Avis clients vérifiés</div>
                 </div>
               </div>
             </div>
@@ -430,14 +430,14 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
             <h2
               id="engagements-title"
-              className="font-display text-2xl font-extrabold leading-[1.1] tracking-tight text-white lg:col-span-3 lg:text-4xl"
+              className="font-display text-2xl font-medium leading-[1.1] tracking-tight text-white lg:col-span-3 lg:text-4xl"
             >
               Ce que nous réglons pour vous
             </h2>
             <ul className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:col-span-9">
               {HOME_ENGAGEMENTS.map(({ title, text }) => (
                 <li key={title} className="border-t border-white/20 pt-5">
-                  <h3 className="font-display text-xl font-semibold tracking-tight text-white">{title}</h3>
+                  <h3 className="font-display text-xl font-medium tracking-tight text-white">{title}</h3>
                   <p className="mt-2 text-lg leading-relaxed text-slate-300">{text}</p>
                 </li>
               ))}
@@ -473,7 +473,7 @@ export const Home: React.FC = () => {
             <div className="lg:col-span-7">
               <h2
                 id="about-title"
-                className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl"
+                className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl"
               >
                 Batimove, en toute transparence
               </h2>
@@ -536,12 +536,12 @@ export const Home: React.FC = () => {
             
             {/* Left Column: Why Choose Us & 3 Icons */}
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
                 POURQUOI NOUS CHOISIR
               </span>
               
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
-                Recommandé par les Professionnels & Régies
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
+                Recommandé par les professionnels et les régies
               </h2>
 
               {/* 3 Columns under title */}
@@ -552,10 +552,10 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <FileText className="w-6 h-6" />
                   </div>
-                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
-                    Conseil Gratuit
+                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
+                    Conseil gratuit
                   </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-base text-slate-500 leading-relaxed">
                     Visite technique sur place ou estimation par vidéo gratuite sous 24h.
                   </p>
                 </div>
@@ -565,10 +565,10 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <ShieldCheck className="w-6 h-6" />
                   </div>
-                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
-                    Garantie Totale
+                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
+                    Garantie totale
                   </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-base text-slate-500 leading-relaxed">
                     Garantie 100% remise de clés conforme aux exigences des régies suisses.
                   </p>
                 </div>
@@ -578,10 +578,10 @@ export const Home: React.FC = () => {
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <Headphones className="w-6 h-6" />
                   </div>
-                  <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
                     Urgences 24/7
                   </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">
+                  <p className="text-base text-slate-500 leading-relaxed">
                     Ligne d'urgence 24/7 et chef de projet joignable en direct le jour J.
                   </p>
                 </div>
@@ -598,24 +598,24 @@ export const Home: React.FC = () => {
               {/* Dark Navy Highlight Card with Phone */}
               <div className="bg-[#0B1E33] text-white p-8 rounded-3xl shadow-xl border border-sky-500/20 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
-                <h4 className="text-sky-400 font-bold text-sm tracking-wider uppercase font-display mb-2">
+                <h4 className="text-sky-400 font-semibold text-sm tracking-wider uppercase font-display mb-2">
                   Besoin d'un devis immédiat ?
                 </h4>
-                <p className="text-slate-300 text-xs mb-6">
+                <p className="text-slate-300 text-base mb-6">
                   Nos spécialistes répondent à vos questions et planifient votre projet sans engagement :
                 </p>
                 <a 
                   href="tel:0800825925" 
                   className="inline-flex items-center gap-3 text-white hover:text-sky-300 transition-colors group"
                 >
-                  <div className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/40 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center text-white shadow-raised group-hover:scale-110 transition-transform">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="text-2xl sm:text-3xl font-extrabold font-display tracking-tight">
+                    <div className="text-2xl sm:text-3xl font-medium font-display tracking-tight">
                       0800 825 925
                     </div>
-                    <div className="text-xs text-sky-400 font-medium">Numéro Gratuit en Suisse</div>
+                    <div className="text-xs text-sky-400 font-medium">Numéro gratuit en Suisse</div>
                   </div>
                 </a>
               </div>
@@ -634,11 +634,11 @@ export const Home: React.FC = () => {
           
           {/* Header Centered */}
           <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
-            <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
               NOS SERVICES COMPLETS
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
-              Toujours Prêts à Répondre à Vos Besoins
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
+              Toujours prêts à répondre à vos besoins
             </h2>
           </div>
 
@@ -654,18 +654,18 @@ export const Home: React.FC = () => {
                   <ParachuteCargoIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
                 <Link to="/services?type=prive">
-                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Déménagement Longue Distance
+                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
+                    Déménagement longue distance
                   </h3>
                 </Link>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-4">
+                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
                   Intercantonal et international (Genève, Vaud, Zurich, France, UE) avec formalités de douane suisses intégrales.
                 </p>
                 <Link
                   to="/services?type=prive"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En Savoir Plus</span>
+                  <span>En savoir plus</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -678,18 +678,18 @@ export const Home: React.FC = () => {
                   <ScooterDeliveryIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
                 <Link to="/services?type=prive">
-                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Déménagement Résidentiel Local
+                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
+                    Déménagement résidentiel local
                   </h3>
                 </Link>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-4">
+                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
                   Genève, Lausanne, Nyon, Montreux. Formules sur mesure du studio à la villa avec protection complète.
                 </p>
                 <Link
                   to="/services?type=prive"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En Savoir Plus</span>
+                  <span>En savoir plus</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -725,18 +725,18 @@ export const Home: React.FC = () => {
                   <WarehouseShelfIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
                 <Link to="/services?type=entreprise">
-                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Transfert d'Entreprise & Bureaux
+                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
+                    Transfert d'entreprise et de bureaux
                   </h3>
                 </Link>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-4">
+                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
                   Déménagement de parcs informatiques, archives et open-spaces le week-end sans aucune coupure d'activité.
                 </p>
                 <Link
                   to="/services?type=entreprise"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En Savoir Plus</span>
+                  <span>En savoir plus</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -749,18 +749,18 @@ export const Home: React.FC = () => {
                   <LocationParcelIcon className="w-16 h-16 mx-auto mb-4" />
                 </Link>
                 <Link to="/services?type=prive">
-                  <h3 className="text-lg sm:text-xl font-bold font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    Petits Volumes & Transports Express
+                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
+                    Petits volumes et transports express
                   </h3>
                 </Link>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-4">
+                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
                   Transport de meubles spécifiques, enlèvement d'achats volumineux et interventions urgentes en Romandie.
                 </p>
                 <Link
                   to="/services?type=prive"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
                 >
-                  <span>En Savoir Plus</span>
+                  <span>En savoir plus</span>
                   <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
                     <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                   </span>
@@ -784,11 +784,11 @@ export const Home: React.FC = () => {
           
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-400 font-bold tracking-widest text-xs uppercase font-display mb-2 block">
+            <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
               PRESTATIONS SUR MESURE
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Services Complémentaires
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight">
+              Services complémentaires
             </h2>
           </div>
 
@@ -801,18 +801,18 @@ export const Home: React.FC = () => {
                 <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
                   <LogisticServicesPlaneIcon className="w-18 h-18" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Services Logistiques
+                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
+                  Services logistiques
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
                   Fret aérien, formalités de douane suisses et garde-meubles sous haute sécurité pour particuliers et entreprises.
                 </p>
               </div>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-sky-400 transition-colors group/link"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
               >
-                <span>En Savoir Plus</span>
+                <span>En savoir plus</span>
                 <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
                   <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                 </span>
@@ -825,18 +825,18 @@ export const Home: React.FC = () => {
                 <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
                   <CarShippingTruckIcon className="w-18 h-18" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de Véhicules
+                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
+                  Transport de véhicules
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
                   Acheminement sécurisé de voitures, motos et flottes d'entreprise dans toute la Suisse et l'Europe.
                 </p>
               </div>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-sky-400 transition-colors group/link"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
               >
-                <span>En Savoir Plus</span>
+                <span>En savoir plus</span>
                 <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
                   <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                 </span>
@@ -849,18 +849,18 @@ export const Home: React.FC = () => {
                 <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
                   <FurnitureShippingShipIcon className="w-18 h-18" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de Mobilier
+                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
+                  Transport de mobilier
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
                   Manutention experte de mobilier volumineux, monte-meubles extérieur et fret maritime pour vos relocalisations.
                 </p>
               </div>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-sky-400 transition-colors group/link"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
               >
-                <span>En Savoir Plus</span>
+                <span>En savoir plus</span>
                 <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
                   <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                 </span>
@@ -873,18 +873,18 @@ export const Home: React.FC = () => {
                 <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
                   <FastestShippingClockIcon className="w-18 h-18" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Livraisons Express
+                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
+                  Livraisons express
                 </h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
                   Interventions d'urgence 24/7, transport de petits volumes et livraisons express sous délais stricts garantis.
                 </p>
               </div>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-sky-400 transition-colors group/link"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
               >
-                <span>En Savoir Plus</span>
+                <span>En savoir plus</span>
                 <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
                   <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                 </span>
@@ -926,12 +926,12 @@ export const Home: React.FC = () => {
 
             {/* Right: Content & 2x2 Services Grid Matching Reference Image 2 */}
             <div className="lg:col-span-6 flex flex-col justify-center">
-              <span className="text-sky-600 font-bold tracking-widest text-xs uppercase font-display mb-3 block">
+              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
                 EMBALLAGE PROFESSIONNEL
               </span>
               
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight leading-[1.12] mb-6">
-                Nous Emballons Tout avec le Plus Grand Soin
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-6">
+                Nous emballons tout avec le plus grand soin
               </h2>
 
               <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
@@ -947,10 +947,10 @@ export const Home: React.FC = () => {
                     <PackingUnpackingIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
-                      Emballage & Déballage
+                    <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
+                      Emballage et déballage
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-base text-slate-600 leading-relaxed">
                       Caisses alvéolées et papier bulle anti-choc pour verres, vaisselle et objets fragiles.
                     </p>
                   </div>
@@ -962,10 +962,10 @@ export const Home: React.FC = () => {
                     <StorageClipboardIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
-                      Garde-Meubles & Stockage
+                    <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
+                      Garde-meubles et stockage
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-base text-slate-600 leading-relaxed">
                       Inventaire complet avec contrôle d'état et stockage sécurisé sous scellés à Genève.
                     </p>
                   </div>
@@ -977,10 +977,10 @@ export const Home: React.FC = () => {
                     <AssuranceUmbrellaIcon className="w-12 h-12" />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-[#0B1E33] text-base mb-1.5">
+                    <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
                       Assurance All Risk
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p className="text-base text-slate-600 leading-relaxed">
                       Couverture All Risk de vos biens, en complément de notre RC Pro jusqu'à 5M CHF.
                     </p>
                   </div>
@@ -988,7 +988,7 @@ export const Home: React.FC = () => {
 
                 {/* 4: Action Slot (Short text + Button as in Reference) */}
                 <div className="p-6 rounded-2xl flex flex-col justify-between items-start bg-slate-50/50 border border-slate-100">
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                  <p className="text-base text-slate-600 leading-relaxed mb-4">
                     Estimez votre matériel et commandez vos fournitures d'emballage en quelques clics.
                   </p>
                   <Link to="/calculator" className={buttonClass('secondary', 'md', 'w-full sm:w-auto')}>
@@ -1021,8 +1021,8 @@ export const Home: React.FC = () => {
               </svg>
               <span>{GOOGLE_RATING.value} / 5 • {GOOGLE_RATING.count} avis Google vérifiés</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E33] tracking-tight">
-              Ce Que Disent Nos Clients
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
+              Ce que disent nos clients
             </h2>
           </div>
 
@@ -1033,7 +1033,7 @@ export const Home: React.FC = () => {
               return (
                 <div 
                   key={`${t.name}-${offset}`}
-                  className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+                  className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between"
                 >
                   <div>
                     {/* Stars + Google badge */}
@@ -1043,7 +1043,7 @@ export const Home: React.FC = () => {
                           <Star key={i} className="w-4 h-4 fill-amber-400" />
                         ))}
                       </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-[10px] font-semibold text-slate-600 shadow-sm">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-xs font-semibold text-slate-600 shadow-sm">
                         <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                           <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
                           <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
@@ -1067,8 +1067,8 @@ export const Home: React.FC = () => {
                       className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                     <div>
-                      <h4 className="font-display font-bold text-sm text-[#0B1E33]">{t.name}</h4>
-                      <div className="text-[11px] text-slate-500 font-medium">{t.location}</div>
+                      <h4 className="font-display font-semibold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <div className="text-xs text-slate-500 font-medium">{t.location}</div>
                     </div>
                   </div>
                 </div>
@@ -1089,7 +1089,7 @@ export const Home: React.FC = () => {
                           <Star key={i} className="w-4 h-4 fill-amber-400" />
                         ))}
                       </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-[10px] font-semibold text-slate-600 shadow-sm">
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200/90 text-xs font-semibold text-slate-600 shadow-sm">
                         <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                           <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
                           <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
@@ -1110,8 +1110,8 @@ export const Home: React.FC = () => {
                       className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                     <div>
-                      <h4 className="font-display font-bold text-sm text-[#0B1E33]">{t.name}</h4>
-                      <div className="text-[11px] text-slate-500 font-medium">{t.location}</div>
+                      <h4 className="font-display font-semibold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <div className="text-xs text-slate-500 font-medium">{t.location}</div>
                     </div>
                   </div>
                 </div>
@@ -1144,19 +1144,19 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 9: BANDEAU DEVIS
           ========================================================================= */}
-      <section className="bg-[#07182b] text-white relative z-20 overflow-visible shadow-2xl">
+      <section className="bg-[#07182b] text-white relative z-20 overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-7 sm:py-8 lg:py-9">
             
             {/* Left: Text & CTA with site's red button */}
             <div className="md:col-span-7 lg:col-span-7 z-10">
-              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight mb-2.5">
-                Vous Avez un Projet de Déménagement ?
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium text-white tracking-tight leading-tight mb-2.5">
+                Vous avez un projet de déménagement ?
               </h2>
               <p className="text-sky-300 text-base sm:text-lg lg:text-xl font-medium mb-1.5">
                 Devis gratuit et ferme sous 30 min (8h-19h).
               </p>
-              <p className="text-slate-300 text-xs sm:text-sm font-normal mb-6">
+              <p className="text-slate-300 text-base font-normal mb-6">
                 Sans engagement • Appel gratuit au <a href="tel:0800825925" className="font-semibold text-white underline underline-offset-2 tabular-nums">0800 825 925</a>
               </p>
               <Link to="/quote" className={buttonClass('primary', 'lg')}>
@@ -1204,7 +1204,7 @@ export const Home: React.FC = () => {
           ========================================================================= */}
       <section className="py-12 sm:py-14 lg:py-16 bg-[#f8fafc] border-b border-slate-200/60" aria-labelledby="home-faq-title">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 id="home-faq-title" className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1E33] tracking-tight text-center mb-8 lg:mb-10">
+          <h2 id="home-faq-title" className="font-display text-2xl sm:text-3xl lg:text-4xl font-medium text-[#0B1E33] tracking-tight text-center mb-8 lg:mb-10">
             Questions fréquentes
           </h2>
 
@@ -1212,7 +1212,7 @@ export const Home: React.FC = () => {
             {HOME_FAQ.map((item) => (
               <details key={item.question} className="group py-1">
                 <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
-                  <h3 className="font-display font-bold text-base sm:text-lg text-[#0B1E33] leading-snug">
+                  <h3 className="font-display font-semibold text-base sm:text-lg text-[#0B1E33] leading-snug">
                     {item.question}
                   </h3>
                   <ChevronDown

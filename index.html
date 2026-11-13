@@ -234,9 +234,10 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Added Plus Jakarta Sans for Headings -->
+  <!-- Tipografia: Google Sans Flex (variável, com tamanho óptico) para todo o site.
+       Plus Jakarta Sans 800 fica só no logotipo "Batimove Sàrl". -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Plus+Jakarta+Sans:wght@800&display=swap"
     rel="stylesheet">
 
   <style>
@@ -273,7 +274,7 @@
          aparece se a carga passar de 0,6 s. O h1 fica só para leitores e robôs. -->
     <div id="app-skeleton" aria-busy="true">
       <style>
-        #app-skeleton{min-height:100vh;background:#F8FAFC;font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+        #app-skeleton{min-height:100vh;background:#F8FAFC;font-family:'Google Sans Flex',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
         #app-skeleton .bs-top{display:none;height:33px;background:#07182b}
         @media (min-width:768px){#app-skeleton .bs-top{display:block}}
         #app-skeleton .bs-nav{height:68px;background:#fff;border-bottom:1px solid #e2e8f0}
@@ -281,7 +282,7 @@
         @media (min-width:640px){#app-skeleton .bs-in{padding:0 24px}}
         @media (min-width:1024px){#app-skeleton .bs-in{padding:0 32px}}
         #app-skeleton .bs-logo{width:auto;height:32px}@media (min-width:640px){#app-skeleton .bs-logo{height:36px}}
-        #app-skeleton .bs-name{font-size:16px;line-height:1;font-weight:800;letter-spacing:-0.025em;white-space:nowrap;color:#0B1E33}@media (min-width:640px){#app-skeleton .bs-name{font-size:20px}}
+        #app-skeleton .bs-name{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:16px;line-height:1;font-weight:800;letter-spacing:-0.025em;white-space:nowrap;color:#0B1E33}@media (min-width:640px){#app-skeleton .bs-name{font-size:20px}}
         #app-skeleton .bs-bar{position:relative;height:2px;overflow:hidden}
         #app-skeleton .bs-bar::after{content:"";position:absolute;top:0;bottom:0;left:0;width:30%;background:#0B1E33;opacity:0;animation:bsLoad 1.2s cubic-bezier(.16,1,.3,1) .6s infinite}
         @keyframes bsLoad{from{transform:translateX(-100%);opacity:1}to{transform:translateX(340%);opacity:1}}

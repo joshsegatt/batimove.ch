@@ -97,7 +97,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
                 )}
               </ol>
             </nav>
-            <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl">{h1}</h1>
+            <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] tracking-tight text-white sm:text-5xl">{h1}</h1>
             <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-slate-200 sm:text-xl">{lead}</p>
             <ul className="mt-7 flex flex-col gap-2.5 text-base text-white sm:flex-row sm:flex-wrap sm:gap-x-6">
               {['RC Pro CHF 5M et All Risk', 'Prix ferme, aucun surcoût', 'Joignable 7j/7'].map((t) => (
@@ -109,7 +109,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
             </ul>
             <a
               href="tel:0800825925"
-              className="mt-8 inline-flex items-center gap-2 py-2 text-lg font-bold text-white transition-colors hover:text-sky-300"
+              className="mt-8 inline-flex items-center gap-2 py-2 text-lg font-semibold text-white transition-colors hover:text-sky-300"
             >
               <Phone className="h-5 w-5" aria-hidden="true" />
               <span className="tabular-nums">0800 825 925</span>
@@ -131,7 +131,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       {/* O que está incluído */}
       <section aria-labelledby="compris-title" className="py-16 lg:py-24">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8">
-          <h2 id="compris-title" className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0B1E33] lg:col-span-4 lg:text-4xl">
+          <h2 id="compris-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:col-span-4 lg:text-4xl">
             Ce qui est compris
           </h2>
           <ul className="grid grid-cols-1 border-t border-slate-200 sm:grid-cols-2 lg:col-span-8">
@@ -153,7 +153,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
         <section aria-labelledby="local-title" className="border-t border-slate-200 py-16 lg:py-24">
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8">
             <div className="lg:col-span-5">
-              <h2 id="local-title" className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
+              <h2 id="local-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
                 {SERVICE_NAME[serviceKey]} {locality.prep}
               </h2>
               <p className="mt-6 text-sm font-semibold text-slate-500">{locality.areasTitle}</p>
@@ -170,7 +170,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
               <dl className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
                 {locality.notes.map((n) => (
                   <div key={n.title} className="border-t-2 border-[#0B1E33] pb-6 pt-5">
-                    <dt className="font-display text-xl font-bold tracking-tight text-[#0B1E33]">{n.title}</dt>
+                    <dt className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">{n.title}</dt>
                     <dd className="mt-2 text-lg leading-relaxed text-slate-600">{n.text}</dd>
                   </div>
                 ))}
@@ -192,14 +192,14 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       {/* Etapas: a numeração carrega a ordem real do processo */}
       <section aria-labelledby="etapes-title" className="bg-[#F8FAFC] py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 id="etapes-title" className="font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
+          <h2 id="etapes-title" className="font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] lg:text-4xl">
             Comment ça se passe
           </h2>
           <ol className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
             {config.steps.map((step, i) => (
               <li key={step.title} className="border-t-2 border-[#0B1E33] pt-5">
-                <span className="font-display text-sm font-bold tabular-nums text-slate-500">Étape {i + 1}</span>
-                <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-[#0B1E33]">{step.title}</h3>
+                <span className="font-display text-sm font-semibold tabular-nums text-slate-500">Étape {i + 1}</span>
+                <h3 className="mt-2 font-display text-xl font-medium tracking-tight text-[#0B1E33]">{step.title}</h3>
                 <p className="mt-2 text-lg leading-relaxed text-slate-600">{step.text}</p>
               </li>
             ))}
@@ -210,7 +210,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       {/* FAQ visível */}
       <section aria-labelledby="faq-title" className="py-16 lg:py-20">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 id="faq-title" className="font-display text-3xl font-extrabold tracking-tight text-[#0B1E33]">
+          <h2 id="faq-title" className="font-display text-3xl font-medium tracking-tight text-[#0B1E33]">
             Questions fréquentes
           </h2>
           <div className="mt-6 divide-y divide-slate-200 border-y border-slate-200">
@@ -231,7 +231,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       {hasLocalPages && (
       <section aria-labelledby="zones-title" className="border-t border-slate-200 bg-[#F8FAFC] py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 id="zones-title" className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">
+          <h2 id="zones-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
             {SERVICE_NAME[serviceKey]} près de chez vous
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -270,7 +270,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       {/* Outras prestações (links internos) */}
       <section aria-labelledby="autres-title" className="border-t border-slate-200 py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 id="autres-title" className="font-display text-2xl font-extrabold tracking-tight text-[#0B1E33]">
+          <h2 id="autres-title" className="font-display text-2xl font-medium tracking-tight text-[#0B1E33]">
             Nos autres prestations
           </h2>
           <ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -299,7 +299,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
       <section className="bg-[#0B1E33]">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:px-8">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-white">Devis gratuit sous 30 min</h2>
+            <h2 className="font-display text-3xl font-medium tracking-tight text-white">Devis gratuit sous 30 min</h2>
             <p className="mt-2 text-lg text-slate-300">Prix ferme : aucun surcoût une fois le devis accepté.</p>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -310,7 +310,7 @@ export const ServiceLandingTemplate: React.FC<{ config: ServiceLanding; locality
               Demander un devis
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </a>
-            <a href="tel:0800825925" className="inline-flex items-center gap-2 py-3 text-lg font-bold text-white transition-colors hover:text-sky-300">
+            <a href="tel:0800825925" className="inline-flex items-center gap-2 py-3 text-lg font-semibold text-white transition-colors hover:text-sky-300">
               <Phone className="h-5 w-5" aria-hidden="true" />
               <span className="tabular-nums">0800 825 925</span>
             </a>
