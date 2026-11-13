@@ -6,6 +6,8 @@ colors:
   navy-hover: "#132C48"
   bleu-suisse: "#0284C7"
   bleu-suisse-hover: "#0EA5E9"
+  bleu-action: "#0369A1"
+  bleu-action-hover: "#075985"
   rouge-suisse: "#E10600"
   fond-ardoise: "#F8FAFC"
   surface: "#FFFFFF"
@@ -61,19 +63,21 @@ spacing:
   "16": "64px"
 components:
   button-primary:
+    backgroundColor: "{colors.bleu-action}"
+    textColor: "{colors.surface}"
+    rounded: "{rounded.lg}"
+    padding: "0 24px"
+    height: "48px"
+  button-primary-hover:
+    backgroundColor: "{colors.bleu-action-hover}"
+  button-secondary:
     backgroundColor: "{colors.navy-institutionnel}"
     textColor: "{colors.surface}"
     rounded: "{rounded.lg}"
-    padding: "14px 32px"
-  button-primary-hover:
-    backgroundColor: "{colors.navy-hover}"
-  button-secondary:
-    backgroundColor: "{colors.bleu-suisse}"
-    textColor: "{colors.surface}"
-    rounded: "{rounded.lg}"
-    padding: "14px 32px"
+    padding: "0 24px"
+    height: "48px"
   button-secondary-hover:
-    backgroundColor: "{colors.bleu-suisse-hover}"
+    backgroundColor: "{colors.navy-hover}"
   button-outline:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.navy-institutionnel}"
@@ -122,7 +126,8 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 - **Navy Hover** (#132C48): estado hover do botão primário.
 
 ### Secondary
-- **Bleu Suisse** (#0284C7): destaques, links, foco e botão secundário. Em texto pequeno sobre branco fica em 4,1:1, abaixo do AA: use só em texto ≥18px bold ou como fundo de botão com texto bold.
+- **Bleu Suisse** (#0284C7): destaques, links e foco. Em texto pequeno sobre branco fica em 4,1:1, abaixo do AA: use só em texto ≥18px bold.
+- **Bleu Action** (#0369A1, hover #075985): fundo do botão de conversão (`btn-primary`). Com texto branco fica em 5,9:1, dentro do AA.
 - **Bleu Suisse Hover** (#0EA5E9): hover do botão secundário.
 
 ### Tertiary
@@ -195,12 +200,14 @@ Bordas de 1px sutis (`border-slate-200`). Raio de 12px (`rounded-xl`) para botõ
 Precisos e contidos: cada componente tem uma função clara e um único estado de destaque.
 
 ### Buttons
-- **Shape:** cantos de 12px (`rounded-xl`).
-- **Primary:** navy institucional com texto branco, 14 × 32px, bold. É a ação principal da página ("Demander un Devis Gratuit").
-- **Secondary:** Bleu Suisse com texto branco bold, para a segunda ação em fundo escuro.
-- **Outline:** fundo branco, borda de 1px, texto navy, para a ação alternativa ("Calculer mon volume").
-- **Hover / Focus:** troca de cor em 150–200ms; foco com anel de 2px azul e offset de 2px. Sem `scale` acima de 1.02.
-- **Regra de HTML:** um link de navegação estilizado como botão é um `<a>`; não aninhar `<button>` dentro de `<Link>`.
+Um só sistema, em `src/index.css` (`.btn` + tamanho + variante) e no componente `Button` / `buttonClass()` de `components/UIComponents.tsx`. Vale para `<button>`, `<a>` e `<Link>`.
+- **Shape:** cantos de 12px (`rounded-xl`), semibold, alturas 36 / 44 / 48px (`btn-sm`, `btn-md`, `btn-lg`).
+- **Primary (`btn-primary`):** a ação de conversão (devis, envoyer, continuer). Bleu Action em degradê sutil de #0377B8 a #0369A1 com texto branco (4,8 a 5,9:1, AA), brilho interno de 1px e sombra neutra com offset. Uma por bloco.
+- **Secondary (`btn-secondary`):** navy institucional, ação forte que não é conversão ("Découvrir nos prestations").
+- **Outline / Ghost (`btn-outline`, `btn-ghost`):** ações alternativas ("Calculer mon volume", "Retour").
+- **Inverse (`btn-inverse`):** branco com texto navy, sobre faixas navy.
+- **Hover / Active / Focus:** troca de cor em 150ms; no clique, `scale(0.98)` tátil; foco com anel de 2px azul e offset de 2px. Sem `scale` no hover, sem sombra colorida.
+- **Regra de HTML:** um link de navegação estilizado como botão é um `<a>`/`<Link>` com `buttonClass()`; não aninhar `<button>` dentro de `<Link>`.
 
 ### Cards / Containers
 - **Corner Style:** 12px.

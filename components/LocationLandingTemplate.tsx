@@ -25,7 +25,7 @@ import {
   Headphones, 
   ChevronDown
 } from 'lucide-react';
-import { Button } from './UIComponents';
+import { Button, buttonClass } from './UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from './SEO';
 import { GOOGLE_RATING } from '../data/reviews';
@@ -186,16 +186,12 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <Link to="/quote">
-                  <Button className="bg-[#0B1E33] hover:bg-[#132c48] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-[#0B1E33]/25 flex items-center gap-2.5 sm:gap-3 transition-all hover:scale-105 group border-none cursor-pointer">
-                    <span>Demander un Devis Gratuit</span>
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform text-sky-400" />
-                  </Button>
+                <Link to="/quote" className={buttonClass('primary', 'lg')}>
+                  Demander un devis gratuit
+                  <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </Link>
-                <Link to="/calculator">
-                  <Button variant="outline" className="border-slate-300 hover:bg-slate-100 text-slate-700 px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all cursor-pointer">
-                    <span>Calculer mon volume</span>
-                  </Button>
+                <Link to="/calculator" className={buttonClass('outline', 'lg')}>
+                  Calculer mon volume
                 </Link>
               </div>
 
@@ -416,7 +412,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                   Nettoyage fin de bail 100% garanti avec présence physique de nos agents lors de la remise des clés à la régie.
                 </p>
               </div>
-              <Link to="/services?type=nettoyage" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to="/nettoyage-fin-de-bail" className="text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>Garantie remise de clés</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
@@ -562,13 +558,8 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/calculator">
-              <Button 
-                variant="secondary"
-                className="bg-[#0284c7] hover:bg-sky-500 text-white px-8 sm:px-10 py-4 rounded-xl font-bold text-base shadow-xl shadow-sky-500/30 hover:shadow-2xl transition-all border-none cursor-pointer"
-              >
-                Estimer Mon Volume en Ligne
-              </Button>
+            <Link to="/calculator" className={buttonClass('inverse', 'lg')}>
+              Estimer mon volume en ligne
             </Link>
             <a 
               href="tel:0800825925" 

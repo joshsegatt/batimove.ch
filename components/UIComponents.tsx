@@ -2,11 +2,23 @@ import React from 'react';
 import { motion, HTMLMotionProps } from 'framer-motion';
 
 // --- Button ---
-interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+// Usa o sistema de botões global (src/index.css: .btn, .btn-primary…), o mesmo
+// aplicado em <a> e <Link> estilizados como botão.
+//   primary   = ação de conversão (azul profundo da marca)
+//   secondary = navy institucional
+//   outline / ghost = ações alternativas; inverse = sobre fundo navy
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   isLoading?: boolean;
 }
+
+/** Classes do sistema de botões, para <a>/<Link> que precisam parecer botão. */
+export const buttonClass = (variant: ButtonVariant = 'primary', size: ButtonSize = 'md', extra = '') =>
+  `btn btn-${size} btn-${variant} ${extra}`.trim();
 
 export const Button: React.FC<ButtonProps> = ({
   children,
@@ -14,42 +26,23 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   isLoading,
   className = '',
+  disabled,
   ...props
-}) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
-
-  const variants = {
-    primary: "bg-[#0B1E33] text-white hover:bg-[#132c48] focus:ring-sky-500 shadow-lg shadow-[#0B1E33]/25",
-    secondary: "bg-[#0284c7] text-white hover:bg-sky-500 focus:ring-sky-500 shadow-lg shadow-sky-500/25",
-    outline: "border-2 border-slate-200 text-slate-700 hover:border-[#0284c7] hover:text-[#0284c7] bg-transparent",
-    ghost: "text-slate-600 hover:text-[#0284c7] hover:bg-slate-100",
-  };
-
-  const sizes = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-5 py-2.5 text-base",
-    lg: "px-8 py-3.5 text-lg",
-  };
-
-  return (
-    <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
-      {...props}
-    >
-      {isLoading ? (
-        <span className="flex items-center gap-2">
-          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          Loading...
-        </span>
-      ) : children}
-    </motion.button>
-  );
-};
+}) => (
+  <button className={buttonClass(variant, size, className)} disabled={disabled || isLoading} aria-busy={isLoading || undefined} {...props}>
+    {isLoading ? (
+      <>
+        <svg className="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" aria-hidden="true">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg>
+        Envoi en cours…
+      </>
+    ) : (
+      children
+    )}
+  </button>
+);
 
 // --- Input ---
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

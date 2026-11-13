@@ -313,7 +313,9 @@ export const Services: React.FC = () => {
                     </div>
                     <Button
                       onClick={() => setIsSuccess(false)}
-                      className="bg-slate-100 hover:bg-slate-200 text-[#0B1E33] text-xs px-4 py-2 rounded-xl border border-slate-300 cursor-pointer font-semibold transition-all mt-2"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
                     >
                       Nouvelle demande
                     </Button>
