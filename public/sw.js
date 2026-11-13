@@ -18,7 +18,10 @@ if (isLocalhost) {
   });
 } else {
   // Production PWA caching
-  const CACHE_NAME = 'batimove-os-v12';
+  // v13: só /assets/ (nomes com hash) é servido do cache primeiro. O resto
+  // (imagens de public/, sitemap, manifest) vai à rede primeiro, senão uma
+  // imagem trocada mantendo o nome nunca chegava a quem já visitou o site.
+  const CACHE_NAME = 'batimove-v13';
   const PRECACHE_ASSETS = [
     '/',
     '/index.html',
@@ -78,29 +81,30 @@ if (isLocalhost) {
       return;
     }
 
-    // Static assets: cache-first with network fallback & update
+    // Outras origens (Google, EmailJS): não intercepta.
+    if (url.origin !== self.location.origin) return;
+
+    const guardar = (response) => {
+      if (response && response.status === 200 && response.type === 'basic') {
+        const copia = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copia));
+      }
+      return response;
+    };
+
+    // /assets/: o nome muda a cada build, então o conteúdo de um nome nunca muda.
+    if (url.pathname.startsWith('/assets/')) {
+      event.respondWith(
+        caches.match(event.request).then((cached) => cached || fetch(event.request).then(guardar))
+      );
+      return;
+    }
+
+    // Demais arquivos: rede primeiro, cache só quando estiver offline.
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request).then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-            return networkResponse;
-          }
-          if (url.origin === self.location.origin) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-          }
-          return networkResponse;
-        }).catch(() => {
-          if (event.request.mode === 'navigate') {
-            return caches.match('/index.html');
-          }
-        });
-      })
+      fetch(event.request)
+        .then(guardar)
+        .catch(() => caches.match(event.request))
     );
   });
 }
