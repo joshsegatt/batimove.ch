@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ChevronDown, ChevronRight, Phone } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { QuoteWizard } from '../components/quote/QuoteWizard';
-import { defineCopy, useLang } from '../i18n';
+import { defineCopy, useLang, type Lang } from '../i18n';
+import { COUNTRIES, type CountrySlug } from '../data/countries';
+import { COUNTRY_PAGES } from '../data/countryPages';
 
-// Páginas de mudança para fora da Suíça: Internacional (Europa) e Londres.
+// Páginas de mudança para fora da Suíça: Internacional (Europa), Londres e uma
+// página por país (/demenagement-france…, conteúdo em data/countryPages.ts).
 // Destinos confirmados pela Batimove: países vizinhos, resto da UE e Reino Unido.
 // As regras de alfândega citadas são as oficiais (formulário 18.44 suíço,
 // franquia da UE do Regulamento (CE) 1186/2009, ToR1 do HMRC britânico);
@@ -16,8 +19,13 @@ interface Faq {
   a: string;
 }
 
+/** Item de lista: texto simples ou link para outra página (caminho francês). */
+type ListItem = string | { label: string; to: string };
+
 interface AbroadCopy {
   breadcrumb: string;
+  /** Nível intermediário do fil d'Ariane (ex. Déménagement international) */
+  parent?: { label: string; to: string };
   h1: string;
   lead: string;
   checks: string[];
@@ -25,7 +33,7 @@ interface AbroadCopy {
   wizardTo?: string;
   hero: { src: string; srcSmall: string; alt: string; position: string };
   /** Bloco principal: destinos (internacional) ou o que está incluído (Londres) */
-  main: { title: string; intro?: string; groups: { title: string; items: string[]; link?: { label: string; to: string } }[] };
+  main: { title: string; intro?: string; groups: { title: string; items: ListItem[]; link?: { label: string; to: string } }[] };
   customs: { title: string; intro: string; items: { title: string; text: string }[]; note: string };
   steps: { title: string; text: string }[];
   stepsTitle: string;
@@ -45,6 +53,13 @@ const CUSTOMS_CH_EN = {
   text: 'Household effects enter duty-free if you have used them for at least six months and keep using them in Switzerland. They are declared on form 18.44 of the Swiss customs administration.',
 };
 
+/** Links "France", "Italie"… para as páginas de país. */
+const countryLinks = (lang: Lang, slugs: CountrySlug[]): ListItem[] =>
+  slugs.map((slug) => {
+    const p = COUNTRIES.find((x) => x.slug === slug)!;
+    return { label: lang === 'en' ? p.nameEn : p.name, to: p.path };
+  });
+
 const INTERNATIONAL = defineCopy<AbroadCopy>(
   {
     breadcrumb: 'Déménagement international',
@@ -62,14 +77,18 @@ const INTERNATIONAL = defineCopy<AbroadCopy>(
       title: 'Où nous allons',
       intro: "Départ de Genève ou du canton de Vaud, ou arrivée en Suisse romande depuis l'étranger.",
       groups: [
-        { title: 'Pays voisins', items: ['France', 'Italie', 'Allemagne', 'Autriche', 'Liechtenstein'] },
+        { title: 'Pays voisins', items: [...countryLinks('fr', ['france', 'italie', 'allemagne', 'autriche']), 'Liechtenstein'] },
         {
-          title: "Reste de l'Union européenne",
-          items: ['Portugal', 'Espagne', 'Belgique', 'Pays-Bas', 'Luxembourg', 'et les autres pays de l’UE'],
+          // Monaco não é da UE: o título fala da Europa.
+          title: "Reste de l'Europe",
+          items: [
+            ...countryLinks('fr', ['portugal', 'espagne', 'belgique', 'pays-bas', 'luxembourg', 'monaco']),
+            'et les autres pays de l’UE',
+          ],
         },
         {
           title: 'Royaume-Uni',
-          items: ['Londres et toute l’Angleterre', 'Documents de douane depuis le Brexit'],
+          items: [...countryLinks('fr', ['royaume-uni']), 'Londres et toute l’Angleterre', 'Documents de douane depuis le Brexit'],
           link: { label: 'Déménagement Genève – Londres', to: '/demenagement-londres' },
         },
       ],
@@ -144,14 +163,17 @@ const INTERNATIONAL = defineCopy<AbroadCopy>(
       title: 'Where we go',
       intro: 'Leaving from Geneva or the canton of Vaud, or moving into French-speaking Switzerland from abroad.',
       groups: [
-        { title: 'Neighbouring countries', items: ['France', 'Italy', 'Germany', 'Austria', 'Liechtenstein'] },
+        { title: 'Neighbouring countries', items: [...countryLinks('en', ['france', 'italie', 'allemagne', 'autriche']), 'Liechtenstein'] },
         {
-          title: 'The rest of the European Union',
-          items: ['Portugal', 'Spain', 'Belgium', 'the Netherlands', 'Luxembourg', 'and the other EU countries'],
+          title: 'The rest of Europe',
+          items: [
+            ...countryLinks('en', ['portugal', 'espagne', 'belgique', 'pays-bas', 'luxembourg', 'monaco']),
+            'and the other EU countries',
+          ],
         },
         {
           title: 'United Kingdom',
-          items: ['London and the rest of England', 'Customs paperwork since Brexit'],
+          items: [...countryLinks('en', ['royaume-uni']), 'London and the rest of England', 'Customs paperwork since Brexit'],
           link: { label: 'Removals Geneva – London', to: '/demenagement-londres' },
         },
       ],
@@ -381,6 +403,131 @@ const LONDON = defineCopy<AbroadCopy>(
   }
 );
 
+const COUNTRY_COMMON = defineCopy(
+  {
+    parent: { label: 'Déménagement international', to: '/demenagement-international' },
+    h1: (art: string) => `Déménagement entre la Suisse et ${art}`,
+    lead: (art: string) =>
+      `Depuis Genève et toute la Suisse romande vers ${art}, et dans l'autre sens : emballage, transport, livraison à la nouvelle adresse et aide pour les documents de douane.`,
+    citiesTitle: 'Principales destinations',
+    mainTitle: 'Où nous allons',
+    includedTitle: 'Ce qui est compris',
+    included: ['Emballage et protection de vos biens', 'Démontage des meubles', 'Transport et livraison à la nouvelle adresse', 'Aide pour les documents de douane'],
+    notesTitle: 'Bon à savoir',
+    bothWays: 'Dans les deux sens, vers la Suisse aussi',
+    customs: (art: string, dest: string) => ({
+      title: 'La douane, vue avec notre bureau',
+      intro: `Entre la Suisse et ${art}, un déménagement passe par la douane. Chaque situation est différente : les formalités sont vues directement avec notre bureau, après votre demande de devis.`,
+      items: [
+        { title: 'Votre demande de devis', text: `Vous décrivez le logement, la date et votre future adresse ${dest}.` },
+        { title: 'Un échange avec notre bureau', text: 'Notre bureau vous contacte pour faire le point sur votre situation et les documents de douane nécessaires.' },
+        { title: 'Les documents préparés avec vous', text: 'Nous vous aidons à les préparer avant le départ, pour passer la frontière sans mauvaise surprise.' },
+      ],
+      note: 'Les règles peuvent changer : votre situation est toujours vérifiée avec vous au moment du devis.',
+    }),
+    reverseQ: (art: string) => `Faites-vous aussi le déménagement depuis ${art} vers la Suisse ?`,
+    reverseA: 'Oui, dans les deux sens et avec le même service : emballage, transport, aide pour la douane et livraison.',
+    docsQ: 'Quels documents faut-il pour la douane ?',
+    docsA: 'Cela dépend de votre situation. Notre bureau vous donne la liste après votre demande de devis et vous aide à préparer les documents.',
+    relatedCountry: (name: string) => `Déménagement ${name}`,
+    band: (dest: string) => ({
+      title: `Vous partez ${dest} ?`,
+      text: 'Décrivez votre déménagement en deux minutes : réponse sous 30 min, de 8h à 19h.',
+      cta: 'Demander un devis',
+    }),
+  },
+  {
+    parent: { label: 'International removals', to: '/demenagement-international' },
+    h1: (art: string) => `Removals between Switzerland and ${art}`,
+    lead: (art: string) =>
+      `From Geneva and the rest of French-speaking Switzerland to ${art}, and back again: packing, transport, delivery to your new address and help with the customs paperwork.`,
+    citiesTitle: 'Main destinations',
+    mainTitle: 'Where we go',
+    includedTitle: 'What’s included',
+    included: ['Packing and protection of your belongings', 'Furniture dismantling', 'Transport and delivery to your new address', 'Help with the customs paperwork'],
+    notesTitle: 'Good to know',
+    bothWays: 'Both ways, into Switzerland as well',
+    customs: (art: string) => ({
+      title: 'Customs, handled with our office',
+      intro: `Moving between Switzerland and ${art} means crossing a customs border. Every situation is different, so the formalities are handled directly with our office once you have requested a quote.`,
+      items: [
+        { title: 'Your quote request', text: 'Tell us about the property, the date and your new address.' },
+        { title: 'A conversation with our office', text: 'Our office gets in touch to go over your situation and the customs documents you need.' },
+        { title: 'Paperwork prepared with you', text: 'We help you prepare them before you leave, so the border crossing holds no surprises.' },
+      ],
+      note: 'The rules can change: your situation is always checked with you when we prepare the quote.',
+    }),
+    reverseQ: (art: string) => `Do you also move people from ${art} to Switzerland?`,
+    reverseA: 'Yes, both ways and with the same service: packing, transport, help with customs and delivery.',
+    docsQ: 'Which customs documents do I need?',
+    docsA: 'It depends on your situation. Our office gives you the list once you have requested a quote and helps you prepare the documents.',
+    relatedCountry: (name: string) => `Removals to ${name}`,
+    band: (dest: string) => ({
+      title: `Moving ${dest}?`,
+      text: 'Describe your move in two minutes: we reply within 30 min, between 8am and 7pm.',
+      cta: 'Request a quote',
+    }),
+  }
+);
+
+/** Monta a página de um país a partir do texto próprio (data/countryPages.ts) e do comum. */
+const countryCopy = (slug: CountrySlug): Record<Lang, AbroadCopy> => {
+  const data = COUNTRY_PAGES[slug];
+  const country = COUNTRIES.find((x) => x.slug === slug)!;
+  const build = (lang: Lang): AbroadCopy => {
+    const t = data[lang];
+    const k = COUNTRY_COMMON[lang];
+    const base = INTERNATIONAL[lang];
+    const name = lang === 'en' ? country.nameEn : country.name;
+    return {
+      breadcrumb: name,
+      parent: k.parent,
+      h1: k.h1(t.art),
+      lead: k.lead(t.art),
+      checks: base.checks,
+      callLabel: base.callLabel,
+      wizardTo: name,
+      hero: base.hero,
+      main: {
+        title: k.mainTitle,
+        intro: t.intro,
+        groups: [
+          { title: t.citiesTitle ?? k.citiesTitle, items: t.cities },
+          { title: k.includedTitle, items: k.included },
+          {
+            title: k.notesTitle,
+            items: [...t.notes, k.bothWays],
+            link: data.extraLink && { label: data.extraLink[lang], to: data.extraLink.to },
+          },
+        ],
+      },
+      customs: k.customs(t.art, t.dest),
+      stepsTitle: base.stepsTitle,
+      steps: base.steps,
+      faqTitle: base.faqTitle,
+      faq: [
+        ...(t.faq ? [t.faq] : []),
+        { q: k.reverseQ(t.art), a: k.reverseA },
+        { q: k.docsQ, a: k.docsA },
+        // Preço ferme e garde-meubles: mesmas respostas da página internacional.
+        base.faq[1],
+        base.faq[2],
+      ],
+      relatedTitle: base.relatedTitle,
+      related: [
+        { label: k.parent.label, to: k.parent.to },
+        ...data.related.map((r) => {
+          const p = COUNTRIES.find((x) => x.slug === r)!;
+          return { label: k.relatedCountry(lang === 'en' ? p.enTo : p.name), to: p.path };
+        }),
+        base.related[1],
+      ],
+      band: k.band(t.dest),
+    };
+  };
+  return { fr: build('fr'), en: build('en') };
+};
+
 const UI = defineCopy(
   { home: 'Accueil', breadcrumbLabel: "Fil d'Ariane", call: 'Appeler le 0800 825 925' },
   { home: 'Home', breadcrumbLabel: 'Breadcrumb', call: 'Call 0800 825 925' }
@@ -453,6 +600,18 @@ const AbroadPage: React.FC<{ copy: Record<'fr' | 'en', AbroadCopy> }> = ({ copy 
                 <li aria-hidden="true">
                   <ChevronRight className="h-3.5 w-3.5" />
                 </li>
+                {c.parent && (
+                  <>
+                    <li>
+                      <Link to={lp(c.parent.to)} className="underline-offset-4 hover:text-white hover:underline">
+                        {c.parent.label}
+                      </Link>
+                    </li>
+                    <li aria-hidden="true">
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </li>
+                  </>
+                )}
                 <li aria-current="page" className="font-medium text-white">
                   {c.breadcrumb}
                 </li>
@@ -500,9 +659,18 @@ const AbroadPage: React.FC<{ copy: Record<'fr' | 'en', AbroadCopy> }> = ({ copy 
                 <h3 className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">{g.title}</h3>
                 <ul className="mt-4 space-y-2.5">
                   {g.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-lg leading-snug text-slate-700">
+                    <li key={typeof item === 'string' ? item : item.to} className="flex items-start gap-2.5 text-lg leading-snug text-slate-700">
                       <Check className="mt-1 h-4 w-4 shrink-0 text-[#0B1E33]" strokeWidth={2.5} aria-hidden="true" />
-                      {item}
+                      {typeof item === 'string' ? (
+                        item
+                      ) : (
+                        <Link
+                          to={lp(item.to)}
+                          className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
+                        >
+                          {item.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -618,3 +786,7 @@ const AbroadPage: React.FC<{ copy: Record<'fr' | 'en', AbroadCopy> }> = ({ copy 
 
 export const International: React.FC = () => <AbroadPage copy={INTERNATIONAL} />;
 export const London: React.FC = () => <AbroadPage copy={LONDON} />;
+export const CountryPage: React.FC<{ slug: CountrySlug }> = ({ slug }) => {
+  const copy = useMemo(() => countryCopy(slug), [slug]);
+  return <AbroadPage copy={copy} />;
+};

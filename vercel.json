@@ -250,6 +250,230 @@
             "destination": "/en/end-of-tenancy-cleaning-yverdon-les-bains/index.html"
         },
         {
+            "source": "/en/removals-carouge",
+            "destination": "/en/removals-carouge/index.html"
+        },
+        {
+            "source": "/en/removals-versoix",
+            "destination": "/en/removals-versoix/index.html"
+        },
+        {
+            "source": "/en/house-clearance-versoix",
+            "destination": "/en/house-clearance-versoix/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-versoix",
+            "destination": "/en/end-of-tenancy-cleaning-versoix/index.html"
+        },
+        {
+            "source": "/en/removals-renens",
+            "destination": "/en/removals-renens/index.html"
+        },
+        {
+            "source": "/en/removals-nyon",
+            "destination": "/en/removals-nyon/index.html"
+        },
+        {
+            "source": "/en/removals-morges",
+            "destination": "/en/removals-morges/index.html"
+        },
+        {
+            "source": "/en/removals-vevey",
+            "destination": "/en/removals-vevey/index.html"
+        },
+        {
+            "source": "/en/removals-montreux",
+            "destination": "/en/removals-montreux/index.html"
+        },
+        {
+            "source": "/en/removals-yverdon-les-bains",
+            "destination": "/en/removals-yverdon-les-bains/index.html"
+        },
+        {
+            "source": "/en/removals-gland",
+            "destination": "/en/removals-gland/index.html"
+        },
+        {
+            "source": "/en/house-clearance-gland",
+            "destination": "/en/house-clearance-gland/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-gland",
+            "destination": "/en/end-of-tenancy-cleaning-gland/index.html"
+        },
+        {
+            "source": "/en/removals-rolle",
+            "destination": "/en/removals-rolle/index.html"
+        },
+        {
+            "source": "/en/house-clearance-rolle",
+            "destination": "/en/house-clearance-rolle/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-rolle",
+            "destination": "/en/end-of-tenancy-cleaning-rolle/index.html"
+        },
+        {
+            "source": "/en/removals-aubonne",
+            "destination": "/en/removals-aubonne/index.html"
+        },
+        {
+            "source": "/en/house-clearance-aubonne",
+            "destination": "/en/house-clearance-aubonne/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-aubonne",
+            "destination": "/en/end-of-tenancy-cleaning-aubonne/index.html"
+        },
+        {
+            "source": "/en/removals-fribourg",
+            "destination": "/en/removals-fribourg/index.html"
+        },
+        {
+            "source": "/en/house-clearance-fribourg",
+            "destination": "/en/house-clearance-fribourg/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-fribourg",
+            "destination": "/en/end-of-tenancy-cleaning-fribourg/index.html"
+        },
+        {
+            "source": "/en/removals-bulle",
+            "destination": "/en/removals-bulle/index.html"
+        },
+        {
+            "source": "/en/house-clearance-bulle",
+            "destination": "/en/house-clearance-bulle/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-bulle",
+            "destination": "/en/end-of-tenancy-cleaning-bulle/index.html"
+        },
+        {
+            "source": "/en/removals-sion",
+            "destination": "/en/removals-sion/index.html"
+        },
+        {
+            "source": "/en/house-clearance-sion",
+            "destination": "/en/house-clearance-sion/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-sion",
+            "destination": "/en/end-of-tenancy-cleaning-sion/index.html"
+        },
+        {
+            "source": "/en/removals-martigny",
+            "destination": "/en/removals-martigny/index.html"
+        },
+        {
+            "source": "/en/house-clearance-martigny",
+            "destination": "/en/house-clearance-martigny/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-martigny",
+            "destination": "/en/end-of-tenancy-cleaning-martigny/index.html"
+        },
+        {
+            "source": "/en/removals-monthey",
+            "destination": "/en/removals-monthey/index.html"
+        },
+        {
+            "source": "/en/house-clearance-monthey",
+            "destination": "/en/house-clearance-monthey/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-monthey",
+            "destination": "/en/end-of-tenancy-cleaning-monthey/index.html"
+        },
+        {
+            "source": "/demenagement-france",
+            "destination": "/demenagement-france/index.html"
+        },
+        {
+            "source": "/en/moving-to-france",
+            "destination": "/en/moving-to-france/index.html"
+        },
+        {
+            "source": "/demenagement-italie",
+            "destination": "/demenagement-italie/index.html"
+        },
+        {
+            "source": "/en/moving-to-italy",
+            "destination": "/en/moving-to-italy/index.html"
+        },
+        {
+            "source": "/demenagement-portugal",
+            "destination": "/demenagement-portugal/index.html"
+        },
+        {
+            "source": "/en/moving-to-portugal",
+            "destination": "/en/moving-to-portugal/index.html"
+        },
+        {
+            "source": "/demenagement-espagne",
+            "destination": "/demenagement-espagne/index.html"
+        },
+        {
+            "source": "/en/moving-to-spain",
+            "destination": "/en/moving-to-spain/index.html"
+        },
+        {
+            "source": "/demenagement-allemagne",
+            "destination": "/demenagement-allemagne/index.html"
+        },
+        {
+            "source": "/en/moving-to-germany",
+            "destination": "/en/moving-to-germany/index.html"
+        },
+        {
+            "source": "/demenagement-belgique",
+            "destination": "/demenagement-belgique/index.html"
+        },
+        {
+            "source": "/en/moving-to-belgium",
+            "destination": "/en/moving-to-belgium/index.html"
+        },
+        {
+            "source": "/demenagement-pays-bas",
+            "destination": "/demenagement-pays-bas/index.html"
+        },
+        {
+            "source": "/en/moving-to-the-netherlands",
+            "destination": "/en/moving-to-the-netherlands/index.html"
+        },
+        {
+            "source": "/demenagement-luxembourg",
+            "destination": "/demenagement-luxembourg/index.html"
+        },
+        {
+            "source": "/en/moving-to-luxembourg",
+            "destination": "/en/moving-to-luxembourg/index.html"
+        },
+        {
+            "source": "/demenagement-autriche",
+            "destination": "/demenagement-autriche/index.html"
+        },
+        {
+            "source": "/en/moving-to-austria",
+            "destination": "/en/moving-to-austria/index.html"
+        },
+        {
+            "source": "/demenagement-monaco",
+            "destination": "/demenagement-monaco/index.html"
+        },
+        {
+            "source": "/en/moving-to-monaco",
+            "destination": "/en/moving-to-monaco/index.html"
+        },
+        {
+            "source": "/demenagement-royaume-uni",
+            "destination": "/demenagement-royaume-uni/index.html"
+        },
+        {
+            "source": "/en/moving-to-the-uk",
+            "destination": "/en/moving-to-the-uk/index.html"
+        },
+        {
             "source": "/debarras-geneve",
             "destination": "/debarras-geneve/index.html"
         },
@@ -258,12 +482,28 @@
             "destination": "/nettoyage-fin-de-bail-geneve/index.html"
         },
         {
+            "source": "/demenagement-carouge",
+            "destination": "/demenagement-carouge/index.html"
+        },
+        {
             "source": "/debarras-carouge",
             "destination": "/debarras-carouge/index.html"
         },
         {
             "source": "/nettoyage-fin-de-bail-carouge",
             "destination": "/nettoyage-fin-de-bail-carouge/index.html"
+        },
+        {
+            "source": "/demenagement-versoix",
+            "destination": "/demenagement-versoix/index.html"
+        },
+        {
+            "source": "/debarras-versoix",
+            "destination": "/debarras-versoix/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-versoix",
+            "destination": "/nettoyage-fin-de-bail-versoix/index.html"
         },
         {
             "source": "/debarras-vaud",
@@ -282,12 +522,20 @@
             "destination": "/nettoyage-fin-de-bail-lausanne/index.html"
         },
         {
+            "source": "/demenagement-renens",
+            "destination": "/demenagement-renens/index.html"
+        },
+        {
             "source": "/debarras-renens",
             "destination": "/debarras-renens/index.html"
         },
         {
             "source": "/nettoyage-fin-de-bail-renens",
             "destination": "/nettoyage-fin-de-bail-renens/index.html"
+        },
+        {
+            "source": "/demenagement-nyon",
+            "destination": "/demenagement-nyon/index.html"
         },
         {
             "source": "/debarras-nyon",
@@ -298,12 +546,20 @@
             "destination": "/nettoyage-fin-de-bail-nyon/index.html"
         },
         {
+            "source": "/demenagement-morges",
+            "destination": "/demenagement-morges/index.html"
+        },
+        {
             "source": "/debarras-morges",
             "destination": "/debarras-morges/index.html"
         },
         {
             "source": "/nettoyage-fin-de-bail-morges",
             "destination": "/nettoyage-fin-de-bail-morges/index.html"
+        },
+        {
+            "source": "/demenagement-vevey",
+            "destination": "/demenagement-vevey/index.html"
         },
         {
             "source": "/debarras-vevey",
@@ -314,6 +570,10 @@
             "destination": "/nettoyage-fin-de-bail-vevey/index.html"
         },
         {
+            "source": "/demenagement-montreux",
+            "destination": "/demenagement-montreux/index.html"
+        },
+        {
             "source": "/debarras-montreux",
             "destination": "/debarras-montreux/index.html"
         },
@@ -322,12 +582,112 @@
             "destination": "/nettoyage-fin-de-bail-montreux/index.html"
         },
         {
+            "source": "/demenagement-yverdon-les-bains",
+            "destination": "/demenagement-yverdon-les-bains/index.html"
+        },
+        {
             "source": "/debarras-yverdon-les-bains",
             "destination": "/debarras-yverdon-les-bains/index.html"
         },
         {
             "source": "/nettoyage-fin-de-bail-yverdon-les-bains",
             "destination": "/nettoyage-fin-de-bail-yverdon-les-bains/index.html"
+        },
+        {
+            "source": "/demenagement-gland",
+            "destination": "/demenagement-gland/index.html"
+        },
+        {
+            "source": "/debarras-gland",
+            "destination": "/debarras-gland/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-gland",
+            "destination": "/nettoyage-fin-de-bail-gland/index.html"
+        },
+        {
+            "source": "/demenagement-rolle",
+            "destination": "/demenagement-rolle/index.html"
+        },
+        {
+            "source": "/debarras-rolle",
+            "destination": "/debarras-rolle/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-rolle",
+            "destination": "/nettoyage-fin-de-bail-rolle/index.html"
+        },
+        {
+            "source": "/demenagement-aubonne",
+            "destination": "/demenagement-aubonne/index.html"
+        },
+        {
+            "source": "/debarras-aubonne",
+            "destination": "/debarras-aubonne/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-aubonne",
+            "destination": "/nettoyage-fin-de-bail-aubonne/index.html"
+        },
+        {
+            "source": "/demenagement-fribourg",
+            "destination": "/demenagement-fribourg/index.html"
+        },
+        {
+            "source": "/debarras-fribourg",
+            "destination": "/debarras-fribourg/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-fribourg",
+            "destination": "/nettoyage-fin-de-bail-fribourg/index.html"
+        },
+        {
+            "source": "/demenagement-bulle",
+            "destination": "/demenagement-bulle/index.html"
+        },
+        {
+            "source": "/debarras-bulle",
+            "destination": "/debarras-bulle/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-bulle",
+            "destination": "/nettoyage-fin-de-bail-bulle/index.html"
+        },
+        {
+            "source": "/demenagement-sion",
+            "destination": "/demenagement-sion/index.html"
+        },
+        {
+            "source": "/debarras-sion",
+            "destination": "/debarras-sion/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-sion",
+            "destination": "/nettoyage-fin-de-bail-sion/index.html"
+        },
+        {
+            "source": "/demenagement-martigny",
+            "destination": "/demenagement-martigny/index.html"
+        },
+        {
+            "source": "/debarras-martigny",
+            "destination": "/debarras-martigny/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-martigny",
+            "destination": "/nettoyage-fin-de-bail-martigny/index.html"
+        },
+        {
+            "source": "/demenagement-monthey",
+            "destination": "/demenagement-monthey/index.html"
+        },
+        {
+            "source": "/debarras-monthey",
+            "destination": "/debarras-monthey/index.html"
+        },
+        {
+            "source": "/nettoyage-fin-de-bail-monthey",
+            "destination": "/nettoyage-fin-de-bail-monthey/index.html"
         },
         {
             "source": "/quote/:serviceId",

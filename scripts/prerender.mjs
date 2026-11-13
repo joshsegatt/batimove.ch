@@ -45,12 +45,14 @@ const html = readFileSync(gabarit, 'utf8')
 // le champ enSlug de data/serviceLocalities.json).
 const i18n = JSON.parse(readFileSync(join(racine, 'data', 'i18nRoutes.json'), 'utf8'));
 const { localities } = JSON.parse(readFileSync(join(racine, 'data', 'serviceLocalities.json'), 'utf8'));
+const statiquesFr = new Set(i18n.static.map(([fr]) => fr));
 const paires = [
   ...i18n.static,
-  ...localities.flatMap((l) => [
-    [`/debarras-${l.slug}`, `${i18n.local.debarras}${l.enSlug}`],
-    [`/nettoyage-fin-de-bail-${l.slug}`, `${i18n.local.nettoyage}${l.enSlug}`],
-  ]),
+  ...localities.flatMap((l) =>
+    Object.values(i18n.local)
+      .map(([fr, en]) => [`${fr}${l.slug}`, `${en}${l.enSlug}`])
+      .filter(([fr]) => !statiquesFr.has(fr))
+  ),
 ];
 const paireDe = new Map();
 for (const [fr, en] of paires) {

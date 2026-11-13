@@ -13,16 +13,22 @@ import localitiesJson from '../data/serviceLocalities.json';
 export type Lang = 'fr' | 'en';
 
 const STATIC = routesJson.static as [string, string][];
-const LOCAL_PREFIX = routesJson.local as Record<'debarras' | 'nettoyage', string>;
+const LOCAL_PREFIX = Object.values(routesJson.local) as [string, string][];
 const LOCALS = (localitiesJson.localities as { slug: string; enSlug: string }[]);
+const STATIC_FR = new Set(STATIC.map(([fr]) => fr));
 
-/** Todos os pares [fr, en] do site, inclusive as 20 páginas locais. */
+/**
+ * Todos os pares [fr, en] do site, inclusive as páginas locais (déménagement,
+ * débarras e nettoyage por cidade). Mesma regra em scripts/prerender.mjs e
+ * scripts/sync-localities.mjs: página local já listada em "static" é página própria.
+ */
 export const ROUTE_PAIRS: [string, string][] = [
   ...STATIC,
-  ...LOCALS.flatMap((l) => [
-    [`/debarras-${l.slug}`, `${LOCAL_PREFIX.debarras}${l.enSlug}`] as [string, string],
-    [`/nettoyage-fin-de-bail-${l.slug}`, `${LOCAL_PREFIX.nettoyage}${l.enSlug}`] as [string, string],
-  ]),
+  ...LOCALS.flatMap((l) =>
+    LOCAL_PREFIX.map(([fr, en]) => [`${fr}${l.slug}`, `${en}${l.enSlug}`] as [string, string]).filter(
+      ([fr]) => !STATIC_FR.has(fr)
+    )
+  ),
 ];
 
 const FR_TO_EN = new Map(ROUTE_PAIRS.map(([fr, en]) => [fr, en]));
