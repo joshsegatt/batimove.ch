@@ -1,8 +1,16 @@
 {
   "_comment": "Localidades das páginas locais de Débarras e Nettoyage (/debarras-<slug>, /nettoyage-fin-de-bail-<slug>). Só geografia real e afirmações já feitas no site. Título e descrição de cada rota ficam em seoRoutes.json; rotas, sitemap e vercel.json são gerados a partir desta lista.",
   "cantons": [
-    { "id": "geneve", "name": "Genève" },
-    { "id": "vaud", "name": "Vaud" }
+    {
+      "id": "geneve",
+      "name": "Genève",
+      "nameEn": "Geneva"
+    },
+    {
+      "id": "vaud",
+      "name": "Vaud",
+      "nameEn": "Vaud"
+    }
   ],
   "localities": [
     {
@@ -13,12 +21,79 @@
       "kind": "ville et canton",
       "intro": "De la Vieille-Ville aux communes du canton, nous intervenons dans tout Genève.",
       "areasTitle": "Quartiers et communes desservis",
-      "areas": ["Centre et Vieille-Ville", "Eaux-Vives", "Champel", "Plainpalais", "Jonction", "Pâquis", "Servette", "Petit-Saconnex", "Carouge", "Lancy", "Onex", "Meyrin", "Vernier", "Le Grand-Saconnex", "Versoix", "Thônex", "Chêne-Bougeries", "Cologny", "Veyrier", "Plan-les-Ouates"],
-      "notes": [
-        { "title": "Stationnement à Genève", "text": "L'autorisation se demande à la police du stationnement. Nous nous en chargeons et posons les panneaux officiels 48 h avant l'intervention." },
-        { "title": "Vieille-Ville et immeubles anciens", "text": "Ruelles pavées, accès piétons et escaliers étroits : nos équipes protègent sols, murs et cages d'escalier avant de commencer." }
+      "areas": [
+        "Centre et Vieille-Ville",
+        "Eaux-Vives",
+        "Champel",
+        "Plainpalais",
+        "Jonction",
+        "Pâquis",
+        "Servette",
+        "Petit-Saconnex",
+        "Carouge",
+        "Lancy",
+        "Onex",
+        "Meyrin",
+        "Vernier",
+        "Le Grand-Saconnex",
+        "Versoix",
+        "Thônex",
+        "Chêne-Bougeries",
+        "Cologny",
+        "Veyrier",
+        "Plan-les-Ouates"
       ],
-      "movePage": "/demenagement-geneve"
+      "notes": [
+        {
+          "title": "Stationnement à Genève",
+          "text": "L'autorisation se demande à la police du stationnement. Nous nous en chargeons et posons les panneaux officiels 48 h avant l'intervention."
+        },
+        {
+          "title": "Vieille-Ville et immeubles anciens",
+          "text": "Ruelles pavées, accès piétons et escaliers étroits : nos équipes protègent sols, murs et cages d'escalier avant de commencer."
+        }
+      ],
+      "movePage": "/demenagement-geneve",
+      "enSlug": "geneva",
+      "en": {
+        "name": "Geneva",
+        "prep": "in Geneva",
+        "kind": "city and canton",
+        "intro": "From the Old Town to every municipality in the canton, we work throughout Geneva.",
+        "areasTitle": "Districts and municipalities covered",
+        "areas": [
+          "Centre and Old Town",
+          "Eaux-Vives",
+          "Champel",
+          "Plainpalais",
+          "Jonction",
+          "Pâquis",
+          "Servette",
+          "Petit-Saconnex",
+          "Carouge",
+          "Lancy",
+          "Onex",
+          "Meyrin",
+          "Vernier",
+          "Le Grand-Saconnex",
+          "Versoix",
+          "Thônex",
+          "Chêne-Bougeries",
+          "Cologny",
+          "Veyrier",
+          "Plan-les-Ouates"
+        ],
+        "notes": [
+          {
+            "title": "Parking in Geneva",
+            "text": "The permit is issued by the parking police. We take care of the application and put up the official signs 48 h before the job."
+          },
+          {
+            "title": "Old Town and older buildings",
+            "text": "Cobbled lanes, pedestrian-only access and narrow staircases: our teams protect floors, walls and stairwells before they start."
+          }
+        ]
+      }
     },
     {
       "slug": "carouge",
@@ -28,12 +103,55 @@
       "kind": "commune genevoise",
       "intro": "Du Vieux-Carouge aux communes voisines du sud genevois, nous intervenons rapidement.",
       "areasTitle": "Carouge et communes voisines",
-      "areas": ["Vieux-Carouge", "Carouge", "Lancy", "Plan-les-Ouates", "Veyrier", "Troinex", "Bardonnex", "Genève (Plainpalais, Champel)"],
-      "notes": [
-        { "title": "Stationnement à Carouge", "text": "Nous demandons l'autorisation de stationnement auprès de la police et de la commune, pour que le camion soit au plus près de l'entrée." },
-        { "title": "Rues du Vieux-Carouge", "text": "Rues étroites et immeubles anciens : nous protégeons les parties communes et organisons l'accès en conséquence." }
+      "areas": [
+        "Vieux-Carouge",
+        "Carouge",
+        "Lancy",
+        "Plan-les-Ouates",
+        "Veyrier",
+        "Troinex",
+        "Bardonnex",
+        "Genève (Plainpalais, Champel)"
       ],
-      "movePage": "/demenagement-geneve"
+      "notes": [
+        {
+          "title": "Stationnement à Carouge",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la police et de la commune, pour que le camion soit au plus près de l'entrée."
+        },
+        {
+          "title": "Rues du Vieux-Carouge",
+          "text": "Rues étroites et immeubles anciens : nous protégeons les parties communes et organisons l'accès en conséquence."
+        }
+      ],
+      "movePage": "/demenagement-geneve",
+      "enSlug": "carouge",
+      "en": {
+        "name": "Carouge",
+        "prep": "in Carouge",
+        "kind": "Geneva municipality",
+        "intro": "From Vieux-Carouge to the neighbouring municipalities of southern Geneva, we are there quickly.",
+        "areasTitle": "Carouge and neighbouring municipalities",
+        "areas": [
+          "Vieux-Carouge",
+          "Carouge",
+          "Lancy",
+          "Plan-les-Ouates",
+          "Veyrier",
+          "Troinex",
+          "Bardonnex",
+          "Geneva (Plainpalais, Champel)"
+        ],
+        "notes": [
+          {
+            "title": "Parking in Carouge",
+            "text": "We apply for the parking permit from the police and the municipality, so the lorry can park as close to the entrance as possible."
+          },
+          {
+            "title": "The streets of Vieux-Carouge",
+            "text": "Narrow streets and older buildings: we protect the communal areas and plan access accordingly."
+          }
+        ]
+      }
     },
     {
       "slug": "vaud",
@@ -43,12 +161,50 @@
       "kind": "canton",
       "intro": "De La Côte à la Riviera et au Nord vaudois, nous couvrons tout le canton.",
       "areasTitle": "Régions et villes desservies",
-      "areas": ["Lausanne", "Renens", "Nyon", "Gland", "Rolle", "Morges", "Aubonne", "Vevey", "Montreux", "Aigle", "Yverdon-les-Bains", "Payerne", "Echallens"],
-      "notes": [
-        { "title": "Stationnement dans les communes vaudoises", "text": "Chaque commune a sa procédure : nous demandons l'autorisation de stationnement pour vous, où que vous soyez dans le canton." },
-        { "title": "Des bords du lac au Jura", "text": "Appartements en ville, maisons de village ou villas : nos équipes s'adaptent aux accès et protègent les parties communes." }
+      "areas": [
+        "Lausanne",
+        "Renens",
+        "Nyon",
+        "Gland",
+        "Rolle",
+        "Morges",
+        "Aubonne",
+        "Vevey",
+        "Montreux",
+        "Aigle",
+        "Yverdon-les-Bains",
+        "Payerne",
+        "Echallens"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Stationnement dans les communes vaudoises",
+          "text": "Chaque commune a sa procédure : nous demandons l'autorisation de stationnement pour vous, où que vous soyez dans le canton."
+        },
+        {
+          "title": "Des bords du lac au Jura",
+          "text": "Appartements en ville, maisons de village ou villas : nos équipes s'adaptent aux accès et protègent les parties communes."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "vaud",
+      "en": {
+        "name": "Vaud",
+        "prep": "in the canton of Vaud",
+        "kind": "canton",
+        "intro": "From La Côte to the Riviera and northern Vaud, we cover the whole canton.",
+        "areasTitle": "Regions and towns covered",
+        "notes": [
+          {
+            "title": "Parking in Vaud municipalities",
+            "text": "Each municipality has its own procedure: we apply for the parking permit for you, wherever you are in the canton."
+          },
+          {
+            "title": "From the lakeside to the Jura",
+            "text": "City flats, village houses or villas: our teams adapt to every access and protect the communal areas."
+          }
+        ]
+      }
     },
     {
       "slug": "lausanne",
@@ -58,12 +214,63 @@
       "kind": "ville",
       "intro": "Du Flon à Ouchy, et dans toute l'agglomération lausannoise.",
       "areasTitle": "Quartiers et communes desservis",
-      "areas": ["Centre et Flon", "Ouchy", "Sous-Gare", "Chailly", "La Sallaz", "Montchoisi", "Beaulieu", "Pully", "Prilly", "Renens", "Épalinges", "Le Mont-sur-Lausanne"],
-      "notes": [
-        { "title": "Une ville en pente", "text": "Rues en forte pente et immeubles sans ascenseur : nos équipes organisent le portage et protègent les cages d'escalier." },
-        { "title": "Stationnement à Lausanne", "text": "Nous demandons l'autorisation de stationnement auprès de la Ville, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Centre et Flon",
+        "Ouchy",
+        "Sous-Gare",
+        "Chailly",
+        "La Sallaz",
+        "Montchoisi",
+        "Beaulieu",
+        "Pully",
+        "Prilly",
+        "Renens",
+        "Épalinges",
+        "Le Mont-sur-Lausanne"
       ],
-      "movePage": "/demenagement-lausanne"
+      "notes": [
+        {
+          "title": "Une ville en pente",
+          "text": "Rues en forte pente et immeubles sans ascenseur : nos équipes organisent le portage et protègent les cages d'escalier."
+        },
+        {
+          "title": "Stationnement à Lausanne",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la Ville, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-lausanne",
+      "enSlug": "lausanne",
+      "en": {
+        "name": "Lausanne",
+        "prep": "in Lausanne",
+        "kind": "city",
+        "intro": "From the Flon to Ouchy, and across greater Lausanne.",
+        "areasTitle": "Districts and municipalities covered",
+        "areas": [
+          "Centre and Flon",
+          "Ouchy",
+          "Sous-Gare",
+          "Chailly",
+          "La Sallaz",
+          "Montchoisi",
+          "Beaulieu",
+          "Pully",
+          "Prilly",
+          "Renens",
+          "Épalinges",
+          "Le Mont-sur-Lausanne"
+        ],
+        "notes": [
+          {
+            "title": "A city built on a slope",
+            "text": "Steep streets and buildings without lifts: our teams organise the carrying and protect the stairwells."
+          },
+          {
+            "title": "Parking in Lausanne",
+            "text": "We apply for the parking permit from the City, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "renens",
@@ -73,12 +280,44 @@
       "kind": "ville",
       "intro": "À Renens et dans tout l'Ouest lausannois.",
       "areasTitle": "Renens et Ouest lausannois",
-      "areas": ["Renens", "Crissier", "Ecublens", "Chavannes-près-Renens", "Bussigny", "Prilly", "Saint-Sulpice"],
-      "notes": [
-        { "title": "Immeubles de l'Ouest lausannois", "text": "Grands immeubles, caves et parkings souterrains : nous planifions l'accès et protégeons ascenseurs et parties communes." },
-        { "title": "Stationnement à Renens", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Renens",
+        "Crissier",
+        "Ecublens",
+        "Chavannes-près-Renens",
+        "Bussigny",
+        "Prilly",
+        "Saint-Sulpice"
       ],
-      "movePage": "/demenagement-lausanne"
+      "notes": [
+        {
+          "title": "Immeubles de l'Ouest lausannois",
+          "text": "Grands immeubles, caves et parkings souterrains : nous planifions l'accès et protégeons ascenseurs et parties communes."
+        },
+        {
+          "title": "Stationnement à Renens",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-lausanne",
+      "enSlug": "renens",
+      "en": {
+        "name": "Renens",
+        "prep": "in Renens",
+        "kind": "town",
+        "intro": "In Renens and across western Lausanne.",
+        "areasTitle": "Renens and western Lausanne",
+        "notes": [
+          {
+            "title": "Western Lausanne apartment blocks",
+            "text": "Large buildings, cellars and underground car parks: we plan access and protect lifts and communal areas."
+          },
+          {
+            "title": "Parking in Renens",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "nyon",
@@ -88,12 +327,45 @@
       "kind": "ville",
       "intro": "À Nyon et sur toute La Côte, entre Genève et Lausanne.",
       "areasTitle": "Nyon et La Côte",
-      "areas": ["Nyon", "Prangins", "Gland", "Rolle", "Coppet", "Founex", "Trélex", "Duillier"],
-      "notes": [
-        { "title": "Vieille ville et villas de La Côte", "text": "Appartements du centre historique ou maisons individuelles : nos équipes s'adaptent à chaque accès." },
-        { "title": "Stationnement à Nyon", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Nyon",
+        "Prangins",
+        "Gland",
+        "Rolle",
+        "Coppet",
+        "Founex",
+        "Trélex",
+        "Duillier"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Vieille ville et villas de La Côte",
+          "text": "Appartements du centre historique ou maisons individuelles : nos équipes s'adaptent à chaque accès."
+        },
+        {
+          "title": "Stationnement à Nyon",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "nyon",
+      "en": {
+        "name": "Nyon",
+        "prep": "in Nyon",
+        "kind": "town",
+        "intro": "In Nyon and all along La Côte, between Geneva and Lausanne.",
+        "areasTitle": "Nyon and La Côte",
+        "notes": [
+          {
+            "title": "Old town and La Côte villas",
+            "text": "Flats in the historic centre or detached houses: our teams adapt to every access."
+          },
+          {
+            "title": "Parking in Nyon",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "morges",
@@ -103,12 +375,44 @@
       "kind": "ville",
       "intro": "À Morges et dans les communes du district, du lac à Aubonne.",
       "areasTitle": "Morges et environs",
-      "areas": ["Morges", "Tolochenaz", "Préverenges", "Saint-Prex", "Lonay", "Échichens", "Aubonne"],
-      "notes": [
-        { "title": "Centre historique et bord du lac", "text": "Rues piétonnes et immeubles anciens : nous planifions l'accès et protégeons les parties communes." },
-        { "title": "Stationnement à Morges", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Morges",
+        "Tolochenaz",
+        "Préverenges",
+        "Saint-Prex",
+        "Lonay",
+        "Échichens",
+        "Aubonne"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Centre historique et bord du lac",
+          "text": "Rues piétonnes et immeubles anciens : nous planifions l'accès et protégeons les parties communes."
+        },
+        {
+          "title": "Stationnement à Morges",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "morges",
+      "en": {
+        "name": "Morges",
+        "prep": "in Morges",
+        "kind": "town",
+        "intro": "In Morges and the municipalities of the district, from the lake to Aubonne.",
+        "areasTitle": "Morges and the surrounding area",
+        "notes": [
+          {
+            "title": "Historic centre and lakeside",
+            "text": "Pedestrian streets and older buildings: we plan access and protect the communal areas."
+          },
+          {
+            "title": "Parking in Morges",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "vevey",
@@ -118,12 +422,43 @@
       "kind": "ville",
       "intro": "À Vevey et sur toute la Riviera, des quais aux hauts de la ville.",
       "areasTitle": "Vevey et environs",
-      "areas": ["Vevey", "La Tour-de-Peilz", "Corseaux", "Corsier-sur-Vevey", "Chardonne", "Blonay – Saint-Légier"],
-      "notes": [
-        { "title": "Vieille ville et coteaux", "text": "Ruelles du centre et maisons en pente sur les coteaux : nos équipes s'adaptent à chaque accès." },
-        { "title": "Stationnement à Vevey", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Vevey",
+        "La Tour-de-Peilz",
+        "Corseaux",
+        "Corsier-sur-Vevey",
+        "Chardonne",
+        "Blonay – Saint-Légier"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Vieille ville et coteaux",
+          "text": "Ruelles du centre et maisons en pente sur les coteaux : nos équipes s'adaptent à chaque accès."
+        },
+        {
+          "title": "Stationnement à Vevey",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "vevey",
+      "en": {
+        "name": "Vevey",
+        "prep": "in Vevey",
+        "kind": "town",
+        "intro": "In Vevey and all along the Riviera, from the lakefront to the upper town.",
+        "areasTitle": "Vevey and the surrounding area",
+        "notes": [
+          {
+            "title": "Old town and hillsides",
+            "text": "Lanes in the centre and houses on the sloping hillsides: our teams adapt to every access."
+          },
+          {
+            "title": "Parking in Vevey",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "montreux",
@@ -133,12 +468,44 @@
       "kind": "ville",
       "intro": "De Clarens à Territet, et jusqu'à Villeneuve.",
       "areasTitle": "Montreux et environs",
-      "areas": ["Clarens", "Montreux centre", "Territet", "Glion", "Chernex", "Veytaux", "Villeneuve"],
-      "notes": [
-        { "title": "Immeubles en pente", "text": "Rues en pente et accès étroits entre le lac et les hauts : nous organisons le portage et protégeons les parties communes." },
-        { "title": "Stationnement à Montreux", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Clarens",
+        "Montreux centre",
+        "Territet",
+        "Glion",
+        "Chernex",
+        "Veytaux",
+        "Villeneuve"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Immeubles en pente",
+          "text": "Rues en pente et accès étroits entre le lac et les hauts : nous organisons le portage et protégeons les parties communes."
+        },
+        {
+          "title": "Stationnement à Montreux",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "montreux",
+      "en": {
+        "name": "Montreux",
+        "prep": "in Montreux",
+        "kind": "town",
+        "intro": "From Clarens to Territet, and as far as Villeneuve.",
+        "areasTitle": "Montreux and the surrounding area",
+        "notes": [
+          {
+            "title": "Buildings on the slopes",
+            "text": "Sloping streets and narrow access between the lake and the heights: we organise the carrying and protect the communal areas."
+          },
+          {
+            "title": "Parking in Montreux",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     },
     {
       "slug": "yverdon-les-bains",
@@ -148,12 +515,43 @@
       "kind": "ville",
       "intro": "À Yverdon-les-Bains et dans le Nord vaudois.",
       "areasTitle": "Yverdon et Nord vaudois",
-      "areas": ["Yverdon-les-Bains", "Grandson", "Yvonand", "Montagny-près-Yverdon", "Chamblon", "Orbe"],
-      "notes": [
-        { "title": "Ville et villages du Nord vaudois", "text": "Appartements du centre, maisons et fermes rénovées : nos équipes s'adaptent à chaque type de logement." },
-        { "title": "Stationnement à Yverdon-les-Bains", "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée." }
+      "areas": [
+        "Yverdon-les-Bains",
+        "Grandson",
+        "Yvonand",
+        "Montagny-près-Yverdon",
+        "Chamblon",
+        "Orbe"
       ],
-      "movePage": "/demenagement-vaud"
+      "notes": [
+        {
+          "title": "Ville et villages du Nord vaudois",
+          "text": "Appartements du centre, maisons et fermes rénovées : nos équipes s'adaptent à chaque type de logement."
+        },
+        {
+          "title": "Stationnement à Yverdon-les-Bains",
+          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+        }
+      ],
+      "movePage": "/demenagement-vaud",
+      "enSlug": "yverdon-les-bains",
+      "en": {
+        "name": "Yverdon-les-Bains",
+        "prep": "in Yverdon-les-Bains",
+        "kind": "town",
+        "intro": "In Yverdon-les-Bains and across northern Vaud.",
+        "areasTitle": "Yverdon and northern Vaud",
+        "notes": [
+          {
+            "title": "Town and villages of northern Vaud",
+            "text": "Flats in the centre, houses and renovated farmhouses: our teams adapt to every type of home."
+          },
+          {
+            "title": "Parking in Yverdon-les-Bains",
+            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+          }
+        ]
+      }
     }
   ]
 }

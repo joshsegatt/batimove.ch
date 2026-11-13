@@ -16,6 +16,8 @@
  * avec les identifiants voulus — pas une copie modifiée des textes.
  */
 
+import type { Lang } from '../i18n';
+
 /**
  * Note et nombre d'avis du profil Google Business, à tenir à jour.
  *
@@ -90,3 +92,19 @@ export const getReviews = (ids: string[]): CustomerReview[] =>
   ids
     .map((id) => CUSTOMER_REVIEWS.find((review) => review.id === id))
     .filter((review): review is CustomerReview => Boolean(review));
+
+/**
+ * Libellés anglais (pages /en) : seuls `role` et `location` sont traduits.
+ * `quote` reste le texte français littéral publié par le client : on ne
+ * traduit pas un avis réel.
+ */
+const REVIEW_LABELS_EN: Record<string, Pick<CustomerReview, 'role' | 'location'>> = {
+  andressa: { role: 'International removal', location: 'London to Switzerland' },
+  julien: { role: 'MOVU certified partner', location: 'Lausanne & canton of Vaud' },
+  wagner: { role: 'Turnkey home removal', location: 'Geneva' },
+  pedro: { role: 'Private transport and removal', location: 'Geneva & surrounding area' }
+};
+
+/** Avis avec les libellés dans la langue demandée (le texte de l'avis ne change pas). */
+export const localizeReview = (review: CustomerReview, lang: Lang): CustomerReview =>
+  lang === 'fr' ? review : { ...review, ...REVIEW_LABELS_EN[review.id] };

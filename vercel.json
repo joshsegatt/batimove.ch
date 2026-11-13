@@ -68,6 +68,162 @@
             "destination": "/garde-meubles/index.html"
         },
         {
+            "source": "/demenagement-international",
+            "destination": "/demenagement-international/index.html"
+        },
+        {
+            "source": "/demenagement-londres",
+            "destination": "/demenagement-londres/index.html"
+        },
+        {
+            "source": "/en",
+            "destination": "/en/index.html"
+        },
+        {
+            "source": "/en/services",
+            "destination": "/en/services/index.html"
+        },
+        {
+            "source": "/en/house-clearance",
+            "destination": "/en/house-clearance/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning",
+            "destination": "/en/end-of-tenancy-cleaning/index.html"
+        },
+        {
+            "source": "/en/storage",
+            "destination": "/en/storage/index.html"
+        },
+        {
+            "source": "/en/international-removals",
+            "destination": "/en/international-removals/index.html"
+        },
+        {
+            "source": "/en/moving-to-london",
+            "destination": "/en/moving-to-london/index.html"
+        },
+        {
+            "source": "/en/removals-geneva",
+            "destination": "/en/removals-geneva/index.html"
+        },
+        {
+            "source": "/en/removals-lausanne",
+            "destination": "/en/removals-lausanne/index.html"
+        },
+        {
+            "source": "/en/removals-vaud",
+            "destination": "/en/removals-vaud/index.html"
+        },
+        {
+            "source": "/en/contact",
+            "destination": "/en/contact/index.html"
+        },
+        {
+            "source": "/en/volume-calculator",
+            "destination": "/en/volume-calculator/index.html"
+        },
+        {
+            "source": "/en/volume-calculator/checkout",
+            "destination": "/en/volume-calculator/checkout/index.html"
+        },
+        {
+            "source": "/en/quote",
+            "destination": "/en/quote/index.html"
+        },
+        {
+            "source": "/en/legal-notice",
+            "destination": "/en/legal-notice/index.html"
+        },
+        {
+            "source": "/en/terms",
+            "destination": "/en/terms/index.html"
+        },
+        {
+            "source": "/en/privacy",
+            "destination": "/en/privacy/index.html"
+        },
+        {
+            "source": "/en/house-clearance-geneva",
+            "destination": "/en/house-clearance-geneva/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-geneva",
+            "destination": "/en/end-of-tenancy-cleaning-geneva/index.html"
+        },
+        {
+            "source": "/en/house-clearance-carouge",
+            "destination": "/en/house-clearance-carouge/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-carouge",
+            "destination": "/en/end-of-tenancy-cleaning-carouge/index.html"
+        },
+        {
+            "source": "/en/house-clearance-vaud",
+            "destination": "/en/house-clearance-vaud/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-vaud",
+            "destination": "/en/end-of-tenancy-cleaning-vaud/index.html"
+        },
+        {
+            "source": "/en/house-clearance-lausanne",
+            "destination": "/en/house-clearance-lausanne/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-lausanne",
+            "destination": "/en/end-of-tenancy-cleaning-lausanne/index.html"
+        },
+        {
+            "source": "/en/house-clearance-renens",
+            "destination": "/en/house-clearance-renens/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-renens",
+            "destination": "/en/end-of-tenancy-cleaning-renens/index.html"
+        },
+        {
+            "source": "/en/house-clearance-nyon",
+            "destination": "/en/house-clearance-nyon/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-nyon",
+            "destination": "/en/end-of-tenancy-cleaning-nyon/index.html"
+        },
+        {
+            "source": "/en/house-clearance-morges",
+            "destination": "/en/house-clearance-morges/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-morges",
+            "destination": "/en/end-of-tenancy-cleaning-morges/index.html"
+        },
+        {
+            "source": "/en/house-clearance-vevey",
+            "destination": "/en/house-clearance-vevey/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-vevey",
+            "destination": "/en/end-of-tenancy-cleaning-vevey/index.html"
+        },
+        {
+            "source": "/en/house-clearance-montreux",
+            "destination": "/en/house-clearance-montreux/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-montreux",
+            "destination": "/en/end-of-tenancy-cleaning-montreux/index.html"
+        },
+        {
+            "source": "/en/house-clearance-yverdon-les-bains",
+            "destination": "/en/house-clearance-yverdon-les-bains/index.html"
+        },
+        {
+            "source": "/en/end-of-tenancy-cleaning-yverdon-les-bains",
+            "destination": "/en/end-of-tenancy-cleaning-yverdon-les-bains/index.html"
+        },
+        {
             "source": "/debarras-geneve",
             "destination": "/debarras-geneve/index.html"
         },

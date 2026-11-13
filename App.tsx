@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Quote } from './pages/Quote';
 import { CookieConsent } from './components/CookieConsent';
 import { LOCALITIES, localPath } from './data/localities';
+import { localizePath } from './i18n';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Chargées à la demande. La page d'accueil et le formulaire de devis restent dans
@@ -20,6 +21,8 @@ const Legal = lazy(() => import('./pages/Legal').then((m) => ({ default: m.Legal
 const Calculator = lazy(() => import('./pages/Calculator'));
 const CalculatorCheckout = lazy(() => import('./pages/CalculatorCheckout'));
 const Geneve = lazy(() => import('./pages/locations/Geneve').then((m) => ({ default: m.Geneve })));
+const International = lazy(() => import('./pages/International').then((m) => ({ default: m.International })));
+const London = lazy(() => import('./pages/International').then((m) => ({ default: m.London })));
 const Lausanne = lazy(() => import('./pages/locations/Lausanne').then((m) => ({ default: m.Lausanne })));
 const Vaud = lazy(() => import('./pages/locations/Vaud').then((m) => ({ default: m.Vaud })));
 
@@ -61,6 +64,39 @@ const RouteTracker = () => {
   return null;
 };
 
+/** Páginas públicas pelo caminho francês; a versão /en é registrada junto. */
+const PAGES: [string, React.ReactElement][] = [
+  ['/', <Home />],
+  ['/services', <Services />],
+  ['/debarras', <Debarras />],
+  ['/nettoyage-fin-de-bail', <Nettoyage />],
+  ['/garde-meubles', <GardeMeubles />],
+  ['/demenagement-international', <International />],
+  ['/demenagement-londres', <London />],
+  ['/demenagement-geneve', <Geneve />],
+  ['/demenagement-lausanne', <Lausanne />],
+  ['/demenagement-vaud', <Vaud />],
+  ['/contact', <Contact />],
+  ['/calculator', <Calculator />],
+  ['/calculator/checkout', <CalculatorCheckout />],
+  ['/privacy', <Legal type="privacy" />],
+  ['/terms', <Legal type="terms" />],
+  ['/legal', <Legal type="impressum" />],
+  ['/quote', <Quote />],
+  ['/quote/:serviceId', <Quote />],
+];
+
+const NotFound: React.FC = () => {
+  const { pathname } = useLocation();
+  const en = pathname.startsWith('/en');
+  return (
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-4 text-center">
+      <h1 className="font-display text-3xl font-medium text-[#0B1E33]">{en ? 'Page not found' : 'Page introuvable'}</h1>
+      <a href={en ? '/en' : '/'} className="btn btn-md btn-primary">{en ? 'Back to home' : "Retour à l'accueil"}</a>
+    </div>
+  );
+};
+
 const AppContent: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen font-sans text-slate-900 bg-slate-50 antialiased selection:bg-batimove-blue/20 selection:text-batimove-blue">
@@ -68,41 +104,30 @@ const AppContent: React.FC = () => {
       <main className="flex-grow">
         <Suspense fallback={<RouteFallback />}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
+          {/* Cada página existe em francês (raiz) e em inglês (/en/...), com o
+              mesmo componente: o idioma vem do endereço. Pares em data/i18nRoutes.json. */}
+          {PAGES.flatMap(([path, element]) => {
+            const en = localizePath(path, 'en');
+            return [
+              <Route key={path} path={path} element={element} />,
+              <Route key={en} path={en} element={element} />,
+            ];
+          })}
+          {/* Páginas locais (SEO): /debarras-<cidade> e /nettoyage-fin-de-bail-<cidade> */}
+          {LOCALITIES.flatMap((l) =>
+            (['debarras', 'nettoyage'] as const).flatMap((service) => {
+              const path = localPath(service, l.slug);
+              const element = <LocalServiceLanding service={service} slug={l.slug} />;
+              return [
+                <Route key={path} path={path} element={element} />,
+                <Route key={localizePath(path, 'en')} path={localizePath(path, 'en')} element={element} />,
+              ];
+            })
+          )}
+
           <Route path="/business" element={<Navigate to="/services?type=entreprise" replace />} />
           {/* Página de tarifas retirada: preço só no devis. Links antigos vão ao orçamento. */}
           <Route path="/pricing" element={<Navigate to="/quote" replace />} />
-          <Route path="/debarras" element={<Debarras />} />
-          <Route path="/nettoyage-fin-de-bail" element={<Nettoyage />} />
-          <Route path="/garde-meubles" element={<GardeMeubles />} />
-          {/* Páginas locais (SEO): /debarras-<cidade> e /nettoyage-fin-de-bail-<cidade> */}
-          {LOCALITIES.flatMap((l) =>
-            (['debarras', 'nettoyage'] as const).map((service) => (
-              <Route
-                key={localPath(service, l.slug)}
-                path={localPath(service, l.slug)}
-                element={<LocalServiceLanding service={service} slug={l.slug} />}
-              />
-            ))
-          )}
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/calculator" element={<Calculator />} />
-          <Route path="/calculator/checkout" element={<CalculatorCheckout />} />
-
-          {/* Strategic Regional SEO Pages */}
-          <Route path="/demenagement-geneve" element={<Geneve />} />
-          <Route path="/demenagement-lausanne" element={<Lausanne />} />
-          <Route path="/demenagement-vaud" element={<Vaud />} />
-
-          {/* Legal Routes */}
-          <Route path="/privacy" element={<Legal type="privacy" />} />
-          <Route path="/terms" element={<Legal type="terms" />} />
-          <Route path="/legal" element={<Legal type="impressum" />} />
-
-          {/* General Quote Funnel */}
-          <Route path="/quote" element={<Quote />} />
-          <Route path="/quote/:serviceId" element={<Quote />} />
 
           {/* Le portail d'administration était un prototype inachevé, sans backend.
               Ses anciennes adresses renvoient vers l'accueil au lieu de 404, pour
@@ -113,7 +138,7 @@ const AppContent: React.FC = () => {
           <Route path="/admin/*" element={<Navigate to="/" replace />} />
 
           {/* Fallback 404 */}
-          <Route path="*" element={<div className="h-screen flex items-center justify-center">404 - Page not found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         </Suspense>
       </main>

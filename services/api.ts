@@ -289,10 +289,14 @@ export interface ServiceQuoteData {
     details?: string;
     /** De onde veio o pedido, aparece na primeira linha do e-mail */
     source?: string;
+    /** Idioma do site em que o cliente preencheu; o e-mail continua sempre em francês */
+    clientLang?: 'fr' | 'en';
 }
 
 export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiResponse> => {
     try {
+        // Só aparece para quem preencheu em inglês: a equipe sabe em que idioma responder.
+        const langLine = data.clientLang === 'en' ? 'Langue du client : anglais\n' : '';
         const templateParams = {
             service_name: data.serviceName,
             service_id: data.serviceName,
@@ -306,7 +310,7 @@ export const submitServiceQuote = async (data: ServiceQuoteData): Promise<ApiRes
             from_zip: data.fromCity || 'Non spécifié',
             to_zip: data.toCity || 'Non spécifié',
             message: `Demande de devis direct depuis ${data.source || 'la page Services'}:
-Prestation: ${data.serviceName}
+${langLine}Prestation: ${data.serviceName}
 Client: ${data.clientName}
 Téléphone: ${data.clientPhone}
 Email: ${data.clientEmail}
