@@ -251,9 +251,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
             </div>
 
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                EXPERTISE LOCALE À {config.cityName.toUpperCase()}
-              </span>
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.15] mb-6">
                 Maîtrise Parfaite des Spécificités de {config.cityName}
               </h2>
@@ -301,9 +298,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              ZONES & COMMUNES COUVERTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
               Présents Partout à {config.cityName} & Environs
             </h2>
@@ -340,9 +334,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              PRESTATIONS COMPLÈTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
               Toutes les solutions pour votre déménagement
             </h2>
@@ -503,9 +494,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-16">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
-              QUESTIONS FRÉQUENTES
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl font-medium text-[#0B1E33] tracking-tight">
               Tout Savoir sur Votre Déménagement à {config.cityName}
             </h2>
@@ -547,9 +535,6 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
           ========================================================================= */}
       <section className="py-20 lg:py-24 bg-gradient-to-b from-[#0B1E33] to-[#07182b] text-white text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-            DEVIS GRATUIT & SANS ENGAGEMENT
-          </span>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight mb-6">
             Prêt pour un Déménagement Serein à {config.cityName} ?
           </h2>

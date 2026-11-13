@@ -1,161 +1,204 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { X, Phone, ShieldCheck } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { X, Phone, Clock } from 'lucide-react';
+import { LOCALITIES } from '../data/localities';
+import { BATIMOVE_WHATSAPP } from '../data/quoteServices';
+import { trackContactClick } from '../utils/analytics';
 
 export const WhatsappIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.031 2c-5.508 0-9.985 4.477-9.985 9.985 0 1.761.459 3.477 1.332 4.992L2 22l5.16-1.354c1.465.799 3.119 1.223 4.871 1.223 5.508 0 9.985-4.477 9.985-9.985S17.539 2 12.031 2zm5.836 14.186c-.244.686-1.423 1.309-1.97 1.393-.524.08-1.207.114-1.956-.124-.48-.152-1.099-.356-1.895-.7-3.332-1.442-5.5-4.819-5.666-5.041-.166-.222-1.353-1.8-1.353-3.433s.853-2.437 1.156-2.769c.303-.332.66-.415.88-.415.22 0 .44.002.633.012.203.01.475-.077.744.569.278.666.948 2.31.948 2.31s.087.178.02.378c-.068.2-.102.324-.204.444-.102.12-.214.268-.306.36-.102.102-.208.213-.09.415.118.202.524.864 1.124 1.398.772.688 1.422.9 1.624.99.202.09.32.078.438-.058.118-.136.507-.589.642-.791.135-.202.27-.168.455-.101.185.067 1.173.553 1.375.654.202.101.337.152.388.236.051.084.051.49-.193 1.176z"/>
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12.031 2c-5.508 0-9.985 4.477-9.985 9.985 0 1.761.459 3.477 1.332 4.992L2 22l5.16-1.354c1.465.799 3.119 1.223 4.871 1.223 5.508 0 9.985-4.477 9.985-9.985S17.539 2 12.031 2zm5.836 14.186c-.244.686-1.423 1.309-1.970 1.393-.524.08-1.207.114-1.956-.124-.48-.152-1.099-.356-1.895-.7-3.332-1.442-5.5-4.819-5.666-5.041-.166-.222-1.353-1.8-1.353-3.433s.853-2.437 1.156-2.769c.303-.332.66-.415.88-.415.22 0 .44.002.633.012.203.01.475-.077.744.569.278.666.948 2.310.948 2.310s.087.178.02.378c-.068.2-.102.324-.204.444-.102.12-.214.268-.306.36-.102.102-.208.213-.09.415.118.202.524.864 1.124 1.398.772.688 1.422.9 1.624.99.202.09.32.078.438-.058.118-.136.507-.589.642-.791.135-.202.27-.168.455-.101.185.067 1.173.553 1.375.654.202.101.337.152.388.236.051.084.051.49-.193 1.176z"/>
     </svg>
 );
 
-/** Horaires d'ouverture annoncés sur le site : lundi à samedi, 08h00–19h00. */
+/**
+ * Horário do escritório (seg–sáb, 8h–19h) calculado na hora de Genebra,
+ * não na do visitante: quem abre o site de Londres às 7h vê o estado certo.
+ */
 const isWithinBusinessHours = (now: Date = new Date()): boolean => {
-    const day = now.getDay(); // 0 = dimanche
-    const hour = now.getHours();
-    return day >= 1 && day <= 6 && hour >= 8 && hour < 19;
+    try {
+        const parts = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Europe/Zurich',
+            weekday: 'short',
+            hour: 'numeric',
+            hourCycle: 'h23',
+        }).formatToParts(now);
+        const weekday = parts.find((p) => p.type === 'weekday')?.value;
+        const hour = Number(parts.find((p) => p.type === 'hour')?.value);
+        return weekday !== 'Sun' && hour >= 8 && hour < 19;
+    } catch {
+        const day = now.getDay();
+        const hour = now.getHours();
+        return day >= 1 && day <= 6 && hour >= 8 && hour < 19;
+    }
 };
 
-export const WhatsAppButton: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-    const isOnline = isWithinBusinessHours();
+/** Mensagem já escrita conforme a página: o cliente só aperta "enviar". */
+export const whatsAppMessageFor = (pathname: string, search = ''): string => {
+    const city = (slug: string) => LOCALITIES.find((l) => l.slug === slug);
+    const local = pathname.match(/^\/(debarras|nettoyage-fin-de-bail)-(.+)$/);
+    if (local) {
+        const l = city(local[2]);
+        const where = l ? ` ${l.prep}` : '';
+        return local[1] === 'debarras'
+            ? `Bonjour Batimove, je souhaite un devis pour un débarras${where}.`
+            : `Bonjour Batimove, je souhaite un devis pour un nettoyage de fin de bail${where}.`;
+    }
+    if (pathname === '/debarras') return 'Bonjour Batimove, je souhaite un devis pour un débarras.';
+    if (pathname === '/nettoyage-fin-de-bail') return 'Bonjour Batimove, je souhaite un devis pour un nettoyage de fin de bail.';
+    if (pathname === '/garde-meubles') return 'Bonjour Batimove, je souhaite un devis pour un garde-meubles.';
+    if (pathname === '/calculator') return "Bonjour Batimove, j'ai estimé mon volume et je souhaite un devis.";
+    if (pathname === '/services' && /type=entreprise/.test(search)) {
+        return "Bonjour Batimove, je souhaite un devis pour un déménagement d'entreprise.";
+    }
+    const move = pathname.match(/^\/demenagement-(geneve|lausanne|vaud)$/);
+    if (move) {
+        const where = { geneve: 'à Genève', lausanne: 'à Lausanne', vaud: 'dans le canton de Vaud' }[move[1] as 'geneve' | 'lausanne' | 'vaud'];
+        return `Bonjour Batimove, je souhaite un devis pour un déménagement ${where}.`;
+    }
+    return 'Bonjour Batimove, je souhaite un devis pour mon déménagement.';
+};
 
-    const whatsappUrl = "https://wa.me/41798896406?text=" + encodeURIComponent("Bonjour Batimove, je souhaite obtenir un devis rapide pour mon déménagement.");
+// Nos funis de orçamento o WhatsApp já é uma etapa do próprio formulário.
+const HIDDEN_ON = (pathname: string) =>
+    pathname === '/quote' || pathname.startsWith('/quote/') || pathname === '/calculator/checkout';
+
+export const WhatsAppButton: React.FC = () => {
+    const { pathname, search } = useLocation();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOnline, setIsOnline] = useState(isWithinBusinessHours);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+
+    // Estado do horário atualizado a cada minuto enquanto a página fica aberta.
+    useEffect(() => {
+        const id = window.setInterval(() => setIsOnline(isWithinBusinessHours()), 60_000);
+        return () => window.clearInterval(id);
+    }, []);
+
+    // Fecha ao trocar de página.
+    useEffect(() => setIsOpen(false), [pathname]);
+
+    // Esc fecha e devolve o foco ao botão; o foco entra no painel ao abrir.
+    useEffect(() => {
+        if (!isOpen) return;
+        panelRef.current?.querySelector<HTMLElement>('a')?.focus();
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                setIsOpen(false);
+                triggerRef.current?.focus();
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [isOpen]);
+
+    if (HIDDEN_ON(pathname)) return null;
+
+    const message = whatsAppMessageFor(pathname, search);
+    const whatsappUrl = `https://wa.me/${BATIMOVE_WHATSAPP}?text=${encodeURIComponent(message)}`;
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
-            {/* Popover Card - High-End Swiss Luxury White / Porcelain */}
-            {/* Sans AnimatePresence : avec exit, le nœud restait monté après la
-                fermeture — invisible (opacity: 0) mais toujours cliquable — et
-                bloquait la zone de 330px au-dessus du bouton WhatsApp. */}
+        <div className="pointer-events-none fixed bottom-5 right-4 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
             {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                        className="pointer-events-auto mb-3.5 w-[330px] bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-overlay p-4 sm:p-5 text-slate-900 overflow-hidden font-sans"
-                    >
-                        {/* Header */}
-                        <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3.5">
-                            <div className="flex items-center gap-2.5">
-                                <div className="relative w-10 h-10 shrink-0">
-                                    <img 
-                                        src="/whatsapp-3d-luxury-168.png" 
-                                        alt="WhatsApp 3D" 
-                                        className="w-full h-full object-contain filter drop-shadow-sm"
-                                    />
-                                    <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full ring-2 ring-white ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
-                                </div>
-                                <div>
-                                    <h4 className="text-xs sm:text-sm font-semibold text-[#0B1E33] leading-tight">
-                                        Conseiller Batimove Sàrl
-                                    </h4>
-                                    <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
-                                        <span className={`w-1.5 h-1.5 rounded-full inline-block ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
-                                        <span>
-                                            {isOnline
-                                                ? 'En ligne • Réponse < 5 min'
-                                                : 'Hors horaires • Réponse dès 08h00'}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setIsOpen(false)}
-                                className="text-slate-400 hover:text-slate-700 transition-colors p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
-                                aria-label="Fermer"
-                            >
-                                <X className="w-4 h-4" />
-                            </button>
-                        </div>
-
-                        {/* Conversational Bubble */}
-                        <div className="bg-[#F8FAFC] border border-slate-200/70 p-3 rounded-xl rounded-tl-xs mb-4 text-xs text-slate-700 leading-relaxed shadow-sm">
-                            <p>
-                                Bonjour ! Une question sur votre déménagement ou besoin d'un devis immédiat à Genève et Suisse Romande ?
+                <div
+                    ref={panelRef}
+                    id="whatsapp-panel"
+                    role="dialog"
+                    aria-labelledby="whatsapp-panel-title"
+                    className="nav-panel-in pointer-events-auto mb-3 w-[min(340px,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-overlay"
+                >
+                    <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
+                        <div>
+                            <p id="whatsapp-panel-title" className="text-base font-semibold text-[#0B1E33]">
+                                Batimove Sàrl sur WhatsApp
                             </p>
-                            <span className="block text-xs text-slate-400 text-right mt-1.5 font-medium">
-                                Maintenant
-                            </span>
+                            <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
+                                <span
+                                    className={`inline-block h-2 w-2 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`}
+                                    aria-hidden="true"
+                                />
+                                {isOnline ? 'Bureau ouvert : devis sous 30 min' : 'Bureau fermé : réponse dès 8h00'}
+                            </p>
                         </div>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setIsOpen(false);
+                                triggerRef.current?.focus();
+                            }}
+                            className="-mr-1.5 -mt-1 rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-600"
+                            aria-label="Fermer"
+                        >
+                            <X className="h-4 w-4" aria-hidden="true" />
+                        </button>
+                    </div>
 
-                        {/* Action Buttons */}
-                        <div className="space-y-2">
+                    <div className="px-5 py-4">
+                        <p className="text-sm text-slate-600">Votre message, prêt à envoyer :</p>
+                        <p className="mt-2 rounded-xl rounded-tl-sm bg-[#E7F8EE] px-3.5 py-2.5 text-base leading-relaxed text-[#0B1E33]">
+                            {message}
+                        </p>
+
+                        <div className="mt-4 space-y-2">
                             <a
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#128C7E] to-[#0E7A6E] hover:from-[#0f776a] hover:to-[#0a6359] text-white font-semibold text-xs py-3 px-4 rounded-xl transition-all shadow-rest cursor-pointer"
+                                onClick={() => trackContactClick('whatsapp', pathname)}
+                                className="btn btn-md w-full bg-[#0E7A6E] text-white hover:bg-[#0B6359] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0E7A6E]"
                             >
-                                <img src="/whatsapp-3d-luxury-168.png" alt="" className="w-4 h-4 object-contain" />
-                                <span>Discuter sur WhatsApp</span>
+                                <WhatsappIcon className="h-5 w-5" />
+                                Ouvrir WhatsApp
                             </a>
-
                             <a
                                 href="tel:0800825925"
-                                className="flex items-center justify-center gap-2 w-full bg-slate-100/90 hover:bg-slate-200 text-[#0B1E33] font-semibold text-xs py-2.5 px-4 rounded-xl border border-slate-200/80 transition-all cursor-pointer"
+                                onClick={() => trackContactClick('phone', pathname)}
+                                className="btn btn-md btn-outline w-full"
                             >
-                                <Phone className="w-3.5 h-3.5 text-sky-600" />
-                                <span>Appel gratuit : 0800 825 925</span>
+                                <Phone className="h-4 w-4" aria-hidden="true" />
+                                <span className="tabular-nums">0800 825 925</span>
+                                <span className="font-normal text-slate-500">appel gratuit</span>
                             </a>
                         </div>
 
-                        {/* Swiss Trust Footnote */}
-                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-center gap-1.5 text-xs text-slate-400">
-                            <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                            <span>Service officiel Batimove • Confidentialité assurée</span>
-                        </div>
-                    </motion.div>
+                        <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-slate-500">
+                            <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                            Lun.–sam. 8h–19h · urgences 24/7 par téléphone
+                        </p>
+                    </div>
+                </div>
             )}
 
-            {/* Trigger Button with Discrete Hover Tooltip */}
-            <div className="pointer-events-auto flex items-center gap-2.5">
-                {/* Desktop Hover Pill Badge */}
-                {!isOpen && isHovered && (
-                        <motion.div
-                            initial={{ opacity: 0, x: 8 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.18 }}
-                            className="hidden sm:flex items-center gap-1.5 bg-white/95 backdrop-blur-md border border-slate-200/90 px-3 py-1.5 rounded-full shadow-raised text-xs font-semibold text-slate-800"
-                        >
-                            <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'}`} />
-                            <span>{isOnline ? 'WhatsApp disponible' : 'Écrivez-nous sur WhatsApp'}</span>
-                        </motion.div>
+            <button
+                ref={triggerRef}
+                type="button"
+                onClick={() => setIsOpen((v) => !v)}
+                aria-expanded={isOpen}
+                aria-controls="whatsapp-panel"
+                aria-label={isOpen ? 'Fermer WhatsApp' : 'Écrire à Batimove sur WhatsApp'}
+                className="pointer-events-auto relative grid h-14 w-14 place-items-center rounded-full transition-transform duration-150 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#128C7E] motion-reduce:transition-none sm:h-[60px] sm:w-[60px]"
+            >
+                {isOpen ? (
+                    <span className="grid h-[50px] w-[50px] place-items-center rounded-full bg-[#0B1E33] text-white shadow-overlay">
+                        <X className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                ) : (
+                    <>
+                        <img
+                            src="/whatsapp-3d-luxury-168.png"
+                            alt=""
+                            width={60}
+                            height={60}
+                            className="pointer-events-none h-full w-full select-none object-contain drop-shadow-[0_10px_20px_rgba(11,30,51,0.18)]"
+                        />
+                        {/* Ponto verde só com o escritório aberto. */}
+                        {isOnline && (
+                            <span className="absolute right-0.5 top-0.5 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white" aria-hidden="true" />
+                        )}
+                    </>
                 )}
-
-                {/* 3D Luxury WhatsApp Floating Trigger */}
-                <motion.button
-                    onClick={() => setIsOpen(!isOpen)}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.94 }}
-                    className="relative flex items-center justify-center w-[56px] h-[56px] sm:w-[60px] sm:h-[60px] transition-transform duration-200 cursor-pointer focus:outline-none select-none"
-                    aria-label="Contacter par WhatsApp"
-                >
-                    {/* Discrete Online Indicator Badge */}
-                    {!isOpen && (
-                        <span className="absolute top-0 right-0 z-20 flex h-3.5 w-3.5 items-center justify-center pointer-events-none">
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-white shadow-sm" />
-                        </span>
-                    )}
-
-                    {isOpen ? (
-                        <div className="w-[50px] h-[50px] rounded-full bg-[#0B1E33] text-white flex items-center justify-center shadow-overlay ring-4 ring-[#0B1E33]/10">
-                            <X className="w-5 h-5 text-white" />
-                        </div>
-                    ) : (
-                        <div className="w-full h-full relative flex items-center justify-center filter drop-shadow-[0_10px_20px_rgba(11,30,51,0.18)] hover:drop-shadow-[0_14px_28px_rgba(11,30,51,0.24)] transition-all duration-300">
-                            <img
-                                src="/whatsapp-3d-luxury-168.png"
-                                alt="WhatsApp 3D"
-                                className="w-full h-full object-contain pointer-events-none select-none"
-                            />
-                        </div>
-                    )}
-                </motion.button>
-            </div>
+            </button>
         </div>
     );
 };
-

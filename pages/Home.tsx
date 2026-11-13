@@ -282,6 +282,46 @@ const AssuranceUmbrellaIcon: React.FC<{ className?: string }> = ({ className = "
   </svg>
 );
 
+
+/** Serviços além da mudança local. Só o que a Batimove confirma fazer. */
+const HOME_COMPLEMENTAIRES: {
+  title: string;
+  text: string;
+  cta: string;
+  to?: string;
+  href?: string;
+  Icon: React.FC<{ className?: string }>;
+}[] = [
+  {
+    title: 'Déménagement international',
+    text: "Vers la France, l'Italie, l'Allemagne, l'Autriche, le reste de l'Union européenne et le Royaume-Uni. Nous vous aidons avec les documents de douane.",
+    cta: 'Demander un devis',
+    to: '/quote?type=prive',
+    Icon: LogisticServicesPlaneIcon,
+  },
+  {
+    title: 'Transport de véhicules',
+    text: 'Voitures et motos transportées en Suisse et en Europe.',
+    cta: 'Demander un devis',
+    to: '/quote?type=prive',
+    Icon: CarShippingTruckIcon,
+  },
+  {
+    title: 'Urgences 24/7',
+    text: 'Un logement à libérer plus tôt que prévu, un départ avancé : une équipe répond de jour comme de nuit.',
+    cta: 'Appeler le 0800 825 925',
+    href: 'tel:0800825925',
+    Icon: FastestShippingClockIcon,
+  },
+  {
+    title: 'Garde-meubles',
+    text: 'Stockage de quelques semaines ou de plusieurs mois, dans un dépôt ventilé sous vidéosurveillance.',
+    cta: 'Voir le garde-meubles',
+    to: '/garde-meubles',
+    Icon: WarehouseShelfIcon,
+  },
+];
+
 export const Home: React.FC = () => {
   // Testimonial Carousel Active State
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -536,9 +576,6 @@ export const Home: React.FC = () => {
             
             {/* Left Column: Why Choose Us & 3 Icons */}
             <div className="lg:col-span-7">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                POURQUOI NOUS CHOISIR
-              </span>
               
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
                 Recommandé par les professionnels et les régies
@@ -634,9 +671,6 @@ export const Home: React.FC = () => {
           
           {/* Header Centered */}
           <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
-            <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-              NOS SERVICES COMPLETS
-            </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight">
               Toujours prêts à répondre à vos besoins
             </h2>
@@ -774,125 +808,50 @@ export const Home: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 6: "SERVICES COMPLÉMENTAIRES" ("ADDITIONAL SERVICES")
+          SECTION 6: SERVICES COMPLÉMENTAIRES
+          Só o que a Batimove faz de fato (confirmado: internacional, veículos,
+          urgências 24/7, garde-meubles). Lista em duas colunas, sem cartões
+          idênticos nem textura de fundo.
           ========================================================================= */}
-      <section className="py-20 lg:py-28 bg-[#0B1E33] text-white relative overflow-hidden">
-        {/* Dark Background Overlay with subtle texture */}
-        <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:32px_32px] opacity-10 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sky-400 font-semibold tracking-widest text-xs uppercase font-display mb-2 block">
-              PRESTATIONS SUR MESURE
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-tight">
-              Services complémentaires
-            </h2>
+      <section aria-labelledby="complementaires-title" className="bg-[#0B1E33] py-20 text-white lg:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-4">
+              <h2 id="complementaires-title" className="font-display text-3xl font-medium tracking-tight text-white sm:text-4xl">
+                Services complémentaires
+              </h2>
+              <p className="mt-4 max-w-sm text-lg leading-relaxed text-slate-300">
+                Au-delà du déménagement en Suisse romande : l'étranger, vos véhicules, l'urgence et le stockage.
+              </p>
+            </div>
+
+            <ul className="grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:col-span-8">
+              {HOME_COMPLEMENTAIRES.map(({ title, text, to, href, cta, Icon }) => {
+                const inner = (
+                  <>
+                    <Icon className="h-14 w-14 shrink-0" />
+                    <span className="mt-5 block font-display text-xl font-medium text-white">{title}</span>
+                    <span className="mt-2 block text-base leading-relaxed text-slate-300">{text}</span>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-base font-semibold text-sky-300 transition-colors group-hover:text-white">
+                      {cta}
+                      <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                    </span>
+                  </>
+                );
+                const cls =
+                  'group flex h-full flex-col bg-[#0B1E33] p-7 transition-colors duration-150 hover:bg-[#0f2742] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-300 sm:p-8';
+                return (
+                  <li key={title}>
+                    {href ? (
+                      <a href={href} className={cls}>{inner}</a>
+                    ) : (
+                      <Link to={to!} className={cls}>{inner}</Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-
-          {/* 4 Cards Matching Reference with Identical Duotone Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Card 1: Logistic Services */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <LogisticServicesPlaneIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Services logistiques
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Fret aérien, formalités de douane suisses et garde-meubles sous haute sécurité pour particuliers et entreprises.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 2: Car Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <CarShippingTruckIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de véhicules
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Acheminement sécurisé de voitures, motos et flottes d'entreprise dans toute la Suisse et l'Europe.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 3: Furniture Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <FurnitureShippingShipIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Transport de mobilier
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Manutention experte de mobilier volumineux, monte-meubles extérieur et fret maritime pour vos relocalisations.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-            {/* Card 4: Fastest Shipping */}
-            <div className="bg-[#071727] hover:bg-[#0a1e34] border border-sky-500/20 hover:border-sky-400/50 p-8 rounded-2xl transition-all duration-300 flex flex-col items-center text-center justify-between group hover:-translate-y-1.5 shadow-xl">
-              <div>
-                <div className="w-20 h-20 flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
-                  <FastestShippingClockIcon className="w-18 h-18" />
-                </div>
-                <h3 className="font-display text-xl font-medium text-sky-400 group-hover:text-sky-300 transition-colors mb-3">
-                  Livraisons express
-                </h3>
-                <p className="text-slate-300 text-base leading-relaxed mb-6 font-normal">
-                  Interventions d'urgence 24/7, transport de petits volumes et livraisons express sous délais stricts garantis.
-                </p>
-              </div>
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-sky-400 transition-colors group/link"
-              >
-                <span>En savoir plus</span>
-                <span className="w-5 h-5 rounded-full bg-white group-hover/link:bg-sky-400 text-[#0B1E33] flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
-                </span>
-              </Link>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
@@ -926,9 +885,6 @@ export const Home: React.FC = () => {
 
             {/* Right: Content & 2x2 Services Grid Matching Reference Image 2 */}
             <div className="lg:col-span-6 flex flex-col justify-center">
-              <span className="text-sky-600 font-semibold tracking-widest text-xs uppercase font-display mb-3 block">
-                EMBALLAGE PROFESSIONNEL
-              </span>
               
               <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-6">
                 Nous emballons tout avec le plus grand soin

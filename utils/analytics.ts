@@ -142,3 +142,15 @@ export const trackPhoneConversionNumber = (phone: string = '079 889 64 06'): voi
   }
 };
 
+
+/**
+ * Clique num canal de contato direto (WhatsApp ou telefone), com a página de
+ * origem. Evento GA4/Google Ads "contact_click": pode ser importado como
+ * conversão secundária no Google Ads. Não envia dado pessoal.
+ */
+export const trackContactClick = (channel: 'whatsapp' | 'phone', source: string): void => {
+  gtag('event', 'contact_click', { channel, source });
+  if (import.meta.env.DEV) {
+    console.log('[GoogleAds] Contact click:', channel, source);
+  }
+};
