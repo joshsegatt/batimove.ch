@@ -22,7 +22,7 @@ import { defineCopy, useLang } from '../i18n';
 // - hub (/debarras): a página geral do serviço;
 // - local (/debarras-lausanne, /demenagement-nyon): mesmo serviço com conteúdo próprio
 //   da localidade (bairros e comunas, notas locais, FAQ local), para o SEO local.
-//   Déménagement só tem a versão local; o hub dele é /services?type=prive.
+//   Déménagement só tem a versão local; o fil d'Ariane leva às prestações da home (/#services).
 // Em ambas, o wizard completo fica no topo e capta o lead sem trocar de página.
 // FR e EN: o conteúdo vem de SERVICE_LANDINGS_BY_LANG e de localizeLocality();
 // os links são escritos com o caminho francês e passam por lp().

@@ -6,13 +6,47 @@
     "trailingSlash": false,
     "redirects": [
         {
-            "source": "/pricing",
+            "source": "/business",
+            "destination": "/quote?type=entreprise",
+            "permanent": true
+        },
+        {
+            "source": "/services",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "type",
+                    "value": "(?<t>prive|entreprise|debarras|nettoyage|garde-meubles)"
+                }
+            ],
+            "destination": "/quote?type=:t",
+            "permanent": true
+        },
+        {
+            "source": "/services",
             "destination": "/quote",
             "permanent": true
         },
         {
-            "source": "/business",
-            "destination": "/services?type=entreprise",
+            "source": "/en/services",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "type",
+                    "value": "(?<t>prive|entreprise|debarras|nettoyage|garde-meubles)"
+                }
+            ],
+            "destination": "/en/quote?type=:t",
+            "permanent": true
+        },
+        {
+            "source": "/en/services",
+            "destination": "/en/quote",
+            "permanent": true
+        },
+        {
+            "source": "/pricing",
+            "destination": "/quote",
             "permanent": true
         },
         {
@@ -48,10 +82,6 @@
         {
             "source": "/demenagement-vaud",
             "destination": "/demenagement-vaud/index.html"
-        },
-        {
-            "source": "/services",
-            "destination": "/services/index.html"
         },
         {
             "source": "/calculator",
@@ -104,10 +134,6 @@
         {
             "source": "/en",
             "destination": "/en/index.html"
-        },
-        {
-            "source": "/en/services",
-            "destination": "/en/services/index.html"
         },
         {
             "source": "/en/house-clearance",

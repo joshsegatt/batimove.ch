@@ -523,7 +523,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                   {c.residentialText(config.cityName)}
                 </p>
               </div>
-              <Link to={lp('/services?type=prive')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to={lp('/quote?type=prive')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>{c.residentialLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
@@ -540,7 +540,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                   {c.businessText}
                 </p>
               </div>
-              <Link to={lp('/services?type=entreprise')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to={lp('/quote?type=entreprise')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>{c.businessLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
@@ -557,7 +557,7 @@ export const LocationLandingTemplate: React.FC<{ config: LocationConfig }> = ({ 
                   {c.storageText(config.cityName)}
                 </p>
               </div>
-              <Link to={lp('/services')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
+              <Link to={lp('/quote')} className="text-xs font-semibold text-sky-600 hover:text-sky-700 flex items-center gap-1.5">
                 <span>{c.storageLink}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>

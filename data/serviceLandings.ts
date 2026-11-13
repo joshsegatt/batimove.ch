@@ -25,13 +25,13 @@ export type ServiceLandingId = 'demenagement' | 'debarras' | 'nettoyage' | 'gard
 
 /** Versão francesa (idioma de origem). */
 export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
-  // Só usada pelas páginas por cidade (/demenagement-nyon…); o hub é /services?type=prive.
+  // Só usada pelas páginas por cidade (/demenagement-nyon…); o "hub" é a seção de prestações da home.
   // Afirmações já feitas no site: emballage et déballage, démontage, monte-meubles,
   // protection des parties communes, autorisation de stationnement (sur demande), cartons livrés,
   // garde-meubles, RC Pro 5M, prix ferme, devis sous 30 min.
   demenagement: {
     serviceId: 'prive',
-    path: '/services?type=prive',
+    path: '/#services',
     seoTitle: 'Déménagement privé | Batimove',
     seoDescription: 'Déménagement privé en Suisse romande : emballage, démontage, transport et livraison. Prix ferme, devis gratuit sous 30 min.',
     breadcrumb: 'Déménagement',

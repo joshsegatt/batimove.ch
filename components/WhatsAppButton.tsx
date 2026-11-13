@@ -87,7 +87,7 @@ export const whatsAppMessageFor = (pathname: string, search = ''): string => {
         if (path === '/nettoyage-fin-de-bail') return ask('end of tenancy cleaning');
         if (path === '/garde-meubles') return ask('storage');
         if (path === '/calculator') return "Hello Batimove, I've estimated my volume and I'd like a quote.";
-        if (path === '/services' && /type=entreprise/.test(search)) return ask('a business removal');
+        if (path === '/quote' && /type=entreprise/.test(search)) return ask('a business removal');
         if (path === '/demenagement-international') return ask('an international removal');
         if (path === '/demenagement-londres') return ask('a move between Switzerland and London');
         const move = path.match(/^\/demenagement-(geneve|lausanne|vaud)$/);
@@ -110,7 +110,7 @@ export const whatsAppMessageFor = (pathname: string, search = ''): string => {
     if (path === '/nettoyage-fin-de-bail') return 'Bonjour Batimove, je souhaite un devis pour un nettoyage de fin de bail.';
     if (path === '/garde-meubles') return 'Bonjour Batimove, je souhaite un devis pour un garde-meubles.';
     if (path === '/calculator') return "Bonjour Batimove, j'ai estimé mon volume et je souhaite un devis.";
-    if (path === '/services' && /type=entreprise/.test(search)) {
+    if (path === '/quote' && /type=entreprise/.test(search)) {
         return "Bonjour Batimove, je souhaite un devis pour un déménagement d'entreprise.";
     }
     if (path === '/demenagement-international') return 'Bonjour Batimove, je souhaite un devis pour un déménagement international.';
