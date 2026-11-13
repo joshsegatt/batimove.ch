@@ -27,7 +27,7 @@ export type ServiceLandingId = 'demenagement' | 'debarras' | 'nettoyage' | 'gard
 export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
   // Só usada pelas páginas por cidade (/demenagement-nyon…); o hub é /services?type=prive.
   // Afirmações já feitas no site: emballage et déballage, démontage, monte-meubles,
-  // protection des parties communes, autorisation de stationnement, cartons livrés,
+  // protection des parties communes, autorisation de stationnement (sur demande), cartons livrés,
   // garde-meubles, RC Pro 5M, prix ferme, devis sous 30 min.
   demenagement: {
     serviceId: 'prive',
@@ -49,13 +49,13 @@ export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
       'Emballage et déballage, cartons livrés chez vous',
       'Démontage des meubles et protection du mobilier',
       'Sols, murs et cages d’escalier protégés',
-      'Autorisation de stationnement demandée pour vous',
+      'Autorisation de stationnement sur demande',
       'Monte-meubles si l’accès l’exige',
       'Garde-meubles entre deux logements',
     ],
     steps: [
       { title: 'Devis gratuit sous 30 min', text: 'Décrivez le logement, les accès et la date. Vous recevez un prix ferme, de 8h à 19h.' },
-      { title: 'Préparation', text: 'Cartons livrés, autorisation de stationnement demandée, équipe et camion choisis selon les accès.' },
+      { title: 'Préparation', text: 'Cartons livrés, autorisation de stationnement si vous le souhaitez, équipe et camion choisis selon les accès.' },
       { title: 'Le jour J', text: 'Emballage, chargement, transport et livraison à la nouvelle adresse, avec un interlocuteur joignable 7j/7.' },
     ],
     faq: [
@@ -100,7 +100,7 @@ export const SERVICE_LANDINGS: Record<ServiceLandingId, ServiceLanding> = {
       'Évacuation complète par nos équipes',
       'Valorisation des objets réutilisables',
       'Parties communes protégées pendant l’intervention',
-      'Autorisation de stationnement demandée pour vous',
+      'Autorisation de stationnement sur demande',
       'Nettoyage de fin de bail possible dans la foulée',
     ],
     steps: [
@@ -253,13 +253,13 @@ export const SERVICE_LANDINGS_EN: Record<ServiceLandingId, ServiceLanding> = {
       'Packing and unpacking, boxes delivered to your door',
       'Furniture dismantling and protection',
       'Floors, walls and stairwells protected',
-      'Parking permit requested for you',
+      'Parking permit on request',
       'Furniture lift if the access requires it',
       'Storage between two homes',
     ],
     steps: [
       { title: 'Free quote within 30 min', text: 'Tell us about the property, the access and the date. You get a fixed price, between 8am and 7pm.' },
-      { title: 'Preparation', text: 'Boxes delivered, parking permit requested, team and lorry chosen to suit the access.' },
+      { title: 'Preparation', text: 'Boxes delivered, parking permit if you wish, team and lorry chosen to suit the access.' },
       { title: 'Moving day', text: 'Packing, loading, transport and delivery to your new address, with a contact you can reach 7 days a week.' },
     ],
     faq: [
@@ -299,7 +299,7 @@ export const SERVICE_LANDINGS_EN: Record<ServiceLandingId, ServiceLanding> = {
       'Complete clearance by our own teams',
       'Reusable items given a second life',
       'Communal areas protected throughout the job',
-      'Parking permit requested on your behalf',
+      'Parking permit on request',
       'End of tenancy cleaning available straight afterwards',
     ],
     steps: [

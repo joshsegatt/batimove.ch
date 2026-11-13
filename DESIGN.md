@@ -4,12 +4,15 @@ description: Déménagement haut de gamme suisse, confiance institutionnelle, cl
 colors:
   navy-institutionnel: "#0B1E33"
   navy-hover: "#132C48"
+  navy-raise: "#17375A"
   bleu-suisse: "#0284C7"
   bleu-suisse-hover: "#0EA5E9"
   bleu-action: "#0369A1"
   bleu-action-hover: "#075985"
   rouge-suisse: "#E10600"
   fond-ardoise: "#F8FAFC"
+  fond-glacier: "#E6EEF7"
+  bordure-glacier: "#D3E0EE"
   surface: "#FFFFFF"
   surface-hover: "#F1F5F9"
   bordure: "#E2E8F0"
@@ -126,6 +129,7 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 ### Primary
 - **Navy Institutionnel** (#0B1E33): títulos, texto principal, botão primário e faixas escuras (rodapé, faixa de orçamento). É a cor que carrega a marca.
 - **Navy Hover** (#132C48): estado hover do botão primário.
+- **Navy Raise** (#17375A, classe `navy-raise`): hover de cartões e links grandes sobre fundo navy. 1,4:1 contra o navy, o bastante para o hover se ver; texto branco fica em 12:1.
 
 ### Secondary
 - **Bleu Suisse** (#0284C7): destaques, links e foco. Em texto pequeno sobre branco fica em 4,1:1, abaixo do AA: use só em texto ≥18px bold.
@@ -136,7 +140,8 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 - **Rouge Suisse** (#E10600): vermelho de ação e bandeira suíça. Reservado; nunca decorativo.
 
 ### Neutral
-- **Fond Ardoise** (#F8FAFC): fundo principal da aplicação e das seções alternadas.
+- **Fond Ardoise** (#F8FAFC): fundo da aplicação. Ao lado do branco não se vê (1,05:1), então não serve para separar seções.
+- **Fond Glacier** (#E6EEF7, classe `glacier`; borda `glacier-line` #D3E0EE): o tom claro da marca, um azul-gelo para as faixas claras que precisam se distinguir do branco. Cartões brancos sobre ele ganham relevo sem sombra extra. Navy fica em 14:1 e o texto secundário (#475569) em 6,5:1; o Texte Discret (#64748B) cai para 4,2:1, então texto pequeno sobre glacier usa #475569.
 - **Surface** (#FFFFFF): cartões, caixas e painéis.
 - **Surface Hover** (#F1F5F9): hover e estados táteis sutis.
 - **Bordure** (#E2E8F0): divisórias e bordas estruturais de 1px.
@@ -147,6 +152,10 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 **The One Accent Rule.** O Bleu Suisse é o único destaque. Se dois elementos vizinhos competem em azul, um deles volta ao navy.
 
 **The Red Flag Rule.** O Rouge Suisse aparece só em ação crítica ou na bandeira. Nunca como fundo de seção, nunca em texto corrido.
+
+**The Band Rhythm Rule.** Uma página longa alterna três faixas: branco, glacier e navy. Duas seções vizinhas nunca têm o mesmo fundo, e nenhum trecho claro passa de duas seções sem uma faixa glacier ou navy. Na home: glacier (topo), navy, branco, glacier, branco, navy, branco, glacier, navy, branco, rodapé navy. Navy é sempre #0B1E33; nada de navies parecidos (#07182B, #0F2742).
+
+**The Honest Hover Rule.** Só o que é clicável reage ao mouse, e a reação se vê: cartão-link sobe 2px, ganha borda e passa de `shadow-rest`/sem sombra para `shadow-raised` em 150ms; linha de lista muda para glacier; cartão navy muda para navy-raise. Cartão informativo (que não é link) não tem hover.
 
 ## Typography
 
@@ -243,7 +252,8 @@ Um só sistema, em `src/index.css` (`.btn` + tamanho + variante) e no componente
 ### Do:
 - **Do** usar números tabulares em todas as métricas e preços.
 - **Do** manter bordas de 1px `#E2E8F0` e raio de 12px em cartões e botões.
-- **Do** animar só em resposta a clique ou hover, em 150–200ms com `cubic-bezier(0.16, 1, 0.3, 1)`.
+- **Do** animar a interação (clique, hover) em 150–200ms com `cubic-bezier(0.16, 1, 0.3, 1)`. A única animação de entrada é a da regra abaixo.
+- **Do** seguir **The Ruled Line Rule**: o movimento de entrada do site é o traço. Quando um bloco de itens entra na tela, as linhas que o estruturam se desenham da esquerda para a direita (`scaleX` 0 → 1, `origin-left`), uma após a outra, e o texto aparece logo depois. É a precisão da régua suíça, e diz "resolvido, item por item". Momento principal: a faixa "Ce que nous réglons pour vous" (traço azul, 700ms, 220ms entre itens). Apoio: a ficha "En toute transparence" (traço cinza, 500ms, 70ms entre linhas). Hook `hooks/useRevealOnce.ts`: roda uma vez, nunca no que já está visível ao abrir, e com `prefers-reduced-motion` mostra tudo pronto. Nada de fade-and-rise genérico em cada seção.
 - **Do** basear toda afirmação de confiança em fato verificável (RC Pro 5M CHF, resposta sob 30 min, avaliações Google reais).
 
 ### Don't:

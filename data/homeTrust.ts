@@ -15,7 +15,7 @@ export interface HomeEngagement {
 export const HOME_ENGAGEMENTS: HomeEngagement[] = [
   {
     title: 'Autorisation de stationnement',
-    text: "Nous la demandons à la police et à la commune, puis posons les panneaux officiels 48 h avant le jour J.",
+    text: "Sur demande, nous la demandons à la police et à la commune, puis posons les panneaux officiels 48 h avant le jour J.",
   },
   {
     title: 'Parties communes protégées',
@@ -46,7 +46,7 @@ export const HOME_FICHE: HomeFicheItem[] = [
 export const HOME_ENGAGEMENTS_EN: HomeEngagement[] = [
   {
     title: 'Parking permit',
-    text: 'We apply for it with the police and the municipality, then put up the official signs 48 hours before moving day.',
+    text: 'On request, we apply for it with the police and the municipality, then put up the official signs 48 hours before moving day.',
   },
   {
     title: 'Shared areas protected',

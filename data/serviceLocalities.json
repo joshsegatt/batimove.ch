@@ -64,7 +64,7 @@
       "notes": [
         {
           "title": "Stationnement à Genève",
-          "text": "L'autorisation se demande à la police du stationnement. Nous nous en chargeons et posons les panneaux officiels 48 h avant l'intervention."
+          "text": "L'autorisation se demande à la police du stationnement et les panneaux officiels se posent 48 h avant. Sur demande, nous nous en chargeons pour vous."
         },
         {
           "title": "Vieille-Ville et immeubles anciens",
@@ -103,7 +103,7 @@
         "notes": [
           {
             "title": "Parking in Geneva",
-            "text": "The permit is issued by the parking police. We take care of the application and put up the official signs 48 h before the job."
+            "text": "The permit is issued by the parking police and the official signs go up 48 h before. On request, we take care of it for you."
           },
           {
             "title": "Old Town and older buildings",
@@ -133,7 +133,7 @@
       "notes": [
         {
           "title": "Stationnement à Carouge",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la police et de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la police et de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         },
         {
           "title": "Rues du Vieux-Carouge",
@@ -160,7 +160,7 @@
         "notes": [
           {
             "title": "Parking in Carouge",
-            "text": "We apply for the parking permit from the police and the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the police and the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           },
           {
             "title": "The streets of Vieux-Carouge",
@@ -193,7 +193,7 @@
         },
         {
           "title": "Stationnement à Versoix",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la police et de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la police et de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "versoix",
@@ -210,7 +210,7 @@
           },
           {
             "title": "Parking in Versoix",
-            "text": "We apply for the parking permit from the police and the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the police and the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -241,7 +241,7 @@
       "notes": [
         {
           "title": "Stationnement dans les communes vaudoises",
-          "text": "Chaque commune a sa procédure : nous demandons l'autorisation de stationnement pour vous, où que vous soyez dans le canton."
+          "text": "Chaque commune a sa procédure pour l'autorisation de stationnement. Sur demande, nous nous en chargeons, où que vous soyez dans le canton."
         },
         {
           "title": "Des bords du lac au Jura",
@@ -258,7 +258,7 @@
         "notes": [
           {
             "title": "Parking in Vaud municipalities",
-            "text": "Each municipality has its own procedure: we apply for the parking permit for you, wherever you are in the canton."
+            "text": "Each municipality has its own procedure for the parking permit. On request, we take care of it, wherever you are in the canton."
           },
           {
             "title": "From the lakeside to the Jura",
@@ -296,7 +296,7 @@
         },
         {
           "title": "Stationnement à Lausanne",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la Ville, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la Ville. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "lausanne",
@@ -327,7 +327,7 @@
           },
           {
             "title": "Parking in Lausanne",
-            "text": "We apply for the parking permit from the City, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the City. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -356,7 +356,7 @@
         },
         {
           "title": "Stationnement à Renens",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "renens",
@@ -373,7 +373,7 @@
           },
           {
             "title": "Parking in Renens",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -403,7 +403,7 @@
         },
         {
           "title": "Stationnement à Nyon",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "nyon",
@@ -420,7 +420,7 @@
           },
           {
             "title": "Parking in Nyon",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -449,7 +449,7 @@
         },
         {
           "title": "Stationnement à Morges",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "morges",
@@ -466,7 +466,7 @@
           },
           {
             "title": "Parking in Morges",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -494,7 +494,7 @@
         },
         {
           "title": "Stationnement à Vevey",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "vevey",
@@ -511,7 +511,7 @@
           },
           {
             "title": "Parking in Vevey",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -540,7 +540,7 @@
         },
         {
           "title": "Stationnement à Montreux",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "montreux",
@@ -557,7 +557,7 @@
           },
           {
             "title": "Parking in Montreux",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -585,7 +585,7 @@
         },
         {
           "title": "Stationnement à Yverdon-les-Bains",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "yverdon-les-bains",
@@ -602,7 +602,7 @@
           },
           {
             "title": "Parking in Yverdon-les-Bains",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -631,7 +631,7 @@
         },
         {
           "title": "Stationnement à Gland",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "gland",
@@ -648,7 +648,7 @@
           },
           {
             "title": "Parking in Gland",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -677,7 +677,7 @@
         },
         {
           "title": "Stationnement à Rolle",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "rolle",
@@ -694,7 +694,7 @@
           },
           {
             "title": "Parking in Rolle",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -723,7 +723,7 @@
         },
         {
           "title": "Stationnement à Aubonne",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "aubonne",
@@ -740,7 +740,7 @@
           },
           {
             "title": "Parking in Aubonne",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -770,7 +770,7 @@
         },
         {
           "title": "Stationnement à Fribourg",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la ville, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la ville. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "fribourg",
@@ -787,7 +787,7 @@
           },
           {
             "title": "Parking in Fribourg",
-            "text": "We apply for the parking permit from the city, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the city. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -817,7 +817,7 @@
         },
         {
           "title": "Stationnement à Bulle",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "bulle",
@@ -834,7 +834,7 @@
           },
           {
             "title": "Parking in Bulle",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -864,7 +864,7 @@
         },
         {
           "title": "Stationnement à Sion",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la ville, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la ville. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "sion",
@@ -881,7 +881,7 @@
           },
           {
             "title": "Parking in Sion",
-            "text": "We apply for the parking permit from the city, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the city. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -911,7 +911,7 @@
         },
         {
           "title": "Stationnement à Martigny",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "martigny",
@@ -928,7 +928,7 @@
           },
           {
             "title": "Parking in Martigny",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
@@ -957,7 +957,7 @@
         },
         {
           "title": "Stationnement à Monthey",
-          "text": "Nous demandons l'autorisation de stationnement auprès de la commune, pour que le camion soit au plus près de l'entrée."
+          "text": "L'autorisation de stationnement se demande auprès de la commune. Sur demande, nous nous en chargeons pour que le camion soit au plus près de l'entrée."
         }
       ],
       "enSlug": "monthey",
@@ -974,7 +974,7 @@
           },
           {
             "title": "Parking in Monthey",
-            "text": "We apply for the parking permit from the municipality, so the lorry can park as close to the entrance as possible."
+            "text": "The parking permit is requested from the municipality. On request, we take care of it so the lorry can park as close to the entrance as possible."
           }
         ]
       }
