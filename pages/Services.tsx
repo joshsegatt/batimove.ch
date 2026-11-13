@@ -277,9 +277,8 @@ export const Services: React.FC = () => {
         date: formData.date,
         fromCity: formData.fromCity,
         toCity: formData.toCity,
-        details: lang === 'en'
-          ? `${formData.details || 'Aucune'}\nLangue du client : anglais`
-          : formData.details
+        details: formData.details,
+        clientLang: lang,
       });
 
       setIsSuccess(true);

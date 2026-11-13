@@ -230,13 +230,13 @@ export const Contact: React.FC = () => {
     setSendError(false);
     try {
       const { submitContact } = await import('../services/api');
-      // O e-mail que chega na Batimove fica em francês; em inglês, avisa o idioma do cliente.
-      const langLine = lang === 'en' ? '\nLangue du client : anglais' : '';
+      // O e-mail que chega na Batimove fica em francês; a API acrescenta o idioma do cliente.
       await submitContact({
         name: form.name.trim(),
         email: form.email.trim(),
         subject: form.subject,
-        message: `Téléphone: ${form.phone.trim()}\nPrestation: ${form.subject}${langLine}\n\nMessage:\n${form.message.trim()}`,
+        message: `Téléphone: ${form.phone.trim()}\nPrestation: ${form.subject}\n\nMessage:\n${form.message.trim()}`,
+        clientLang: lang,
       });
       setSentName(form.name.trim().split(/\s+/)[0]);
       setForm(EMPTY);

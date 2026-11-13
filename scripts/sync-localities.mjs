@@ -131,17 +131,21 @@ const i18nBlock =
 sitemap = semBloco.replace('</urlset>', i18nBlock + '</urlset>');
 writeFileSync(join(root, 'public/sitemap.xml'), sitemap);
 
-// 3) vercel.json: um rewrite por rota, antes do catch-all
+// 3) vercel.json: um rewrite por rota exata, antes dos rewrites com parâmetro
+// (/quote/:serviceId). Não há catch-all: endereço desconhecido recebe o
+// dist/404.html com status 404 (escrito por scripts/prerender.mjs).
 const vercel = JSON.parse(read('vercel.json'));
 const isLocal = (src) => /^\/(debarras|nettoyage-fin-de-bail)-/.test(src);
-vercel.rewrites = vercel.rewrites.filter((r) => !isLocal(r.source));
-const catchAll = vercel.rewrites.findIndex((r) => r.source === '/(.*)');
-vercel.rewrites.splice(catchAll, 0, ...routes.map((r) => ({ source: r, destination: `${r}/index.html` })));
+vercel.rewrites = vercel.rewrites.filter((r) => !isLocal(r.source) && r.source !== '/(.*)');
+const beforeParams = () => {
+  const i = vercel.rewrites.findIndex((r) => r.source.includes(':'));
+  return i < 0 ? vercel.rewrites.length : i;
+};
+vercel.rewrites.splice(beforeParams(), 0, ...routes.map((r) => ({ source: r, destination: `${r}/index.html` })));
 // Toda rota com metadados (francês e inglês) precisa do seu rewrite.
 const existing = new Set(vercel.rewrites.map((r) => r.source));
 const missing = Object.keys(seo.routes).filter((r) => r !== '/' && !existing.has(r));
-const catchAll2 = vercel.rewrites.findIndex((r) => r.source === '/(.*)');
-vercel.rewrites.splice(catchAll2, 0, ...missing.map((r) => ({ source: r, destination: `${r}/index.html` })));
+vercel.rewrites.splice(beforeParams(), 0, ...missing.map((r) => ({ source: r, destination: `${r}/index.html` })));
 writeFileSync(join(root, 'vercel.json'), JSON.stringify(vercel, null, 4) + '\n');
 
 console.log(`[sync-localities] ${routes.length} rotas locais sincronizadas.`);

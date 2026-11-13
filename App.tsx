@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, Link } from 'react-router-dom';
+import { SEO } from './components/SEO';
 import { Navbar, Footer } from './components/Layout';
 import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
@@ -91,8 +92,13 @@ const NotFound: React.FC = () => {
   const en = pathname.startsWith('/en');
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 px-4 text-center">
+      {/* noindex e sem canonical: um endereço errado não pode virar cópia da home no Google */}
+      <SEO
+        title={en ? 'Page not found | Batimove Sàrl' : 'Page introuvable | Batimove Sàrl'}
+        robots="noindex, follow"
+      />
       <h1 className="font-display text-3xl font-medium text-[#0B1E33]">{en ? 'Page not found' : 'Page introuvable'}</h1>
-      <a href={en ? '/en' : '/'} className="btn btn-md btn-primary">{en ? 'Back to home' : "Retour à l'accueil"}</a>
+      <Link to={en ? '/en' : '/'} className="btn btn-md btn-primary">{en ? 'Back to home' : "Retour à l'accueil"}</Link>
     </div>
   );
 };

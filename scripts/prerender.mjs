@@ -76,6 +76,45 @@ function remplacer(source, motif, remplacement) {
 
 const manquantes = [];
 
+/**
+ * Titre visible de la page dans le HTML pré-rendu (h1 caché du squelette et
+ * h1 du <noscript>) : le <title> sans le suffixe de marque. Avant, toutes les
+ * pages — anglaises comprises — portaient le h1 français de l'accueil.
+ */
+const titrePage = (title) => title.split(' | ')[0].replace(/\s+[-–]\s+Batimove.*$/, '').trim();
+
+/** Bloc <noscript> en anglais pour les routes /en (le gabarit est en français). */
+const NOSCRIPT_EN = (h1) => `<noscript>
+    <div style="max-width:800px;margin:40px auto;padding:24px;font-family:system-ui,-apple-system,sans-serif;color:#0f172a;line-height:1.6;">
+      <h1 style="font-size:24px;font-weight:800;color:#0B1E33;margin-bottom:12px;">${h1}</h1>
+      <p style="font-size:15px;margin-bottom:16px;">Batimove Sàrl is a Swiss removals and transport company for private clients and businesses in Geneva, Lausanne and across the canton of Vaud. We offer a complete service: home removals, business relocations, secure storage, eco-friendly house clearance and end of tenancy cleaning with a handover guarantee.</p>
+
+      <h2 style="font-size:18px;font-weight:700;color:#0B1E33;margin-top:20px;margin-bottom:8px;">Our services</h2>
+      <ul>
+        <li><strong>Home removals:</strong> careful packing of your furniture and belongings, dismantling and reassembly, padded transport and liability insurance up to CHF 5,000,000.</li>
+        <li><strong>Business and office relocations:</strong> tailored planning, IT and archive moves, no interruption to your business.</li>
+        <li><strong>Secure storage:</strong> ventilated, sealed storage with secure access in Geneva.</li>
+        <li><strong>End of tenancy cleaning:</strong> 100% guaranteed cleaning that meets Swiss letting-agency standards.</li>
+        <li><strong>House clearance and eco-friendly sorting:</strong> reuse of items, removal and certified recycling.</li>
+      </ul>
+
+      <h2 style="font-size:18px;font-weight:700;color:#0B1E33;margin-top:20px;margin-bottom:8px;">Contact and head office</h2>
+      <p>Address: Rue de Monthoux 64, 1201 Geneva, Switzerland.<br />Free phone: <a href="tel:0800825925">0800 825 925</a><br />Email: <a href="mailto:info@batimove.ch">info@batimove.ch</a><br />UID: CHE-143.091.230</p>
+    </div>
+  </noscript>`;
+
+/** h1 du squelette, libellé de la barre de chargement et <noscript> de la route. */
+function corpsDeRoute(source, h1, en) {
+  let sortie = source
+    .replace(/<h1 class="bs-sr">[\s\S]*?<\/h1>/, `<h1 class="bs-sr">${h1}</h1>`)
+    .replace('aria-label="Chargement de la page"', `aria-label="${en ? 'Loading page' : 'Chargement de la page'}"`);
+  sortie = en
+    ? sortie.replace(/<noscript>[\s\S]*?<\/noscript>/, NOSCRIPT_EN(h1))
+    : sortie.replace(/(<noscript>[\s\S]*?<h1[^>]*>)[\s\S]*?(<\/h1>)/, `$1${h1}$2`);
+  if (!sortie.includes(`<h1 class="bs-sr">${h1}</h1>`)) manquantes.push(`h1 du squelette introuvable`);
+  return sortie;
+}
+
 function pageDeRoute(route, meta) {
   const canonical = route === '/' ? `${origine}/` : `${origine}${route}`;
   const titre = esc(meta.title);
@@ -101,7 +140,11 @@ function pageDeRoute(route, meta) {
   const en = estAnglais(route);
   balises.push([/<meta property="og:locale"[^>]*>/, `<meta property="og:locale" content="${en ? 'en_GB' : 'fr_CH'}" />`]);
 
-  let sortie = html.replace(/<html lang="[^"]*">/, `<html lang="${en ? 'en' : 'fr-CH'}">`);
+  let sortie = corpsDeRoute(
+    html.replace(/<html lang="[^"]*">/, `<html lang="${en ? 'en' : 'fr-CH'}">`),
+    esc(meta.h1 || titrePage(meta.title)),
+    en
+  );
   const paire = paireDe.get(route);
   if (paire && paire.fr in routes && paire.en in routes) {
     const alternates = [
@@ -128,7 +171,21 @@ for (const [route, meta] of Object.entries(routes)) {
   ecrites++;
 }
 
-console.log(`[prerender] ${ecrites} routes écrites avec leurs propres métadonnées.`);
+// Page 404 : Vercel la sert avec le statut 404 pour toute URL sans réécriture
+// (il n'y a plus de réécriture « /(.*) » vers index.html). Elle charge quand
+// même l'application, qui affiche « Page introuvable » dans la bonne langue.
+{
+  let page = pageDeRoute('/404', {
+    title: 'Page introuvable | Batimove Sàrl',
+    description: "Cette page n'existe pas ou a été déplacée. Retrouvez nos services de déménagement à Genève, Lausanne et Vaud.",
+    robots: 'noindex, follow',
+  })
+    .replace(/\s*<link rel="canonical"[^>]*>/, '')
+    .replace(/\s*<meta (property="og:url"|name="twitter:url")[^>]*>/g, '');
+  writeFileSync(join(dist, '404.html'), page);
+}
+
+console.log(`[prerender] ${ecrites} routes écrites avec leurs propres métadonnées, plus 404.html.`);
 if (manquantes.length) {
   console.warn(
     `[prerender] ${manquantes.length} balise(s) ajoutée(s) faute d'avoir été trouvée(s) dans index.html :`
