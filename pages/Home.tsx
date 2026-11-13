@@ -558,7 +558,7 @@ export const Home: React.FC = () => {
           altura em laptops baixos (lg + max-height 820px) e imagem limitada pela
           coluna e pela altura útil da janela, sempre colada na faixa navy.
           ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#F8FAFC] pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
+      <section className="relative overflow-hidden bg-glacier pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-end gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-6 xl:gap-10">
 
@@ -594,7 +594,7 @@ export const Home: React.FC = () => {
                       )}
                       <Link
                         to={lp(`/quote?type=${type}`)}
-                        className="group flex min-h-[72px] items-center gap-4 bg-white px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] active:bg-slate-100 sm:px-5 [@media(min-width:1024px)_and_(max-height:940px)]:min-h-[60px] [@media(min-width:1024px)_and_(max-height:940px)]:py-2.5 [@media(min-width:1024px)_and_(max-height:760px)]:!min-h-[56px] [@media(min-width:1024px)_and_(max-height:760px)]:!py-2"
+                        className="group flex min-h-[72px] items-center gap-4 bg-white px-4 py-3.5 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-glacier focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] active:bg-glacier-line sm:px-5 [@media(min-width:1024px)_and_(max-height:940px)]:min-h-[60px] [@media(min-width:1024px)_and_(max-height:940px)]:py-2.5 [@media(min-width:1024px)_and_(max-height:760px)]:!min-h-[56px] [@media(min-width:1024px)_and_(max-height:760px)]:!py-2"
                       >
                         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white [@media(min-width:1024px)_and_(max-height:940px)]:h-10 [@media(min-width:1024px)_and_(max-height:940px)]:w-10 [@media(min-width:1024px)_and_(max-height:760px)]:!h-9 [@media(min-width:1024px)_and_(max-height:760px)]:!w-9">
                           <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
@@ -626,11 +626,11 @@ export const Home: React.FC = () => {
                 <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-base [@media(min-width:1024px)_and_(max-height:940px)]:mt-4">
                   <a
                     href="tel:0800825925"
-                    className="inline-flex items-center gap-2 py-1 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0284c7]"
+                    className="inline-flex items-center gap-2 py-1 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
                   >
                     <Phone className="h-4 w-4" aria-hidden="true" />
                     <span className="tabular-nums">0800 825 925</span>
-                    <span className="font-normal text-slate-500">{c.freeCall}</span>
+                    <span className="font-normal text-slate-600">{c.freeCall}</span>
                   </a>
                   <Link
                     to={lp('/calculator')}
@@ -642,18 +642,18 @@ export const Home: React.FC = () => {
               </div>
 
               {/* Indicadores de confiança */}
-              <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-slate-200/80 pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
+              <div className="mt-8 grid max-w-lg grid-cols-3 gap-4 border-t border-glacier-line pt-6 [@media(min-width:1024px)_and_(max-height:940px)]:mt-6 [@media(min-width:1024px)_and_(max-height:940px)]:pt-5">
                 <div>
                   <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">100%</div>
-                  <div className="text-xs font-medium text-slate-500">{c.statFixedPrice}</div>
+                  <div className="text-xs font-medium text-slate-600">{c.statFixedPrice}</div>
                 </div>
                 <div>
                   <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">CHF 5M</div>
-                  <div className="text-xs font-medium text-slate-500">{c.statInsurance}</div>
+                  <div className="text-xs font-medium text-slate-600">{c.statInsurance}</div>
                 </div>
                 <div>
-                  <div className="font-display text-xl font-medium tabular-nums text-[#0284c7] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
-                  <div className="text-xs font-medium text-slate-500">{c.statReviews}</div>
+                  <div className="font-display text-xl font-medium tabular-nums text-[#0B1E33] sm:text-2xl">{GOOGLE_RATING.value} / 5</div>
+                  <div className="text-xs font-medium text-slate-600">{c.statReviews}</div>
                 </div>
               </div>
             </div>
@@ -668,7 +668,7 @@ export const Home: React.FC = () => {
                 height={763}
                 fetchPriority="high"
                 decoding="async"
-                className="pointer-events-none block h-auto max-h-[min(380px,52vh)] w-auto max-w-full select-none object-contain object-bottom -mb-px drop-shadow-[0_20px_35px_rgba(0,0,0,0.14)] sm:max-h-[min(460px,55vh)] lg:max-h-[min(720px,calc(100dvh-140px))]"
+                className="pointer-events-none block h-auto max-h-[min(380px,52vh)] w-auto max-w-full select-none object-contain object-bottom -mb-px drop-shadow-[0_20px_35px_rgba(11,30,51,0.16)] sm:max-h-[min(460px,55vh)] lg:max-h-[min(720px,calc(100dvh-140px))]"
               />
             </div>
 
@@ -784,7 +784,7 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 4: "RECOMMANDÉ PAR LES PROFESSIONNELS" ("WE'RE CHOSEN BY PROFESSIONALS")
           ========================================================================= */}
-      <section className="py-20 lg:py-28 bg-[#f8fafc] border-y border-slate-200/60 relative">
+      <section className="relative border-y border-glacier-line bg-glacier py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -800,7 +800,7 @@ export const Home: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 
                 {/* Item 1 */}
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <FileText className="w-6 h-6" />
                   </div>
@@ -813,7 +813,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* Item 2 */}
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <ShieldCheck className="w-6 h-6" />
                   </div>
@@ -826,7 +826,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* Item 3 */}
-                <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
                   <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
                     <Headphones className="w-6 h-6" />
                   </div>
@@ -843,32 +843,31 @@ export const Home: React.FC = () => {
 
             {/* Right Column: Paragraph & Dark Blue Phone Card */}
             <div className="lg:col-span-5 flex flex-col justify-between h-full pt-4">
-              <p className="text-slate-600 text-base leading-relaxed mb-8">
+              <p className="mb-8 text-lg leading-relaxed text-slate-600">
                 {c.proLead}
               </p>
 
               {/* Dark Navy Highlight Card with Phone */}
-              <div className="bg-[#0B1E33] text-white p-8 rounded-3xl shadow-xl border border-sky-500/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
-                <h4 className="text-sky-400 font-semibold text-sm tracking-wider uppercase font-display mb-2">
+              <div className="rounded-xl bg-[#0B1E33] p-8 text-white shadow-overlay">
+                <p className="mb-2 font-display text-lg font-semibold tracking-tight text-sky-300">
                   {c.proCardKicker}
-                </h4>
-                <p className="text-slate-300 text-base mb-6">
+                </p>
+                <p className="mb-6 text-base text-slate-300">
                   {c.proCardText}
                 </p>
-                <a 
-                  href="tel:0800825925" 
-                  className="inline-flex items-center gap-3 text-white hover:text-sky-300 transition-colors group"
+                <a
+                  href="tel:0800825925"
+                  className="group -m-2 inline-flex items-center gap-3 rounded-xl p-2 text-white transition-colors duration-150 hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                 >
-                  <div className="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center text-white shadow-raised group-hover:scale-110 transition-transform">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="text-2xl sm:text-3xl font-medium font-display tracking-tight">
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-[#0369A1] text-white transition-colors duration-150 group-hover:bg-[#0284C7]">
+                    <Phone className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <span>
+                    <span className="block font-display text-2xl font-medium tracking-tight tabular-nums sm:text-3xl">
                       0800 825 925
-                    </div>
-                    <div className="text-xs text-sky-400 font-medium">{c.proCardPhoneNote}</div>
-                  </div>
+                    </span>
+                    <span className="block text-sm font-medium text-sky-300">{c.proCardPhoneNote}</span>
+                  </span>
                 </a>
               </div>
 
@@ -898,67 +897,56 @@ export const Home: React.FC = () => {
             <div className="lg:col-span-3 space-y-12 sm:space-y-16 text-center order-2 lg:order-1">
               
               {/* Service 1: Longue Distance */}
-              <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
-                  <ParachuteCargoIcon className="w-16 h-16 mx-auto mb-4" />
-                </Link>
-                <Link to={lp('/services?type=prive')}>
-                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    {c.readyLongTitle}
-                  </h3>
-                </Link>
-                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
+              <Link
+                to={lp('/services?type=prive')}
+                className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                <ParachuteCargoIcon className="mx-auto mb-4 h-16 w-16" />
+                <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
+                  {c.readyLongTitle}
+                </h3>
+                <p className="mx-auto mb-4 max-w-xs text-base leading-relaxed text-slate-500">
                   {c.readyLongText}
                 </p>
-                <Link
-                  to={lp('/services?type=prive')}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
-                >
-                  <span>{c.learnMore}</span>
-                  <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0B1E33]">
+                  {c.learnMore}
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0B1E33] text-white transition-colors duration-150 group-hover:bg-[#0369A1]">
+                    <ArrowRight className="h-3 w-3 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
                   </span>
-                </Link>
-              </div>
+                </span>
+              </Link>
 
               {/* Service 2: Résidentiel Local */}
-              <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
-                  <ScooterDeliveryIcon className="w-16 h-16 mx-auto mb-4" />
-                </Link>
-                <Link to={lp('/services?type=prive')}>
-                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    {c.readyLocalTitle}
-                  </h3>
-                </Link>
-                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
+              <Link
+                to={lp('/services?type=prive')}
+                className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                <ScooterDeliveryIcon className="mx-auto mb-4 h-16 w-16" />
+                <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
+                  {c.readyLocalTitle}
+                </h3>
+                <p className="mx-auto mb-4 max-w-xs text-base leading-relaxed text-slate-500">
                   {c.readyLocalText}
                 </p>
-                <Link
-                  to={lp('/services?type=prive')}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
-                >
-                  <span>{c.learnMore}</span>
-                  <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0B1E33]">
+                  {c.learnMore}
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0B1E33] text-white transition-colors duration-150 group-hover:bg-[#0369A1]">
+                    <ArrowRight className="h-3 w-3 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
                   </span>
-                </Link>
-              </div>
+                </span>
+              </Link>
 
             </div>
 
             {/* Center Column: Freestanding High-Res Batimove Mover with Official Cartons */}
             <div className="md:col-span-2 lg:col-span-6 flex justify-center items-center order-1 lg:order-2 my-6 lg:my-0">
               <div className="relative w-full max-w-[380px] sm:max-w-[440px] lg:max-w-[480px]">
-                {/* Subtle soft ambient backglow */}
-                <div className="absolute inset-0 bg-sky-200/20 rounded-full blur-3xl -z-10 pointer-events-none" />
-
                 <img
                   src="/toujours-prets-mover.png"
                   alt={c.readyImgAlt}
                   width={530}
                   height={925}
-                  className="w-full h-auto object-contain block select-none mx-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
+                  className="w-full h-auto object-contain block select-none mx-auto drop-shadow-[0_15px_30px_rgba(11,30,51,0.10)]"
                   loading="lazy"
                   decoding="async"
                 />
@@ -969,52 +957,44 @@ export const Home: React.FC = () => {
             <div className="lg:col-span-3 space-y-12 sm:space-y-16 text-center order-3 lg:order-3">
               
               {/* Service 3: Transfert d'Entreprise */}
-              <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to={lp('/services?type=entreprise')} className="transform group-hover:scale-110 transition-transform duration-300 block">
-                  <WarehouseShelfIcon className="w-16 h-16 mx-auto mb-4" />
-                </Link>
-                <Link to={lp('/services?type=entreprise')}>
-                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    {c.readyBusinessTitle}
-                  </h3>
-                </Link>
-                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
+              <Link
+                to={lp('/services?type=entreprise')}
+                className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                <WarehouseShelfIcon className="mx-auto mb-4 h-16 w-16" />
+                <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
+                  {c.readyBusinessTitle}
+                </h3>
+                <p className="mx-auto mb-4 max-w-xs text-base leading-relaxed text-slate-500">
                   {c.readyBusinessText}
                 </p>
-                <Link
-                  to={lp('/services?type=entreprise')}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
-                >
-                  <span>{c.learnMore}</span>
-                  <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0B1E33]">
+                  {c.learnMore}
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0B1E33] text-white transition-colors duration-150 group-hover:bg-[#0369A1]">
+                    <ArrowRight className="h-3 w-3 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
                   </span>
-                </Link>
-              </div>
+                </span>
+              </Link>
 
               {/* Service 4: Petits Volumes & Express */}
-              <div className="group flex flex-col items-center p-4 rounded-2xl transition-all duration-300 hover:bg-slate-50/70">
-                <Link to={lp('/services?type=prive')} className="transform group-hover:scale-110 transition-transform duration-300 block">
-                  <LocationParcelIcon className="w-16 h-16 mx-auto mb-4" />
-                </Link>
-                <Link to={lp('/services?type=prive')}>
-                  <h3 className="text-lg sm:text-xl font-medium font-display text-[#0B1E33] mb-3 group-hover:text-sky-600 transition-colors">
-                    {c.readySmallTitle}
-                  </h3>
-                </Link>
-                <p className="text-slate-500 text-base leading-relaxed max-w-xs mx-auto mb-4">
+              <Link
+                to={lp('/services?type=prive')}
+                className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                <LocationParcelIcon className="mx-auto mb-4 h-16 w-16" />
+                <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
+                  {c.readySmallTitle}
+                </h3>
+                <p className="mx-auto mb-4 max-w-xs text-base leading-relaxed text-slate-500">
                   {c.readySmallText}
                 </p>
-                <Link
-                  to={lp('/services?type=prive')}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B1E33] hover:text-sky-600 transition-colors group/link"
-                >
-                  <span>{c.learnMore}</span>
-                  <span className="w-5 h-5 rounded-full bg-[#0B1E33] group-hover/link:bg-sky-600 text-white flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0B1E33]">
+                  {c.learnMore}
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0B1E33] text-white transition-colors duration-150 group-hover:bg-[#0369A1]">
+                    <ArrowRight className="h-3 w-3 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
                   </span>
-                </Link>
-              </div>
+                </span>
+              </Link>
 
             </div>
 
@@ -1040,7 +1020,7 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <ul className="grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:col-span-8">
+            <ul className="grid gap-px overflow-hidden rounded-xl bg-white/15 sm:grid-cols-2 lg:col-span-8">
               {HOME_COMPLEMENTAIRES[lang].map(({ title, text, to, href, cta, Icon }) => {
                 const inner = (
                   <>
@@ -1054,7 +1034,7 @@ export const Home: React.FC = () => {
                   </>
                 );
                 const cls =
-                  'group flex h-full flex-col bg-[#0B1E33] p-7 transition-colors duration-150 hover:bg-[#0f2742] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-300 sm:p-8';
+                  'group flex h-full flex-col bg-[#0B1E33] p-7 transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-300 sm:p-8';
                 return (
                   <li key={title}>
                     {href ? (
@@ -1073,25 +1053,19 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 7: "NOUS EMBALLONS TOUT AVEC SOIN" ("WE CAN PACK EVERYTHING")
           ========================================================================= */}
-      {/* =========================================================================
-          SECTION 7: "NOUS EMBALLONS TOUT AVEC SOIN" ("WE CAN PACK EVERYTHING")
-          ========================================================================= */}
-      <section className="py-20 lg:py-28 bg-white border-b border-slate-200/60 relative overflow-hidden">
+      <section className="relative overflow-hidden bg-white py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             {/* Left: Freestanding High-Res Mover with Clipboard & Batimove Boxes (Image 2) */}
             <div className="lg:col-span-6 relative flex justify-center items-center">
               <div className="relative w-full max-w-[480px] sm:max-w-[520px] lg:max-w-[560px]">
-                {/* Subtle soft ambient backglow */}
-                <div className="absolute inset-0 bg-sky-100/40 rounded-full blur-3xl -z-10 pointer-events-none" />
-
                 <img
                   src="/emballage-mover.png"
                   alt={c.packImgAlt}
                   width={995}
                   height={945}
-                  className="w-full h-auto object-contain block select-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.07)]"
+                  className="w-full h-auto object-contain block select-none drop-shadow-[0_15px_30px_rgba(11,30,51,0.10)]"
                   loading="lazy"
                   decoding="async"
                 />
@@ -1113,7 +1087,7 @@ export const Home: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
                 
                 {/* 1: Packing & Unpacking */}
-                <div className="bg-[#f0f9ff] border border-sky-100/80 p-6 rounded-2xl flex items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-sky-300">
+                <div className="flex items-start gap-4 rounded-xl border border-glacier-line bg-glacier p-6">
                   <div className="shrink-0 mt-0.5">
                     <PackingUnpackingIcon className="w-12 h-12" />
                   </div>
@@ -1128,7 +1102,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* 2: Storage Services */}
-                <div className="bg-[#f0f9ff] border border-sky-100/80 p-6 rounded-2xl flex items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-sky-300">
+                <div className="flex items-start gap-4 rounded-xl border border-glacier-line bg-glacier p-6">
                   <div className="shrink-0 mt-0.5">
                     <StorageClipboardIcon className="w-12 h-12" />
                   </div>
@@ -1143,7 +1117,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* 3: Assurance Services */}
-                <div className="bg-[#f0f9ff] border border-sky-100/80 p-6 rounded-2xl flex items-start gap-4 transition-all duration-300 hover:shadow-md hover:border-sky-300">
+                <div className="flex items-start gap-4 rounded-xl border border-glacier-line bg-glacier p-6">
                   <div className="shrink-0 mt-0.5">
                     <AssuranceUmbrellaIcon className="w-12 h-12" />
                   </div>
@@ -1158,7 +1132,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* 4: Action Slot (Short text + Button as in Reference) */}
-                <div className="p-6 rounded-2xl flex flex-col justify-between items-start bg-slate-50/50 border border-slate-100">
+                <div className="flex flex-col items-start justify-between rounded-xl border border-slate-200 bg-white p-6">
                   <p className="text-base text-slate-600 leading-relaxed mb-4">
                     {c.packCtaText}
                   </p>
@@ -1178,12 +1152,12 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 8: "CE QUE DISENT NOS CLIENTS" ("WHAT OUR CLIENT SAYS")
           ========================================================================= */}
-      <section className="py-20 lg:py-28 bg-white relative">
+      <section className="relative bg-glacier py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 text-xs font-semibold text-slate-700 mb-4 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-glacier-line text-xs font-semibold text-slate-700 mb-4 shadow-rest">
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
                 <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.27 21.37 7.36 24 12 24Z" />
@@ -1204,7 +1178,7 @@ export const Home: React.FC = () => {
               return (
                 <div 
                   key={`${t.name}-${offset}`}
-                  className="bg-slate-50/80 hover:bg-white p-8 rounded-3xl border border-slate-200/80 hover:border-sky-300 shadow-rest hover:shadow-raised transition-all flex flex-col justify-between"
+                  className="flex flex-col justify-between rounded-xl border border-glacier-line bg-white p-8 shadow-rest"
                 >
                   <div>
                     {/* Stars + Google badge */}
@@ -1225,7 +1199,7 @@ export const Home: React.FC = () => {
                       </div>
                     </div>
                     {/* Quote */}
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic" lang={lang === 'en' ? 'fr' : undefined}>
+                    <p className="mb-6 text-base italic leading-relaxed text-slate-600" lang={lang === 'en' ? 'fr' : undefined}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -1238,7 +1212,7 @@ export const Home: React.FC = () => {
                       className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                     <div>
-                      <h4 className="font-display font-semibold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <h3 className="font-display text-sm font-semibold text-[#0B1E33]">{t.name}</h3>
                       <div className="text-xs text-slate-500 font-medium">{t.location}</div>
                     </div>
                   </div>
@@ -1252,7 +1226,7 @@ export const Home: React.FC = () => {
             {(() => {
               const t = testimonials[activeTestimonial % testimonials.length];
               return (
-                <div className="bg-slate-50/80 p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div className="flex flex-col justify-between rounded-xl border border-glacier-line bg-white p-6 shadow-rest sm:p-8">
                   <div>
                     <div className="flex items-center justify-between mb-5">
                       <div className="flex items-center gap-1 text-amber-400">
@@ -1270,7 +1244,7 @@ export const Home: React.FC = () => {
                         <span>{c.googleReview}</span>
                       </div>
                     </div>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 italic" lang={lang === 'en' ? 'fr' : undefined}>
+                    <p className="mb-6 text-base italic leading-relaxed text-slate-600" lang={lang === 'en' ? 'fr' : undefined}>
                       "{t.quote}"
                     </p>
                   </div>
@@ -1281,7 +1255,7 @@ export const Home: React.FC = () => {
                       className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-sm"
                     />
                     <div>
-                      <h4 className="font-display font-semibold text-sm text-[#0B1E33]">{t.name}</h4>
+                      <h3 className="font-display text-sm font-semibold text-[#0B1E33]">{t.name}</h3>
                       <div className="text-xs text-slate-500 font-medium">{t.location}</div>
                     </div>
                   </div>
@@ -1302,7 +1276,7 @@ export const Home: React.FC = () => {
               >
                 <span
                   className={`block h-2.5 rounded-full transition-[width,background-color] duration-200 ${
-                    activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                    activeTestimonial === i ? 'w-8 bg-[#0B1E33]' : 'w-2.5 bg-slate-300 hover:bg-slate-500'
                   }`}
                 />
               </button>
@@ -1315,7 +1289,7 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 9: BANDEAU DEVIS
           ========================================================================= */}
-      <section className="bg-[#07182b] text-white relative z-20 overflow-visible">
+      <section className="relative z-20 overflow-visible bg-[#0B1E33] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-7 sm:py-8 lg:py-9">
             
@@ -1328,7 +1302,7 @@ export const Home: React.FC = () => {
                 {c.bannerPromise}
               </p>
               <p className="text-slate-300 text-base font-normal mb-6">
-                {c.bannerNoCommitment} <a href="tel:0800825925" className="font-semibold text-white underline underline-offset-2 tabular-nums">0800 825 925</a>
+                {c.bannerNoCommitment} <a href="tel:0800825925" className="font-semibold text-white underline decoration-white/40 underline-offset-2 tabular-nums transition-colors duration-150 hover:decoration-white">0800 825 925</a>
               </p>
               <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
                 {c.bannerCta}
@@ -1373,7 +1347,7 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 10: FAQ (identique au FAQPage JSON-LD de index.html)
           ========================================================================= */}
-      <section className="py-12 sm:py-14 lg:py-16 bg-[#f8fafc] border-b border-slate-200/60" aria-labelledby="home-faq-title">
+      <section className="bg-white py-12 sm:py-14 lg:py-16" aria-labelledby="home-faq-title">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 id="home-faq-title" className="font-display text-2xl sm:text-3xl lg:text-4xl font-medium text-[#0B1E33] tracking-tight text-center mb-8 lg:mb-10">
             {c.faqTitle}
@@ -1382,13 +1356,13 @@ export const Home: React.FC = () => {
           <div className="divide-y divide-slate-200 border-y border-slate-200">
             {HOME_FAQ_BY_LANG[lang].map((item) => (
               <details key={item.question} className="group py-1">
-                <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
-                  <h3 className="font-display font-semibold text-base sm:text-lg text-[#0B1E33] leading-snug">
+                <summary className="group/q flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
+                  <h3 className="font-display text-base font-semibold leading-snug text-[#0B1E33] transition-colors duration-150 group-hover/q:text-[#0369A1] sm:text-lg">
                     {item.question}
                   </h3>
                   <ChevronDown
                     aria-hidden="true"
-                    className="w-5 h-5 shrink-0 text-slate-500 transition-transform duration-200 group-open:rotate-180"
+                    className="h-5 w-5 shrink-0 text-slate-500 transition-[transform,color] duration-200 group-open:rotate-180 group-hover/q:text-[#0369A1]"
                   />
                 </summary>
                 <p className="pb-5 pr-9 text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -1400,8 +1374,8 @@ export const Home: React.FC = () => {
 
           <p className="mt-8 text-center text-sm text-slate-600">
             {c.faqMore}{' '}
-            <a href="tel:0800825925" className="font-semibold text-[#0B1E33] underline underline-offset-2 tabular-nums">0800 825 925</a>{' '}
-            {c.faqOr} <Link to={lp('/contact')} className="font-semibold text-[#0B1E33] underline underline-offset-2">{c.faqWrite}</Link>.
+            <a href="tel:0800825925" className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-2 tabular-nums transition-colors duration-150 hover:decoration-[#0B1E33]">0800 825 925</a>{' '}
+            {c.faqOr} <Link to={lp('/contact')} className="font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-2 transition-colors duration-150 hover:decoration-[#0B1E33]">{c.faqWrite}</Link>.
           </p>
         </div>
       </section>

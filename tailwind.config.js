@@ -14,6 +14,12 @@ export default {
         'batimove-blue': '#0052A3',
         'batimove-red': '#E10600',
         'batimove-dark': '#0B1E33',
+        // Faixas de seção (ver DESIGN.md, The Band Rhythm Rule): o glacier é o
+        // tom claro da marca, visível ao lado do branco; navy-raise é o hover
+        // de superfícies navy.
+        glacier: '#E6EEF7',
+        'glacier-line': '#D3E0EE',
+        'navy-raise': '#17375A',
         // Ultra-premium grays (Vercel/Linear style)
         gray: {
           50: '#fafafa',
