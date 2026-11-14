@@ -619,64 +619,56 @@ export const Home: React.FC = () => {
           Em 3 segundos: nota Google, o que fazemos e onde, preço ferme, fatos
           verificáveis, uma ação principal e o telefone. Compacta em laptops baixos.
           ========================================================================= */}
-      <section className="relative overflow-hidden bg-glacier pb-10 pt-4 sm:pt-6 lg:pb-14 lg:pt-8 [@media(min-width:1024px)_and_(max-height:860px)]:pt-4">
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Composição: texto à esquerda e foto à direita; embaixo, a barra de
-              projeto em toda a largura, sobreposta à base da foto (o padrão das
-              barras de reserva). No celular a ordem é texto, barra, foto. */}
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-0">
+      <section className="relative">
+        {/* Bloco da foto: mudança real da Batimove em toda a largura, com véu navy
+            forte do lado do texto (DESIGN.md: navy é sempre #0B1E33). */}
+        <div className="relative isolate bg-[#0B1E33]">
+          <img
+            src="/photos/batimove-camions-maison-1440.webp"
+            srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
+            sizes="100vw"
+            alt={c.bannerImgAlt}
+            width={1440}
+            height={699}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-[62%_58%]"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0B1E33]/80 via-[#0B1E33]/75 to-[#0B1E33]/90 lg:bg-gradient-to-r lg:from-[#0B1E33]/95 lg:via-[#0B1E33]/75 lg:to-[#0B1E33]/25"
+          />
 
-            {/* Texto: prova (estrelas Google), promessa com lugar e preço, fatos. */}
-            <div className="flex min-w-0 flex-col justify-center pt-4 lg:col-span-7 lg:row-start-1 lg:pb-28 lg:pt-6 [@media(min-width:1024px)_and_(max-height:860px)]:!pb-24">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 pb-16 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pb-14 lg:pt-14 [@media(min-width:1024px)_and_(max-height:860px)]:lg:pt-10">
+            {/* Texto: prova, promessa com lugar e preço, apoio. */}
+            <div className="flex min-w-0 flex-col justify-center lg:col-span-7 lg:pb-10">
               <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
-              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-[3.25rem] [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-[2.75rem]">
+              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-white text-balance sm:text-4xl xl:text-[3.25rem] [@media(min-width:1024px)_and_(max-height:860px)]:text-[2.75rem]">
                 {c.heroTitle1}{' '}
-                <span className="text-[#0284c7]">{c.heroTitle2}</span>
+                <span className="text-sky-300">{c.heroTitle2}</span>
               </h1>
 
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-lg">
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-200 xl:text-xl">
                 {c.heroLead}
               </p>
-
-              <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-base font-medium text-[#0B1E33]">
-                {c.heroTrust.map((t) => (
-                  <li key={t} className="flex items-center gap-1.5">
-                    <Check className="h-4 w-4 shrink-0 text-[#0369A1]" strokeWidth={2.5} aria-hidden="true" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
             </div>
 
-            {/* Barra de projeto: cada célula abre o devis já na etapa 2, com o
-                serviço escolhido; a sexta leva ao site do monte-meubles. */}
+            {/* Escolha do serviço: cartão branco que desce além da foto, como um
+                formulário apoiado na cena. Cada célula abre o devis na etapa 2. */}
             <div
               role="group"
               aria-labelledby="hero-projet"
-              className="relative z-10 min-w-0 overflow-hidden rounded-xl bg-white shadow-overlay lg:col-span-12 lg:row-start-2 lg:-mt-16"
+              className="relative z-10 -mb-32 min-w-0 self-end overflow-hidden rounded-xl bg-white shadow-modal lg:col-span-5 lg:-mb-36"
             >
-              <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 lg:px-5">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
-                  <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
-                    {c.heroPickerTitle}
-                  </h2>
-                  <p className="hidden text-sm text-slate-600 sm:block">{c.heroPickerLead}</p>
-                </div>
-                <p className="hidden flex-wrap items-center gap-x-2 text-sm text-slate-600 sm:flex">
-                  {c.heroOrCall}
-                  <a
-                    href="tel:0800825925"
-                    className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
-                  >
-                    <Phone className="h-4 w-4" aria-hidden="true" />
-                    <span className="tabular-nums">0800 825 925</span>
-                  </a>
-                  <span>({c.freeCall})</span>
-                </p>
+              <div className="px-4 pb-3 pt-4 sm:px-5 sm:pt-5">
+                <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
+                  {c.heroPickerTitle}
+                </h2>
+                <p className="mt-0.5 text-sm text-slate-600">{c.heroPickerLead}</p>
               </div>
 
-              <ul className="grid grid-cols-2 gap-px border-t border-glacier-line bg-glacier-line sm:grid-cols-3 lg:grid-cols-6">
+              <ul className="grid grid-cols-2 gap-px border-y border-glacier-line bg-glacier-line">
                 {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
                   <li key={type} className="min-w-0">
                     <Link to={lp(`/quote?type=${type}`)} className={HERO_CELL}>
@@ -713,28 +705,37 @@ export const Home: React.FC = () => {
                   </a>
                 </li>
               </ul>
-            </div>
 
-            {/* Foto real: o monte-meubles próprio e a frota. No desktop ela desce
-                por trás da barra, que se apoia na sua base. */}
-            <div className="relative min-w-0 lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:pt-2">
-              <img
-                src="/photos/batimove-flotte-monte-meubles-1280.webp"
-                srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
-                sizes="(min-width: 1280px) 520px, (min-width: 1024px) 40vw, 100vw"
-                alt={c.heroImgAlt}
-                width={1280}
-                height={853}
-                fetchPriority="high"
-                decoding="async"
-                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover object-[35%_50%] shadow-raised lg:aspect-auto lg:h-full lg:min-h-[22rem]"
-              />
-              <p className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:top-6">
-                <Truck className="h-4 w-4 text-[#0369A1]" aria-hidden="true" />
-                {c.heroPhotoBadge}
+              <p className="flex flex-wrap items-center gap-x-2 px-4 py-3 text-sm text-slate-600 sm:px-5">
+                {c.heroOrCall}
+                <a
+                  href="tel:0800825925"
+                  className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
+                >
+                  <Phone className="h-4 w-4" aria-hidden="true" />
+                  <span className="tabular-nums">0800 825 925</span>
+                </a>
+                <span>({c.freeCall})</span>
               </p>
             </div>
+          </div>
+        </div>
 
+        {/* Faixa branca sob a foto: os fatos verificáveis ficam à esquerda,
+            enquanto o cartão de escolha termina de descer à direita. */}
+        <div className="bg-white">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 px-4 pb-8 pt-24 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pb-10 lg:pt-8">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-base font-medium text-[#0B1E33] lg:col-span-7">
+              {c.heroTrust.map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-glacier text-[#0369A1]">
+                    <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <div aria-hidden="true" className="hidden lg:col-span-5 lg:block lg:h-24" />
           </div>
         </div>
       </section>
@@ -1369,15 +1370,15 @@ export const Home: React.FC = () => {
           ========================================================================= */}
       <section className="relative isolate overflow-hidden bg-[#0B1E33] text-white">
         <FadeImg
-          src="/photos/batimove-camions-maison-1440.webp"
-          srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
+          src="/photos/batimove-flotte-monte-meubles-1280.webp"
+          srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
           sizes="100vw"
-          alt={c.bannerImgAlt}
-          width={1440}
-          height={699}
+          alt={c.heroImgAlt}
+          width={1280}
+          height={853}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_60%]"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_45%]"
         />
         {/* Véu navy: uniforme no celular; no desktop forte do lado do texto */}
         <div
