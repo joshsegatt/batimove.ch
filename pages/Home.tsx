@@ -27,6 +27,7 @@ import {
   Sparkles, 
   Warehouse, 
   ArrowUpRight, 
+  ArrowUpFromLine,
   FileText, 
   Wrench, 
   Send, 
@@ -38,6 +39,8 @@ import {
 import { Button, buttonClass } from '../components/UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
+import { FadeImg } from '../components/FadeImg';
+import type { HomeLocal } from '../data/localHome';
 
 // --- Custom Duotone Vector Icons Matching Reference ---
 const ParachuteCargoIcon: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => (
@@ -368,11 +371,16 @@ const COPY = defineCopy(
     heroLead:
       "Appartement, maison ou bureau : nous emballons, transportons et livrons à la date convenue, avec notre propre monte-meubles si l'accès l'exige.",
     heroTrust: ['Devis sous 30 min (8h-19h)', 'Prix ferme', 'RC Pro CHF 5M', 'Joignable 7j/7'],
-    heroCta: 'Obtenir mon devis en 30 min',
     freeCall: 'appel gratuit',
-    heroShortcuts: 'Ou choisissez directement :',
+    heroPickerTitle: 'Quel est votre projet ?',
+    heroPickerLead: "Choisissez, le devis s'ouvre directement à la bonne étape.",
+    heroLiftLabel: 'Monte-meubles',
+    heroLiftHint: 'Location avec opérateur',
+    heroLiftAria: 'Location de monte-meubles, sur notre site locationmontecharge.ch (nouvel onglet)',
+    heroOrCall: 'Ou appelez le',
     heroPhotoBadge: 'Notre propre monte-meubles',
     heroImgAlt: 'Monte-meubles et camions Batimove garés devant des immeubles',
+    heroFamilyAlt: 'Famille souriante qui déballe des cartons dans son nouveau salon',
 
     engagementsTitle: 'Ce que nous réglons pour vous',
 
@@ -397,7 +405,7 @@ const COPY = defineCopy(
     proCardPhoneNote: 'Numéro gratuit en Suisse',
 
     readyTitle: 'Toujours prêts à répondre à vos besoins',
-    learnMore: 'En savoir plus',
+    learnMore: 'Demander un devis',
     readyLongTitle: 'Déménagement longue distance',
     readyLongText:
       'Intercantonal et international (Genève, Vaud, Zurich, France, UE) avec formalités de douane suisses intégrales.',
@@ -453,11 +461,16 @@ const COPY = defineCopy(
     heroLead:
       'Flat, house or office: we pack, transport and deliver on the agreed date, with our own furniture lift if the access requires it.',
     heroTrust: ['Quote within 30 min (8am-7pm)', 'Fixed price', 'CHF 5M liability cover', 'Available 7 days a week'],
-    heroCta: 'Get my quote in 30 min',
     freeCall: 'free call',
-    heroShortcuts: 'Or go straight to:',
+    heroPickerTitle: 'What is your project?',
+    heroPickerLead: 'Pick one and the quote form opens at the right step.',
+    heroLiftLabel: 'Furniture lift',
+    heroLiftHint: 'Hire with operator',
+    heroLiftAria: 'Furniture lift hire, on our site locationmontecharge.ch (new tab)',
+    heroOrCall: 'Or call',
     heroPhotoBadge: 'Our own furniture lift',
     heroImgAlt: 'Batimove furniture lift and vans parked in front of apartment buildings',
+    heroFamilyAlt: 'Smiling family unpacking boxes in their new living room',
 
     engagementsTitle: 'What we take care of for you',
 
@@ -482,7 +495,7 @@ const COPY = defineCopy(
     proCardPhoneNote: 'Freephone within Switzerland',
 
     readyTitle: 'Always ready to meet your needs',
-    learnMore: 'Learn more',
+    learnMore: 'Get a quote',
     readyLongTitle: 'Long-distance removals',
     readyLongText:
       'Between cantons and abroad (Geneva, Vaud, Zurich, France, EU), with all Swiss customs formalities handled in full.',
@@ -560,7 +573,134 @@ const GoogleRating: React.FC<{ value: number; text: string; label: string }> = (
   );
 };
 
-export const Home: React.FC = () => {
+/**
+ * Célula da barra de projeto do hero. As células formam uma grade de filetes
+ * (gap-px sobre glacier-line), não cartões soltos: um painel só, dividido.
+ * No hover a célula vira glacier, o ícone fica navy e a seta aparece.
+ */
+/** Movimento do ícone no hover de cada serviço (classes em src/index.css). */
+const HERO_ICON_MOTION: Record<string, string> = {
+  prive: 'icon-lift',
+  entreprise: 'icon-lift',
+  debarras: 'icon-tilt',
+  nettoyage: 'icon-tilt',
+  'garde-meubles': 'icon-lift',
+};
+
+const HERO_CELL =
+  'group relative flex h-full flex-col items-start gap-2 bg-white p-3 sm:gap-3 sm:p-4 text-left transition-colors duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-glacier focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none lg:p-5';
+const HERO_CELL_ICON =
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-200 group-hover:bg-[#0B1E33] group-hover:text-white motion-reduce:transition-none';
+const HERO_CELL_ARROW =
+  'absolute right-3 top-3 h-4 w-4 sm:right-4 sm:top-4 text-[#0B1E33] transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:right-5 lg:top-5';
+
+/**
+ * Entrada "que cai no lugar": o bloco desce 24px e aparece, em 700ms com a curva
+ * da casa, cada item um pouco depois do anterior. Só enquanto useRevealOnce está
+ * em 'pending'; com movimento reduzido nada se mexe.
+ */
+const dropClass = (pending: boolean) =>
+  `transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+    pending ? '-translate-y-6 opacity-0' : 'translate-y-0 opacity-100'
+  }`;
+const dropStyle = (i: number): React.CSSProperties => ({ transitionDelay: `${i * 110}ms` });
+
+/**
+ * Seção local das páginas de lugar: o que muda numa mudança ali (notas locais em
+ * linhas que se desenham, como "Ce que nous réglons"), os bairros ou comunas
+ * atendidos e as outras páginas do cantão. É o conteúdo próprio de cada página.
+ */
+const LocalSection: React.FC<{ local: HomeLocal }> = ({ local }) => {
+  const { lp } = useLang();
+  const reveal = useRevealOnce<HTMLDivElement>(0.2);
+  return (
+    <section aria-labelledby="local-title" className="border-b border-glacier-line bg-glacier py-20 lg:py-24">
+      <div ref={reveal.ref} className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
+        <div className="lg:col-span-7">
+          <h2
+            id="local-title"
+            className={`font-display text-3xl font-medium leading-[1.12] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl ${dropClass(reveal.pending)}`}
+            style={dropStyle(0)}
+          >
+            {local.sectionTitle}
+          </h2>
+          <p className={`mt-5 max-w-[60ch] text-lg leading-relaxed text-slate-600 ${dropClass(reveal.pending)}`} style={dropStyle(1)}>
+            {local.intro}
+          </p>
+          <ul className="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+            {local.notes.map((n, i) => (
+              <li key={n.title} className="relative border-t border-slate-300/70 pt-5">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 -top-px h-px origin-left bg-[#0284c7] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                  style={{ transform: reveal.pending ? 'scaleX(0)' : 'scaleX(1)', transitionDelay: `${200 + i * 180}ms` }}
+                />
+                <div className={dropClass(reveal.pending)} style={dropStyle(2 + i)}>
+                  <h3 className="font-display text-lg font-medium tracking-tight text-[#0B1E33]">{n.title}</h3>
+                  <p className="mt-1.5 text-base leading-relaxed text-slate-600">{n.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className={`lg:col-span-5 ${dropClass(reveal.pending)}`} style={dropStyle(3)}>
+          <div className="rounded-xl border border-glacier-line bg-white p-6 shadow-rest sm:p-7">
+            <h3 className="flex items-center gap-2 font-display text-lg font-medium tracking-tight text-[#0B1E33]">
+              <MapPin className="h-5 w-5 text-[#0369A1]" strokeWidth={1.75} aria-hidden="true" />
+              {local.areasTitle}
+            </h3>
+            {local.areas.some((a) => a.desc) ? (
+              <ul className="mt-4 divide-y divide-slate-100">
+                {local.areas.map((a) => (
+                  <li key={a.name} className="py-3">
+                    <p className="text-base font-semibold text-[#0B1E33]">{a.name}</p>
+                    {a.desc && <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{a.desc}</p>}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {local.areas.map((a) => (
+                  <li key={a.name} className="rounded-lg bg-glacier px-3 py-1.5 text-sm font-medium text-[#0B1E33]">
+                    {a.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {local.nearby.length > 0 && (
+              <div className="mt-6 border-t border-slate-100 pt-5">
+                <p className="text-sm font-semibold text-slate-600">{local.nearbyTitle}</p>
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  {local.nearby.map((n) => (
+                    <li key={n.path}>
+                      <Link
+                        to={lp(n.path)}
+                        className="group -my-2 inline-flex items-center gap-1 py-2 text-base font-semibold text-[#0369A1] underline decoration-sky-200 underline-offset-4 transition-colors duration-150 hover:text-[#0B1E33] hover:decoration-[#0B1E33]"
+                      >
+                        {n.label}
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/**
+ * A home é também a página de cada lugar (/demenagement-geneve, /demenagement-nyon…):
+ * com `local`, o título leva o lugar, o lead e a FAQ são locais e entra a seção
+ * local depois da faixa navy. Os dados vêm de data/localHome.ts, carregado só
+ * pelas páginas de lugar (fora do pacote principal).
+ */
+export const Home: React.FC<{ local?: HomeLocal }> = ({ local }) => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
 
@@ -572,15 +712,19 @@ export const Home: React.FC = () => {
   // quando o bloco entra na tela, como itens resolvidos um após o outro.
   const engagementsReveal = useRevealOnce<HTMLUListElement>();
   const ficheReveal = useRevealOnce<HTMLDListElement>(0.25);
+  const proReveal = useRevealOnce<HTMLDivElement>(0.2);
 
   const testimonials = CUSTOMER_REVIEWS.map((r) => localizeReview(r, lang));
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">
+      {/* Título, descrição e canonical vêm de data/seoRoutes.json pela rota atual
+          (home ou página de lugar); as props só valem fora dessa lista. */}
       <SEO
         title="Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud"
         description="Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF."
         canonical="https://www.batimove.ch/"
+        schema={local?.schema}
       />
 
       {/* =========================================================================
@@ -588,90 +732,122 @@ export const Home: React.FC = () => {
           Em 3 segundos: nota Google, o que fazemos e onde, preço ferme, fatos
           verificáveis, uma ação principal e o telefone. Compacta em laptops baixos.
           ========================================================================= */}
-      <section className="relative overflow-hidden bg-glacier pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8 xl:gap-12">
+      <section className="relative">
+        {/* Bloco navy com a foto da família. No desktop a foto ocupa a direita até
+            a borda da tela e se dissolve no navy do lado do texto; no celular ela
+            vem em cima e se dissolve para baixo. Rostos nunca ficam sob o texto. */}
+        <div className="relative isolate bg-[#0B1E33]">
+          <div className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-[62%] xl:w-[66%]">
+            <img
+              src="/photos/famille-demenagement-1280.webp"
+              srcSet="/photos/famille-demenagement-800.webp 800w, /photos/famille-demenagement-1280.webp 1280w, /photos/famille-demenagement-1890.webp 1890w"
+              sizes="(min-width: 1024px) 68vw, 100vw"
+              alt={c.heroFamilyAlt}
+              width={1890}
+              height={831}
+              fetchPriority="high"
+              decoding="async"
+              className="block aspect-[16/10] w-full object-cover object-[46%_30%] sm:aspect-[2/1] lg:aspect-auto lg:h-full lg:object-[35%_32%]"
+            />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0B1E33] via-[#0B1E33]/60 to-transparent lg:hidden" />
+            <div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-[30%] bg-gradient-to-r from-[#0B1E33] via-[#0B1E33]/85 to-transparent lg:block" />
+          </div>
 
-            {/* Coluna de texto: prova (estrelas Google), promessa com lugar e preço,
-                fatos em uma linha, uma ação principal e atalhos por serviço. */}
-            <div className="flex min-w-0 flex-col justify-center py-6 lg:col-span-7 lg:py-12 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:860px)]:py-6">
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {/* Texto: prova, promessa com lugar e preço, apoio. */}
+            <div className="-mt-10 max-w-xl pb-10 sm:-mt-16 lg:mt-0 lg:max-w-[27rem] lg:pb-40 lg:pt-14 xl:max-w-[30rem] xl:pb-44 xl:pt-16 [@media(min-width:1024px)_and_(max-height:860px)]:lg:pt-10">
               <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
-              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-5xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-4xl">
-                {c.heroTitle1}{' '}
-                <span className="text-[#0284c7]">{c.heroTitle2}</span>
+              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-white text-balance sm:text-4xl xl:text-5xl">
+                {local ? `${local.h1}.` : c.heroTitle1}{' '}
+                <span className="text-sky-300">{c.heroTitle2}</span>
               </h1>
 
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600 xl:text-xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-lg">
-                {c.heroLead}
+              <p className="mt-5 text-lg leading-relaxed text-slate-200">
+                {local?.lead ?? c.heroLead}
               </p>
+            </div>
 
-              {/* Fatos verificáveis, numa linha */}
-              <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-base font-medium text-[#0B1E33]">
-                {c.heroTrust.map((t) => (
-                  <li key={t} className="flex items-center gap-1.5">
-                    <Check className="h-4 w-4 shrink-0 text-[#0369A1]" strokeWidth={2.5} aria-hidden="true" />
-                    {t}
+            {/* Barra de projeto: desce da foto para a faixa branca. Cada célula
+                abre o devis na etapa 2; a sexta leva ao site do monte-meubles. */}
+            <div
+              role="group"
+              aria-labelledby="hero-projet"
+              className="relative z-10 -mb-24 overflow-hidden rounded-xl bg-white shadow-modal lg:-mt-24 lg:-mb-16"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 lg:px-5">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                  <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
+                    {c.heroPickerTitle}
+                  </h2>
+                  <p className="hidden text-sm text-slate-600 sm:block">{c.heroPickerLead}</p>
+                </div>
+                <p className="hidden flex-wrap items-center gap-x-2 text-sm text-slate-600 sm:flex">
+                  {c.heroOrCall}
+                  <a
+                    href="tel:0800825925"
+                    className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
+                  >
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    <span className="tabular-nums">0800 825 925</span>
+                  </a>
+                  <span>({c.freeCall})</span>
+                </p>
+              </div>
+
+              <ul className="grid grid-cols-2 gap-px border-t border-glacier-line bg-glacier-line sm:grid-cols-3 lg:grid-cols-6">
+                {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
+                  <li key={type} className="min-w-0">
+                    <Link to={lp(`/quote?type=${type}`)} className={HERO_CELL}>
+                      <span className={HERO_CELL_ICON}>
+                        <Icon className={`h-5 w-5 ${HERO_ICON_MOTION[type] ?? 'icon-lift'}`} strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{label}</span>
+                        <span className="mt-1 hidden text-[13px] leading-snug text-slate-600 sm:block lg:hidden xl:block">{hint}</span>
+                      </span>
+                      <ArrowRight
+                        className={`${HERO_CELL_ARROW} -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
+                        aria-hidden="true"
+                      />
+                    </Link>
                   </li>
                 ))}
+                <li className="min-w-0">
+                  <a
+                    href="https://www.locationmontecharge.ch/"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={c.heroLiftAria}
+                    className={HERO_CELL}
+                  >
+                    <span className={HERO_CELL_ICON}>
+                      <ArrowUpFromLine className="icon-rise h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{c.heroLiftLabel}</span>
+                      <span className="mt-1 hidden text-[13px] leading-snug text-slate-600 sm:block lg:hidden xl:block">{c.heroLiftHint}</span>
+                    </span>
+                    <ArrowUpRight className={`${HERO_CELL_ARROW} text-slate-400 group-hover:text-[#0B1E33]`} aria-hidden="true" />
+                  </a>
+                </li>
               </ul>
-
-              {/* Ação principal + telefone */}
-              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
-                <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
-                  {c.heroCta}
-                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-                <a
-                  href="tel:0800825925"
-                  className="inline-flex items-center gap-2 py-2 text-lg font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
-                >
-                  <Phone className="h-5 w-5" aria-hidden="true" />
-                  <span className="tabular-nums">0800 825 925</span>
-                  <span className="text-base font-normal text-slate-600">{c.freeCall}</span>
-                </a>
-              </div>
-
-              {/* Atalhos: cada serviço abre o devis já direcionado */}
-              <div className="mt-8 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
-                <p id="hero-projet" className="text-sm font-semibold text-slate-600">{c.heroShortcuts}</p>
-                <ul aria-labelledby="hero-projet" className="mt-2.5 flex flex-wrap gap-2">
-                  {QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang)).map(({ id: type, label, icon: Icon }) => (
-                    <li key={type}>
-                      <Link
-                        to={lp(`/quote?type=${type}`)}
-                        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-glacier-line bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#0B1E33] hover:bg-[#0B1E33] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
-                      >
-                        <Icon className="h-[18px] w-[18px] text-[#0369A1] transition-colors duration-150 group-hover:text-white" strokeWidth={1.75} aria-hidden="true" />
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
-
-            {/* Foto real: o monte-meubles próprio e a frota. Emoldurada, com folga
-                embaixo para não encostar na faixa navy. */}
-            <div className="relative min-w-0 pb-8 lg:col-span-5 lg:self-center lg:pb-0 xl:col-span-6">
-              <img
-                src="/photos/batimove-flotte-monte-meubles-1280.webp"
-                srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
-                sizes="(min-width: 1280px) 600px, (min-width: 1024px) 42vw, 100vw"
-                alt={c.heroImgAlt}
-                width={1280}
-                height={853}
-                fetchPriority="high"
-                decoding="async"
-                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover shadow-overlay"
-              />
-              <p className="absolute bottom-12 left-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:bottom-4">
-                <Truck className="h-4 w-4 text-[#0369A1]" aria-hidden="true" />
-                {c.heroPhotoBadge}
-              </p>
-            </div>
-
           </div>
+        </div>
+
+        {/* Faixa branca sob a foto: os fatos verificáveis logo abaixo da barra. */}
+        <div className="bg-white">
+          <ul className="mx-auto flex max-w-7xl flex-wrap gap-x-6 gap-y-2.5 px-4 pb-8 pt-32 text-base font-medium text-[#0B1E33] sm:px-6 lg:px-8 lg:pb-10 lg:pt-24">
+            {c.heroTrust.map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-glacier text-[#0369A1]">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -718,6 +894,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+      {local && <LocalSection local={local} />}
+
       {/* =========================================================================
           SECTION 3: À PROPOS, EN TOUTE TRANSPARENCE (fiche d'identité)
           Concorrentes antigos pesam por história (Harsch 1957, Balestrafic 50 ans).
@@ -729,16 +907,16 @@ export const Home: React.FC = () => {
 
             {/* Foto real da frota */}
             <div className="lg:col-span-5">
-              <img
-                src="/photos/batimove-flotte-1200.webp"
-                srcSet="/photos/batimove-flotte-640.webp 640w, /photos/batimove-flotte-1200.webp 1200w"
+              <FadeImg
+                src="/photos/batimove-camions-maison-1440.webp"
+                srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
                 sizes="(min-width: 1024px) 480px, 100vw"
-                alt={c.aboutImgAlt}
-                width={1200}
-                height={804}
+                alt={c.bannerImgAlt}
+                width={1440}
+                height={699}
                 loading="lazy"
                 decoding="async"
-                className="block h-auto w-full rounded-xl object-cover shadow-raised"
+                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover object-[45%_60%] shadow-raised"
               />
             </div>
 
@@ -811,94 +989,74 @@ export const Home: React.FC = () => {
           SECTION 4: "RECOMMANDÉ PAR LES PROFESSIONNELS" ("WE'RE CHOSEN BY PROFESSIONALS")
           ========================================================================= */}
       <section className="relative border-y border-glacier-line bg-glacier py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column: Why Choose Us & 3 Icons */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Entrada ao rolar: título, cartões e cartão navy descem para o lugar
+              um após o outro (useRevealOnce: nada fica escondido sem JS, com
+              movimento reduzido ou se o bloco já estava na tela). */}
+          <div ref={proReveal.ref} className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
-              
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
+              <h2
+                className={`mb-10 font-display text-3xl font-medium leading-[1.12] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl ${dropClass(proReveal.pending)}`}
+                style={dropStyle(0)}
+              >
                 {c.proTitle}
               </h2>
 
-              {/* 3 Columns under title */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                
-                {/* Item 1 */}
-                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
-                  <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
-                    <FileText className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    {c.proAdviceTitle}
-                  </h3>
-                  <p className="text-base text-slate-500 leading-relaxed">
-                    {c.proAdviceText}
-                  </p>
-                </div>
-
-                {/* Item 2 */}
-                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
-                  <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
-                    <ShieldCheck className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    {c.proGuaranteeTitle}
-                  </h3>
-                  <p className="text-base text-slate-500 leading-relaxed">
-                    {c.proGuaranteeText}
-                  </p>
-                </div>
-
-                {/* Item 3 */}
-                <div className="rounded-xl border border-glacier-line bg-white p-5 shadow-rest">
-                  <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
-                    <Headphones className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-display font-semibold text-[#0B1E33] text-base mb-1.5">
-                    {c.proUrgentTitle}
-                  </h3>
-                  <p className="text-base text-slate-500 leading-relaxed">
-                    {c.proUrgentText}
-                  </p>
-                </div>
-
-              </div>
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+                {[
+                  { Icon: FileText, motion: 'icon-tilt', title: c.proAdviceTitle, text: c.proAdviceText },
+                  { Icon: ShieldCheck, motion: 'icon-lift', title: c.proGuaranteeTitle, text: c.proGuaranteeText },
+                  { Icon: Headphones, motion: 'icon-tilt', title: c.proUrgentTitle, text: c.proUrgentText },
+                ].map(({ Icon, motion, title, text }, i) => (
+                  <li key={title} className={dropClass(proReveal.pending)} style={dropStyle(1 + i)}>
+                    {/* Cartão: no hover sobe 4px, ganha sombra raised, o filete azul
+                        do topo se desenha e o ícone fica navy e se mexe. */}
+                    <div className="group relative h-full overflow-hidden rounded-xl border border-glacier-line bg-white p-6 shadow-rest transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-sky-200 hover:shadow-raised motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-[#0284c7] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 motion-reduce:transition-none"
+                      />
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-300 group-hover:bg-[#0B1E33] group-hover:text-white motion-reduce:transition-none">
+                        <Icon className={`h-5 w-5 ${motion}`} strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-[#0B1E33]">{title}</h3>
+                      <p className="mt-1.5 text-base leading-relaxed text-slate-600">{text}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Right Column: Paragraph & Dark Blue Phone Card */}
-            <div className="lg:col-span-5 flex flex-col justify-between h-full pt-4">
-              <p className="mb-8 text-lg leading-relaxed text-slate-600">
+            <div className="flex h-full flex-col justify-between pt-4 lg:col-span-5">
+              <p className={`mb-8 text-lg leading-relaxed text-slate-600 ${dropClass(proReveal.pending)}`} style={dropStyle(2)}>
                 {c.proLead}
               </p>
 
-              {/* Dark Navy Highlight Card with Phone */}
-              <div className="rounded-xl bg-[#0B1E33] p-8 text-white shadow-overlay">
-                <p className="mb-2 font-display text-lg font-semibold tracking-tight text-sky-300">
-                  {c.proCardKicker}
-                </p>
-                <p className="mb-6 text-base text-slate-300">
-                  {c.proCardText}
-                </p>
-                <a
-                  href="tel:0800825925"
-                  className="group -m-2 inline-flex items-center gap-3 rounded-xl p-2 text-white transition-colors duration-150 hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
-                >
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-[#0369A1] text-white transition-colors duration-150 group-hover:bg-[#0284C7]">
-                    <Phone className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                  <span>
-                    <span className="block font-display text-2xl font-medium tracking-tight tabular-nums sm:text-3xl">
-                      0800 825 925
+              <div className={dropClass(proReveal.pending)} style={dropStyle(4)}>
+                <div className="rounded-xl bg-[#0B1E33] p-8 text-white shadow-overlay transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-modal motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                  <p className="mb-2 font-display text-lg font-semibold tracking-tight text-sky-300">
+                    {c.proCardKicker}
+                  </p>
+                  <p className="mb-6 text-base text-slate-300">
+                    {c.proCardText}
+                  </p>
+                  <a
+                    href="tel:0800825925"
+                    className="group -m-2 inline-flex items-center gap-3 rounded-xl p-2 text-white transition-colors duration-150 hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+                  >
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-[#0369A1] text-white transition-colors duration-150 group-hover:bg-[#0284C7]">
+                      <Phone className="icon-tilt h-6 w-6" aria-hidden="true" />
                     </span>
-                    <span className="block text-sm font-medium text-sky-300">{c.proCardPhoneNote}</span>
-                  </span>
-                </a>
+                    <span>
+                      <span className="block font-display text-2xl font-medium tracking-tight tabular-nums sm:text-3xl">
+                        0800 825 925
+                      </span>
+                      <span className="block text-sm font-medium text-sky-300">{c.proCardPhoneNote}</span>
+                    </span>
+                  </a>
+                </div>
               </div>
-
             </div>
-
           </div>
         </div>
       </section>
@@ -927,7 +1085,7 @@ export const Home: React.FC = () => {
                 to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                <ParachuteCargoIcon className="mx-auto mb-4 h-16 w-16" />
+                <ParachuteCargoIcon className="icon-sway mx-auto mb-4 h-16 w-16" />
                 <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
                   {c.readyLongTitle}
                 </h3>
@@ -947,7 +1105,7 @@ export const Home: React.FC = () => {
                 to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                <ScooterDeliveryIcon className="mx-auto mb-4 h-16 w-16" />
+                <ScooterDeliveryIcon className="icon-drive mx-auto mb-4 h-16 w-16" />
                 <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
                   {c.readyLocalTitle}
                 </h3>
@@ -967,7 +1125,7 @@ export const Home: React.FC = () => {
             {/* Centro: foto real do monte-meubles em serviço */}
             <div className="md:col-span-2 lg:col-span-6 flex justify-center items-center order-1 lg:order-2 my-6 lg:my-0">
               <div className="w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px]">
-                <img
+                <FadeImg
                   src="/photos/batimove-monte-meubles-residence-1000.webp"
                   srcSet="/photos/batimove-monte-meubles-residence-600.webp 600w, /photos/batimove-monte-meubles-residence-1000.webp 1000w"
                   sizes="(min-width: 1024px) 440px, 90vw"
@@ -989,7 +1147,7 @@ export const Home: React.FC = () => {
                 to={lp('/quote?type=entreprise')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                <WarehouseShelfIcon className="mx-auto mb-4 h-16 w-16" />
+                <WarehouseShelfIcon className="icon-lift mx-auto mb-4 h-16 w-16" />
                 <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
                   {c.readyBusinessTitle}
                 </h3>
@@ -1009,7 +1167,7 @@ export const Home: React.FC = () => {
                 to={lp('/quote?type=prive')}
                 className="group flex flex-col items-center rounded-xl border border-transparent p-5 transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                <LocationParcelIcon className="mx-auto mb-4 h-16 w-16" />
+                <LocationParcelIcon className="icon-lift mx-auto mb-4 h-16 w-16" />
                 <h3 className="mb-3 font-display text-lg font-medium text-[#0B1E33] sm:text-xl">
                   {c.readySmallTitle}
                 </h3>
@@ -1052,7 +1210,7 @@ export const Home: React.FC = () => {
               {HOME_COMPLEMENTAIRES[lang].map(({ title, text, to, href, cta, Icon }) => {
                 const inner = (
                   <>
-                    <Icon className="h-14 w-14 shrink-0" />
+                    <Icon className={`h-14 w-14 shrink-0 ${Icon === FastestShippingClockIcon || Icon === WarehouseShelfIcon ? 'icon-lift' : 'icon-drive'}`} />
                     <span className="mt-5 block font-display text-xl font-medium text-white">{title}</span>
                     <span className="mt-2 block text-base leading-relaxed text-slate-300">{text}</span>
                     <span className="mt-5 inline-flex items-center gap-1.5 text-base font-semibold text-sky-300 transition-colors group-hover:text-white">
@@ -1088,7 +1246,7 @@ export const Home: React.FC = () => {
             {/* Esquerda: duas fotos reais. O caminhão carregado na frente, o móvel
                 em plástico-bolha mais baixo, como numa página de revista. */}
             <div className="grid grid-cols-5 items-end gap-4 lg:col-span-6">
-              <img
+              <FadeImg
                 src="/photos/batimove-camion-materiel-900.webp"
                 srcSet="/photos/batimove-camion-materiel-560.webp 560w, /photos/batimove-camion-materiel-900.webp 900w"
                 sizes="(min-width: 1024px) 360px, 60vw"
@@ -1099,7 +1257,7 @@ export const Home: React.FC = () => {
                 decoding="async"
                 className="col-span-3 block h-auto w-full rounded-xl object-cover shadow-raised"
               />
-              <img
+              <FadeImg
                 src="/photos/batimove-papier-bulle-800.webp"
                 srcSet="/photos/batimove-papier-bulle-480.webp 480w, /photos/batimove-papier-bulle-800.webp 800w"
                 sizes="(min-width: 1024px) 240px, 40vw"
@@ -1330,16 +1488,16 @@ export const Home: React.FC = () => {
           SECTION 9: BANDEAU DEVIS
           ========================================================================= */}
       <section className="relative isolate overflow-hidden bg-[#0B1E33] text-white">
-        <img
-          src="/photos/batimove-camions-maison-1440.webp"
-          srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
+        <FadeImg
+          src="/photos/batimove-flotte-monte-meubles-1280.webp"
+          srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
           sizes="100vw"
-          alt={c.bannerImgAlt}
-          width={1440}
-          height={699}
+          alt={c.heroImgAlt}
+          width={1280}
+          height={853}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_60%]"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-[50%_45%]"
         />
         {/* Véu navy: uniforme no celular; no desktop forte do lado do texto */}
         <div
@@ -1375,8 +1533,8 @@ export const Home: React.FC = () => {
           </h2>
 
           <div className="divide-y divide-slate-200 border-y border-slate-200">
-            {HOME_FAQ_BY_LANG[lang].map((item) => (
-              <details key={item.question} className="group py-1">
+            {(local?.faq ?? HOME_FAQ_BY_LANG[lang]).map((item) => (
+              <details key={item.question} className="faq-item group py-1">
                 <summary className="group/q flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
                   <h3 className="font-display text-base font-semibold leading-snug text-[#0B1E33] transition-colors duration-150 group-hover/q:text-[#0369A1] sm:text-lg">
                     {item.question}

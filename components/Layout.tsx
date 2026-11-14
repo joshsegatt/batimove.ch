@@ -1,6 +1,6 @@
 import { LangSwitch } from './LangSwitch';
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Phone, Shield, ExternalLink, Linkedin, Instagram, Facebook, MapPin, Mail, Clock, Search, ChevronRight, ChevronDown, Lock } from 'lucide-react';
+import { Menu, X, Phone, Shield, ExternalLink, Linkedin, Instagram, Facebook, MapPin, Mail, Clock, Search, ChevronRight, ChevronDown, Lock, ArrowUpFromLine, ArrowUpRight } from 'lucide-react';
 import { Button, Logo } from './UIComponents';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BrandLogo } from './BrandMark';
@@ -9,6 +9,7 @@ import { QUOTE_SERVICES, localizeQuoteService } from '../data/quoteServices';
 import { alternatePath, defineCopy, useLang, type Lang } from '../i18n';
 import { LOCALITIES, localPath, localizeLocality } from '../data/localities';
 import { COUNTRIES } from '../data/countries';
+import { MONTE_CHARGE_URL } from '../data/sites';
 
 // Navegação principal. Estrutura inspirada na Helvetia (menu por serviço, com um
 // painel dedicado "Déménagement" que lista todas as páginas de mudança por cidade
@@ -85,6 +86,15 @@ const NAV_COPY = defineCopy(
     estimateVolume: 'Estimer mon volume',
     mobileNav: 'Navigation mobile',
     requestFreeQuote: 'Demander un devis gratuit',
+    liftLabel: 'Location monte-meubles',
+    liftHint: 'Avec opérateur, sur locationmontecharge.ch',
+    newTab: '(nouvel onglet)',
+    divisions: 'Activités Batimove',
+    divisionMoving: 'Déménagement',
+    divisionReno: 'Rénovation & étanchéité',
+    guides: 'Guides & conseils',
+    renoTeaserTitle: 'Rénovation & étanchéité',
+    renoTeaserText: 'Appartements, maisons et immeubles à Genève.',
     links: [
       { label: 'Débarras', to: '/debarras' },
       { label: 'Nettoyage', to: '/nettoyage-fin-de-bail' },
@@ -94,6 +104,8 @@ const NAV_COPY = defineCopy(
       { label: 'Contact', to: '/contact' },
     ] as MenuLink[],
     mobileLinks: [
+      { label: 'Livraison & installation', to: '/livraison-installation' },
+      { label: 'Guides & conseils', to: '/guides' },
       { label: 'Calculateur de volume', to: '/calculator' },
       { label: 'Contact', to: '/contact' },
     ] as MenuLink[],
@@ -120,6 +132,15 @@ const NAV_COPY = defineCopy(
     estimateVolume: 'Estimate my volume',
     mobileNav: 'Mobile navigation',
     requestFreeQuote: 'Request a free quote',
+    liftLabel: 'Furniture lift hire',
+    liftHint: 'With operator, on locationmontecharge.ch',
+    newTab: '(new tab)',
+    divisions: 'Batimove divisions',
+    divisionMoving: 'Removals',
+    divisionReno: 'Renovation & waterproofing',
+    guides: 'Guides & advice',
+    renoTeaserTitle: 'Renovation & waterproofing',
+    renoTeaserText: 'Flats, houses and buildings in Geneva.',
     links: [
       { label: 'House clearance', to: '/debarras' },
       { label: 'Cleaning', to: '/nettoyage-fin-de-bail' },
@@ -128,6 +149,8 @@ const NAV_COPY = defineCopy(
       { label: 'Contact', to: '/contact' },
     ],
     mobileLinks: [
+      { label: 'Delivery & installation', to: '/livraison-installation' },
+      { label: 'Guides & advice', to: '/guides' },
       { label: 'Volume calculator', to: '/calculator' },
       { label: 'Contact', to: '/contact' },
     ],
@@ -159,6 +182,44 @@ const MoveLinkList: React.FC<{ title: string; links: MenuLink[]; columns: 2 | 3;
         ))}
       </ul>
     </div>
+  );
+};
+
+/**
+ * Seletor entre as duas atividades da Batimove, na faixa de informações.
+ * Cada atividade tem o seu próprio menu; este é o único ponto de passagem.
+ */
+export const DivisionSwitch: React.FC<{
+  current: 'moving' | 'reno';
+  labels: { group: string; moving: string; reno: string };
+}> = ({ current, labels }) => {
+  const { lp } = useLang();
+  const items = [
+    { id: 'moving' as const, label: labels.moving, to: '/' },
+    { id: 'reno' as const, label: labels.reno, to: '/renovation' },
+  ];
+  return (
+    <nav aria-label={labels.group} className="flex shrink-0 items-center whitespace-nowrap rounded-md bg-white/5 p-0.5">
+      {items.map((it) =>
+        it.id === current ? (
+          <span
+            key={it.id}
+            aria-current="true"
+            className="rounded bg-white/15 px-2.5 py-1 font-semibold text-white"
+          >
+            {it.label}
+          </span>
+        ) : (
+          <Link
+            key={it.id}
+            to={lp(it.to)}
+            className="rounded px-2.5 py-1 text-slate-300 transition-colors duration-150 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+          >
+            {it.label}
+          </Link>
+        )
+      )}
+    </nav>
   );
 };
 
@@ -250,27 +311,28 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-[70] w-full border-b border-slate-200 bg-white/95 font-sans backdrop-blur-md">
       {/* Faixa de informações */}
       <div className="hidden border-b border-white/10 bg-[#07182b] py-2 text-xs text-slate-300 md:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
-            <span className="flex items-center gap-2">
+            <DivisionSwitch current="moving" labels={{ group: c.divisions, moving: c.divisionMoving, reno: c.divisionReno }} />
+            <span className="hidden items-center gap-2 whitespace-nowrap 2xl:flex">
               <MapPin className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               {c.address}
             </span>
-            <a href="tel:0800825925" className="flex items-center gap-2 transition-colors hover:text-white">
+            <a href="tel:0800825925" className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-white">
               <Phone className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               <span className="font-semibold text-white tabular-nums">0800 825 925</span> {c.freeInSwitzerland}
             </a>
-            <a href="mailto:info@batimove.ch" className="flex items-center gap-2 transition-colors hover:text-white">
+            <a href="mailto:info@batimove.ch" className="hidden items-center gap-2 whitespace-nowrap transition-colors hover:text-white lg:flex">
               <Mail className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               info@batimove.ch
             </a>
           </div>
           <div className="flex items-center gap-5">
-            <span className="flex items-center gap-1.5">
+            <span className="hidden items-center gap-1.5 whitespace-nowrap 2xl:flex">
               <Clock className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
               {c.officeHours}
             </span>
-            <span>{c.reachable}</span>
+            <span className="whitespace-nowrap">{c.reachable}</span>
           </div>
         </div>
       </div>
@@ -278,7 +340,7 @@ export const Navbar: React.FC = () => {
       {/* Barra principal + painel Déménagement */}
       <div ref={megaWrapRef} onPointerLeave={closeSoon} className="relative">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[68px] items-center justify-between gap-3 sm:gap-6">
+          <div className="flex h-[68px] items-center justify-between gap-3 sm:gap-6 lg:gap-4 xl:gap-6">
             <Link
               to={lp('/')}
               aria-label={c.homeLabel}
@@ -288,7 +350,7 @@ export const Navbar: React.FC = () => {
             </Link>
 
             <nav aria-label={c.mainNav} className="hidden lg:block">
-              <ul className="flex items-center gap-5 xl:gap-8">
+              <ul className="flex items-center gap-4 xl:gap-8">
                 <li onPointerEnter={openSoon}>
                   <button
                     ref={megaTriggerRef}
@@ -380,6 +442,26 @@ export const Navbar: React.FC = () => {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <a
+                    href={MONTE_CHARGE_URL}
+                    target="_blank"
+                    rel="noopener"
+                    className="group -mx-3 flex items-center gap-3.5 rounded-xl px-3 py-2 transition-colors duration-150 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0284c7]"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33] transition-colors duration-150 group-hover:bg-[#0B1E33] group-hover:text-white group-focus-visible:bg-[#0B1E33] group-focus-visible:text-white">
+                      <ArrowUpFromLine className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-1.5 font-display text-lg font-semibold leading-snug tracking-tight text-[#0B1E33]">
+                        {c.liftLabel}
+                        <ArrowUpRight className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                      </span>
+                      <span className="block text-sm text-slate-500">{c.liftHint}</span>
+                      <span className="sr-only">{c.newTab}</span>
+                    </span>
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -396,6 +478,12 @@ export const Navbar: React.FC = () => {
                 {c.panelText}
               </p>
               <div className="flex shrink-0 items-center gap-6">
+                <Link
+                  to={lp('/guides')}
+                  className="text-base font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
+                >
+                  {c.guides}
+                </Link>
                 <Link
                   to={lp('/calculator')}
                   className="text-base font-semibold text-[#0B1E33] underline decoration-slate-300 underline-offset-4 transition-colors hover:decoration-[#0B1E33]"
@@ -461,6 +549,20 @@ export const Navbar: React.FC = () => {
                     </Link>
                   </li>
                 ))}
+                <li className="relative">
+                  <span aria-hidden="true" className="absolute left-[72px] right-0 top-0 h-px bg-slate-200" />
+                  <a href={MONTE_CHARGE_URL} target="_blank" rel="noopener" className="flex min-h-[64px] items-center gap-3.5 px-4 py-3 active:bg-slate-100">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-slate-100 text-[#0B1E33]">
+                      <ArrowUpFromLine className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-lg font-semibold leading-snug text-[#0B1E33]">{c.liftLabel}</span>
+                      <span className="block text-sm text-slate-500">{c.liftHint}</span>
+                      <span className="sr-only">{c.newTab}</span>
+                    </span>
+                    <ArrowUpRight className="h-[18px] w-[18px] shrink-0 text-slate-300" aria-hidden="true" />
+                  </a>
+                </li>
               </ul>
 
               <div className="mt-7 overflow-hidden rounded-xl border border-slate-200">
@@ -495,6 +597,19 @@ export const Navbar: React.FC = () => {
                   </li>
                 ))}
               </ul>
+
+              {/* A outra atividade da Batimove, separada da mudança */}
+              <Link
+                to={lp('/renovation')}
+                className="mt-7 flex items-center justify-between gap-4 rounded-xl border border-slate-200 px-4 py-4 active:bg-slate-100"
+              >
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold text-slate-500">{c.divisions}</span>
+                  <span className="mt-0.5 block text-lg font-semibold leading-snug text-[#0B1E33]">{c.renoTeaserTitle}</span>
+                  <span className="block text-sm text-slate-500">{c.renoTeaserText}</span>
+                </span>
+                <ChevronRight className="h-[18px] w-[18px] shrink-0 text-slate-300" aria-hidden="true" />
+              </Link>
             </nav>
 
             <div className="shrink-0 space-y-3 border-t border-slate-200 p-5">
@@ -519,7 +634,7 @@ export const Navbar: React.FC = () => {
 
 // Rodapé dedicado: todas as páginas reais do site, contato direto e dados legais.
 // Oculto só nos funis de conversão (orçamento e checkout da calculadora).
-type FooterColumn = { title: string; links: { label: string; to: string }[] };
+type FooterColumn = { title: string; links: { label: string; to: string; external?: boolean }[] };
 
 const FOOTER_COPY = defineCopy(
   {
@@ -544,6 +659,9 @@ const FOOTER_COPY = defineCopy(
           { label: 'Débarras', to: '/debarras' },
           { label: 'Nettoyage de fin de bail', to: '/nettoyage-fin-de-bail' },
           { label: 'Garde-meubles', to: '/garde-meubles' },
+          { label: 'Livraison & installation', to: '/livraison-installation' },
+          { label: 'Location monte-meubles', to: MONTE_CHARGE_URL, external: true },
+          { label: 'Rénovation & étanchéité', to: '/renovation' },
         ],
       },
       {
@@ -564,6 +682,7 @@ const FOOTER_COPY = defineCopy(
         links: [
           { label: 'Devis gratuit en 4 étapes', to: '/quote' },
           { label: 'Calculateur de volume', to: '/calculator' },
+          { label: 'Guides & conseils', to: '/guides' },
           { label: 'Contact', to: '/contact' },
         ],
       },
@@ -599,6 +718,9 @@ const FOOTER_COPY = defineCopy(
           { label: 'House clearance', to: '/debarras' },
           { label: 'End of tenancy cleaning', to: '/nettoyage-fin-de-bail' },
           { label: 'Storage', to: '/garde-meubles' },
+          { label: 'Delivery & installation', to: '/livraison-installation' },
+          { label: 'Furniture lift hire', to: MONTE_CHARGE_URL, external: true },
+          { label: 'Renovation & waterproofing', to: '/renovation' },
         ],
       },
       {
@@ -619,6 +741,7 @@ const FOOTER_COPY = defineCopy(
         links: [
           { label: 'Free quote in 4 steps', to: '/quote' },
           { label: 'Volume calculator', to: '/calculator' },
+          { label: 'Guides & advice', to: '/guides' },
           { label: 'Contact', to: '/contact' },
         ],
       },
@@ -704,9 +827,16 @@ export const Footer: React.FC = () => {
                 <ul className="mt-4 space-y-3">
                   {col.links.map((l) => (
                     <li key={l.to}>
-                      <Link to={lp(l.to)} className={linkClass}>
-                        {l.label}
-                      </Link>
+                      {l.external ? (
+                        <a href={l.to} target="_blank" rel="noopener" className={`${linkClass} inline-flex items-center gap-1`}>
+                          {l.label}
+                          <ArrowUpRight className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
+                        </a>
+                      ) : (
+                        <Link to={lp(l.to)} className={linkClass}>
+                          {l.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

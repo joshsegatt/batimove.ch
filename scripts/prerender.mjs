@@ -105,12 +105,24 @@ const NOSCRIPT_EN = (h1) => `<noscript>
     </div>
   </noscript>`;
 
+/** <noscript> d'une page qui a sa propre introduction (champ "lead" de seoRoutes.json). */
+const NOSCRIPT_LEAD = (h1, lead, en) => `<noscript>
+    <div style="max-width:800px;margin:40px auto;padding:24px;font-family:system-ui,-apple-system,sans-serif;color:#0f172a;line-height:1.6;">
+      <h1 style="font-size:24px;font-weight:800;color:#0B1E33;margin-bottom:12px;">${h1}</h1>
+      <p style="font-size:15px;margin-bottom:16px;">${lead}</p>
+      <p>Batimove Sàrl · Rue de Monthoux 64, 1201 ${en ? 'Geneva' : 'Genève'} · <a href="tel:0800825925">0800 825 925</a> · <a href="mailto:info@batimove.ch">info@batimove.ch</a></p>
+    </div>
+  </noscript>`;
+
 /** h1 du squelette, libellé de la barre de chargement et <noscript> de la route. */
-function corpsDeRoute(source, h1, en) {
+function corpsDeRoute(source, h1, en, lead) {
   let sortie = source
     .replace(/<h1 class="bs-sr">[\s\S]*?<\/h1>/, `<h1 class="bs-sr">${h1}</h1>`)
     .replace('aria-label="Chargement de la page"', `aria-label="${en ? 'Loading page' : 'Chargement de la page'}"`);
-  sortie = en
+  // Page avec sa propre introduction (rénovation, guides…) : le <noscript> décrit
+  // cette page, pas le déménagement.
+  if (lead) sortie = sortie.replace(/<noscript>[\s\S]*?<\/noscript>/, NOSCRIPT_LEAD(h1, esc(lead), en));
+  else sortie = en
     ? sortie.replace(/<noscript>[\s\S]*?<\/noscript>/, NOSCRIPT_EN(h1))
     : sortie.replace(/(<noscript>[\s\S]*?<h1[^>]*>)[\s\S]*?(<\/h1>)/, `$1${h1}$2`);
   if (!sortie.includes(`<h1 class="bs-sr">${h1}</h1>`)) manquantes.push(`h1 du squelette introuvable`);
@@ -145,8 +157,23 @@ function pageDeRoute(route, meta) {
   let sortie = corpsDeRoute(
     html.replace(/<html lang="[^"]*">/, `<html lang="${en ? 'en' : 'fr-CH'}">`),
     esc(meta.h1 || titrePage(meta.title)),
-    en
+    en,
+    meta.lead
   );
+  // Le FAQPage du gabarit reprend la FAQ de l'accueil : il ne doit figurer que
+  // sur l'accueil. Ailleurs, Google lirait des questions absentes de la page
+  // (les pages qui ont leur propre FAQ l'ajoutent elles-mêmes).
+  if (route !== '/' && route !== '/en') {
+    sortie = sortie.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/, (tout, debut, json, fin) => {
+      try {
+        const donnees = JSON.parse(json);
+        if (!Array.isArray(donnees)) return tout;
+        return `${debut}\n    ${JSON.stringify(donnees.filter((d) => d['@type'] !== 'FAQPage'))}\n  ${fin}`;
+      } catch {
+        return tout;
+      }
+    });
+  }
   const paire = paireDe.get(route);
   if (paire && paire.fr in routes && paire.en in routes) {
     const alternates = [

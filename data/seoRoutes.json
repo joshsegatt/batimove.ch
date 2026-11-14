@@ -786,6 +786,222 @@
       "title": "Removals to the United Kingdom from Switzerland | Batimove",
       "description": "Removals between Switzerland and the United Kingdom: London, Oxford, Cambridge… Packing, transport and help with customs. Free quote, fixed price.",
       "h1": "Removals between Switzerland and the United Kingdom"
+    },
+    "/renovation": {
+      "title": "Rénovation et étanchéité à Genève | Batimove",
+      "description": "Rénovation d'appartements, maisons et immeubles, étanchéité de toits, terrasses et caves à Genève. Un seul interlocuteur, artisans qualifiés et assurés.",
+      "h1": "Rénovation et étanchéité à Genève",
+      "lead": "Appartements, maisons et immeubles : Batimove coordonne vos travaux de rénovation et d'étanchéité avec des artisans qualifiés et assurés, à Genève et selon la prestation dans le canton de Vaud. Déménagement et garde-meubles possibles pendant le chantier."
+    },
+    "/en/renovation": {
+      "title": "Renovation and Waterproofing in Geneva | Batimove",
+      "description": "Renovation of flats, houses and apartment buildings, waterproofing of roofs, terraces and cellars in Geneva. One contact, qualified insured tradespeople.",
+      "h1": "Renovation and waterproofing in Geneva",
+      "lead": "Flats, houses and apartment buildings: Batimove coordinates your renovation and waterproofing works with qualified, insured tradespeople, in Geneva and, depending on the service, the canton of Vaud. Removals and storage available during the work."
+    },
+    "/renovation/appartement-maison": {
+      "title": "Rénovation d'appartement et de maison à Genève | Batimove",
+      "description": "Rénovation complète d'appartement ou de maison à Genève : démolition, corps de métier coordonnés, sols, murs et finitions, avec un seul interlocuteur.",
+      "h1": "Rénovation d'appartement et de maison à Genève",
+      "lead": "Vous achetez, héritez ou remettez un logement en état ? Batimove planifie l'ensemble des travaux, coordonne chaque corps de métier et vous rend un logement prêt à habiter."
+    },
+    "/en/renovation/flats-and-houses": {
+      "title": "Flat and House Renovation in Geneva | Batimove",
+      "description": "Full renovation of flats and houses in Geneva: demolition, coordinated trades, floors, walls and finishes, with a single point of contact throughout.",
+      "h1": "Flat and house renovation in Geneva",
+      "lead": "Buying, inheriting or refreshing a property? Batimove plans the whole job, coordinates every trade and hands you back a home that is ready to live in."
+    },
+    "/renovation/salle-de-bain": {
+      "title": "Rénovation de salle de bain à Genève | Batimove",
+      "description": "Rénovation de salle de bain à Genève : douche à l'italienne, plomberie, étanchéité sous carrelage, faïence et sanitaires, coordonnés par Batimove.",
+      "h1": "Rénovation de salle de bain à Genève",
+      "lead": "Remplacer une baignoire par une douche à l'italienne, refaire le carrelage ou toute la pièce : Batimove gère la plomberie, l'étanchéité sous carrelage et les finitions."
+    },
+    "/en/renovation/bathroom": {
+      "title": "Bathroom Renovation in Geneva | Batimove",
+      "description": "Bathroom renovation in Geneva: walk-in shower, plumbing, waterproofing under tiles, tiling and sanitary ware, all coordinated by Batimove.",
+      "h1": "Bathroom renovation in Geneva",
+      "lead": "Swapping a bath for a walk-in shower, retiling or redoing the whole room: Batimove handles the plumbing, the waterproofing under the tiles and the finishes."
+    },
+    "/renovation/cuisine": {
+      "title": "Rénovation de cuisine à Genève | Batimove",
+      "description": "Rénovation de cuisine à Genève : dépose de l'ancienne, adaptations électriques et sanitaires, pose des meubles, du plan de travail et des appareils",
+      "h1": "Rénovation de cuisine à Genève",
+      "lead": "Nouvelle cuisine ou rafraîchissement : démontage de l'ancienne, adaptation de l'électricité et des arrivées d'eau, pose des meubles, du plan de travail et des appareils."
+    },
+    "/en/renovation/kitchen": {
+      "title": "Kitchen Renovation in Geneva | Batimove",
+      "description": "Kitchen renovation and fitting in Geneva: removal of the old kitchen, electrical and plumbing changes, fitting of units, worktop and built-in appliances.",
+      "h1": "Kitchen renovation in Geneva",
+      "lead": "A new kitchen or a refresh: removal of the old one, changes to the electrics and water supply, fitting of units, worktop and appliances."
+    },
+    "/renovation/peinture": {
+      "title": "Peinture et plâtrerie à Genève | Batimove",
+      "description": "Peinture et plâtrerie à Genève : murs, plafonds, boiseries et cages d'escalier. Préparation des supports, réparation des fissures, finitions soignées.",
+      "h1": "Peinture et plâtrerie à Genève",
+      "lead": "Murs, plafonds, boiseries et cages d'escalier : préparation soignée des supports, réparation des fissures et peinture adaptée à chaque pièce."
+    },
+    "/en/renovation/painting": {
+      "title": "Painting and Plastering in Geneva | Batimove",
+      "description": "Painting and plastering in Geneva: walls, ceilings, woodwork and stairwells. Careful surface preparation, crack repair and clean finishes in every room.",
+      "h1": "Painting and plastering in Geneva",
+      "lead": "Walls, ceilings, woodwork and stairwells: careful surface preparation, crack repair and the right paint for each room."
+    },
+    "/renovation/sols": {
+      "title": "Pose et rénovation de sols à Genève | Batimove",
+      "description": "Pose et rénovation de sols à Genève : parquet, carrelage, vinyle ou stratifié. Préparation du support, ponçage de parquet, plinthes et finitions.",
+      "h1": "Pose et rénovation de sols à Genève",
+      "lead": "Parquet, carrelage, vinyle ou stratifié : dépose de l'ancien revêtement, préparation du support et pose soignée, plinthes comprises."
+    },
+    "/en/renovation/flooring": {
+      "title": "Flooring Installation and Renovation in Geneva | Batimove",
+      "description": "Flooring in Geneva: parquet, tiles, vinyl or laminate. Removal of old coverings, subfloor preparation, parquet sanding, skirting boards and finishes.",
+      "h1": "Flooring installation and renovation in Geneva",
+      "lead": "Parquet, tiles, vinyl or laminate: removal of the old covering, preparation of the subfloor and careful laying, skirting boards included."
+    },
+    "/renovation/etancheite-toiture-terrasse": {
+      "title": "Étanchéité toit plat, terrasse et balcon Genève | Batimove",
+      "description": "Étanchéité de toits plats, terrasses et balcons à Genève : recherche de fuite, réparation ou réfection, relevés, évacuations et joints traités.",
+      "h1": "Étanchéité de toit plat, terrasse et balcon à Genève",
+      "lead": "Une infiltration par le toit ou la terrasse abîme vite les plafonds et la structure. Batimove localise la fuite, répare ou refait l'étanchéité et traite les relevés, les évacuations et les joints."
+    },
+    "/en/renovation/roof-terrace-waterproofing": {
+      "title": "Flat Roof, Terrace and Balcony Waterproofing | Batimove",
+      "description": "Waterproofing of flat roofs, terraces and balconies in Geneva: leak tracing, repair or full renewal, with upstands, drains and joints treated properly.",
+      "h1": "Flat roof, terrace and balcony waterproofing in Geneva",
+      "lead": "A leak through the roof or terrace quickly damages ceilings and the structure. Batimove finds the source, repairs or redoes the waterproofing and treats the upstands, drains and joints."
+    },
+    "/renovation/etancheite-sous-sol": {
+      "title": "Étanchéité de cave et sous-sol à Genève | Batimove",
+      "description": "Humidité en cave ou sous-sol à Genève : diagnostic de la cause, traitement des infiltrations et remontées capillaires, cuvelage et reprise des fissures.",
+      "h1": "Étanchéité de cave et sous-sol à Genève",
+      "lead": "Murs humides, salpêtre, eau qui entre par le sol : Batimove identifie la cause, infiltration, remontée capillaire ou condensation, avant de choisir le traitement adapté."
+    },
+    "/en/renovation/basement-waterproofing": {
+      "title": "Cellar and Basement Waterproofing in Geneva | Batimove",
+      "description": "Damp cellar or basement in Geneva: diagnosis of the cause, treatment of water ingress and rising damp, tanking and repair of cracks and joints.",
+      "h1": "Cellar and basement waterproofing in Geneva",
+      "lead": "Damp walls, saltpetre, water coming up through the floor: Batimove identifies the cause, whether water ingress, rising damp or condensation, before choosing the right treatment."
+    },
+    "/renovation/facades": {
+      "title": "Rénovation de façades à Genève | Batimove",
+      "description": "Rénovation de façades à Genève : diagnostic, réparation des fissures et de l'enduit, traitement hydrofuge et peinture, échafaudage coordonné par Batimove.",
+      "h1": "Rénovation de façades à Genève",
+      "lead": "Fissures, enduit qui se décolle, traces d'eau : Batimove répare et protège les façades de maisons et d'immeubles, échafaudage compris."
+    },
+    "/en/renovation/facades": {
+      "title": "Façade Renovation in Geneva | Batimove",
+      "description": "Façade renovation in Geneva: survey, repair of cracks and render, water-repellent treatment and painting, with scaffolding coordinated by Batimove.",
+      "h1": "Façade renovation in Geneva",
+      "lead": "Cracks, render coming away, water streaks: Batimove repairs and protects the façades of houses and apartment buildings, scaffolding included."
+    },
+    "/renovation/immeubles": {
+      "title": "Rénovation d'immeubles, régies et PPE à Genève | Batimove",
+      "description": "Travaux pour régies, PPE et propriétaires à Genève : appartements entre deux locataires, parties communes, toitures, façades et sous-sols.",
+      "h1": "Rénovation d'immeubles pour régies et PPE à Genève",
+      "lead": "Cages d'escalier, caves, toitures, façades ou appartements entre deux locataires : un seul interlocuteur pour vos travaux, avec des devis clairs pour le propriétaire ou l'assemblée de PPE."
+    },
+    "/en/renovation/buildings": {
+      "title": "Building Renovation for Letting Agencies | Batimove",
+      "description": "Works for letting agencies, co-owners and landlords in Geneva: flats between tenants, common parts, roofs, façades and basements, with one contact.",
+      "h1": "Building renovation for letting agencies and co-owners in Geneva",
+      "lead": "Stairwells, cellars, roofs, façades or flats between two tenants: one point of contact for your works, with clear quotes for the owner or the co-owners' meeting."
+    },
+    "/renovation/devis": {
+      "title": "Devis rénovation et étanchéité à Genève | Batimove",
+      "description": "Décrivez votre projet de rénovation ou d'étanchéité en 2 min. Batimove vous rappelle pour fixer une visite sur place, puis vous envoie un devis détaillé.",
+      "h1": "Devis rénovation",
+      "lead": "Décrivez votre projet de rénovation ou d'étanchéité : Batimove vous rappelle pour fixer une visite sur place, puis vous envoie un devis détaillé."
+    },
+    "/en/renovation/quote": {
+      "title": "Renovation and Waterproofing Quote in Geneva | Batimove",
+      "description": "Describe your renovation or waterproofing project in 2 minutes. Batimove calls you back to arrange a site visit, then sends you a detailed quote.",
+      "h1": "Renovation quote",
+      "lead": "Describe your renovation or waterproofing project: Batimove calls you back to arrange a site visit, then sends you a detailed quote."
+    },
+    "/livraison-installation": {
+      "title": "Livraison et installation à Genève et Vaud | Batimove",
+      "description": "Livraison de meubles et d'appareils à l'étage, montage, mise en place, reprise de l'ancien : sur demande à Genève et Vaud, prix ferme avant intervention.",
+      "h1": "Livraison et installation à Genève et dans le canton de Vaud",
+      "lead": "Un meuble acheté en magasin, une commande en ligne trop lourde, un appareil à monter à l'étage : décrivez ce qu'il faut livrer et installer, Batimove confirme ce qui est possible et vous envoie un prix."
+    },
+    "/en/delivery-installation": {
+      "title": "Delivery and Installation in Geneva and Vaud | Batimove",
+      "description": "Delivery of furniture and appliances to any floor, assembly and placing, removal of the old item: on request in Geneva and Vaud, fixed price beforehand.",
+      "h1": "Delivery and installation in Geneva and the canton of Vaud",
+      "lead": "A piece of furniture bought in a shop, an online order too heavy to carry, an appliance to take upstairs: tell us what needs delivering and installing, Batimove confirms what is possible and sends you a price."
+    },
+    "/guides": {
+      "title": "Guides déménagement Genève et Vaud | Batimove",
+      "description": "Douane Suisse-France, résiliation du bail, état des lieux, démarches et stationnement : nos guides vérifiés sur les sources officielles, Genève et Vaud.",
+      "h1": "Guides & conseils pour votre déménagement",
+      "lead": "Douane, bail, état des lieux, démarches : des guides vérifiés sur les sources officielles, écrits par l'équipe Batimove pour Genève et le canton de Vaud."
+    },
+    "/en/guides": {
+      "title": "Moving Guides for Geneva and Vaud | Batimove",
+      "description": "Switzerland-France customs, ending a lease, move-out inspections, formalities and parking: our guides, checked against official sources, Geneva and Vaud.",
+      "h1": "Guides & advice for your move",
+      "lead": "Customs, leases, move-out inspections, formalities: guides checked against official sources, written by the Batimove team for Geneva and the canton of Vaud."
+    },
+    "/guides/demenager-suisse-france-douane": {
+      "title": "Déménager entre la Suisse et la France : la douane",
+      "description": "Formulaire 18.44, inventaire, délais, alcool, véhicules et animaux, puis les règles françaises (Cerfa 10070, 846 A) : le guide douane, sources officielles.",
+      "h1": "Déménager entre la Suisse et la France : le guide de la douane",
+      "lead": "Vos meubles passent la frontière sans taxe si vous respectez quelques règles : des biens utilisés depuis au moins 6 mois, un inventaire bien fait et le bon formulaire. Ce qu'il faut préparer, dans les deux sens."
+    },
+    "/en/guides/moving-switzerland-france-customs": {
+      "title": "Moving Between Switzerland and France: Customs Guide",
+      "description": "Form 18.44, inventory, deadlines, alcohol, vehicles and pets, then the French rules (Cerfa 10070, 846 A): the customs guide, based on official sources.",
+      "h1": "Moving between Switzerland and France: the customs guide",
+      "lead": "Your furniture crosses the border duty-free if you follow a few rules: items used for at least 6 months, a proper inventory and the right form. What to prepare, in both directions."
+    },
+    "/guides/annonces-demenagement-geneve-vaud": {
+      "title": "Démarches de déménagement à Genève et Vaud | Batimove",
+      "description": "OCPM, contrôle des habitants, impôts, véhicule, SIG, Poste, Serafe : qui prévenir et quand si vous déménagez à Genève ou dans le canton de Vaud.",
+      "h1": "Déménager à Genève ou dans le canton de Vaud : toutes les démarches à annoncer",
+      "lead": "Commune, impôts, véhicule, énergie, courrier : un déménagement se prépare aussi sur le papier. Qui prévenir, dans quel délai, avec les liens officiels pour Genève et Vaud."
+    },
+    "/en/guides/moving-admin-geneva-vaud": {
+      "title": "Moving Formalities in Geneva and Vaud | Batimove",
+      "description": "OCPM, residents' office, taxes, car, utilities, Swiss Post, Serafe: who to tell and when if you move in Geneva or the canton of Vaud, with official links.",
+      "h1": "Moving in Geneva or the canton of Vaud: every formality to report",
+      "lead": "Commune, taxes, car, energy, post: a move also happens on paper. Who to tell and when, with the official links for Geneva and Vaud."
+    },
+    "/guides/resilier-bail-geneve-vaud": {
+      "title": "Résilier son bail à Genève ou Vaud : délais et termes",
+      "description": "Préavis de 3 mois, termes vaudois, signature des deux époux, locataire de remplacement : comment résilier son bail à Genève ou dans le canton de Vaud.",
+      "h1": "Résilier son bail à Genève ou dans le canton de Vaud",
+      "lead": "Trois mois de préavis, un terme à respecter, une lettre signée par les bonnes personnes : comment résilier sans perdre des mois de loyer, et comment partir plus tôt."
+    },
+    "/en/guides/ending-a-lease-geneva-vaud": {
+      "title": "Ending Your Lease in Geneva or Vaud | Batimove",
+      "description": "3 months' notice, Vaud termination dates, both spouses' signatures, replacement tenant: how to end your lease in Geneva or the canton of Vaud correctly.",
+      "h1": "Ending your lease in Geneva or the canton of Vaud",
+      "lead": "Three months' notice, a termination date to respect, a letter signed by the right people: how to give notice without losing months of rent, and how to leave earlier."
+    },
+    "/guides/etat-des-lieux-sortie": {
+      "title": "État des lieux de sortie et nettoyage : le guide",
+      "description": "Usure normale ou dégât, nettoyage attendu, checklist du rendez-vous, défauts cachés et garantie de loyer : préparer l'état des lieux de sortie en Suisse.",
+      "h1": "État des lieux de sortie et nettoyage de fin de bail : le guide complet",
+      "lead": "Le jour de l'état des lieux décide du sort de votre garantie de loyer. Ce que vous devez rendre, ce que la régie peut facturer et comment préparer le rendez-vous."
+    },
+    "/en/guides/move-out-inspection": {
+      "title": "Move-out Inspection and Cleaning: the Guide | Batimove",
+      "description": "Normal wear or damage, expected cleaning, checklist for the appointment, hidden defects and rental deposit: preparing a move-out inspection in Switzerland.",
+      "h1": "Move-out inspection and end of tenancy cleaning: the complete guide",
+      "lead": "The day of the move-out inspection decides what happens to your rental deposit. What you must hand back, what the agency can charge and how to prepare the appointment."
+    },
+    "/guides/autorisation-stationnement-demenagement": {
+      "title": "Place pour camion de déménagement à Genève et Lausanne",
+      "description": "Réserver une place pour le camion de déménagement : délais, démarches et coûts en Ville de Genève, dans les communes genevoises et à Lausanne.",
+      "h1": "Réserver une place pour le camion de déménagement à Genève et Lausanne",
+      "lead": "Un camion garé loin de l'entrée, ce sont des heures de portage en plus. Réserver l'emplacement est en principe la démarche du locataire et se prépare au moins 10 jours ouvrables à l'avance."
+    },
+    "/en/guides/moving-parking-permit": {
+      "title": "Parking Permit for a Removal Truck in Geneva | Batimove",
+      "description": "Reserving a space for the removal truck: deadlines, procedures and costs in the City of Geneva, the other Geneva communes and Lausanne, step by step.",
+      "h1": "Reserving a space for the removal truck in Geneva and Lausanne",
+      "lead": "A truck parked far from the entrance means hours of extra carrying. Reserving the space is normally the tenant's job and needs at least 10 working days' notice."
     }
   }
 }
