@@ -569,11 +569,17 @@ const GoogleRating: React.FC<{ value: number; text: string; label: string }> = (
   );
 };
 
-/** Cartão de serviço do hero: superfície branca que sobe e ganha contorno navy no hover. */
-const HERO_TILE =
-  'group relative flex h-full items-center gap-3 rounded-xl border border-glacier-line bg-white p-3 pr-8 text-left transition-[border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-[#0B1E33] hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0';
-const HERO_TILE_ICON =
-  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-200 group-hover:bg-[#0B1E33] group-hover:text-white';
+/**
+ * Célula da barra de projeto do hero. As células formam uma grade de filetes
+ * (gap-px sobre glacier-line), não cartões soltos: um painel só, dividido.
+ * No hover a célula vira glacier, o ícone fica navy e a seta aparece.
+ */
+const HERO_CELL =
+  'group relative flex h-full flex-col items-start gap-2 bg-white p-3 sm:gap-3 sm:p-4 text-left transition-colors duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-glacier focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none lg:p-5';
+const HERO_CELL_ICON =
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-200 group-hover:bg-[#0B1E33] group-hover:text-white motion-reduce:transition-none';
+const HERO_CELL_ARROW =
+  'absolute right-3 top-3 h-4 w-4 sm:right-4 sm:top-4 text-[#0B1E33] transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:right-5 lg:top-5';
 
 export const Home: React.FC = () => {
   const { lang, lp } = useLang();
@@ -603,16 +609,18 @@ export const Home: React.FC = () => {
           Em 3 segundos: nota Google, o que fazemos e onde, preço ferme, fatos
           verificáveis, uma ação principal e o telefone. Compacta em laptops baixos.
           ========================================================================= */}
-      <section className="relative overflow-hidden bg-glacier pt-4 sm:pt-6 lg:pt-8 [@media(min-width:1024px)_and_(max-height:940px)]:pt-4 [@media(min-width:1024px)_and_(max-height:760px)]:!pt-2">
+      <section className="relative overflow-hidden bg-glacier pb-10 pt-4 sm:pt-6 lg:pb-14 lg:pt-8 [@media(min-width:1024px)_and_(max-height:860px)]:pt-4">
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8 xl:gap-12">
+          {/* Composição: texto à esquerda e foto à direita; embaixo, a barra de
+              projeto em toda a largura, sobreposta à base da foto (o padrão das
+              barras de reserva). No celular a ordem é texto, barra, foto. */}
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-0">
 
-            {/* Coluna de texto: prova (estrelas Google), promessa com lugar e preço,
-                fatos em uma linha, uma ação principal e atalhos por serviço. */}
-            <div className="flex min-w-0 flex-col justify-center py-6 lg:col-span-7 lg:py-12 xl:col-span-6 [@media(min-width:1024px)_and_(max-height:860px)]:py-6">
+            {/* Texto: prova (estrelas Google), promessa com lugar e preço, fatos. */}
+            <div className="flex min-w-0 flex-col justify-center pt-4 lg:col-span-7 lg:row-start-1 lg:pb-28 lg:pt-6 [@media(min-width:1024px)_and_(max-height:860px)]:!pb-24">
               <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
-              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.1] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-5xl [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-4xl">
+              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-[#0B1E33] text-balance sm:text-4xl xl:text-[3.25rem] [@media(min-width:1024px)_and_(max-height:860px)]:mt-4 [@media(min-width:1024px)_and_(max-height:860px)]:text-[2.75rem]">
                 {c.heroTitle1}{' '}
                 <span className="text-[#0284c7]">{c.heroTitle2}</span>
               </h1>
@@ -621,7 +629,6 @@ export const Home: React.FC = () => {
                 {c.heroLead}
               </p>
 
-              {/* Fatos verificáveis, numa linha */}
               <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-base font-medium text-[#0B1E33]">
                 {c.heroTrust.map((t) => (
                   <li key={t} className="flex items-center gap-1.5">
@@ -630,86 +637,89 @@ export const Home: React.FC = () => {
                   </li>
                 ))}
               </ul>
+            </div>
 
-              {/* Início do devis: cada cartão abre o formulário já na etapa 2, com o
-                  serviço escolhido. É o ponto de ação principal do hero. */}
-              <div
-                role="group"
-                aria-labelledby="hero-projet"
-                className="mt-8 rounded-2xl border border-glacier-line bg-white p-4 shadow-raised sm:p-5 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6"
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            {/* Barra de projeto: cada célula abre o devis já na etapa 2, com o
+                serviço escolhido; a sexta leva ao site do monte-meubles. */}
+            <div
+              role="group"
+              aria-labelledby="hero-projet"
+              className="relative z-10 min-w-0 overflow-hidden rounded-2xl bg-white shadow-overlay lg:col-span-12 lg:row-start-2 lg:-mt-16"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 lg:px-5">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
                   <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
                     {c.heroPickerTitle}
                   </h2>
-                  <p className="text-sm text-slate-600">{c.heroPickerLead}</p>
+                  <p className="hidden text-sm text-slate-600 sm:block">{c.heroPickerLead}</p>
                 </div>
-                <ul className="mt-4 grid grid-cols-1 gap-2 min-[400px]:grid-cols-2 sm:gap-2.5">
-                  {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
-                    <li key={type} className="min-w-0">
-                      <Link to={lp(`/quote?type=${type}`)} className={HERO_TILE}>
-                        <span className={HERO_TILE_ICON}>
-                          <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{label}</span>
-                          <span className="mt-0.5 block text-[13px] leading-snug text-slate-600">{hint}</span>
-                        </span>
-                        <ArrowRight
-                          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0B1E33] opacity-0 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:opacity-100 motion-reduce:transition-none"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="min-w-0">
-                    <a
-                      href="https://www.locationmontecharge.ch/"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label={c.heroLiftAria}
-                      className={HERO_TILE}
-                    >
-                      <span className={HERO_TILE_ICON}>
-                        <ArrowUpFromLine className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{c.heroLiftLabel}</span>
-                        <span className="mt-0.5 block text-[13px] leading-snug text-slate-600">{c.heroLiftHint}</span>
-                      </span>
-                      <ArrowUpRight className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors duration-200 group-hover:text-[#0B1E33]" aria-hidden="true" />
-                    </a>
-                  </li>
-                </ul>
-                <p className="mt-4 flex flex-wrap items-center gap-x-2 border-t border-glacier-line pt-4 text-base text-slate-600">
+                <p className="hidden flex-wrap items-center gap-x-2 text-sm text-slate-600 sm:flex">
                   {c.heroOrCall}
                   <a
                     href="tel:0800825925"
-                    className="inline-flex items-center gap-1.5 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
+                    className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
                   >
                     <Phone className="h-4 w-4" aria-hidden="true" />
                     <span className="tabular-nums">0800 825 925</span>
                   </a>
-                  <span className="text-sm">({c.freeCall})</span>
+                  <span>({c.freeCall})</span>
                 </p>
               </div>
+
+              <ul className="grid grid-cols-2 gap-px border-t border-glacier-line bg-glacier-line sm:grid-cols-3 lg:grid-cols-6">
+                {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
+                  <li key={type} className="min-w-0">
+                    <Link to={lp(`/quote?type=${type}`)} className={HERO_CELL}>
+                      <span className={HERO_CELL_ICON}>
+                        <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{label}</span>
+                        <span className="mt-1 hidden text-[13px] leading-snug text-slate-600 sm:block">{hint}</span>
+                      </span>
+                      <ArrowRight
+                        className={`${HERO_CELL_ARROW} -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                ))}
+                <li className="min-w-0">
+                  <a
+                    href="https://www.locationmontecharge.ch/"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={c.heroLiftAria}
+                    className={HERO_CELL}
+                  >
+                    <span className={HERO_CELL_ICON}>
+                      <ArrowUpFromLine className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{c.heroLiftLabel}</span>
+                      <span className="mt-1 hidden text-[13px] leading-snug text-slate-600 sm:block">{c.heroLiftHint}</span>
+                    </span>
+                    <ArrowUpRight className={`${HERO_CELL_ARROW} text-slate-400 group-hover:text-[#0B1E33]`} aria-hidden="true" />
+                  </a>
+                </li>
+              </ul>
             </div>
 
-            {/* Foto real: o monte-meubles próprio e a frota. Emoldurada, com folga
-                embaixo para não encostar na faixa navy. */}
-            <div className="relative min-w-0 pb-8 lg:col-span-5 lg:self-center lg:pb-0 xl:col-span-6">
+            {/* Foto real: o monte-meubles próprio e a frota. No desktop ela desce
+                por trás da barra, que se apoia na sua base. */}
+            <div className="relative min-w-0 lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:pt-2">
               <img
                 src="/photos/batimove-flotte-monte-meubles-1280.webp"
                 srcSet="/photos/batimove-flotte-monte-meubles-720.webp 720w, /photos/batimove-flotte-monte-meubles-1280.webp 1280w"
-                sizes="(min-width: 1280px) 600px, (min-width: 1024px) 42vw, 100vw"
+                sizes="(min-width: 1280px) 520px, (min-width: 1024px) 40vw, 100vw"
                 alt={c.heroImgAlt}
                 width={1280}
                 height={853}
                 fetchPriority="high"
                 decoding="async"
-                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover object-[35%_50%] shadow-overlay lg:aspect-[5/4]"
+                className="block aspect-[3/2] h-auto w-full rounded-2xl object-cover object-[35%_50%] shadow-raised lg:aspect-auto lg:h-full lg:min-h-[22rem]"
               />
-              <p className="absolute bottom-12 left-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:bottom-4">
+              <p className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:top-6">
                 <Truck className="h-4 w-4 text-[#0369A1]" aria-hidden="true" />
                 {c.heroPhotoBadge}
               </p>
