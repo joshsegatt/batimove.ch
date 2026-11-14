@@ -27,6 +27,7 @@ import {
   Sparkles, 
   Warehouse, 
   ArrowUpRight, 
+  ArrowUpFromLine,
   FileText, 
   Wrench, 
   Send, 
@@ -368,9 +369,13 @@ const COPY = defineCopy(
     heroLead:
       "Appartement, maison ou bureau : nous emballons, transportons et livrons à la date convenue, avec notre propre monte-meubles si l'accès l'exige.",
     heroTrust: ['Devis sous 30 min (8h-19h)', 'Prix ferme', 'RC Pro CHF 5M', 'Joignable 7j/7'],
-    heroCta: 'Obtenir mon devis en 30 min',
     freeCall: 'appel gratuit',
-    heroShortcuts: 'Ou choisissez directement :',
+    heroPickerTitle: 'Quel est votre projet ?',
+    heroPickerLead: "Choisissez, le devis s'ouvre directement à la bonne étape.",
+    heroLiftLabel: 'Monte-meubles',
+    heroLiftHint: 'Location avec opérateur',
+    heroLiftAria: 'Location de monte-meubles, sur notre site locationmontecharge.ch (nouvel onglet)',
+    heroOrCall: 'Ou appelez le',
     heroPhotoBadge: 'Notre propre monte-meubles',
     heroImgAlt: 'Monte-meubles et camions Batimove garés devant des immeubles',
 
@@ -453,9 +458,13 @@ const COPY = defineCopy(
     heroLead:
       'Flat, house or office: we pack, transport and deliver on the agreed date, with our own furniture lift if the access requires it.',
     heroTrust: ['Quote within 30 min (8am-7pm)', 'Fixed price', 'CHF 5M liability cover', 'Available 7 days a week'],
-    heroCta: 'Get my quote in 30 min',
     freeCall: 'free call',
-    heroShortcuts: 'Or go straight to:',
+    heroPickerTitle: 'What is your project?',
+    heroPickerLead: 'Pick one and the quote form opens at the right step.',
+    heroLiftLabel: 'Furniture lift',
+    heroLiftHint: 'Hire with operator',
+    heroLiftAria: 'Furniture lift hire, on our site locationmontecharge.ch (new tab)',
+    heroOrCall: 'Or call',
     heroPhotoBadge: 'Our own furniture lift',
     heroImgAlt: 'Batimove furniture lift and vans parked in front of apartment buildings',
 
@@ -560,6 +569,12 @@ const GoogleRating: React.FC<{ value: number; text: string; label: string }> = (
   );
 };
 
+/** Cartão de serviço do hero: superfície branca que sobe e ganha contorno navy no hover. */
+const HERO_TILE =
+  'group relative flex h-full items-center gap-3 rounded-xl border border-glacier-line bg-white p-3 pr-8 text-left transition-[border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-[#0B1E33] hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7] motion-reduce:transition-none motion-reduce:hover:translate-y-0';
+const HERO_TILE_ICON =
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-200 group-hover:bg-[#0B1E33] group-hover:text-white';
+
 export const Home: React.FC = () => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
@@ -616,38 +631,67 @@ export const Home: React.FC = () => {
                 ))}
               </ul>
 
-              {/* Ação principal + telefone */}
-              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
-                <Link to={lp('/quote')} className={buttonClass('primary', 'lg')}>
-                  {c.heroCta}
-                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                </Link>
-                <a
-                  href="tel:0800825925"
-                  className="inline-flex items-center gap-2 py-2 text-lg font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
-                >
-                  <Phone className="h-5 w-5" aria-hidden="true" />
-                  <span className="tabular-nums">0800 825 925</span>
-                  <span className="text-base font-normal text-slate-600">{c.freeCall}</span>
-                </a>
-              </div>
-
-              {/* Atalhos: cada serviço abre o devis já direcionado */}
-              <div className="mt-8 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6">
-                <p id="hero-projet" className="text-sm font-semibold text-slate-600">{c.heroShortcuts}</p>
-                <ul aria-labelledby="hero-projet" className="mt-2.5 flex flex-wrap gap-2">
-                  {QUOTE_SERVICES.map((s) => localizeQuoteService(s, lang)).map(({ id: type, label, icon: Icon }) => (
-                    <li key={type}>
-                      <Link
-                        to={lp(`/quote?type=${type}`)}
-                        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-glacier-line bg-white px-3.5 text-base font-semibold text-[#0B1E33] transition-colors duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#0B1E33] hover:bg-[#0B1E33] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]"
-                      >
-                        <Icon className="h-[18px] w-[18px] text-[#0369A1] transition-colors duration-150 group-hover:text-white" strokeWidth={1.75} aria-hidden="true" />
-                        {label}
+              {/* Início do devis: cada cartão abre o formulário já na etapa 2, com o
+                  serviço escolhido. É o ponto de ação principal do hero. */}
+              <div
+                role="group"
+                aria-labelledby="hero-projet"
+                className="mt-8 rounded-2xl border border-glacier-line bg-white p-4 shadow-raised sm:p-5 [@media(min-width:1024px)_and_(max-height:860px)]:mt-6"
+              >
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
+                    {c.heroPickerTitle}
+                  </h2>
+                  <p className="text-sm text-slate-600">{c.heroPickerLead}</p>
+                </div>
+                <ul className="mt-4 grid grid-cols-1 gap-2 min-[400px]:grid-cols-2 sm:gap-2.5">
+                  {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
+                    <li key={type} className="min-w-0">
+                      <Link to={lp(`/quote?type=${type}`)} className={HERO_TILE}>
+                        <span className={HERO_TILE_ICON}>
+                          <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{label}</span>
+                          <span className="mt-0.5 block text-[13px] leading-snug text-slate-600">{hint}</span>
+                        </span>
+                        <ArrowRight
+                          className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0B1E33] opacity-0 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-hover:opacity-100 motion-reduce:transition-none"
+                          aria-hidden="true"
+                        />
                       </Link>
                     </li>
                   ))}
+                  <li className="min-w-0">
+                    <a
+                      href="https://www.locationmontecharge.ch/"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label={c.heroLiftAria}
+                      className={HERO_TILE}
+                    >
+                      <span className={HERO_TILE_ICON}>
+                        <ArrowUpFromLine className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-semibold leading-tight text-[#0B1E33]">{c.heroLiftLabel}</span>
+                        <span className="mt-0.5 block text-[13px] leading-snug text-slate-600">{c.heroLiftHint}</span>
+                      </span>
+                      <ArrowUpRight className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition-colors duration-200 group-hover:text-[#0B1E33]" aria-hidden="true" />
+                    </a>
+                  </li>
                 </ul>
+                <p className="mt-4 flex flex-wrap items-center gap-x-2 border-t border-glacier-line pt-4 text-base text-slate-600">
+                  {c.heroOrCall}
+                  <a
+                    href="tel:0800825925"
+                    className="inline-flex items-center gap-1.5 font-semibold text-[#0B1E33] transition-colors duration-150 hover:text-[#0369A1]"
+                  >
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    <span className="tabular-nums">0800 825 925</span>
+                  </a>
+                  <span className="text-sm">({c.freeCall})</span>
+                </p>
               </div>
             </div>
 
@@ -663,7 +707,7 @@ export const Home: React.FC = () => {
                 height={853}
                 fetchPriority="high"
                 decoding="async"
-                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover shadow-overlay"
+                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover object-[35%_50%] shadow-overlay lg:aspect-[5/4]"
               />
               <p className="absolute bottom-12 left-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#0B1E33] shadow-raised lg:bottom-4">
                 <Truck className="h-4 w-4 text-[#0369A1]" aria-hidden="true" />
