@@ -40,6 +40,7 @@ import { Button, buttonClass } from '../components/UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { FadeImg } from '../components/FadeImg';
+import { dropClass, dropStyle } from '../utils/reveal';
 import type { HomeLocal } from '../data/localHome';
 
 // --- Custom Duotone Vector Icons Matching Reference ---
@@ -593,17 +594,6 @@ const HERO_CELL_ICON =
   'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-200 group-hover:bg-[#0B1E33] group-hover:text-white motion-reduce:transition-none';
 const HERO_CELL_ARROW =
   'absolute right-3 top-3 h-4 w-4 sm:right-4 sm:top-4 text-[#0B1E33] transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:right-5 lg:top-5';
-
-/**
- * Entrada "que cai no lugar": o bloco desce 24px e aparece, em 700ms com a curva
- * da casa, cada item um pouco depois do anterior. Só enquanto useRevealOnce está
- * em 'pending'; com movimento reduzido nada se mexe.
- */
-const dropClass = (pending: boolean) =>
-  `transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
-    pending ? '-translate-y-6 opacity-0' : 'translate-y-0 opacity-100'
-  }`;
-const dropStyle = (i: number): React.CSSProperties => ({ transitionDelay: `${i * 110}ms` });
 
 /**
  * Seção local das páginas de lugar: o que muda numa mudança ali (notas locais em
