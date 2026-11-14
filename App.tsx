@@ -2,13 +2,14 @@ import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate, Link } from 'react-router-dom';
 import { SEO } from './components/SEO';
 import { Navbar, Footer } from './components/Layout';
+import type { RenovationId } from './data/renovation';
 import './src/performance.css'; // 60fps optimizations
 import { Home } from './pages/Home';
 import { Quote } from './pages/Quote';
 import { CookieConsent } from './components/CookieConsent';
 import { LOCALITIES, LOCAL_SERVICES, isGeneratedLocal, localPath } from './data/localities';
 import { COUNTRIES } from './data/countries';
-import { localizePath } from './i18n';
+import { ROUTE_PAIRS, alternatePath, localizePath } from './i18n';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Chargées à la demande. La page d'accueil et le formulaire de devis restent dans
@@ -27,8 +28,23 @@ const London = lazy(() => import('./pages/International').then((m) => ({ default
 const CountryPage = lazy(() => import('./pages/International').then((m) => ({ default: m.CountryPage })));
 const Lausanne = lazy(() => import('./pages/locations/Lausanne').then((m) => ({ default: m.Lausanne })));
 const Vaud = lazy(() => import('./pages/locations/Vaud').then((m) => ({ default: m.Vaud })));
+const Livraison = lazy(() => import('./pages/Livraison').then((m) => ({ default: m.Livraison })));
+const GuidesHub = lazy(() => import('./pages/Guides').then((m) => ({ default: m.GuidesHub })));
+const GuidePage = lazy(() => import('./pages/Guides').then((m) => ({ default: m.GuidePage })));
+// Batimove Rénovation: área própria, com menu e rodapé próprios (carregados só nessa área).
+const RenovationNavbar = lazy(() => import('./components/renovation/RenovationLayout').then((m) => ({ default: m.RenovationNavbar })));
+const RenovationFooter = lazy(() => import('./components/renovation/RenovationLayout').then((m) => ({ default: m.RenovationFooter })));
+const RenovationHome = lazy(() => import('./pages/Renovation').then((m) => ({ default: m.RenovationHome })));
+const RenovationServicePage = lazy(() => import('./pages/Renovation').then((m) => ({ default: m.RenovationServicePage })));
+const RenovationQuote = lazy(() => import('./pages/Renovation').then((m) => ({ default: m.RenovationQuote })));
 
 /** Écran d'attente discret pendant le chargement d'une route. */
+// Páginas de rénovation e guias: os caminhos vêm de data/i18nRoutes.json (já no bundle),
+// para o conteúdo (data/renovation.ts, data/guides.ts) só carregar com a página.
+const FR_STATIC = ROUTE_PAIRS.map(([fr]) => fr);
+const RENOVATION_PATHS = FR_STATIC.filter((p) => p.startsWith('/renovation/') && p !== '/renovation/devis');
+const GUIDE_PATHS = FR_STATIC.filter((p) => p.startsWith('/guides/'));
+
 const RouteFallback: React.FC = () => (
   <div className="min-h-[60vh] flex items-center justify-center" role="status" aria-live="polite">
     <span className="sr-only">Chargement de la page…</span>
@@ -72,6 +88,9 @@ const PAGES: [string, React.ReactElement][] = [
   ['/debarras', <Debarras />],
   ['/nettoyage-fin-de-bail', <Nettoyage />],
   ['/garde-meubles', <GardeMeubles />],
+  ['/livraison-installation', <Livraison />],
+  ['/guides', <GuidesHub />],
+  ...GUIDE_PATHS.map((p): [string, React.ReactElement] => [p, <GuidePage slug={p.slice('/guides/'.length)} />]),
   ['/demenagement-international', <International />],
   ['/demenagement-londres', <London />],
   ...COUNTRIES.map((p): [string, React.ReactElement] => [p.path, <CountryPage slug={p.slug} />]),
@@ -86,6 +105,9 @@ const PAGES: [string, React.ReactElement][] = [
   ['/legal', <Legal type="impressum" />],
   ['/quote', <Quote />],
   ['/quote/:serviceId', <Quote />],
+  ['/renovation', <RenovationHome />],
+  ...RENOVATION_PATHS.map((p): [string, React.ReactElement] => [p, <RenovationServicePage id={p.slice('/renovation/'.length) as RenovationId} />]),
+  ['/renovation/devis', <RenovationQuote />],
 ];
 
 /** /services?type=x -> /quote?type=x (no idioma da página). */
@@ -111,9 +133,19 @@ const NotFound: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
+  // A área Rénovation tem menu e rodapé próprios: quem procura rénovation não cai no site de mudança.
+  const { pathname } = useLocation();
+  const frPath = alternatePath(pathname, 'fr');
+  const isReno = frPath === '/renovation' || frPath.startsWith('/renovation/');
   return (
     <div className="flex flex-col min-h-screen font-sans text-slate-900 bg-slate-50 antialiased selection:bg-batimove-blue/20 selection:text-batimove-blue">
-      <Navbar />
+      {isReno ? (
+        <Suspense fallback={<div className="h-[68px] border-b border-reno-line bg-white md:h-[101px]" />}>
+          <RenovationNavbar />
+        </Suspense>
+      ) : (
+        <Navbar />
+      )}
       <main className="flex-grow">
         <Suspense fallback={<RouteFallback />}>
         <Routes>
@@ -159,7 +191,13 @@ const AppContent: React.FC = () => {
         </Routes>
         </Suspense>
       </main>
-      <Footer />
+      {isReno ? (
+        <Suspense fallback={null}>
+          <RenovationFooter />
+        </Suspense>
+      ) : (
+        <Footer />
+      )}
       <CookieConsent />
       <WhatsAppButton />
     </div>

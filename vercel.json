@@ -500,6 +500,150 @@
             "destination": "/en/moving-to-the-uk/index.html"
         },
         {
+            "source": "/renovation",
+            "destination": "/renovation/index.html"
+        },
+        {
+            "source": "/en/renovation",
+            "destination": "/en/renovation/index.html"
+        },
+        {
+            "source": "/renovation/appartement-maison",
+            "destination": "/renovation/appartement-maison/index.html"
+        },
+        {
+            "source": "/en/renovation/flats-and-houses",
+            "destination": "/en/renovation/flats-and-houses/index.html"
+        },
+        {
+            "source": "/renovation/salle-de-bain",
+            "destination": "/renovation/salle-de-bain/index.html"
+        },
+        {
+            "source": "/en/renovation/bathroom",
+            "destination": "/en/renovation/bathroom/index.html"
+        },
+        {
+            "source": "/renovation/cuisine",
+            "destination": "/renovation/cuisine/index.html"
+        },
+        {
+            "source": "/en/renovation/kitchen",
+            "destination": "/en/renovation/kitchen/index.html"
+        },
+        {
+            "source": "/renovation/peinture",
+            "destination": "/renovation/peinture/index.html"
+        },
+        {
+            "source": "/en/renovation/painting",
+            "destination": "/en/renovation/painting/index.html"
+        },
+        {
+            "source": "/renovation/sols",
+            "destination": "/renovation/sols/index.html"
+        },
+        {
+            "source": "/en/renovation/flooring",
+            "destination": "/en/renovation/flooring/index.html"
+        },
+        {
+            "source": "/renovation/etancheite-toiture-terrasse",
+            "destination": "/renovation/etancheite-toiture-terrasse/index.html"
+        },
+        {
+            "source": "/en/renovation/roof-terrace-waterproofing",
+            "destination": "/en/renovation/roof-terrace-waterproofing/index.html"
+        },
+        {
+            "source": "/renovation/etancheite-sous-sol",
+            "destination": "/renovation/etancheite-sous-sol/index.html"
+        },
+        {
+            "source": "/en/renovation/basement-waterproofing",
+            "destination": "/en/renovation/basement-waterproofing/index.html"
+        },
+        {
+            "source": "/renovation/facades",
+            "destination": "/renovation/facades/index.html"
+        },
+        {
+            "source": "/en/renovation/facades",
+            "destination": "/en/renovation/facades/index.html"
+        },
+        {
+            "source": "/renovation/immeubles",
+            "destination": "/renovation/immeubles/index.html"
+        },
+        {
+            "source": "/en/renovation/buildings",
+            "destination": "/en/renovation/buildings/index.html"
+        },
+        {
+            "source": "/renovation/devis",
+            "destination": "/renovation/devis/index.html"
+        },
+        {
+            "source": "/en/renovation/quote",
+            "destination": "/en/renovation/quote/index.html"
+        },
+        {
+            "source": "/livraison-installation",
+            "destination": "/livraison-installation/index.html"
+        },
+        {
+            "source": "/en/delivery-installation",
+            "destination": "/en/delivery-installation/index.html"
+        },
+        {
+            "source": "/guides",
+            "destination": "/guides/index.html"
+        },
+        {
+            "source": "/en/guides",
+            "destination": "/en/guides/index.html"
+        },
+        {
+            "source": "/guides/demenager-suisse-france-douane",
+            "destination": "/guides/demenager-suisse-france-douane/index.html"
+        },
+        {
+            "source": "/en/guides/moving-switzerland-france-customs",
+            "destination": "/en/guides/moving-switzerland-france-customs/index.html"
+        },
+        {
+            "source": "/guides/annonces-demenagement-geneve-vaud",
+            "destination": "/guides/annonces-demenagement-geneve-vaud/index.html"
+        },
+        {
+            "source": "/en/guides/moving-admin-geneva-vaud",
+            "destination": "/en/guides/moving-admin-geneva-vaud/index.html"
+        },
+        {
+            "source": "/guides/resilier-bail-geneve-vaud",
+            "destination": "/guides/resilier-bail-geneve-vaud/index.html"
+        },
+        {
+            "source": "/en/guides/ending-a-lease-geneva-vaud",
+            "destination": "/en/guides/ending-a-lease-geneva-vaud/index.html"
+        },
+        {
+            "source": "/guides/etat-des-lieux-sortie",
+            "destination": "/guides/etat-des-lieux-sortie/index.html"
+        },
+        {
+            "source": "/en/guides/move-out-inspection",
+            "destination": "/en/guides/move-out-inspection/index.html"
+        },
+        {
+            "source": "/guides/autorisation-stationnement-demenagement",
+            "destination": "/guides/autorisation-stationnement-demenagement/index.html"
+        },
+        {
+            "source": "/en/guides/moving-parking-permit",
+            "destination": "/en/guides/moving-parking-permit/index.html"
+        },
+        {
             "source": "/debarras-geneve",
             "destination": "/debarras-geneve/index.html"
         },
