@@ -153,7 +153,7 @@ A rénovation é uma segunda atividade, com menu, rodapé e devis próprios. Mes
 - **Graphite** (#171A1D, `reno-ink`): texto, faixas escuras, rodapé. Hover de superfícies grafite: `reno-raise` (#262B30).
 - **Pierre** (#F4F1EB, `reno-stone`; borda `reno-line` #E2DBCF): faixas claras, no papel do glacier.
 - **Terracotta** (#A3472A, `reno-clay`; hover #873A22; fundo suave `reno-clay-soft` #F3E5DD): o único destaque, botão principal e números. Texto branco sobre ele: 6:1; ele sobre branco: 6:1; sobre pierre: 5,3:1. Sobre grafite, o destaque passa a #E4A58C.
-- Sem fotos ainda: o hero usa um quadriculado fino de planta de obra (some nas bordas) e um índice numerado das prestações. Quando chegarem fotos reais de obras, elas entram no lugar do índice, nunca imagens de banco.
+- **Fotos de matéria:** hero grafite com uma foto de matéria (enduit à la chaux e terre cuite) dissolvida no grafite do lado do texto, e o seletor das prestações apoiado na base, como no hero da mudança. Os cartões de prestação levam close-ups de materiais (zellige, pedra e carvalho, chaux, parquet, membrana de étanchéité, fachada genebrina), gerados por IA: matérias e detalhes, sem pessoas e sem obra "pronta", e nunca legendados como chantiers da Batimove. Quando chegarem fotos reais de obras, elas substituem estas.
 
 ### Named Rules
 **The One Accent Rule.** O Bleu Suisse é o único destaque. Se dois elementos vizinhos competem em azul, um deles volta ao navy.
