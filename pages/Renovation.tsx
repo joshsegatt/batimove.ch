@@ -2,6 +2,9 @@ import React, { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, Check, ChevronDown, ChevronRight, Loader2, Phone } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import { FadeImg } from '../components/FadeImg';
+import { useRevealOnce } from '../hooks/useRevealOnce';
+import { dropClass, dropStyle, lineStyle } from '../utils/reveal';
 import { RENO_BTN } from '../components/renovation/RenovationLayout';
 import { WhatsappIcon } from '../components/WhatsAppButton';
 import {
@@ -26,16 +29,18 @@ const ORIGIN = 'https://www.batimove.ch';
 
 const COPY = defineCopy(
   {
-    eyebrow: 'Batimove Rénovation · Genève',
     h1: 'Rénovation et étanchéité à Genève.',
     h1Accent: 'Un seul interlocuteur.',
     lead: "Appartements, maisons et immeubles : nous coordonnons vos travaux avec des artisans qualifiés et assurés, et nous pouvons vider, stocker et réinstaller vos meubles le temps du chantier.",
     cta: 'Décrire mon projet',
+    heroAlt: 'Mur enduit à la chaux et sol en terre cuite dans la lumière du soir',
+    pickerTitle: 'Quel est votre projet ?',
+    pickerLead: 'Choisissez, le devis s’ouvre avec la bonne prestation.',
+    pickerOther: 'Autre projet',
     freeCall: 'appel gratuit',
     indexTitle: 'Nos prestations',
     servicesTitle: 'Ce que nous rénovons',
     servicesLead: "De la pièce d'eau à la toiture, chaque prestation a sa page : ce qui est compris, quand nous appeler et les questions fréquentes.",
-    waterEyebrow: 'Étanchéité',
     waterTitle: 'Une infiltration ne se repeint pas.',
     waterText:
       "Une tache qui revient, une peinture qui cloque, du salpêtre au bas d'un mur : ce sont des symptômes. Avant toute finition, nous cherchons d'où vient l'eau, puis nous traitons la cause.",
@@ -46,8 +51,8 @@ const COPY = defineCopy(
       'Eau au sol après de fortes pluies',
     ],
     waterLinks: 'Voir la prestation',
+    waterAlt: 'Terrasse carrelée et écoulement de sol après la pluie',
     stepsTitle: 'Comment se passe un chantier',
-    synergyEyebrow: 'Notre différence',
     synergyTitle: 'Rénover sans rien porter vous-même.',
     synergyText: "Batimove est d'abord une entreprise de déménagement. Pour un chantier, tout est sous le même toit :",
     synergyItems: [
@@ -56,7 +61,6 @@ const COPY = defineCopy(
       { text: 'Nettoyage de fin de chantier', to: '/nettoyage-fin-de-bail' },
       { text: 'Réinstallation une fois le logement prêt', to: '/' },
     ],
-    proEyebrow: 'Régies, PPE et propriétaires',
     proTitle: 'Un interlocuteur pour tout un immeuble.',
     proText:
       "Remise en état entre deux locataires, parties communes, toitures, façades et sous-sols. Devis clairs, avec variantes si besoin, pour le propriétaire ou l'assemblée de PPE.",
@@ -74,16 +78,18 @@ const COPY = defineCopy(
     serviceCta: 'Demander un devis',
   },
   {
-    eyebrow: 'Batimove Renovation · Geneva',
     h1: 'Renovation and waterproofing in Geneva.',
     h1Accent: 'One point of contact.',
     lead: 'Flats, houses and apartment buildings: we coordinate your works with qualified, insured tradespeople, and we can empty, store and bring back your furniture for the duration of the job.',
     cta: 'Describe my project',
+    heroAlt: 'Lime plaster wall and terracotta floor in the evening light',
+    pickerTitle: 'What is your project?',
+    pickerLead: 'Pick one and the quote opens with the right service.',
+    pickerOther: 'Another project',
     freeCall: 'free call',
     indexTitle: 'Our services',
     servicesTitle: 'What we renovate',
     servicesLead: 'From bathrooms to roofs, each service has its own page: what is included, when to call us and frequently asked questions.',
-    waterEyebrow: 'Waterproofing',
     waterTitle: 'You cannot paint over a leak.',
     waterText:
       'A stain that comes back, blistering paint, saltpetre at the base of a wall: these are symptoms. Before any finishing work, we find where the water comes from, then we treat the cause.',
@@ -94,8 +100,8 @@ const COPY = defineCopy(
       'Water on the floor after heavy rain',
     ],
     waterLinks: 'See the service',
+    waterAlt: 'Tiled terrace and floor drain after rain',
     stepsTitle: 'How a renovation works',
-    synergyEyebrow: 'What sets us apart',
     synergyTitle: 'Renovate without lifting a box.',
     synergyText: 'Batimove is first a removals company. For a renovation, everything is under one roof:',
     synergyItems: [
@@ -104,7 +110,6 @@ const COPY = defineCopy(
       { text: 'Post-construction cleaning', to: '/nettoyage-fin-de-bail' },
       { text: 'Everything moved back once the home is ready', to: '/' },
     ],
-    proEyebrow: 'Letting agencies, co-owners and landlords',
     proTitle: 'One contact for a whole building.',
     proText:
       'Making good between tenants, common parts, roofs, façades and basements. Clear quotes, with options where useful, for the owner or the co-owners’ meeting.',
@@ -158,10 +163,6 @@ const faqSchema = (items: FaqItem[]) => ({
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-const Eyebrow: React.FC<{ children: React.ReactNode; tone?: 'light' | 'dark' }> = ({ children, tone = 'light' }) => (
-  <p className={`text-sm font-semibold uppercase tracking-[0.08em] ${tone === 'light' ? 'text-reno-clay' : 'text-[#E4A58C]'}`}>{children}</p>
-);
-
 const PhoneLink: React.FC<{ label: string; tone?: 'light' | 'dark' }> = ({ label, tone = 'light' }) => (
   <a
     href="tel:0800825925"
@@ -175,8 +176,55 @@ const PhoneLink: React.FC<{ label: string; tone?: 'light' | 'dark' }> = ({ label
   </a>
 );
 
-/** Cartão de prestação: ícone, nome, linha de apoio; sobe no hover. */
-const ServiceCard: React.FC<{ id: RenovationId; index?: number; featured?: boolean }> = ({ id, index, featured }) => {
+/** Movimento do ícone no hover (classes em src/index.css): o pincel e o piso inclinam, o resto sobe. */
+const ICON_MOTION: Partial<Record<RenovationId, string>> = { peinture: 'icon-tilt', sols: 'icon-tilt' };
+
+/**
+ * Fotos de matéria (geradas por IA): close-ups de materiais e detalhes, sem
+ * pessoas e sem obra "pronta", para não se passarem por chantiers da Batimove.
+ * Quando chegarem fotos reais de obras, elas substituem estas.
+ */
+const RENO_IMG = {
+  hero: '/photos/reno-matiere',
+  zellige: '/photos/reno-zellige',
+  cuisine: '/photos/reno-cuisine',
+  chaux: '/photos/reno-chaux',
+  parquet: '/photos/reno-parquet',
+  toit: '/photos/reno-toit',
+  facade: '/photos/reno-facade',
+  plans: '/photos/reno-plans',
+  cave: '/photos/reno-cave',
+  escalier: '/photos/reno-escalier',
+  balcon: '/photos/reno-balcon',
+};
+const SERVICE_IMG: Record<RenovationId, string> = {
+  'appartement-maison': RENO_IMG.plans,
+  'salle-de-bain': RENO_IMG.zellige,
+  cuisine: RENO_IMG.cuisine,
+  peinture: RENO_IMG.chaux,
+  sols: RENO_IMG.parquet,
+  'etancheite-toiture-terrasse': RENO_IMG.toit,
+  'etancheite-sous-sol': RENO_IMG.cave,
+  facades: RENO_IMG.facade,
+  immeubles: RENO_IMG.escalier,
+};
+/** Foto 4:3 responsiva (640 / 1200); a do hero também existe em 1280. */
+const imgSet = (base: string) => ({
+  src: `${base}-640.webp`,
+  srcSet: `${base}-640.webp 640w, ${base}-1200.webp 1200w`,
+});
+
+/** Célula do seletor do hero: superfície branca que fica pierre no hover; ícone grafite que se mexe. */
+const PICK_CELL =
+  'group flex h-full items-center gap-3 bg-white px-4 py-3.5 transition-colors duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-reno-stone focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none lg:px-5 lg:py-4';
+const PICK_ICON =
+  'grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-reno-stone text-reno-ink transition-colors duration-200 group-hover:bg-reno-ink group-hover:text-white motion-reduce:transition-none';
+
+/**
+ * Cartão de prestação. No hover: sobe 4px, a sombra passa a raised, um filete
+ * terracota se desenha no topo e o ícone fica grafite e se mexe.
+ */
+const ServiceCard: React.FC<{ id: RenovationId; featured?: boolean }> = ({ id, featured }) => {
   const { lang, lp } = useLang();
   const s = renovationById(id);
   const c = s[lang];
@@ -184,19 +232,32 @@ const ServiceCard: React.FC<{ id: RenovationId; index?: number; featured?: boole
   return (
     <Link
       to={lp(s.path)}
-      className="group relative flex h-full flex-col rounded-2xl border border-reno-line bg-white p-5 transition-[border-color,box-shadow,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-reno-ink hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-reno-line bg-white p-5 shadow-rest transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
     >
-      <div className="flex items-start justify-between">
-        <span className="grid h-11 w-11 place-items-center rounded-xl bg-reno-stone text-reno-ink transition-colors duration-200 group-hover:bg-reno-ink group-hover:text-white">
-          <Icon className="h-[22px] w-[22px]" strokeWidth={1.75} aria-hidden="true" />
-        </span>
-        {index !== undefined && <span className="font-mono text-sm text-slate-400 tabular-nums">{pad(index)}</span>}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-reno-clay transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+      />
+      <div className={`-mx-5 -mt-5 overflow-hidden bg-reno-stone ${featured ? 'h-48 sm:h-56' : 'h-44'}`}>
+        <FadeImg
+          {...imgSet(SERVICE_IMG[id])}
+          sizes={featured ? '(min-width: 1024px) 800px, 100vw' : '(min-width: 1024px) 400px, 100vw'}
+          alt=""
+          width={1200}
+          height={900}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] motion-reduce:transition-none"
+        />
       </div>
-      <h3 className={`mt-5 font-display font-medium tracking-tight text-reno-ink ${featured ? 'text-2xl lg:text-3xl' : 'text-xl'}`}>{c.name}</h3>
+      <span className="relative -mt-6 grid h-12 w-12 place-items-center rounded-lg bg-white text-reno-ink shadow-raised ring-1 ring-reno-line transition-colors duration-300 group-hover:bg-reno-ink group-hover:text-white group-hover:ring-reno-ink motion-reduce:transition-none">
+        <Icon className={`h-[22px] w-[22px] ${ICON_MOTION[id] ?? 'icon-lift'}`} strokeWidth={1.75} aria-hidden="true" />
+      </span>
+      <h3 className={`mt-4 font-display font-medium tracking-tight text-reno-ink ${featured ? 'text-2xl lg:text-3xl' : 'text-xl'}`}>{c.name}</h3>
       <p className="mt-1.5 text-base leading-relaxed text-slate-600">{c.summary}</p>
       <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-base font-semibold text-reno-clay">
         {c.hint}
-        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
       </span>
     </Link>
   );
@@ -205,15 +266,21 @@ const ServiceCard: React.FC<{ id: RenovationId; index?: number; featured?: boole
 const Steps: React.FC<{ title: string; tone?: 'stone' | 'white' }> = ({ title, tone = 'white' }) => {
   const { lang } = useLang();
   const steps = RENOVATION_COMMON[lang].steps;
+  const reveal = useRevealOnce<HTMLOListElement>(0.25);
   return (
     <section aria-labelledby="reno-steps" className={tone === 'stone' ? 'bg-reno-stone' : 'bg-white'}>
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <h2 id="reno-steps" className="font-display text-3xl font-medium tracking-tight text-reno-ink lg:text-4xl">
           {title}
         </h2>
-        <ol className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ol ref={reveal.ref} className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((st, i) => (
-            <li key={st.title} className="border-t-2 border-reno-ink pt-5">
+            <li key={st.title} className="relative border-t-2 border-reno-line pt-5">
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 -top-0.5 h-0.5 origin-left bg-reno-ink transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                style={lineStyle(reveal.pending, i * 220)}
+              />
               <span className="font-mono text-sm text-reno-clay tabular-nums">{pad(i + 1)}</span>
               <h3 className="mt-2 font-display text-xl font-medium tracking-tight text-reno-ink">{st.title}</h3>
               <p className="mt-2 text-base leading-relaxed text-slate-600">{st.text}</p>
@@ -233,7 +300,7 @@ const Faq: React.FC<{ title: string; items: FaqItem[]; tone?: 'stone' | 'white' 
       </h2>
       <div className="divide-y divide-reno-line border-y border-reno-line lg:col-span-8">
         {items.map((f) => (
-          <details key={f.q} className="group">
+          <details key={f.q} className="faq-item group">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold text-reno-ink transition-colors duration-150 hover:text-reno-clay [&::-webkit-details-marker]:hidden">
               {f.q}
               <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
@@ -277,6 +344,11 @@ export const RenovationHome: React.FC = () => {
   const c = COPY[lang];
   const common = RENOVATION_COMMON[lang];
   const groups: RenovationGroup[] = ['interieur', 'batiment'];
+  // Entradas ao rolar: os cartões de prestação descem para o lugar; as linhas da
+  // étanchéité se desenham (o mesmo traço das etapas).
+  const servicesReveal = useRevealOnce<HTMLDivElement>(0.1);
+  const waterReveal = useRevealOnce<HTMLUListElement>(0.3);
+  const trustReveal = useRevealOnce<HTMLUListElement>(0.3);
   const schema = useMemo(
     () => [
       { '@context': 'https://schema.org', ...PROVIDER, description: c.lead },
@@ -284,87 +356,109 @@ export const RenovationHome: React.FC = () => {
     ],
     [lang, c.lead]
   );
-  let n = 0;
 
   return (
-    <div className="bg-white text-reno-ink">
+    <div className="bg-white text-reno-ink selection:bg-reno-clay selection:text-white">
       <SEO schema={schema} />
 
-      {/* HERO: promessa, prova e ação; à direita, o índice numerado das prestações */}
-      <section className="relative overflow-hidden bg-reno-stone">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={BLUEPRINT} />
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
-          <div className="flex flex-col justify-center lg:col-span-7">
-            <Eyebrow>{c.eyebrow}</Eyebrow>
-            <h1 className="mt-4 font-display text-4xl font-medium leading-[1.05] tracking-tight text-balance sm:text-5xl xl:text-6xl">
-              {c.h1} <span className="text-reno-clay">{c.h1Accent}</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600 xl:text-xl">{c.lead}</p>
-            <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-base font-medium">
-              {common.trust.slice(0, 3).map((t) => (
-                <li key={t.title} className="flex items-center gap-1.5">
-                  <Check className="h-4 w-4 shrink-0 text-reno-clay" strokeWidth={2.5} aria-hidden="true" />
-                  {t.title}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <Link to={lp('/renovation/devis')} className={`${RENO_BTN} h-12 px-6 text-lg`}>
-                {c.cta}
-                <ChevronRight className="h-5 w-5" aria-hidden="true" />
-              </Link>
-              <PhoneLink label={c.freeCall} />
-            </div>
+      {/* HERO grafite: matéria em foto à direita (dissolvida no grafite do lado do
+          texto), promessa à esquerda e, na base, o seletor de prestações que desce
+          sobre a faixa pierre (o mesmo gesto do hero da mudança). */}
+      <section className="relative">
+        <div className="relative isolate bg-reno-ink text-white">
+          <div className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%]">
+            <img
+              src={`${RENO_IMG.hero}-1280.webp`}
+              srcSet={`${RENO_IMG.hero}-800.webp 800w, ${RENO_IMG.hero}-1280.webp 1280w, ${RENO_IMG.hero}-1920.webp 1920w`}
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              alt={c.heroAlt}
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              decoding="async"
+              className="block aspect-[16/10] w-full object-cover sm:aspect-[2/1] lg:aspect-auto lg:h-full"
+            />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-reno-ink via-reno-ink/60 to-transparent lg:hidden" />
+            <div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-[35%] bg-gradient-to-r from-reno-ink via-reno-ink/80 to-transparent lg:block" />
           </div>
 
-          <nav aria-labelledby="reno-index" className="rounded-2xl border border-reno-line bg-white/90 p-5 shadow-raised backdrop-blur-sm sm:p-6 lg:col-span-5">
-            <h2 id="reno-index" className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-500">
-              {c.indexTitle}
-            </h2>
-            {groups.map((g) => (
-              <div key={g} className="mt-4">
-                <p className="text-sm font-semibold text-reno-clay">{common.groups[g]}</p>
-                <ul className="mt-1 divide-y divide-reno-line">
-                  {RENOVATION_SERVICES.filter((s) => s.group === g).map((s) => {
-                    n += 1;
-                    return (
-                      <li key={s.id}>
-                        <Link
-                          to={lp(s.path)}
-                          className="group flex items-center gap-4 py-2.5 transition-colors duration-150 hover:text-reno-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-reno-clay"
-                        >
-                          <span className="w-6 font-mono text-sm text-slate-400 tabular-nums">{pad(n)}</span>
-                          <span className="flex-1 text-lg font-semibold leading-snug">{s[lang].name}</span>
-                          <ArrowRight
-                            className="h-4 w-4 text-slate-300 transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:text-reno-clay"
-                            aria-hidden="true"
-                          />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="-mt-12 max-w-xl pb-12 sm:-mt-20 lg:mt-0 lg:max-w-[33rem] lg:pb-48 lg:pt-14 xl:pt-16">
+              <h1 className="font-display text-4xl font-medium leading-[1.04] tracking-tight text-balance sm:text-5xl xl:text-[3.5rem]">
+                {c.h1} <span className="text-[#E4A58C]">{c.h1Accent}</span>
+              </h1>
+              <p className="mt-6 text-lg leading-relaxed text-stone-300 xl:text-xl">{c.lead}</p>
+              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <Link to={lp('/renovation/devis')} className={`${RENO_BTN} h-12 px-6 text-lg`}>
+                  {c.cta}
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </Link>
+                <PhoneLink label={c.freeCall} tone="dark" />
               </div>
-            ))}
-          </nav>
-        </div>
-      </section>
+            </div>
 
-      {/* Garantias, em faixa grafite */}
-      <section aria-label={common.trust.map((t) => t.title).join(', ')} className="bg-reno-ink text-white">
-        <ul className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8 lg:py-14">
-          {common.trust.map((t) => (
-            <li key={t.title} className="border-t border-white/15 pt-5">
-              <h3 className="font-display text-lg font-medium">{t.title}</h3>
-              <p className="mt-2 text-base leading-relaxed text-stone-300">{t.text}</p>
-            </li>
-          ))}
-        </ul>
+            {/* Seletor: cada célula abre o devis com a prestação já escolhida. */}
+            <nav
+              aria-labelledby="reno-index"
+              className="relative z-10 -mb-40 overflow-hidden rounded-xl bg-white text-reno-ink shadow-modal sm:-mb-32 lg:-mt-32 lg:-mb-24"
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-4 py-4 lg:px-5">
+                <h2 id="reno-index" className="font-display text-xl font-medium tracking-tight">{c.pickerTitle}</h2>
+                <p className="hidden text-sm text-slate-600 sm:block">{c.pickerLead}</p>
+              </div>
+              <ul className="grid grid-cols-2 gap-px border-t border-reno-line bg-reno-line sm:grid-cols-3 lg:grid-cols-5">
+                {RENOVATION_SERVICES.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <li key={s.id} className="min-w-0">
+                      <Link to={lp(`/renovation/devis?type=${s.id}`)} className={PICK_CELL}>
+                        <span className={PICK_ICON}>
+                          <Icon className={`h-5 w-5 ${ICON_MOTION[s.id] ?? 'icon-lift'}`} strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0 text-[15px] font-semibold leading-snug">{s[lang].name}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+                <li className="min-w-0">
+                  <Link to={lp('/renovation/devis')} className={`${PICK_CELL} bg-reno-clay-soft hover:bg-[#EEDACF]`}>
+                    <span className={`${PICK_ICON} bg-white text-reno-clay`}>
+                      <ArrowRight className="icon-drive h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 text-[15px] font-semibold leading-snug text-reno-clay">{c.pickerOther}</span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        {/* Faixa pierre: as quatro garantias, com o filete de cada uma se
+            desenhando quando entram na tela (o traço das etapas). */}
+        <div className="bg-reno-stone">
+          <ul
+            ref={trustReveal.ref}
+            aria-label={common.trust.map((t) => t.title).join(', ')}
+            className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-14 pt-48 sm:grid-cols-2 sm:px-6 sm:pt-40 lg:grid-cols-4 lg:px-8 lg:pb-16 lg:pt-36"
+          >
+            {common.trust.map((t, i) => (
+              <li key={t.title} className="relative border-t border-reno-line pt-5">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 -top-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                  style={lineStyle(trustReveal.pending, i * 180)}
+                />
+                <h3 className="font-display text-lg font-medium tracking-tight">{t.title}</h3>
+                <p className="mt-2 text-base leading-relaxed text-slate-600">{t.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Prestações por grupo */}
       <section aria-labelledby="reno-services" className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div ref={servicesReveal.ref} className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-2xl">
             <h2 id="reno-services" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
               {c.servicesTitle}
@@ -373,7 +467,7 @@ export const RenovationHome: React.FC = () => {
           </div>
           {groups.map((g) => (
             <div key={g} className="mt-12">
-              <h3 className="border-b border-reno-line pb-3 text-sm font-semibold uppercase tracking-[0.08em] text-slate-500">
+              <h3 className="border-b border-reno-line pb-3 font-display text-xl font-medium tracking-tight text-reno-ink">
                 {common.groups[g]}
               </h3>
               {/* Intérieur: 5 cartões, o primeiro em destaque (2 colunas); Bâtiment: 4 numa linha */}
@@ -381,8 +475,8 @@ export const RenovationHome: React.FC = () => {
                 {RENOVATION_SERVICES.filter((s) => s.group === g).map((s, i) => {
                   const featured = g === 'interieur' && i === 0;
                   return (
-                    <li key={s.id} className={featured ? 'sm:col-span-2' : undefined}>
-                      <ServiceCard id={s.id} index={RENOVATION_SERVICES.indexOf(s) + 1} featured={featured} />
+                    <li key={s.id} className={`${featured ? 'sm:col-span-2 ' : ''}${dropClass(servicesReveal.pending)}`} style={dropStyle(i)}>
+                      <ServiceCard id={s.id} featured={featured} />
                     </li>
                   );
                 })}
@@ -396,16 +490,30 @@ export const RenovationHome: React.FC = () => {
       <section aria-labelledby="reno-water" className="bg-reno-stone">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
           <div className="lg:col-span-5">
-            <Eyebrow>{c.waterEyebrow}</Eyebrow>
-            <h2 id="reno-water" className="mt-3 font-display text-3xl font-medium tracking-tight lg:text-4xl">
+            <h2 id="reno-water" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
               {c.waterTitle}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.waterText}</p>
+            <FadeImg
+              {...imgSet(RENO_IMG.balcon)}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              alt={c.waterAlt}
+              width={1200}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className="mt-8 aspect-[4/3] w-full rounded-xl object-cover shadow-raised"
+            />
           </div>
           <div className="lg:col-span-7">
-            <ul className="divide-y divide-reno-line border-y border-reno-line">
-              {c.waterSigns.map((sign) => (
-                <li key={sign} className="flex items-start gap-3 py-4 text-lg">
+            <ul ref={waterReveal.ref} className="border-t border-reno-line">
+              {c.waterSigns.map((sign, i) => (
+                <li key={sign} className="relative flex items-start gap-3 border-b border-reno-line py-4 text-lg">
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 -bottom-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                    style={lineStyle(waterReveal.pending, i * 160)}
+                  />
                   <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-reno-clay" />
                   {sign}
                 </li>
@@ -418,7 +526,7 @@ export const RenovationHome: React.FC = () => {
                   <Link
                     key={id}
                     to={lp(s.path)}
-                    className="group flex items-center justify-between gap-3 rounded-xl border border-reno-line bg-white px-4 py-3.5 transition-[border-color,box-shadow] duration-200 hover:border-reno-ink hover:shadow-raised"
+                    className="group flex items-center justify-between gap-3 rounded-xl border border-reno-line bg-white px-4 py-3.5 shadow-rest transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                   >
                     <span>
                       <span className="block text-sm text-slate-500">{c.waterLinks}</span>
@@ -439,8 +547,7 @@ export const RenovationHome: React.FC = () => {
       <section aria-labelledby="reno-synergy" className="bg-reno-ink text-white">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
           <div className="lg:col-span-5">
-            <Eyebrow tone="dark">{c.synergyEyebrow}</Eyebrow>
-            <h2 id="reno-synergy" className="mt-3 font-display text-3xl font-medium tracking-tight lg:text-4xl">
+            <h2 id="reno-synergy" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
               {c.synergyTitle}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-stone-300">{c.synergyText}</p>
@@ -450,7 +557,7 @@ export const RenovationHome: React.FC = () => {
               <li key={it.text}>
                 <Link
                   to={lp(it.to)}
-                  className="group flex h-full flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors duration-200 hover:border-white/25 hover:bg-reno-raise"
+                  className="group flex h-full flex-col justify-between gap-6 rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-[background-color,border-color,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-white/25 hover:bg-reno-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E4A58C] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                 >
                   <span className="font-mono text-sm text-[#E4A58C] tabular-nums">{pad(i + 1)}</span>
                   <span className="flex items-end justify-between gap-3 text-lg font-medium leading-snug">
@@ -467,10 +574,9 @@ export const RenovationHome: React.FC = () => {
       {/* Régies e PPE */}
       <section aria-labelledby="reno-pro" className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <div className="grid grid-cols-1 items-end gap-8 rounded-3xl border border-reno-line bg-reno-stone p-8 sm:p-10 lg:grid-cols-12 lg:p-12">
+          <div className="grid grid-cols-1 items-end gap-8 rounded-xl border border-reno-line bg-reno-stone p-8 sm:p-10 lg:grid-cols-12 lg:p-12">
             <div className="lg:col-span-8">
-              <Eyebrow>{c.proEyebrow}</Eyebrow>
-              <h2 id="reno-pro" className="mt-3 font-display text-3xl font-medium tracking-tight lg:text-4xl">
+              <h2 id="reno-pro" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
                 {c.proTitle}
               </h2>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">{c.proText}</p>
@@ -505,6 +611,7 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
   const sc = s[lang];
   const Icon = s.icon;
   const quoteTo = `/renovation/devis?type=${id}`;
+  const signsReveal = useRevealOnce<HTMLUListElement>(0.25);
   const others = RENOVATION_SERVICES.filter((o) => o.id !== id && o.group === s.group).concat(
     RENOVATION_SERVICES.filter((o) => o.group !== s.group).slice(0, 1)
   );
@@ -534,7 +641,7 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
   );
 
   return (
-    <div className="bg-white text-reno-ink">
+    <div className="bg-white text-reno-ink selection:bg-reno-clay selection:text-white">
       <SEO schema={schema} />
 
       <section className="relative overflow-hidden bg-reno-stone">
@@ -573,8 +680,18 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-reno-line bg-white p-6 shadow-raised lg:col-span-5">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-500">{c.includesTitle}</h2>
+            <div className="lg:col-span-5">
+              <img
+                {...imgSet(SERVICE_IMG[id])}
+                sizes="(min-width: 1024px) 480px, 100vw"
+                alt=""
+                width={1200}
+                height={900}
+                decoding="async"
+                className="aspect-[16/10] w-full rounded-xl object-cover shadow-raised"
+              />
+            <div className="relative mx-4 -mt-16 rounded-xl border border-reno-line bg-white p-6 shadow-raised sm:mx-6">
+              <h2 className="font-display text-xl font-medium tracking-tight text-reno-ink">{c.includesTitle}</h2>
               <ul className="mt-4 divide-y divide-reno-line">
                 {sc.includes.map((it) => (
                   <li key={it} className="flex items-start gap-3 py-3 text-base leading-relaxed">
@@ -583,6 +700,7 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
                   </li>
                 ))}
               </ul>
+            </div>
             </div>
           </div>
         </div>
@@ -594,14 +712,19 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
           <h2 id="reno-signs" className="font-display text-3xl font-medium tracking-tight lg:col-span-4 lg:text-4xl">
             {c.signsTitle}
           </h2>
-          <ol className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:col-span-8">
+          <ul ref={signsReveal.ref} className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:col-span-8">
             {sc.signs.map((sign, i) => (
-              <li key={sign} className="border-t border-reno-line pt-4">
-                <span className="font-mono text-sm text-reno-clay tabular-nums">{pad(i + 1)}</span>
-                <p className="mt-1.5 text-lg font-medium leading-snug">{sign}</p>
+              <li key={sign} className="relative flex items-start gap-3 border-t border-reno-line pt-4">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 -top-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                  style={lineStyle(signsReveal.pending, i * 160)}
+                />
+                <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-reno-clay" />
+                <p className="text-lg font-medium leading-snug">{sign}</p>
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
@@ -634,7 +757,6 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
 
 const FORM_COPY = defineCopy(
   {
-    eyebrow: 'Devis rénovation',
     title: 'Votre projet en 2 minutes.',
     lead: 'Décrivez les travaux : nous vous rappelons pour fixer une visite sur place, puis vous recevez un devis détaillé.',
     project: 'Type de travaux',
@@ -665,7 +787,6 @@ const FORM_COPY = defineCopy(
     select: 'Choisir…',
   },
   {
-    eyebrow: 'Renovation quote',
     title: 'Your project in 2 minutes.',
     lead: 'Describe the work: we call you back to arrange a site visit, then you receive a detailed quote.',
     project: 'Type of work',
@@ -809,7 +930,7 @@ export const RenovationQuote: React.FC = () => {
       <SEO />
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
         {done ? (
-          <div className="rounded-2xl border border-reno-line bg-white p-8 shadow-raised sm:p-10" role="status">
+          <div className="rounded-xl border border-reno-line bg-white p-8 shadow-raised sm:p-10" role="status">
             <span className="grid h-12 w-12 place-items-center rounded-full bg-reno-clay-soft text-reno-clay">
               <Check className="h-6 w-6" strokeWidth={2.5} aria-hidden="true" />
             </span>
@@ -832,11 +953,10 @@ export const RenovationQuote: React.FC = () => {
           </div>
         ) : (
           <>
-            <p className="text-sm font-semibold uppercase tracking-[0.08em] text-reno-clay">{f.eyebrow}</p>
-            <h1 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">{f.title}</h1>
+            <h1 className="font-display text-4xl font-medium tracking-tight sm:text-5xl">{f.title}</h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{f.lead}</p>
 
-            <form noValidate onSubmit={onSubmit} className="mt-10 space-y-8 rounded-2xl border border-reno-line bg-white p-6 shadow-raised sm:p-8">
+            <form noValidate onSubmit={onSubmit} className="mt-10 space-y-8 rounded-xl border border-reno-line bg-white p-6 shadow-raised sm:p-8">
               <div>
                 <label htmlFor="reno-project" className="text-lg font-semibold">
                   {f.project}
