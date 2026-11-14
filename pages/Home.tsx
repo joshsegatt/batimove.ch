@@ -379,6 +379,7 @@ const COPY = defineCopy(
     heroOrCall: 'Ou appelez le',
     heroPhotoBadge: 'Notre propre monte-meubles',
     heroImgAlt: 'Monte-meubles et camions Batimove garés devant des immeubles',
+    heroFamilyAlt: 'Famille souriante qui déballe des cartons dans son nouveau salon',
 
     engagementsTitle: 'Ce que nous réglons pour vous',
 
@@ -468,6 +469,7 @@ const COPY = defineCopy(
     heroOrCall: 'Or call',
     heroPhotoBadge: 'Our own furniture lift',
     heroImgAlt: 'Batimove furniture lift and vans parked in front of apartment buildings',
+    heroFamilyAlt: 'Smiling family unpacking boxes in their new living room',
 
     engagementsTitle: 'What we take care of for you',
 
@@ -620,55 +622,69 @@ export const Home: React.FC = () => {
           verificáveis, uma ação principal e o telefone. Compacta em laptops baixos.
           ========================================================================= */}
       <section className="relative">
-        {/* Bloco da foto: mudança real da Batimove em toda a largura, com véu navy
-            forte do lado do texto (DESIGN.md: navy é sempre #0B1E33). */}
+        {/* Bloco navy com a foto da família. No desktop a foto ocupa a direita até
+            a borda da tela e se dissolve no navy do lado do texto; no celular ela
+            vem em cima e se dissolve para baixo. Rostos nunca ficam sob o texto. */}
         <div className="relative isolate bg-[#0B1E33]">
-          <img
-            src="/photos/batimove-camions-maison-1440.webp"
-            srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
-            sizes="100vw"
-            alt={c.bannerImgAlt}
-            width={1440}
-            height={699}
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 -z-20 h-full w-full object-cover object-[62%_58%]"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0B1E33]/80 via-[#0B1E33]/75 to-[#0B1E33]/90 lg:bg-gradient-to-r lg:from-[#0B1E33]/95 lg:via-[#0B1E33]/75 lg:to-[#0B1E33]/25"
-          />
+          <div className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-[62%] xl:w-[66%]">
+            <img
+              src="/photos/famille-demenagement-1280.webp"
+              srcSet="/photos/famille-demenagement-800.webp 800w, /photos/famille-demenagement-1280.webp 1280w, /photos/famille-demenagement-1890.webp 1890w"
+              sizes="(min-width: 1024px) 68vw, 100vw"
+              alt={c.heroFamilyAlt}
+              width={1890}
+              height={831}
+              fetchPriority="high"
+              decoding="async"
+              className="block aspect-[16/10] w-full object-cover object-[46%_30%] sm:aspect-[2/1] lg:aspect-auto lg:h-full lg:object-[35%_32%]"
+            />
+            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0B1E33] via-[#0B1E33]/60 to-transparent lg:hidden" />
+            <div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-[30%] bg-gradient-to-r from-[#0B1E33] via-[#0B1E33]/85 to-transparent lg:block" />
+          </div>
 
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 pb-16 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pb-14 lg:pt-14 [@media(min-width:1024px)_and_(max-height:860px)]:lg:pt-10">
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {/* Texto: prova, promessa com lugar e preço, apoio. */}
-            <div className="flex min-w-0 flex-col justify-center lg:col-span-7 lg:pb-10">
+            <div className="-mt-10 max-w-xl pb-10 sm:-mt-16 lg:mt-0 lg:max-w-[27rem] lg:pb-40 lg:pt-14 xl:max-w-[30rem] xl:pb-44 xl:pt-16 [@media(min-width:1024px)_and_(max-height:860px)]:lg:pt-10">
               <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
-              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-white text-balance sm:text-4xl xl:text-[3.25rem] [@media(min-width:1024px)_and_(max-height:860px)]:text-[2.75rem]">
+              <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-white text-balance sm:text-4xl xl:text-5xl">
                 {c.heroTitle1}{' '}
                 <span className="text-sky-300">{c.heroTitle2}</span>
               </h1>
 
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-200 xl:text-xl">
+              <p className="mt-5 text-lg leading-relaxed text-slate-200">
                 {c.heroLead}
               </p>
             </div>
 
-            {/* Escolha do serviço: cartão branco que desce além da foto, como um
-                formulário apoiado na cena. Cada célula abre o devis na etapa 2. */}
+            {/* Barra de projeto: desce da foto para a faixa branca. Cada célula
+                abre o devis na etapa 2; a sexta leva ao site do monte-meubles. */}
             <div
               role="group"
               aria-labelledby="hero-projet"
-              className="relative z-10 -mb-32 min-w-0 self-end overflow-hidden rounded-xl bg-white shadow-modal lg:col-span-5 lg:-mb-36"
+              className="relative z-10 -mb-24 overflow-hidden rounded-xl bg-white shadow-modal lg:-mt-24 lg:-mb-16"
             >
-              <div className="px-4 pb-3 pt-4 sm:px-5 sm:pt-5">
-                <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
-                  {c.heroPickerTitle}
-                </h2>
-                <p className="mt-0.5 text-sm text-slate-600">{c.heroPickerLead}</p>
+              <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 lg:px-5">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+                  <h2 id="hero-projet" className="font-display text-xl font-medium tracking-tight text-[#0B1E33]">
+                    {c.heroPickerTitle}
+                  </h2>
+                  <p className="hidden text-sm text-slate-600 sm:block">{c.heroPickerLead}</p>
+                </div>
+                <p className="hidden flex-wrap items-center gap-x-2 text-sm text-slate-600 sm:flex">
+                  {c.heroOrCall}
+                  <a
+                    href="tel:0800825925"
+                    className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
+                  >
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    <span className="tabular-nums">0800 825 925</span>
+                  </a>
+                  <span>({c.freeCall})</span>
+                </p>
               </div>
 
-              <ul className="grid grid-cols-2 gap-px border-y border-glacier-line bg-glacier-line">
+              <ul className="grid grid-cols-2 gap-px border-t border-glacier-line bg-glacier-line sm:grid-cols-3 lg:grid-cols-6">
                 {QUOTE_SERVICES.map((sv) => localizeQuoteService(sv, lang)).map(({ id: type, label, hint, icon: Icon }) => (
                   <li key={type} className="min-w-0">
                     <Link to={lp(`/quote?type=${type}`)} className={HERO_CELL}>
@@ -705,38 +721,22 @@ export const Home: React.FC = () => {
                   </a>
                 </li>
               </ul>
-
-              <p className="flex flex-wrap items-center gap-x-2 px-4 py-3 text-sm text-slate-600 sm:px-5">
-                {c.heroOrCall}
-                <a
-                  href="tel:0800825925"
-                  className="inline-flex items-center gap-1.5 text-base font-semibold text-[#0B1E33] underline-offset-4 transition-colors duration-150 hover:text-[#0369A1] hover:underline"
-                >
-                  <Phone className="h-4 w-4" aria-hidden="true" />
-                  <span className="tabular-nums">0800 825 925</span>
-                </a>
-                <span>({c.freeCall})</span>
-              </p>
             </div>
           </div>
         </div>
 
-        {/* Faixa branca sob a foto: os fatos verificáveis ficam à esquerda,
-            enquanto o cartão de escolha termina de descer à direita. */}
+        {/* Faixa branca sob a foto: os fatos verificáveis logo abaixo da barra. */}
         <div className="bg-white">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 px-4 pb-8 pt-24 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pb-10 lg:pt-8">
-            <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-base font-medium text-[#0B1E33] lg:col-span-7">
-              {c.heroTrust.map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-glacier text-[#0369A1]">
-                    <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
-                  </span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <div aria-hidden="true" className="hidden lg:col-span-5 lg:block lg:h-24" />
-          </div>
+          <ul className="mx-auto flex max-w-7xl flex-wrap gap-x-6 gap-y-2.5 px-4 pb-8 pt-32 text-base font-medium text-[#0B1E33] sm:px-6 lg:px-8 lg:pb-10 lg:pt-24">
+            {c.heroTrust.map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-glacier text-[#0369A1]">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.75} aria-hidden="true" />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -795,15 +795,15 @@ export const Home: React.FC = () => {
             {/* Foto real da frota */}
             <div className="lg:col-span-5">
               <FadeImg
-                src="/photos/batimove-flotte-1200.webp"
-                srcSet="/photos/batimove-flotte-640.webp 640w, /photos/batimove-flotte-1200.webp 1200w"
+                src="/photos/batimove-camions-maison-1440.webp"
+                srcSet="/photos/batimove-camions-maison-800.webp 800w, /photos/batimove-camions-maison-1440.webp 1440w"
                 sizes="(min-width: 1024px) 480px, 100vw"
-                alt={c.aboutImgAlt}
-                width={1200}
-                height={804}
+                alt={c.bannerImgAlt}
+                width={1440}
+                height={699}
                 loading="lazy"
                 decoding="async"
-                className="block h-auto w-full rounded-xl object-cover shadow-raised"
+                className="block aspect-[3/2] h-auto w-full rounded-xl object-cover object-[45%_60%] shadow-raised"
               />
             </div>
 

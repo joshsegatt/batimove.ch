@@ -340,7 +340,7 @@ export const Navbar: React.FC = () => {
       {/* Barra principal + painel Déménagement */}
       <div ref={megaWrapRef} onPointerLeave={closeSoon} className="relative">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[68px] items-center justify-between gap-3 sm:gap-6">
+          <div className="flex h-[68px] items-center justify-between gap-3 sm:gap-6 lg:gap-4 xl:gap-6">
             <Link
               to={lp('/')}
               aria-label={c.homeLabel}
@@ -350,7 +350,7 @@ export const Navbar: React.FC = () => {
             </Link>
 
             <nav aria-label={c.mainNav} className="hidden lg:block">
-              <ul className="flex items-center gap-5 xl:gap-8">
+              <ul className="flex items-center gap-4 xl:gap-8">
                 <li onPointerEnter={openSoon}>
                   <button
                     ref={megaTriggerRef}
