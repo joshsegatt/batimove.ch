@@ -593,6 +593,17 @@ const HERO_CELL_ICON =
 const HERO_CELL_ARROW =
   'absolute right-3 top-3 h-4 w-4 sm:right-4 sm:top-4 text-[#0B1E33] transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:right-5 lg:top-5';
 
+/**
+ * Entrada "que cai no lugar": o bloco desce 24px e aparece, em 700ms com a curva
+ * da casa, cada item um pouco depois do anterior. Só enquanto useRevealOnce está
+ * em 'pending'; com movimento reduzido nada se mexe.
+ */
+const dropClass = (pending: boolean) =>
+  `transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+    pending ? '-translate-y-6 opacity-0' : 'translate-y-0 opacity-100'
+  }`;
+const dropStyle = (i: number): React.CSSProperties => ({ transitionDelay: `${i * 110}ms` });
+
 export const Home: React.FC = () => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
@@ -605,6 +616,7 @@ export const Home: React.FC = () => {
   // quando o bloco entra na tela, como itens resolvidos um após o outro.
   const engagementsReveal = useRevealOnce<HTMLUListElement>();
   const ficheReveal = useRevealOnce<HTMLDListElement>(0.25);
+  const proReveal = useRevealOnce<HTMLDivElement>(0.2);
 
   const testimonials = CUSTOMER_REVIEWS.map((r) => localizeReview(r, lang));
 
@@ -876,68 +888,74 @@ export const Home: React.FC = () => {
           SECTION 4: "RECOMMANDÉ PAR LES PROFESSIONNELS" ("WE'RE CHOSEN BY PROFESSIONALS")
           ========================================================================= */}
       <section className="relative border-y border-glacier-line bg-glacier py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column: Why Choose Us & 3 Icons */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Entrada ao rolar: título, cartões e cartão navy descem para o lugar
+              um após o outro (useRevealOnce: nada fica escondido sem JS, com
+              movimento reduzido ou se o bloco já estava na tela). */}
+          <div ref={proReveal.ref} className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
-              
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium text-[#0B1E33] tracking-tight leading-[1.12] mb-10">
+              <h2
+                className={`mb-10 font-display text-3xl font-medium leading-[1.12] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl ${dropClass(proReveal.pending)}`}
+                style={dropStyle(0)}
+              >
                 {c.proTitle}
               </h2>
 
-              {/* Três garantias num painel só, dividido por filetes (a mesma
-                  linguagem da barra do hero). Informativo: sem hover. */}
-              <ul className="grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-glacier-line shadow-rest sm:grid-cols-3">
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
                 {[
-                  { Icon: FileText, title: c.proAdviceTitle, text: c.proAdviceText },
-                  { Icon: ShieldCheck, title: c.proGuaranteeTitle, text: c.proGuaranteeText },
-                  { Icon: Headphones, title: c.proUrgentTitle, text: c.proUrgentText },
-                ].map(({ Icon, title, text }) => (
-                  <li key={title} className="bg-white p-5 lg:p-6">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-glacier text-[#0369A1]">
-                      <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-4 font-display text-lg font-medium tracking-tight text-[#0B1E33]">{title}</h3>
-                    <p className="mt-1.5 text-base leading-relaxed text-slate-600">{text}</p>
+                  { Icon: FileText, motion: 'icon-tilt', title: c.proAdviceTitle, text: c.proAdviceText },
+                  { Icon: ShieldCheck, motion: 'icon-lift', title: c.proGuaranteeTitle, text: c.proGuaranteeText },
+                  { Icon: Headphones, motion: 'icon-tilt', title: c.proUrgentTitle, text: c.proUrgentText },
+                ].map(({ Icon, motion, title, text }, i) => (
+                  <li key={title} className={dropClass(proReveal.pending)} style={dropStyle(1 + i)}>
+                    {/* Cartão: no hover sobe 4px, ganha sombra raised, o filete azul
+                        do topo se desenha e o ícone fica navy e se mexe. */}
+                    <div className="group relative h-full overflow-hidden rounded-xl border border-glacier-line bg-white p-6 shadow-rest transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-sky-200 hover:shadow-raised motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-[#0284c7] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 motion-reduce:transition-none"
+                      />
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-glacier text-[#0369A1] transition-colors duration-300 group-hover:bg-[#0B1E33] group-hover:text-white motion-reduce:transition-none">
+                        <Icon className={`h-5 w-5 ${motion}`} strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-[#0B1E33]">{title}</h3>
+                      <p className="mt-1.5 text-base leading-relaxed text-slate-600">{text}</p>
+                    </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Right Column: Paragraph & Dark Blue Phone Card */}
-            <div className="lg:col-span-5 flex flex-col justify-between h-full pt-4">
-              <p className="mb-8 text-lg leading-relaxed text-slate-600">
+            <div className="flex h-full flex-col justify-between pt-4 lg:col-span-5">
+              <p className={`mb-8 text-lg leading-relaxed text-slate-600 ${dropClass(proReveal.pending)}`} style={dropStyle(2)}>
                 {c.proLead}
               </p>
 
-              {/* Dark Navy Highlight Card with Phone */}
-              <div className="rounded-xl bg-[#0B1E33] p-8 text-white shadow-overlay">
-                <p className="mb-2 font-display text-lg font-semibold tracking-tight text-sky-300">
-                  {c.proCardKicker}
-                </p>
-                <p className="mb-6 text-base text-slate-300">
-                  {c.proCardText}
-                </p>
-                <a
-                  href="tel:0800825925"
-                  className="group -m-2 inline-flex items-center gap-3 rounded-xl p-2 text-white transition-colors duration-150 hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
-                >
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-[#0369A1] text-white transition-colors duration-150 group-hover:bg-[#0284C7]">
-                    <Phone className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                  <span>
-                    <span className="block font-display text-2xl font-medium tracking-tight tabular-nums sm:text-3xl">
-                      0800 825 925
+              <div className={dropClass(proReveal.pending)} style={dropStyle(4)}>
+                <div className="rounded-xl bg-[#0B1E33] p-8 text-white shadow-overlay transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-modal motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+                  <p className="mb-2 font-display text-lg font-semibold tracking-tight text-sky-300">
+                    {c.proCardKicker}
+                  </p>
+                  <p className="mb-6 text-base text-slate-300">
+                    {c.proCardText}
+                  </p>
+                  <a
+                    href="tel:0800825925"
+                    className="group -m-2 inline-flex items-center gap-3 rounded-xl p-2 text-white transition-colors duration-150 hover:bg-navy-raise focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+                  >
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-[#0369A1] text-white transition-colors duration-150 group-hover:bg-[#0284C7]">
+                      <Phone className="icon-tilt h-6 w-6" aria-hidden="true" />
                     </span>
-                    <span className="block text-sm font-medium text-sky-300">{c.proCardPhoneNote}</span>
-                  </span>
-                </a>
+                    <span>
+                      <span className="block font-display text-2xl font-medium tracking-tight tabular-nums sm:text-3xl">
+                        0800 825 925
+                      </span>
+                      <span className="block text-sm font-medium text-sky-300">{c.proCardPhoneNote}</span>
+                    </span>
+                  </a>
+                </div>
               </div>
-
             </div>
-
           </div>
         </div>
       </section>
