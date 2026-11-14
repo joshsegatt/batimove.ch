@@ -20,6 +20,15 @@ export default {
         glacier: '#E6EEF7',
         'glacier-line': '#D3E0EE',
         'navy-raise': '#17375A',
+        // Batimove Rénovation (área /renovation): grafite e pedra no lugar do
+        // navy e do glacier, terracota como acento. Mesma tipografia e regras.
+        'reno-ink': '#171A1D',
+        'reno-raise': '#262B30',
+        'reno-stone': '#F4F1EB',
+        'reno-line': '#E2DBCF',
+        'reno-clay': '#A3472A',
+        'reno-clay-hover': '#873A22',
+        'reno-clay-soft': '#F3E5DD',
         // Ultra-premium grays (Vercel/Linear style)
         gray: {
           50: '#fafafa',

@@ -148,6 +148,13 @@ Paleta institucional de navy e ardósia, com um único azul de destaque e o verm
 - **Texte Secondaire** (#475569): parágrafos e texto de apoio.
 - **Texte Discret** (#64748B): subtítulos e metadados secundários. Sobre o navy fica em 3,5:1; em fundo escuro use #CBD5E1 ou mais claro.
 
+### Batimove Rénovation (área `/renovation`)
+A rénovation é uma segunda atividade, com menu, rodapé e devis próprios. Mesma tipografia, mesmas regras de hover e de faixas; só a paleta troca, para quem chega por uma busca de rénovation não confundir com a mudança.
+- **Graphite** (#171A1D, `reno-ink`): texto, faixas escuras, rodapé. Hover de superfícies grafite: `reno-raise` (#262B30).
+- **Pierre** (#F4F1EB, `reno-stone`; borda `reno-line` #E2DBCF): faixas claras, no papel do glacier.
+- **Terracotta** (#A3472A, `reno-clay`; hover #873A22; fundo suave `reno-clay-soft` #F3E5DD): o único destaque, botão principal e números. Texto branco sobre ele: 6:1; ele sobre branco: 6:1; sobre pierre: 5,3:1. Sobre grafite, o destaque passa a #E4A58C.
+- Sem fotos ainda: o hero usa um quadriculado fino de planta de obra (some nas bordas) e um índice numerado das prestações. Quando chegarem fotos reais de obras, elas entram no lugar do índice, nunca imagens de banco.
+
 ### Named Rules
 **The One Accent Rule.** O Bleu Suisse é o único destaque. Se dois elementos vizinhos competem em azul, um deles volta ao navy.
 
