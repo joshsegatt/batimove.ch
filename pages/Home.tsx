@@ -40,6 +40,7 @@ import { Button, buttonClass } from '../components/UIComponents';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 import { FadeImg } from '../components/FadeImg';
+import type { HomeLocal } from '../data/localHome';
 
 // --- Custom Duotone Vector Icons Matching Reference ---
 const ParachuteCargoIcon: React.FC<{ className?: string }> = ({ className = "w-16 h-16" }) => (
@@ -604,7 +605,102 @@ const dropClass = (pending: boolean) =>
   }`;
 const dropStyle = (i: number): React.CSSProperties => ({ transitionDelay: `${i * 110}ms` });
 
-export const Home: React.FC = () => {
+/**
+ * Seção local das páginas de lugar: o que muda numa mudança ali (notas locais em
+ * linhas que se desenham, como "Ce que nous réglons"), os bairros ou comunas
+ * atendidos e as outras páginas do cantão. É o conteúdo próprio de cada página.
+ */
+const LocalSection: React.FC<{ local: HomeLocal }> = ({ local }) => {
+  const { lp } = useLang();
+  const reveal = useRevealOnce<HTMLDivElement>(0.2);
+  return (
+    <section aria-labelledby="local-title" className="border-b border-glacier-line bg-glacier py-20 lg:py-24">
+      <div ref={reveal.ref} className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
+        <div className="lg:col-span-7">
+          <h2
+            id="local-title"
+            className={`font-display text-3xl font-medium leading-[1.12] tracking-tight text-[#0B1E33] sm:text-4xl lg:text-5xl ${dropClass(reveal.pending)}`}
+            style={dropStyle(0)}
+          >
+            {local.sectionTitle}
+          </h2>
+          <p className={`mt-5 max-w-[60ch] text-lg leading-relaxed text-slate-600 ${dropClass(reveal.pending)}`} style={dropStyle(1)}>
+            {local.intro}
+          </p>
+          <ul className="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
+            {local.notes.map((n, i) => (
+              <li key={n.title} className="relative border-t border-slate-300/70 pt-5">
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 -top-px h-px origin-left bg-[#0284c7] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                  style={{ transform: reveal.pending ? 'scaleX(0)' : 'scaleX(1)', transitionDelay: `${200 + i * 180}ms` }}
+                />
+                <div className={dropClass(reveal.pending)} style={dropStyle(2 + i)}>
+                  <h3 className="font-display text-lg font-medium tracking-tight text-[#0B1E33]">{n.title}</h3>
+                  <p className="mt-1.5 text-base leading-relaxed text-slate-600">{n.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className={`lg:col-span-5 ${dropClass(reveal.pending)}`} style={dropStyle(3)}>
+          <div className="rounded-xl border border-glacier-line bg-white p-6 shadow-rest sm:p-7">
+            <h3 className="flex items-center gap-2 font-display text-lg font-medium tracking-tight text-[#0B1E33]">
+              <MapPin className="h-5 w-5 text-[#0369A1]" strokeWidth={1.75} aria-hidden="true" />
+              {local.areasTitle}
+            </h3>
+            {local.areas.some((a) => a.desc) ? (
+              <ul className="mt-4 divide-y divide-slate-100">
+                {local.areas.map((a) => (
+                  <li key={a.name} className="py-3">
+                    <p className="text-base font-semibold text-[#0B1E33]">{a.name}</p>
+                    {a.desc && <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{a.desc}</p>}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {local.areas.map((a) => (
+                  <li key={a.name} className="rounded-lg bg-glacier px-3 py-1.5 text-sm font-medium text-[#0B1E33]">
+                    {a.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {local.nearby.length > 0 && (
+              <div className="mt-6 border-t border-slate-100 pt-5">
+                <p className="text-sm font-semibold text-slate-600">{local.nearbyTitle}</p>
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  {local.nearby.map((n) => (
+                    <li key={n.path}>
+                      <Link
+                        to={lp(n.path)}
+                        className="group -my-2 inline-flex items-center gap-1 py-2 text-base font-semibold text-[#0369A1] underline decoration-sky-200 underline-offset-4 transition-colors duration-150 hover:text-[#0B1E33] hover:decoration-[#0B1E33]"
+                      >
+                        {n.label}
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/**
+ * A home é também a página de cada lugar (/demenagement-geneve, /demenagement-nyon…):
+ * com `local`, o título leva o lugar, o lead e a FAQ são locais e entra a seção
+ * local depois da faixa navy. Os dados vêm de data/localHome.ts, carregado só
+ * pelas páginas de lugar (fora do pacote principal).
+ */
+export const Home: React.FC<{ local?: HomeLocal }> = ({ local }) => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
 
@@ -622,10 +718,13 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-sky-600 selection:text-white">
+      {/* Título, descrição e canonical vêm de data/seoRoutes.json pela rota atual
+          (home ou página de lugar); as props só valem fora dessa lista. */}
       <SEO
         title="Batimove Sàrl : Déménagement à Genève, Lausanne & Vaud"
         description="Entreprise suisse de déménagement pour particuliers et entreprises à Genève, Lausanne et dans le canton de Vaud. Devis gratuit sous 30 min et garantie 5M CHF."
         canonical="https://www.batimove.ch/"
+        schema={local?.schema}
       />
 
       {/* =========================================================================
@@ -660,12 +759,12 @@ export const Home: React.FC = () => {
               <GoogleRating value={rating.value} text={c.heroRating(rating.value)} label={c.heroRatingLabel(rating.value)} />
 
               <h1 className="mt-5 font-display text-3xl font-medium leading-[1.08] tracking-tight text-white text-balance sm:text-4xl xl:text-5xl">
-                {c.heroTitle1}{' '}
+                {local ? `${local.h1}.` : c.heroTitle1}{' '}
                 <span className="text-sky-300">{c.heroTitle2}</span>
               </h1>
 
               <p className="mt-5 text-lg leading-relaxed text-slate-200">
-                {c.heroLead}
+                {local?.lead ?? c.heroLead}
               </p>
             </div>
 
@@ -794,6 +893,8 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {local && <LocalSection local={local} />}
 
       {/* =========================================================================
           SECTION 3: À PROPOS, EN TOUTE TRANSPARENCE (fiche d'identité)
@@ -1432,7 +1533,7 @@ export const Home: React.FC = () => {
           </h2>
 
           <div className="divide-y divide-slate-200 border-y border-slate-200">
-            {HOME_FAQ_BY_LANG[lang].map((item) => (
+            {(local?.faq ?? HOME_FAQ_BY_LANG[lang]).map((item) => (
               <details key={item.question} className="faq-item group py-1">
                 <summary className="group/q flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0284c7]">
                   <h3 className="font-display text-base font-semibold leading-snug text-[#0B1E33] transition-colors duration-150 group-hover/q:text-[#0369A1] sm:text-lg">

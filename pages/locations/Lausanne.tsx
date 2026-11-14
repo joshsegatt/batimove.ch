@@ -1,5 +1,6 @@
 import React from 'react';
-import { LocationLandingTemplate, LocationConfig } from '../../components/LocationLandingTemplate';
+import { cityHome, type LocationConfig } from '../../data/localHome';
+import { Home } from '../Home';
 import { getReviews } from '../../data/reviews';
 import { defineCopy, useLang } from '../../i18n';
 
@@ -132,6 +133,6 @@ const CONFIG = defineCopy<LocationConfig>(lausanneConfig, lausanneConfigEn);
 
 export const Lausanne: React.FC = () => {
   const { lang } = useLang();
-  return <LocationLandingTemplate config={CONFIG[lang]} />;
+  return <Home local={cityHome('lausanne', CONFIG[lang], lang)} />;
 };
 export default Lausanne;
