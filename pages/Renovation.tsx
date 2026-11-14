@@ -51,7 +51,7 @@ const COPY = defineCopy(
       'Eau au sol après de fortes pluies',
     ],
     waterLinks: 'Voir la prestation',
-    waterAlt: 'Membrane d’étanchéité et gravier sur un toit plat après la pluie',
+    waterAlt: 'Terrasse carrelée et écoulement de sol après la pluie',
     stepsTitle: 'Comment se passe un chantier',
     synergyTitle: 'Rénover sans rien porter vous-même.',
     synergyText: "Batimove est d'abord une entreprise de déménagement. Pour un chantier, tout est sous le même toit :",
@@ -65,7 +65,6 @@ const COPY = defineCopy(
     proText:
       "Remise en état entre deux locataires, parties communes, toitures, façades et sous-sols. Devis clairs, avec variantes si besoin, pour le propriétaire ou l'assemblée de PPE.",
     proCta: 'Rénovation d’immeubles',
-    proAlt: 'Façade d’immeuble genevois en pierre calcaire et volets gris',
     faqTitle: 'Questions fréquentes',
     finalTitle: 'Parlez-nous de votre projet.',
     finalText: 'Décrivez les travaux en 2 minutes. Nous vous rappelons pour fixer la visite sur place.',
@@ -101,7 +100,7 @@ const COPY = defineCopy(
       'Water on the floor after heavy rain',
     ],
     waterLinks: 'See the service',
-    waterAlt: 'Waterproofing membrane and gravel on a flat roof after rain',
+    waterAlt: 'Tiled terrace and floor drain after rain',
     stepsTitle: 'How a renovation works',
     synergyTitle: 'Renovate without lifting a box.',
     synergyText: 'Batimove is first a removals company. For a renovation, everything is under one roof:',
@@ -115,7 +114,6 @@ const COPY = defineCopy(
     proText:
       'Making good between tenants, common parts, roofs, façades and basements. Clear quotes, with options where useful, for the owner or the co-owners’ meeting.',
     proCta: 'Building renovation',
-    proAlt: 'Geneva apartment building façade with limestone and grey shutters',
     faqTitle: 'Frequently asked questions',
     finalTitle: 'Tell us about your project.',
     finalText: 'Describe the work in 2 minutes. We call you back to arrange the site visit.',
@@ -194,17 +192,21 @@ const RENO_IMG = {
   parquet: '/photos/reno-parquet',
   toit: '/photos/reno-toit',
   facade: '/photos/reno-facade',
+  plans: '/photos/reno-plans',
+  cave: '/photos/reno-cave',
+  escalier: '/photos/reno-escalier',
+  balcon: '/photos/reno-balcon',
 };
 const SERVICE_IMG: Record<RenovationId, string> = {
-  'appartement-maison': RENO_IMG.hero,
+  'appartement-maison': RENO_IMG.plans,
   'salle-de-bain': RENO_IMG.zellige,
   cuisine: RENO_IMG.cuisine,
   peinture: RENO_IMG.chaux,
   sols: RENO_IMG.parquet,
   'etancheite-toiture-terrasse': RENO_IMG.toit,
-  'etancheite-sous-sol': RENO_IMG.chaux,
+  'etancheite-sous-sol': RENO_IMG.cave,
   facades: RENO_IMG.facade,
-  immeubles: RENO_IMG.facade,
+  immeubles: RENO_IMG.escalier,
 };
 /** Foto 4:3 responsiva (640 / 1200); a do hero também existe em 1280. */
 const imgSet = (base: string) => ({
@@ -493,7 +495,7 @@ export const RenovationHome: React.FC = () => {
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.waterText}</p>
             <FadeImg
-              {...imgSet(RENO_IMG.toit)}
+              {...imgSet(RENO_IMG.balcon)}
               sizes="(min-width: 1024px) 480px, 100vw"
               alt={c.waterAlt}
               width={1200}
@@ -572,13 +574,14 @@ export const RenovationHome: React.FC = () => {
       {/* Régies e PPE */}
       <section aria-labelledby="reno-pro" className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <div className="grid grid-cols-1 overflow-hidden rounded-xl border border-reno-line bg-reno-stone lg:grid-cols-12">
-            <div className="flex flex-col justify-center p-8 sm:p-10 lg:col-span-7 lg:p-12">
+          <div className="grid grid-cols-1 items-end gap-8 rounded-xl border border-reno-line bg-reno-stone p-8 sm:p-10 lg:grid-cols-12 lg:p-12">
+            <div className="lg:col-span-8">
               <h2 id="reno-pro" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
                 {c.proTitle}
               </h2>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">{c.proText}</p>
-            <div className="mt-8">
+            </div>
+            <div className="lg:col-span-4 lg:justify-self-end">
               <Link
                 to={lp('/renovation/immeubles')}
                 className="inline-flex h-12 items-center gap-2 rounded-xl border border-reno-ink px-6 text-lg font-semibold transition-colors duration-150 hover:bg-reno-ink hover:text-white"
@@ -587,17 +590,6 @@ export const RenovationHome: React.FC = () => {
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </div>
-            </div>
-            <FadeImg
-              {...imgSet(RENO_IMG.facade)}
-              sizes="(min-width: 1024px) 520px, 100vw"
-              alt={c.proAlt}
-              width={1200}
-              height={900}
-              loading="lazy"
-              decoding="async"
-              className="h-64 w-full object-cover sm:h-80 lg:col-span-5 lg:h-full"
-            />
           </div>
         </div>
       </section>
