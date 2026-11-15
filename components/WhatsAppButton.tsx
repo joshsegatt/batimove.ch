@@ -33,6 +33,49 @@ const COPY = defineCopy(
     }
 );
 
+/**
+ * Versão Rénovation: título, horário e cores da área Rénovation, sem as promessas
+ * da mudança (devis em 30 min, urgências 24/7), que não valem para obra.
+ */
+const RENO_COPY = defineCopy(
+    {
+        panelTitle: 'Batimove Rénovation sur WhatsApp',
+        open: 'Bureau ouvert',
+        closed: 'Bureau fermé : réponse dès 8h00',
+        photos: 'Ajoutez des photos des pièces ou des dégâts : elles nous aident à préparer la visite.',
+        hours: 'Lun.–sam. 8h–19h',
+    },
+    {
+        panelTitle: 'Batimove Renovation on WhatsApp',
+        open: 'Office open',
+        closed: 'Office closed: we reply from 8am',
+        photos: 'Add photos of the rooms or the damage: they help us prepare the site visit.',
+        hours: 'Mon–Sat 8am–7pm',
+    }
+);
+
+/** O que pedir em cada página da Rénovation (sem importar data/renovation, que só carrega com a área). */
+const RENO_ASK: Record<string, [fr: string, en: string]> = {
+    '': ['des travaux de rénovation', 'renovation work'],
+    'appartement-maison': ['une rénovation complète', 'a full renovation'],
+    'salle-de-bain': ['une rénovation de salle de bain', 'a bathroom renovation'],
+    cuisine: ['une rénovation de cuisine', 'a kitchen renovation'],
+    peinture: ['des travaux de peinture et plâtrerie', 'painting and plastering'],
+    sols: ['des travaux de sols', 'flooring work'],
+    'etancheite-toiture-terrasse': ["l'étanchéité d'un toit plat, d'une terrasse ou d'un balcon", 'waterproofing a flat roof, terrace or balcony'],
+    'etancheite-sous-sol': ["l'étanchéité d'une cave ou d'un sous-sol", 'waterproofing a cellar or basement'],
+    facades: ["la rénovation d'une façade", 'a façade renovation'],
+    immeubles: ['des travaux dans un immeuble', 'work on an apartment building'],
+};
+
+export const renovationWhatsAppMessage = (pathname: string): string => {
+    const en = langOf(pathname) === 'en';
+    const slug = alternatePath(pathname, 'fr').replace(/^\/renovation\/?/, '');
+    const [fr, enAsk] = RENO_ASK[slug] ?? RENO_ASK[''];
+    // 'Batimove Rénovation' logo na saudação: a equipe vê de onde veio, no mesmo número da mudança.
+    return en ? `Hello Batimove Renovation, I'd like a quote for ${enAsk}.` : `Bonjour Batimove Rénovation, je souhaite un devis pour ${fr}.`;
+};
+
 /** Nome e preposição em inglês: campo "en" de data/serviceLocalities.json. */
 type LocalityEn = { en?: { name: string; prep: string } };
 
@@ -124,17 +167,23 @@ export const whatsAppMessageFor = (pathname: string, search = ''): string => {
 };
 
 // Nos funis de orçamento o WhatsApp já é uma etapa do próprio formulário
-// (também em /en/quote, /en/quote/* e /en/volume-calculator/checkout).
+// (também em /en/quote, /en/quote/* e /en/volume-calculator/checkout). No devis
+// da Rénovation ele aparece na confirmação, com o pedido de fotos.
 const HIDDEN_ON = (pathname: string) => {
     const fr = alternatePath(pathname, 'fr');
-    return fr === '/quote' || fr.startsWith('/quote/') || fr === '/calculator/checkout';
+    return fr === '/quote' || fr.startsWith('/quote/') || fr === '/calculator/checkout' || fr === '/renovation/devis';
 };
 
-export const WhatsAppButton: React.FC = () => {
+/** Na Rénovation o botão só entra depois do hero, para não cobrir o seletor nem o primeiro CTA. */
+const RENO_SHOW_AFTER = 480;
+
+export const WhatsAppButton: React.FC<{ variant?: 'moving' | 'reno' }> = ({ variant = 'moving' }) => {
     const { pathname, search } = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const { lang } = useLang();
-    const c = COPY[lang];
+    const reno = variant === 'reno';
+    const c = reno ? { ...COPY[lang], ...RENO_COPY[lang] } : { ...COPY[lang], photos: '' };
+    const [scrolled, setScrolled] = useState(false);
     const [isOnline, setIsOnline] = useState(isWithinBusinessHours);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
@@ -147,6 +196,15 @@ export const WhatsAppButton: React.FC = () => {
 
     // Fecha ao trocar de página.
     useEffect(() => setIsOpen(false), [pathname]);
+
+    useEffect(() => {
+        if (!reno) return;
+        const onScroll = () => setScrolled(window.scrollY > RENO_SHOW_AFTER);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [reno, pathname]);
+    const visible = !reno || scrolled || isOpen;
 
     // Esc fecha e devolve o foco ao botão; o foco entra no painel ao abrir.
     useEffect(() => {
@@ -164,11 +222,19 @@ export const WhatsAppButton: React.FC = () => {
 
     if (HIDDEN_ON(pathname)) return null;
 
-    const message = whatsAppMessageFor(pathname, search);
+    const message = reno ? renovationWhatsAppMessage(pathname) : whatsAppMessageFor(pathname, search);
+    // Cores da área: grafite e terracota na Rénovation, navy e azul na mudança.
+    const tone = reno
+        ? { title: 'text-reno-ink', focus: 'focus-visible:outline-reno-clay', outline: 'border border-reno-line text-reno-ink hover:bg-reno-stone', closeBg: 'bg-reno-ink' }
+        : { title: 'text-[#0B1E33]', focus: 'focus-visible:outline-sky-600', outline: 'btn-outline', closeBg: 'bg-[#0B1E33]' };
     const whatsappUrl = `https://wa.me/${BATIMOVE_WHATSAPP}?text=${encodeURIComponent(message)}`;
 
     return (
-        <div className="pointer-events-none fixed bottom-5 right-4 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
+        <div
+            className={`pointer-events-none fixed bottom-5 right-4 z-50 flex flex-col items-end transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none sm:bottom-6 sm:right-6 ${
+                visible ? 'translate-y-0 opacity-100' : 'invisible translate-y-3 opacity-0'
+            }`}
+        >
             {isOpen && (
                 <div
                     ref={panelRef}
@@ -179,7 +245,7 @@ export const WhatsAppButton: React.FC = () => {
                 >
                     <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
                         <div>
-                            <p id="whatsapp-panel-title" className="text-base font-semibold text-[#0B1E33]">
+                            <p id="whatsapp-panel-title" className={`text-base font-semibold ${tone.title}`}>
                                 {c.panelTitle}
                             </p>
                             <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
@@ -196,7 +262,7 @@ export const WhatsAppButton: React.FC = () => {
                                 setIsOpen(false);
                                 triggerRef.current?.focus();
                             }}
-                            className="-mr-1.5 -mt-1 rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-600"
+                            className={`-mr-1.5 -mt-1 rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 ${tone.focus}`}
                             aria-label={c.close}
                         >
                             <X className="h-4 w-4" aria-hidden="true" />
@@ -205,9 +271,10 @@ export const WhatsAppButton: React.FC = () => {
 
                     <div className="px-5 py-4">
                         <p className="text-sm text-slate-600">{c.ready}</p>
-                        <p className="mt-2 rounded-xl rounded-tl-sm bg-[#E7F8EE] px-3.5 py-2.5 text-base leading-relaxed text-[#0B1E33]">
+                        <p className={`mt-2 rounded-xl rounded-tl-sm bg-[#E7F8EE] px-3.5 py-2.5 text-base leading-relaxed ${tone.title}`}>
                             {message}
                         </p>
+                        {c.photos && <p className="mt-3 text-sm leading-relaxed text-slate-600">{c.photos}</p>}
 
                         <div className="mt-4 space-y-2">
                             <a
@@ -223,7 +290,7 @@ export const WhatsAppButton: React.FC = () => {
                             <a
                                 href="tel:0800825925"
                                 onClick={() => trackContactClick('phone', pathname)}
-                                className="btn btn-md btn-outline w-full"
+                                className={`btn btn-md w-full ${tone.outline}`}
                             >
                                 <Phone className="h-4 w-4" aria-hidden="true" />
                                 <span className="tabular-nums">0800 825 925</span>
@@ -246,10 +313,11 @@ export const WhatsAppButton: React.FC = () => {
                 aria-expanded={isOpen}
                 aria-controls="whatsapp-panel"
                 aria-label={isOpen ? c.closeWhatsApp : c.writeOnWhatsApp}
+                tabIndex={visible ? undefined : -1}
                 className="pointer-events-auto relative grid h-14 w-14 place-items-center rounded-full transition-transform duration-150 hover:scale-105 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#128C7E] motion-reduce:transition-none sm:h-[60px] sm:w-[60px]"
             >
                 {isOpen ? (
-                    <span className="grid h-[50px] w-[50px] place-items-center rounded-full bg-[#0B1E33] text-white shadow-overlay">
+                    <span className={`grid h-[50px] w-[50px] place-items-center rounded-full ${tone.closeBg} text-white shadow-overlay`}>
                         <X className="h-5 w-5" aria-hidden="true" />
                     </span>
                 ) : (
