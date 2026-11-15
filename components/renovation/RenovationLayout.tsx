@@ -100,6 +100,7 @@ export const RenovationNavbar: React.FC = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPanel(false);
@@ -113,6 +114,21 @@ export const RenovationNavbar: React.FC = () => {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Tab' && drawer && drawerRef.current) {
+        const items = drawerRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        const active = document.activeElement;
+        if (e.shiftKey && (active === first || !drawerRef.current.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (active === last || !drawerRef.current.contains(active))) {
+          e.preventDefault();
+          first.focus();
+        }
+        return;
+      }
       if (e.key !== 'Escape') return;
       if (panel) {
         setPanel(false);
@@ -168,14 +184,14 @@ export const RenovationNavbar: React.FC = () => {
 
       <div ref={wrapRef} className="relative">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[68px] items-center justify-between gap-3 sm:gap-6">
+          <div className="flex h-[68px] items-center justify-between gap-2 sm:gap-6">
             <Link
               to={lp('/renovation')}
               aria-label={c.homeLabel}
               className="flex shrink-0 items-center gap-2.5 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-reno-clay"
             >
-              <BrandLogo markClassName="h-8 w-auto sm:h-9" textClassName="text-lg text-reno-ink sm:text-xl" />
-              <span className="hidden rounded-md bg-reno-clay-soft px-2 py-0.5 text-sm font-semibold text-reno-clay min-[420px]:inline">{c.tag}</span>
+              <BrandLogo markClassName="h-7 w-auto min-[420px]:h-8 sm:h-9" textClassName="text-base text-reno-ink min-[420px]:text-lg sm:text-xl" />
+              <span className="rounded-md bg-reno-clay-soft px-1.5 py-0.5 text-xs font-semibold text-reno-clay min-[420px]:px-2 min-[420px]:text-sm">{c.tag}</span>
             </Link>
 
             <nav aria-label={c.mainNav} className="hidden lg:block">
@@ -214,8 +230,10 @@ export const RenovationNavbar: React.FC = () => {
               </ul>
             </nav>
 
-            <div className="ml-auto flex shrink-0 items-center gap-3 lg:ml-0">
-              <LangSwitch compactOnMobile />
+            <div className="ml-auto hidden shrink-0 items-center gap-3 min-[420px]:flex lg:ml-0">
+              <span className="contents">
+                <LangSwitch compactOnMobile />
+              </span>
               <Link to={lp('/renovation/devis')} className={`${RENO_BTN} hidden h-10 px-4 text-base sm:inline-flex`}>
                 {c.quote}
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
@@ -295,6 +313,7 @@ export const RenovationNavbar: React.FC = () => {
         <>
           <div onClick={() => setDrawer(false)} className="fixed inset-0 z-[70] bg-reno-ink/50" aria-hidden="true" />
           <div
+            ref={drawerRef}
             id="reno-menu-mobile"
             role="dialog"
             aria-modal="true"
@@ -302,7 +321,7 @@ export const RenovationNavbar: React.FC = () => {
             className="nav-drawer-in fixed right-0 top-0 z-[80] flex h-[100dvh] w-[min(400px,88vw)] flex-col bg-white shadow-modal"
           >
             <div className="flex h-[68px] shrink-0 items-center justify-between border-b border-reno-line px-5">
-              <BrandLogo markClassName="h-8 w-auto" textClassName="text-lg text-reno-ink" />
+              <BrandLogo markClassName="h-7 w-auto" textClassName="text-base text-reno-ink" />
               <div className="flex items-center gap-2">
                 <LangSwitch tone="light" />
                 <button
@@ -384,8 +403,6 @@ export const RenovationFooter: React.FC = () => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
   const groups = useGroups();
-  const frPath = alternatePath(useLocation().pathname, 'fr');
-  if (frPath === '/renovation/devis') return null;
   const link =
     'rounded text-base text-stone-300 transition-colors duration-150 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E4A58C]';
 

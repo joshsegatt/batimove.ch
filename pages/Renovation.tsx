@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, Check, ChevronDown, ChevronRight, Loader2, Phone } from 'lucide-react';
+import { ArrowRight, Building2, Check, ChevronDown, ChevronRight, Droplets, House, Loader2, PaintRoller, Phone } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { FadeImg } from '../components/FadeImg';
 import { useRevealOnce } from '../hooks/useRevealOnce';
-import { dropClass, dropStyle, lineStyle } from '../utils/reveal';
+import { lineStyle } from '../utils/reveal';
 import { RENO_BTN } from '../components/renovation/RenovationLayout';
 import { WhatsappIcon } from '../components/WhatsAppButton';
 import {
@@ -17,13 +17,14 @@ import {
   type RenovationId,
 } from '../data/renovation';
 import { submitServiceQuote } from '../services/api';
+import { BATIMOVE_WHATSAPP } from '../data/quoteServices';
 import { trackGoogleAdsLeadConversion } from '../utils/analytics';
 import { defineCopy, localizePath, useLang, type Lang } from '../i18n';
 
 // Batimove Rénovation: página principal (/renovation), uma página por serviço
 // (/renovation/<serviço>) e o pedido de devis (/renovation/devis).
-// Sem fotos por enquanto (chegam depois): a força visual vem da tipografia,
-// do índice numerado e das linhas finas, no estilo de uma planta de obra.
+// Fotos de matéria (RENO_IMG) até chegarem as fotos reais de obras; o resto do
+// peso visual vem da tipografia e das linhas finas.
 
 const ORIGIN = 'https://www.batimove.ch';
 
@@ -34,9 +35,14 @@ const COPY = defineCopy(
     lead: "Appartements, maisons et immeubles : nous coordonnons vos travaux avec des artisans qualifiés et assurés, et nous pouvons vider, stocker et réinstaller vos meubles le temps du chantier.",
     cta: 'Décrire mon projet',
     heroAlt: 'Mur enduit à la chaux et sol en terre cuite dans la lumière du soir',
-    pickerTitle: 'Quel est votre projet ?',
-    pickerLead: 'Choisissez, le devis s’ouvre avec la bonne prestation.',
-    pickerOther: 'Autre projet',
+    pickerTitle: 'Par où commencer ?',
+    pickerLead: 'Choisissez votre situation.',
+    intents: [
+      { title: 'Une pièce à refaire', text: 'Salle de bain, cuisine, peinture, sols', to: '#reno-services' },
+      { title: 'Tout le logement', text: 'Appartement ou maison, de A à Z', to: '/renovation/appartement-maison' },
+      { title: 'Humidité ou infiltration', text: 'Toit plat, terrasse, balcon, cave', to: '#reno-water' },
+      { title: 'Un immeuble', text: 'Régies, PPE et propriétaires', to: '/renovation/immeubles' },
+    ],
     freeCall: 'appel gratuit',
     indexTitle: 'Nos prestations',
     servicesTitle: 'Ce que nous rénovons',
@@ -55,6 +61,7 @@ const COPY = defineCopy(
     stepsTitle: 'Comment se passe un chantier',
     synergyTitle: 'Rénover sans rien porter vous-même.',
     synergyText: "Batimove est d'abord une entreprise de déménagement. Pour un chantier, tout est sous le même toit :",
+    synergyNote: 'Chaque lien ouvre la prestation sur notre site déménagement.',
     synergyItems: [
       { text: 'Meubles déménagés et gardés en garde-meubles pendant les travaux', to: '/garde-meubles' },
       { text: 'Débarras et évacuation de ce qui ne revient pas', to: '/debarras' },
@@ -83,9 +90,14 @@ const COPY = defineCopy(
     lead: 'Flats, houses and apartment buildings: we coordinate your works with qualified, insured tradespeople, and we can empty, store and bring back your furniture for the duration of the job.',
     cta: 'Describe my project',
     heroAlt: 'Lime plaster wall and terracotta floor in the evening light',
-    pickerTitle: 'What is your project?',
-    pickerLead: 'Pick one and the quote opens with the right service.',
-    pickerOther: 'Another project',
+    pickerTitle: 'Where to start?',
+    pickerLead: 'Pick your situation.',
+    intents: [
+      { title: 'A room to redo', text: 'Bathroom, kitchen, painting, floors', to: '#reno-services' },
+      { title: 'The whole home', text: 'Flat or house, from A to Z', to: '/renovation/appartement-maison' },
+      { title: 'Damp or a leak', text: 'Flat roof, terrace, balcony, cellar', to: '#reno-water' },
+      { title: 'A building', text: 'Letting agencies, co-owners and landlords', to: '/renovation/immeubles' },
+    ],
     freeCall: 'free call',
     indexTitle: 'Our services',
     servicesTitle: 'What we renovate',
@@ -104,6 +116,7 @@ const COPY = defineCopy(
     stepsTitle: 'How a renovation works',
     synergyTitle: 'Renovate without lifting a box.',
     synergyText: 'Batimove is first a removals company. For a renovation, everything is under one roof:',
+    synergyNote: 'Each link opens the service on our removals site.',
     synergyItems: [
       { text: 'Furniture moved out and kept in storage during the work', to: '/garde-meubles' },
       { text: 'Clearance and disposal of what is not coming back', to: '/debarras' },
@@ -126,15 +139,6 @@ const COPY = defineCopy(
     serviceCta: 'Request a quote',
   }
 );
-
-/** Fundo de planta de obra: quadriculado fino que some nas bordas. */
-const BLUEPRINT: React.CSSProperties = {
-  backgroundImage:
-    'linear-gradient(to right, rgba(23,26,29,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(23,26,29,0.06) 1px, transparent 1px)',
-  backgroundSize: '40px 40px',
-  maskImage: 'radial-gradient(ellipse at 70% 30%, black 20%, transparent 75%)',
-  WebkitMaskImage: 'radial-gradient(ellipse at 70% 30%, black 20%, transparent 75%)',
-};
 
 const PROVIDER = {
   '@type': 'HomeAndConstructionBusiness',
@@ -176,9 +180,6 @@ const PhoneLink: React.FC<{ label: string; tone?: 'light' | 'dark' }> = ({ label
   </a>
 );
 
-/** Movimento do ícone no hover (classes em src/index.css): o pincel e o piso inclinam, o resto sobe. */
-const ICON_MOTION: Partial<Record<RenovationId, string>> = { peinture: 'icon-tilt', sols: 'icon-tilt' };
-
 /**
  * Fotos de matéria (geradas por IA): close-ups de materiais e detalhes, sem
  * pessoas e sem obra "pronta", para não se passarem por chantiers da Batimove.
@@ -214,51 +215,58 @@ const imgSet = (base: string) => ({
   srcSet: `${base}-640.webp 640w, ${base}-1200.webp 1200w`,
 });
 
-/** Célula do seletor do hero: superfície branca que fica pierre no hover; ícone grafite que se mexe. */
+/** Célula do seletor do hero: superfície branca que fica pierre no hover. */
 const PICK_CELL =
-  'group flex h-full items-center gap-3 bg-white px-4 py-3.5 transition-colors duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-reno-stone focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none lg:px-5 lg:py-4';
-const PICK_ICON =
-  'grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-reno-stone text-reno-ink transition-colors duration-200 group-hover:bg-reno-ink group-hover:text-white motion-reduce:transition-none';
+  'group flex h-full items-start gap-4 bg-white px-4 py-4 transition-colors duration-150 hover:bg-reno-stone focus-visible:relative focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none lg:px-5 lg:py-5';
+const PICK_ICON = 'grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-reno-stone text-reno-ink';
+const INTENT_ICONS = [PaintRoller, House, Droplets, Building2];
 
 /**
- * Cartão de prestação. No hover: sobe 4px, a sombra passa a raised, um filete
- * terracota se desenha no topo e o ícone fica grafite e se mexe.
+ * Cartão de prestação. Hover honesto (DESIGN.md): sobe 2px e passa de rest a
+ * raised; a foto aproxima devagar como único sinal extra. O cartão em destaque
+ * (Rénovation complète) fica horizontal e mostra o que está incluído.
  */
 const ServiceCard: React.FC<{ id: RenovationId; featured?: boolean }> = ({ id, featured }) => {
   const { lang, lp } = useLang();
   const s = renovationById(id);
   const c = s[lang];
-  const Icon = s.icon;
   return (
     <Link
       to={lp(s.path)}
-      className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-reno-line bg-white p-5 shadow-rest transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+      className={`group flex h-full overflow-hidden rounded-xl border border-reno-line bg-white shadow-rest transition-[border-color,box-shadow,transform] duration-150 ease-out hover:-translate-y-0.5 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
+        featured ? 'flex-col sm:flex-row' : 'flex-row sm:flex-col'
+      }`}
     >
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 z-10 h-0.5 origin-left scale-x-0 bg-reno-clay transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
-      />
-      <div className={`-mx-5 -mt-5 overflow-hidden bg-reno-stone ${featured ? 'h-48 sm:h-56' : 'h-44'}`}>
+      <div className={`shrink-0 overflow-hidden bg-reno-stone ${featured ? 'h-48 sm:h-auto sm:w-1/2' : 'w-28 sm:h-44 sm:w-auto'}`}>
         <FadeImg
           {...imgSet(SERVICE_IMG[id])}
-          sizes={featured ? '(min-width: 1024px) 800px, 100vw' : '(min-width: 1024px) 400px, 100vw'}
+          sizes={featured ? '(min-width: 1024px) 420px, 100vw' : '(min-width: 1024px) 400px, 100vw'}
           alt=""
           width={1200}
           height={900}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] motion-reduce:transition-none"
+          className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] motion-reduce:transition-none"
         />
       </div>
-      <span className="relative -mt-6 grid h-12 w-12 place-items-center rounded-lg bg-white text-reno-ink shadow-raised ring-1 ring-reno-line transition-colors duration-300 group-hover:bg-reno-ink group-hover:text-white group-hover:ring-reno-ink motion-reduce:transition-none">
-        <Icon className={`h-[22px] w-[22px] ${ICON_MOTION[id] ?? 'icon-lift'}`} strokeWidth={1.75} aria-hidden="true" />
-      </span>
-      <h3 className={`mt-4 font-display font-medium tracking-tight text-reno-ink ${featured ? 'text-2xl lg:text-3xl' : 'text-xl'}`}>{c.name}</h3>
-      <p className="mt-1.5 text-base leading-relaxed text-slate-600">{c.summary}</p>
-      <span className="mt-auto inline-flex items-center gap-1.5 pt-5 text-base font-semibold text-reno-clay">
-        {c.hint}
-        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" aria-hidden="true" />
-      </span>
+      <div className={`flex min-w-0 flex-1 flex-col ${featured ? 'p-5 sm:p-7' : 'p-4 sm:p-5'}`}>
+        <h3 className={`font-display font-medium tracking-tight text-reno-ink ${featured ? 'text-2xl lg:text-3xl' : 'text-xl'}`}>{c.name}</h3>
+        <p className={`mt-1.5 text-base leading-relaxed text-slate-600 ${featured ? '' : 'hidden sm:block'}`}>{c.summary}</p>
+        {featured && (
+          <ul className="mt-4 hidden space-y-2 sm:block">
+            {c.includes.slice(0, 3).map((it) => (
+              <li key={it} className="flex items-start gap-2.5 text-base leading-relaxed text-reno-ink">
+                <Check className="mt-1 h-4 w-4 shrink-0 text-reno-clay" strokeWidth={2.5} aria-hidden="true" />
+                {it}
+              </li>
+            ))}
+          </ul>
+        )}
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-base font-semibold text-reno-clay sm:pt-5">
+          {c.hint}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </span>
+      </div>
     </Link>
   );
 };
@@ -301,7 +309,7 @@ const Faq: React.FC<{ title: string; items: FaqItem[]; tone?: 'stone' | 'white' 
       <div className="divide-y divide-reno-line border-y border-reno-line lg:col-span-8">
         {items.map((f) => (
           <details key={f.q} className="faq-item group">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold text-reno-ink transition-colors duration-150 hover:text-reno-clay [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-sm py-5 text-lg font-semibold text-reno-ink transition-colors duration-150 hover:text-reno-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-reno-clay [&::-webkit-details-marker]:hidden">
               {f.q}
               <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
             </summary>
@@ -317,7 +325,7 @@ const FinalCta: React.FC<{ to: string }> = ({ to }) => {
   const { lang, lp } = useLang();
   const c = COPY[lang];
   return (
-    <section className="bg-reno-ink text-white">
+    <section className="border-b border-white/10 bg-reno-ink text-white">
       <div className="mx-auto flex max-w-7xl flex-col items-start gap-8 px-4 py-16 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-20">
         <div className="max-w-2xl">
           <h2 className="font-display text-3xl font-medium tracking-tight lg:text-4xl">{c.finalTitle}</h2>
@@ -344,11 +352,8 @@ export const RenovationHome: React.FC = () => {
   const c = COPY[lang];
   const common = RENOVATION_COMMON[lang];
   const groups: RenovationGroup[] = ['interieur', 'batiment'];
-  // Entradas ao rolar: os cartões de prestação descem para o lugar; as linhas da
-  // étanchéité se desenham (o mesmo traço das etapas).
-  const servicesReveal = useRevealOnce<HTMLDivElement>(0.1);
+  // Um só gesto de movimento: o filete que se desenha, nas etapas e nos sinais de infiltração.
   const waterReveal = useRevealOnce<HTMLUListElement>(0.3);
-  const trustReveal = useRevealOnce<HTMLUListElement>(0.3);
   const schema = useMemo(
     () => [
       { '@context': 'https://schema.org', ...PROVIDER, description: c.lead },
@@ -362,7 +367,7 @@ export const RenovationHome: React.FC = () => {
       <SEO schema={schema} />
 
       {/* HERO grafite: matéria em foto à direita (dissolvida no grafite do lado do
-          texto), promessa à esquerda e, na base, o seletor de prestações que desce
+          texto), promessa à esquerda e, na base, o seletor por situação que desce
           sobre a faixa pierre (o mesmo gesto do hero da mudança). */}
       <section className="relative">
         <div className="relative isolate bg-reno-ink text-white">
@@ -384,7 +389,7 @@ export const RenovationHome: React.FC = () => {
 
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="-mt-12 max-w-xl pb-12 sm:-mt-20 lg:mt-0 lg:max-w-[33rem] lg:pb-48 lg:pt-14 xl:pt-16">
-              <h1 className="font-display text-4xl font-medium leading-[1.04] tracking-tight text-balance sm:text-5xl xl:text-[3.5rem]">
+              <h1 className="font-display text-4xl font-medium leading-[1.04] tracking-tight text-balance sm:text-5xl">
                 {c.h1} <span className="text-[#E4A58C]">{c.h1Accent}</span>
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-stone-300 xl:text-xl">{c.lead}</p>
@@ -397,57 +402,57 @@ export const RenovationHome: React.FC = () => {
               </div>
             </div>
 
-            {/* Seletor: cada célula abre o devis com a prestação já escolhida. */}
+            {/* Seletor por situação: quatro portas de entrada com palavras do cliente,
+                que levam à seção ou à página certa (o devis fica no botão acima). */}
             <nav
               aria-labelledby="reno-index"
-              className="relative z-10 -mb-40 overflow-hidden rounded-xl bg-white text-reno-ink shadow-modal sm:-mb-32 lg:-mt-32 lg:-mb-24"
+              className="relative z-10 -mb-24 overflow-hidden rounded-xl bg-white text-reno-ink shadow-modal lg:-mb-16 lg:-mt-28"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-4 py-4 lg:px-5">
                 <h2 id="reno-index" className="font-display text-xl font-medium tracking-tight">{c.pickerTitle}</h2>
-                <p className="hidden text-sm text-slate-600 sm:block">{c.pickerLead}</p>
+                <p className="hidden text-base text-slate-600 sm:block">{c.pickerLead}</p>
               </div>
-              <ul className="grid grid-cols-2 gap-px border-t border-reno-line bg-reno-line sm:grid-cols-3 lg:grid-cols-5">
-                {RENOVATION_SERVICES.map((s) => {
-                  const Icon = s.icon;
+              <ul className="grid grid-cols-1 gap-px border-t border-reno-line bg-reno-line sm:grid-cols-2 lg:grid-cols-4">
+                {c.intents.map((it, i) => {
+                  const Icon = INTENT_ICONS[i];
+                  const inner = (
+                    <>
+                      <span className={PICK_ICON}>
+                        <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-lg font-semibold leading-snug transition-colors duration-150 group-hover:text-reno-clay">{it.title}</span>
+                        <span className="block text-base leading-snug text-slate-600">{it.text}</span>
+                      </span>
+                    </>
+                  );
                   return (
-                    <li key={s.id} className="min-w-0">
-                      <Link to={lp(`/renovation/devis?type=${s.id}`)} className={PICK_CELL}>
-                        <span className={PICK_ICON}>
-                          <Icon className={`h-5 w-5 ${ICON_MOTION[s.id] ?? 'icon-lift'}`} strokeWidth={1.75} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0 text-[15px] font-semibold leading-snug">{s[lang].name}</span>
-                      </Link>
+                    <li key={it.title} className="min-w-0">
+                      {it.to.startsWith('#') ? (
+                        <a href={it.to} className={PICK_CELL}>
+                          {inner}
+                        </a>
+                      ) : (
+                        <Link to={lp(it.to)} className={PICK_CELL}>
+                          {inner}
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
-                <li className="min-w-0">
-                  <Link to={lp('/renovation/devis')} className={`${PICK_CELL} bg-reno-clay-soft hover:bg-[#EEDACF]`}>
-                    <span className={`${PICK_ICON} bg-white text-reno-clay`}>
-                      <ArrowRight className="icon-drive h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-                    </span>
-                    <span className="min-w-0 text-[15px] font-semibold leading-snug text-reno-clay">{c.pickerOther}</span>
-                  </Link>
-                </li>
               </ul>
             </nav>
           </div>
         </div>
 
-        {/* Faixa pierre: as quatro garantias, com o filete de cada uma se
-            desenhando quando entram na tela (o traço das etapas). */}
+        {/* Faixa pierre: as quatro garantias. */}
         <div className="bg-reno-stone">
           <ul
-            ref={trustReveal.ref}
             aria-label={common.trust.map((t) => t.title).join(', ')}
-            className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-14 pt-48 sm:grid-cols-2 sm:px-6 sm:pt-40 lg:grid-cols-4 lg:px-8 lg:pb-16 lg:pt-36"
+            className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-14 pt-32 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8 lg:pb-16 lg:pt-28"
           >
-            {common.trust.map((t, i) => (
-              <li key={t.title} className="relative border-t border-reno-line pt-5">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 -top-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-                  style={lineStyle(trustReveal.pending, i * 180)}
-                />
+            {common.trust.map((t) => (
+              <li key={t.title} className="border-t border-reno-line pt-5">
                 <h3 className="font-display text-lg font-medium tracking-tight">{t.title}</h3>
                 <p className="mt-2 text-base leading-relaxed text-slate-600">{t.text}</p>
               </li>
@@ -458,9 +463,9 @@ export const RenovationHome: React.FC = () => {
 
       {/* Prestações por grupo */}
       <section aria-labelledby="reno-services" className="bg-white">
-        <div ref={servicesReveal.ref} className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="max-w-2xl">
-            <h2 id="reno-services" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
+            <h2 id="reno-services" className="scroll-mt-28 font-display text-3xl font-medium tracking-tight lg:text-4xl">
               {c.servicesTitle}
             </h2>
             <p className="mt-3 text-lg leading-relaxed text-slate-600">{c.servicesLead}</p>
@@ -475,7 +480,7 @@ export const RenovationHome: React.FC = () => {
                 {RENOVATION_SERVICES.filter((s) => s.group === g).map((s, i) => {
                   const featured = g === 'interieur' && i === 0;
                   return (
-                    <li key={s.id} className={`${featured ? 'sm:col-span-2 ' : ''}${dropClass(servicesReveal.pending)}`} style={dropStyle(i)}>
+                    <li key={s.id} className={featured ? 'sm:col-span-2' : undefined}>
                       <ServiceCard id={s.id} featured={featured} />
                     </li>
                   );
@@ -486,64 +491,7 @@ export const RenovationHome: React.FC = () => {
         </div>
       </section>
 
-      {/* Étanchéité: causa antes da finição */}
-      <section aria-labelledby="reno-water" className="bg-reno-stone">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
-          <div className="lg:col-span-5">
-            <h2 id="reno-water" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
-              {c.waterTitle}
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.waterText}</p>
-            <FadeImg
-              {...imgSet(RENO_IMG.balcon)}
-              sizes="(min-width: 1024px) 480px, 100vw"
-              alt={c.waterAlt}
-              width={1200}
-              height={900}
-              loading="lazy"
-              decoding="async"
-              className="mt-8 aspect-[4/3] w-full rounded-xl object-cover shadow-raised"
-            />
-          </div>
-          <div className="lg:col-span-7">
-            <ul ref={waterReveal.ref} className="border-t border-reno-line">
-              {c.waterSigns.map((sign, i) => (
-                <li key={sign} className="relative flex items-start gap-3 border-b border-reno-line py-4 text-lg">
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-0 -bottom-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-                    style={lineStyle(waterReveal.pending, i * 160)}
-                  />
-                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-reno-clay" />
-                  {sign}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {(['etancheite-toiture-terrasse', 'etancheite-sous-sol'] as RenovationId[]).map((id) => {
-                const s = renovationById(id);
-                return (
-                  <Link
-                    key={id}
-                    to={lp(s.path)}
-                    className="group flex items-center justify-between gap-3 rounded-xl border border-reno-line bg-white px-4 py-3.5 shadow-rest transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-                  >
-                    <span>
-                      <span className="block text-sm text-slate-500">{c.waterLinks}</span>
-                      <span className="block font-semibold">{s[lang].name}</span>
-                    </span>
-                    <ArrowRight className="h-4 w-4 text-reno-clay transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Steps title={c.stepsTitle} />
-
-      {/* Diferença: a Batimove também muda, guarda, debarrassa e limpa */}
+      {/* Diferença (o que nenhum renovador tem): a Batimove também muda, guarda, debarrassa e limpa */}
       <section aria-labelledby="reno-synergy" className="bg-reno-ink text-white">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
           <div className="lg:col-span-5">
@@ -551,6 +499,7 @@ export const RenovationHome: React.FC = () => {
               {c.synergyTitle}
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-stone-300">{c.synergyText}</p>
+            <p className="mt-4 text-base text-stone-400">{c.synergyNote}</p>
           </div>
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:col-span-7">
             {c.synergyItems.map((it, i) => (
@@ -571,10 +520,67 @@ export const RenovationHome: React.FC = () => {
         </div>
       </section>
 
+      {/* Étanchéité: causa antes da finição */}
+      <section aria-labelledby="reno-water" className="bg-reno-stone">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
+          <div className="lg:col-span-7">
+            <h2 id="reno-water" className="scroll-mt-28 font-display text-3xl font-medium tracking-tight lg:text-4xl">
+              {c.waterTitle}
+            </h2>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">{c.waterText}</p>
+            <ul ref={waterReveal.ref} className="mt-8 border-t border-reno-line">
+              {c.waterSigns.map((sign, i) => (
+                <li key={sign} className="relative flex items-start gap-3 border-b border-reno-line py-4 text-lg">
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 -bottom-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                    style={lineStyle(waterReveal.pending, i * 160)}
+                  />
+                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-reno-clay" />
+                  {sign}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {(['etancheite-toiture-terrasse', 'etancheite-sous-sol'] as RenovationId[]).map((id) => {
+                const s = renovationById(id);
+                return (
+                  <Link
+                    key={id}
+                    to={lp(s.path)}
+                    className="group flex items-center justify-between gap-3 rounded-xl border border-reno-line bg-white px-4 py-3.5 shadow-rest transition-[border-color,box-shadow,transform] duration-150 ease-out hover:-translate-y-0.5 hover:border-reno-ink/30 hover:shadow-raised focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-reno-clay motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                  >
+                    <span>
+                      <span className="block text-sm text-slate-600">{c.waterLinks}</span>
+                      <span className="block font-semibold">{s[lang].name}</span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 text-reno-clay" aria-hidden="true" />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <FadeImg
+              {...imgSet(RENO_IMG.balcon)}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              alt={c.waterAlt}
+              width={1200}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[4/3] w-full rounded-xl object-cover shadow-raised lg:aspect-auto lg:h-full"
+            />
+          </div>
+        </div>
+      </section>
+
+      <Steps title={c.stepsTitle} />
+
       {/* Régies e PPE */}
-      <section aria-labelledby="reno-pro" className="bg-white">
+      <section aria-labelledby="reno-pro" className="bg-reno-stone">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <div className="grid grid-cols-1 items-end gap-8 rounded-xl border border-reno-line bg-reno-stone p-8 sm:p-10 lg:grid-cols-12 lg:p-12">
+          <div className="grid grid-cols-1 items-end gap-8 rounded-xl border border-reno-line bg-white p-8 shadow-rest sm:p-10 lg:grid-cols-12 lg:p-12">
             <div className="lg:col-span-8">
               <h2 id="reno-pro" className="font-display text-3xl font-medium tracking-tight lg:text-4xl">
                 {c.proTitle}
@@ -594,7 +600,7 @@ export const RenovationHome: React.FC = () => {
         </div>
       </section>
 
-      <Faq title={c.faqTitle} items={RENOVATION_FAQ[lang]} tone="stone" />
+      <Faq title={c.faqTitle} items={RENOVATION_FAQ[lang]} />
       <FinalCta to="/renovation/devis" />
     </div>
   );
@@ -609,12 +615,12 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
   const c = COPY[lang];
   const s = renovationById(id);
   const sc = s[lang];
-  const Icon = s.icon;
   const quoteTo = `/renovation/devis?type=${id}`;
-  const signsReveal = useRevealOnce<HTMLUListElement>(0.25);
-  const others = RENOVATION_SERVICES.filter((o) => o.id !== id && o.group === s.group).concat(
-    RENOVATION_SERVICES.filter((o) => o.group !== s.group).slice(0, 1)
-  );
+  // Três do mesmo grupo e uma ponte para o outro: do interior para a umidade, do bâtiment para a reforma completa.
+  const bridge: RenovationId = s.group === 'interieur' ? 'etancheite-sous-sol' : 'appartement-maison';
+  const others = RENOVATION_SERVICES.filter((o) => o.id !== id && o.group === s.group)
+    .slice(0, 3)
+    .concat(id === bridge ? [] : [renovationById(bridge)]);
   const schema = useMemo(
     () => [
       {
@@ -644,11 +650,10 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
     <div className="bg-white text-reno-ink selection:bg-reno-clay selection:text-white">
       <SEO schema={schema} />
 
-      <section className="relative overflow-hidden bg-reno-stone">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={BLUEPRINT} />
-        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-6 sm:px-6 lg:px-8 lg:pb-20">
+      <section className="bg-reno-stone">
+        <div className="mx-auto max-w-7xl px-4 pb-14 pt-6 sm:px-6 lg:px-8 lg:pb-20">
           <nav aria-label={c.breadcrumb}>
-            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-slate-500">
+            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-slate-600">
               <li>
                 <Link to={lp('/renovation')} className="transition-colors hover:text-reno-ink">
                   {c.crumbRoot}
@@ -665,10 +670,7 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
 
           <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-7">
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-reno-ink text-white">
-                <Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
-              </span>
-              <h1 className="mt-6 font-display text-4xl font-medium leading-[1.08] tracking-tight text-balance sm:text-5xl">{sc.h1}</h1>
+              <h1 className="font-display text-4xl font-medium leading-[1.08] tracking-tight text-balance sm:text-5xl">{sc.h1}</h1>
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600 xl:text-xl">{sc.lead}</p>
               <p className="mt-4 text-base font-medium text-slate-600">{c.zoneNote}</p>
               <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
@@ -712,14 +714,9 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
           <h2 id="reno-signs" className="font-display text-3xl font-medium tracking-tight lg:col-span-4 lg:text-4xl">
             {c.signsTitle}
           </h2>
-          <ul ref={signsReveal.ref} className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:col-span-8">
-            {sc.signs.map((sign, i) => (
-              <li key={sign} className="relative flex items-start gap-3 border-t border-reno-line pt-4">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 -top-px h-px origin-left bg-reno-clay transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-                  style={lineStyle(signsReveal.pending, i * 160)}
-                />
+          <ul className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 lg:col-span-8">
+            {sc.signs.map((sign) => (
+              <li key={sign} className="flex items-start gap-3 border-t border-reno-line pt-4">
                 <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-reno-clay" />
                 <p className="text-lg font-medium leading-snug">{sign}</p>
               </li>
@@ -731,13 +728,13 @@ export const RenovationServicePage: React.FC<{ id: RenovationId }> = ({ id }) =>
       <Steps title={c.stepsTitle} tone="stone" />
       <Faq title={c.faqTitle} items={sc.faq} />
 
-      <section aria-labelledby="reno-others" className="border-t border-reno-line bg-white">
+      <section aria-labelledby="reno-others" className="bg-reno-stone">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 id="reno-others" className="font-display text-2xl font-medium tracking-tight lg:text-3xl">
             {c.othersTitle}
           </h2>
           <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {others.slice(0, 4).map((o) => (
+            {others.map((o) => (
               <li key={o.id}>
                 <ServiceCard id={o.id} />
               </li>
@@ -759,80 +756,134 @@ const FORM_COPY = defineCopy(
   {
     title: 'Votre projet en 2 minutes.',
     lead: 'Décrivez les travaux : nous vous rappelons pour fixer une visite sur place, puis vous recevez un devis détaillé.',
+    requiredNote: 'Tous les champs sont obligatoires, sauf ceux marqués « facultatif ».',
+    optional: 'facultatif',
     project: 'Type de travaux',
-    projectOther: 'Plusieurs travaux ou autre projet',
+    projectHint: 'Plusieurs choix possibles.',
+    projectOther: 'Autre projet',
+    projectRequired: 'Choisissez au moins un type de travaux',
     property: 'Type de bien',
     properties: ['Appartement', 'Maison', 'Immeuble ou PPE', 'Local commercial'],
     place: 'Commune ou NPA du chantier',
     placeHint: 'Genève en priorité ; canton de Vaud selon la prestation.',
-    timing: 'Quand souhaitez-vous commencer ?',
+    timing: 'Début souhaité',
     timings: ['Dès que possible', 'Dans les 3 mois', 'Dans 3 à 6 mois', 'Pas encore défini'],
     details: 'Décrivez le projet',
-    detailsHint: 'Pièces concernées, surface approximative, ce qui vous gêne aujourd’hui…',
+    detailsHint: 'Pièces concernées, surface approximative, ce qui vous gêne aujourd’hui.',
     contactTitle: 'Vos coordonnées',
+    who: 'Vous êtes',
+    whoOptions: ['Un particulier', 'Une régie, une PPE ou une entreprise'],
+    company: 'Régie, PPE ou entreprise',
+    units: 'Logements ou lots',
     name: 'Nom et prénom',
     phone: 'Téléphone',
-    email: 'E-mail (facultatif)',
+    email: 'E-mail',
     photos: 'Des photos aident beaucoup : vous pourrez nous les envoyer par WhatsApp après la demande.',
     submit: 'Envoyer ma demande',
     sending: 'Envoi…',
+    orCall: 'ou appelez le',
+    freeCall: 'appel gratuit',
+    after: 'Nous vous rappelons pour fixer la visite sur place. Vos données servent uniquement à établir votre devis.',
+    privacyLink: 'Protection des données',
     required: 'Champ obligatoire',
-    invalidPhone: 'Numéro trop court',
+    invalidPhone: 'Numéro incomplet, par exemple 079 123 45 67',
     invalidEmail: 'Adresse e-mail invalide',
     error: "L'envoi n'a pas abouti. Réessayez ou appelez le 0800 825 925.",
     doneTitle: 'Merci, votre demande est envoyée.',
     doneText: 'Nous vous rappelons pour fixer la visite sur place. Vous pouvez déjà nous envoyer des photos :',
     whatsapp: 'Envoyer des photos sur WhatsApp',
+    photosMsg: (what: string, name: string) =>
+      `Bonjour Batimove Rénovation, je viens d'envoyer une demande de devis (${what}) au nom de ${name}. Voici des photos :`,
     back: 'Retour à la rénovation',
     select: 'Choisir…',
   },
   {
     title: 'Your project in 2 minutes.',
     lead: 'Describe the work: we call you back to arrange a site visit, then you receive a detailed quote.',
+    requiredNote: 'All fields are required unless marked “optional”.',
+    optional: 'optional',
     project: 'Type of work',
-    projectOther: 'Several jobs or another project',
+    projectHint: 'You can pick several.',
+    projectOther: 'Another project',
+    projectRequired: 'Pick at least one type of work',
     property: 'Type of property',
     properties: ['Flat', 'House', 'Apartment building or co-ownership', 'Commercial premises'],
     place: 'Town or postcode of the site',
     placeHint: 'Geneva first; canton of Vaud depending on the service.',
-    timing: 'When would you like to start?',
+    timing: 'Preferred start',
     timings: ['As soon as possible', 'Within 3 months', 'In 3 to 6 months', 'Not decided yet'],
     details: 'Describe the project',
-    detailsHint: 'Rooms involved, approximate area, what bothers you today…',
+    detailsHint: 'Rooms involved, approximate area, what bothers you today.',
     contactTitle: 'Your details',
+    who: 'You are',
+    whoOptions: ['A private individual', 'A letting agency, co-ownership or company'],
+    company: 'Agency, co-ownership or company',
+    units: 'Flats or units',
     name: 'Full name',
     phone: 'Phone',
-    email: 'Email (optional)',
+    email: 'Email',
     photos: 'Photos help a lot: you can send them to us on WhatsApp after your request.',
     submit: 'Send my request',
     sending: 'Sending…',
+    orCall: 'or call',
+    freeCall: 'free call',
+    after: 'We call you back to arrange the site visit. Your details are used only to prepare your quote.',
+    privacyLink: 'Privacy policy',
     required: 'Required field',
-    invalidPhone: 'Number too short',
+    invalidPhone: 'Incomplete number, for example 079 123 45 67',
     invalidEmail: 'Invalid email address',
     error: 'Sending failed. Please try again or call 0800 825 925.',
     doneTitle: 'Thank you, your request has been sent.',
     doneText: 'We will call you back to arrange the site visit. You can already send us photos:',
     whatsapp: 'Send photos on WhatsApp',
+    photosMsg: (what: string, name: string) =>
+      `Hello Batimove Renovation, I have just sent a quote request (${what}) under the name ${name}. Here are some photos:`,
     back: 'Back to renovation',
     select: 'Choose…',
   }
 );
 
 type FormState = {
-  project: string;
+  projects: string[];
   property: string;
   place: string;
   timing: string;
   details: string;
+  client: 'particulier' | 'pro';
+  company: string;
+  units: string;
   name: string;
   phone: string;
   email: string;
 };
+type TextField = Exclude<keyof FormState, 'projects' | 'client'>;
 
+/** Campo de texto: raio de 8px (DESIGN.md: 12px é de botões e cartões). */
 const fieldClass = (invalid: boolean) =>
-  `mt-2 block w-full rounded-xl border bg-white px-4 py-3 text-lg text-reno-ink placeholder:text-slate-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-reno-clay/30 ${
+  `mt-2 block w-full rounded-lg border bg-white px-4 py-3 text-lg text-reno-ink transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-reno-clay/40 ${
     invalid ? 'border-red-600 focus:border-red-600' : 'border-reno-line focus:border-reno-ink'
   }`;
+
+/** Opção marcável (tipo de obra): fica grafite quando escolhida, com o visto à esquerda. */
+const CHIP =
+  'inline-flex cursor-pointer select-none items-center gap-2 rounded-lg border bg-white px-3.5 py-2.5 text-base font-medium text-reno-ink transition-colors duration-150 hover:border-slate-400 has-[:checked]:border-reno-ink has-[:checked]:bg-reno-ink has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-reno-clay/50 has-[:focus-visible]:ring-offset-2 motion-reduce:transition-none';
+
+/** Cartão de escolha única (tipo de bien, particulier ou régie). */
+const choiceClass = (invalid: boolean) =>
+  `flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-lg transition-colors duration-150 has-[:checked]:border-reno-ink has-[:checked]:bg-reno-stone has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-reno-clay/40 ${
+    invalid ? 'border-red-600' : 'border-reno-line hover:border-slate-400'
+  }`;
+
+/** Telefone suíço (0XX XXX XX XX) ou internacional (+ / 00 e 8 a 15 dígitos). */
+const phoneOk = (raw: string) => {
+  const v = raw.trim();
+  const digits = v.replace(/\D/g, '');
+  if (v.startsWith('+')) return digits.length >= 8 && digits.length <= 15;
+  if (digits.startsWith('00')) return digits.length >= 10 && digits.length <= 17;
+  return /^0\d{9}$/.test(digits);
+};
+
+const DRAFT_KEY = 'batimove-reno-devis';
 
 export const RenovationQuote: React.FC = () => {
   const { lang, lp } = useLang();
@@ -840,11 +891,14 @@ export const RenovationQuote: React.FC = () => {
   const [params] = useSearchParams();
   const preset = RENOVATION_SERVICES.find((s) => s.id === params.get('type'));
   const [form, setForm] = useState<FormState>({
-    project: preset ? preset.id : '',
+    projects: preset ? [preset.id] : [],
     property: '',
     place: '',
     timing: '',
     details: '',
+    client: 'particulier',
+    company: '',
+    units: '',
     name: '',
     phone: '',
     email: '',
@@ -853,20 +907,63 @@ export const RenovationQuote: React.FC = () => {
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
   const [done, setDone] = useState(false);
+  const pro = form.client === 'pro';
+  const [draftReady, setDraftReady] = useState(false);
 
-  const set = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setForm((s) => ({ ...s, [k]: e.target.value }));
+  // Rascunho na sessão: quem sai para ler uma prestação e volta encontra o que já preencheu.
+  // Lido depois da montagem para não divergir do HTML pré-renderizado.
+  useEffect(() => {
+    setDraftReady(true);
+    try {
+      const raw = sessionStorage.getItem(DRAFT_KEY);
+      if (!raw) return;
+      const d = JSON.parse(raw) as Partial<FormState>;
+      setForm((s) => ({
+        ...s,
+        ...d,
+        client: d.client === 'pro' ? 'pro' : 'particulier',
+        projects: Array.from(new Set([...(Array.isArray(d.projects) ? d.projects : []), ...s.projects])),
+      }));
+    } catch {
+      /* sem storage (modo privado, bloqueado): segue sem rascunho */
+    }
+  }, []);
+  // Só grava depois de ler o rascunho, para não apagá-lo com o formulário vazio.
+  useEffect(() => {
+    if (!draftReady) return;
+    try {
+      if (done) sessionStorage.removeItem(DRAFT_KEY);
+      else sessionStorage.setItem(DRAFT_KEY, JSON.stringify(form));
+    } catch {
+      /* idem */
+    }
+  }, [form, done, draftReady]);
+
+  const clearError = (k: keyof FormState) => {
     if (errors[k]) setErrors((x) => ({ ...x, [k]: undefined }));
+  };
+  const set = (k: TextField) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setForm((s) => ({ ...s, [k]: e.target.value }));
+    clearError(k);
+  };
+  const toggleProject = (id: string) => {
+    setForm((s) => ({ ...s, projects: s.projects.includes(id) ? s.projects.filter((p) => p !== id) : [...s.projects, id] }));
+    clearError('projects');
+  };
+  const setClient = (client: FormState['client']) => {
+    setForm((s) => ({ ...s, client }));
+    clearError('company');
   };
 
   const validate = () => {
     const e: Partial<Record<keyof FormState, string>> = {};
-    if (!form.project) e.project = f.required;
+    if (form.projects.length === 0) e.projects = f.projectRequired;
     if (!form.property) e.property = f.required;
     if (!form.place.trim()) e.place = f.required;
+    if (pro && !form.company.trim()) e.company = f.required;
     if (!form.name.trim()) e.name = f.required;
     if (!form.phone.trim()) e.phone = f.required;
-    else if (form.phone.replace(/\D/g, '').length < 9) e.phone = f.invalidPhone;
+    else if (!phoneOk(form.phone)) e.phone = f.invalidPhone;
     if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = f.invalidEmail;
     return e;
   };
@@ -881,26 +978,35 @@ export const RenovationQuote: React.FC = () => {
     e.preventDefault();
     const found = validate();
     setErrors(found);
-    const first = Object.keys(found)[0];
+    const first = (Object.keys(found) as (keyof FormState)[]).find((k) => found[k]);
     if (first) {
       document.getElementById(`reno-${first}`)?.focus();
       return;
     }
     setSending(true);
     setFailed(false);
-    const projectFr = form.project === 'autre' ? FORM_COPY.fr.projectOther : renovationById(form.project as RenovationId).fr.name;
+    // Na ordem do catálogo, não na ordem dos cliques.
+    const projectsFr = [
+      ...RENOVATION_SERVICES.filter((s) => form.projects.includes(s.id)).map((s) => s.fr.name),
+      ...(form.projects.includes('autre') ? [FORM_COPY.fr.projectOther] : []),
+    ].join(', ');
     try {
       await submitServiceQuote({
-        serviceName: `Rénovation : ${projectFr}`,
+        serviceName: `Rénovation : ${projectsFr}`,
         clientName: form.name.trim(),
         clientEmail: form.email.trim() || 'Non renseigné',
         clientPhone: form.phone.trim(),
         date: form.timing ? frLabel('timings', form.timing) : 'Non précisé',
         fromCity: form.place.trim(),
-        details: [`Bien : ${frLabel('properties', form.property)}`, form.details.trim() && `Projet : ${form.details.trim()}`]
+        details: [
+          pro ? `Client professionnel : ${form.company.trim()}` : 'Client particulier',
+          pro && form.units.trim() && `Logements ou lots : ${form.units.trim()}`,
+          `Bien : ${frLabel('properties', form.property)}`,
+          form.details.trim() && `Projet : ${form.details.trim()}`,
+        ]
           .filter(Boolean)
           .join(' · '),
-        source: 'le formulaire Rénovation',
+        source: pro ? 'le formulaire Rénovation (régie / PPE / entreprise)' : 'le formulaire Rénovation',
         clientLang: lang,
       });
       trackGoogleAdsLeadConversion({ leadId: crypto.randomUUID() });
@@ -919,11 +1025,22 @@ export const RenovationQuote: React.FC = () => {
         {errors[k]}
       </p>
     ) : null;
-  const aria = (k: keyof FormState) => ({
+  const aria = (k: TextField, hint?: boolean) => ({
     id: `reno-${k}`,
     'aria-invalid': !!errors[k] || undefined,
-    'aria-describedby': errors[k] ? `reno-${k}-err` : undefined,
+    'aria-describedby': [errors[k] && `reno-${k}-err`, hint && `reno-${k}-hint`].filter(Boolean).join(' ') || undefined,
   });
+  // Link de fotos da confirmação: a mensagem já diz que vem da Rénovation e de qual pedido.
+  const photosUrl = `https://wa.me/${BATIMOVE_WHATSAPP}?text=${encodeURIComponent(
+    f.photosMsg(
+      [
+        ...RENOVATION_SERVICES.filter((s) => form.projects.includes(s.id)).map((s) => s[lang].name),
+        ...(form.projects.includes('autre') ? [f.projectOther] : []),
+      ].join(', '),
+      form.name.trim()
+    )
+  )}`;
+  const Optional = () => <span className="font-normal text-slate-600"> ({f.optional})</span>;
 
   return (
     <div className="min-h-[70vh] bg-reno-stone text-reno-ink">
@@ -938,7 +1055,7 @@ export const RenovationQuote: React.FC = () => {
             <p className="mt-3 text-lg leading-relaxed text-slate-600">{f.doneText}</p>
             <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <a
-                href="https://wa.me/41798896406"
+                href={photosUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#1F7A4D] px-6 text-lg font-semibold text-white transition-colors hover:bg-[#186440]"
@@ -957,36 +1074,49 @@ export const RenovationQuote: React.FC = () => {
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{f.lead}</p>
 
             <form noValidate onSubmit={onSubmit} className="mt-10 space-y-8 rounded-xl border border-reno-line bg-white p-6 shadow-raised sm:p-8">
-              <div>
-                <label htmlFor="reno-project" className="text-lg font-semibold">
-                  {f.project}
-                </label>
-                <select {...aria('project')} value={form.project} onChange={set('project')} className={fieldClass(!!errors.project)}>
-                  <option value="">{f.select}</option>
-                  {(['interieur', 'batiment'] as RenovationGroup[]).map((g) => (
-                    <optgroup key={g} label={RENOVATION_COMMON[lang].groups[g]}>
-                      {RENOVATION_SERVICES.filter((s) => s.group === g).map((s) => (
-                        <option key={s.id} value={s.id}>
-                          {s[lang].name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                  <option value="autre">{f.projectOther}</option>
-                </select>
-                {err('project')}
-              </div>
+              <p className="text-base text-slate-600">{f.requiredNote}</p>
 
-              <fieldset>
+              {/* Tipo de obra: várias escolhas, nos dois grupos do catálogo. */}
+              <fieldset aria-describedby={errors.projects ? 'reno-projects-err' : 'reno-projects-hint'}>
+                <legend className="text-lg font-semibold">{f.project}</legend>
+                <p id="reno-projects-hint" className="mt-1 text-base text-slate-600">
+                  {f.projectHint}
+                </p>
+                <div className="mt-4 space-y-4">
+                  {(['interieur', 'batiment'] as RenovationGroup[]).map((g, gi) => (
+                    <div key={g}>
+                      <p className="text-base font-medium text-slate-600">{RENOVATION_COMMON[lang].groups[g]}</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {RENOVATION_SERVICES.filter((s) => s.group === g).map((s, si) => (
+                          <label key={s.id} className={`${CHIP} ${errors.projects ? 'border-red-600' : 'border-reno-line'}`}>
+                            <input
+                              type="checkbox"
+                              id={gi === 0 && si === 0 ? 'reno-projects' : undefined}
+                              checked={form.projects.includes(s.id)}
+                              onChange={() => toggleProject(s.id)}
+                              className="peer sr-only"
+                            />
+                            <Check className="hidden h-4 w-4 peer-checked:block" strokeWidth={2.5} aria-hidden="true" />
+                            {s[lang].name}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <label className={`${CHIP} ${errors.projects ? 'border-red-600' : 'border-reno-line'}`}>
+                    <input type="checkbox" checked={form.projects.includes('autre')} onChange={() => toggleProject('autre')} className="peer sr-only" />
+                    <Check className="hidden h-4 w-4 peer-checked:block" strokeWidth={2.5} aria-hidden="true" />
+                    {f.projectOther}
+                  </label>
+                </div>
+                {err('projects')}
+              </fieldset>
+
+              <fieldset aria-describedby={errors.property ? 'reno-property-err' : undefined}>
                 <legend className="text-lg font-semibold">{f.property}</legend>
                 <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   {f.properties.map((p, i) => (
-                    <label
-                      key={p}
-                      className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-lg transition-colors duration-150 has-[:checked]:border-reno-ink has-[:checked]:bg-reno-stone has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-reno-clay/40 ${
-                        errors.property ? 'border-red-600' : 'border-reno-line hover:border-slate-400'
-                      }`}
-                    >
+                    <label key={p} className={choiceClass(!!errors.property)}>
                       <input
                         type="radio"
                         name="property"
@@ -1008,12 +1138,17 @@ export const RenovationQuote: React.FC = () => {
                   <label htmlFor="reno-place" className="text-lg font-semibold">
                     {f.place}
                   </label>
-                  <input {...aria('place')} value={form.place} onChange={set('place')} autoComplete="address-level2" className={fieldClass(!!errors.place)} />
-                  {err('place') ?? <p className="mt-1.5 text-base text-slate-500">{f.placeHint}</p>}
+                  <input {...aria('place', true)} value={form.place} onChange={set('place')} autoComplete="address-level2" className={fieldClass(!!errors.place)} />
+                  {err('place') ?? (
+                    <p id="reno-place-hint" className="mt-1.5 text-base text-slate-600">
+                      {f.placeHint}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="reno-timing" className="text-lg font-semibold">
                     {f.timing}
+                    <Optional />
                   </label>
                   <select {...aria('timing')} value={form.timing} onChange={set('timing')} className={fieldClass(false)}>
                     <option value="">{f.select}</option>
@@ -1029,15 +1164,12 @@ export const RenovationQuote: React.FC = () => {
               <div>
                 <label htmlFor="reno-details" className="text-lg font-semibold">
                   {f.details}
+                  <Optional />
                 </label>
-                <textarea
-                  {...aria('details')}
-                  rows={4}
-                  value={form.details}
-                  onChange={set('details')}
-                  placeholder={f.detailsHint}
-                  className={fieldClass(false)}
-                />
+                <p id="reno-details-hint" className="mt-1 text-base text-slate-600">
+                  {f.detailsHint}
+                </p>
+                <textarea {...aria('details', true)} rows={4} value={form.details} onChange={set('details')} className={fieldClass(false)} />
               </div>
 
               <fieldset className="border-t border-reno-line pt-8">
@@ -1045,7 +1177,48 @@ export const RenovationQuote: React.FC = () => {
                 <p aria-hidden="true" className="text-xl font-semibold">
                   {f.contactTitle}
                 </p>
-                <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+                {/* Particulier ou régie: a régie ganha os campos de empresa e de lotes. */}
+                <div role="radiogroup" aria-labelledby="reno-who" className="mt-4">
+                  <p id="reno-who" className="text-lg font-semibold">
+                    {f.who}
+                  </p>
+                  <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                    {(['particulier', 'pro'] as const).map((v, i) => (
+                      <label key={v} className={choiceClass(false)}>
+                        <input
+                          type="radio"
+                          name="client"
+                          value={v}
+                          checked={form.client === v}
+                          onChange={() => setClient(v)}
+                          className="h-4 w-4 accent-reno-clay"
+                        />
+                        {f.whoOptions[i]}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {pro && (
+                    <>
+                      <div>
+                        <label htmlFor="reno-company" className="text-lg font-semibold">
+                          {f.company}
+                        </label>
+                        <input {...aria('company')} value={form.company} onChange={set('company')} autoComplete="organization" className={fieldClass(!!errors.company)} />
+                        {err('company')}
+                      </div>
+                      <div>
+                        <label htmlFor="reno-units" className="text-lg font-semibold">
+                          {f.units}
+                          <Optional />
+                        </label>
+                        <input {...aria('units')} inputMode="numeric" value={form.units} onChange={set('units')} className={fieldClass(false)} />
+                      </div>
+                    </>
+                  )}
                   <div className="sm:col-span-2">
                     <label htmlFor="reno-name" className="text-lg font-semibold">
                       {f.name}
@@ -1063,6 +1236,7 @@ export const RenovationQuote: React.FC = () => {
                   <div>
                     <label htmlFor="reno-email" className="text-lg font-semibold">
                       {f.email}
+                      <Optional />
                     </label>
                     <input {...aria('email')} type="email" value={form.email} onChange={set('email')} autoComplete="email" className={fieldClass(!!errors.email)} />
                     {err('email')}
@@ -1077,19 +1251,34 @@ export const RenovationQuote: React.FC = () => {
                 </p>
               )}
 
-              <button type="submit" disabled={sending} className={`${RENO_BTN} h-12 w-full px-6 text-lg disabled:opacity-70 sm:w-auto`}>
-                {sending ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                    {f.sending}
-                  </>
-                ) : (
-                  <>
-                    {f.submit}
-                    <ChevronRight className="h-5 w-5" aria-hidden="true" />
-                  </>
-                )}
-              </button>
+              {/* Envio: o botão, o telefone ao lado e o que acontece depois, no mesmo lugar. */}
+              <div className="border-t border-reno-line pt-8">
+                <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
+                  <button type="submit" disabled={sending} className={`${RENO_BTN} h-12 w-full px-6 text-lg disabled:opacity-70 sm:w-auto`}>
+                    {sending ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+                        {f.sending}
+                      </>
+                    ) : (
+                      <>
+                        {f.submit}
+                        <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                      </>
+                    )}
+                  </button>
+                  <p className="flex flex-wrap items-center gap-x-2 text-base text-slate-600">
+                    {f.orCall}
+                    <PhoneLink label={f.freeCall} />
+                  </p>
+                </div>
+                <p className="mt-4 text-base leading-relaxed text-slate-600">
+                  {f.after}{' '}
+                  <Link to={lp('/privacy')} className="font-medium text-reno-ink underline decoration-reno-line underline-offset-4 hover:decoration-reno-ink">
+                    {f.privacyLink}
+                  </Link>
+                </p>
+              </div>
             </form>
           </>
         )}
@@ -1097,4 +1286,3 @@ export const RenovationQuote: React.FC = () => {
     </div>
   );
 };
-

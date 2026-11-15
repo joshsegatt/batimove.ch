@@ -199,7 +199,7 @@ const AppContent: React.FC = () => {
         <Footer />
       )}
       <CookieConsent />
-      <WhatsAppButton />
+      <WhatsAppButton variant={isReno ? 'reno' : 'moving'} />
     </div>
   );
 };
